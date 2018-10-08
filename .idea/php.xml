@@ -1,4 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/web-server-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/composer" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/flex" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/framework-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/dotenv" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/http-foundation" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
 </project>
