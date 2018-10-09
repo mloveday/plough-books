@@ -1,0 +1,12 @@
+databases:
+- name: ploughbooks
+  user: dev
+  password: secret
+folders:
+  - map: ../plough-books-back
+    to: /vagrant/code
+sites:
+- url: localhost
+  root: /vagrant/code/public
+apt-packages:
+  - php7.2-xml
