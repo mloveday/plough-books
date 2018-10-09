@@ -5,7 +5,7 @@ import {SignIn} from "../DataEntry/SignIn/SignIn";
 import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import './App.css';
 
-class App extends React.Component {
+export class App extends React.Component {
   public render() {
     return (
       <div className="App">
@@ -20,5 +20,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
