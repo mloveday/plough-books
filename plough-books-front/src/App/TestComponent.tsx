@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import * as React from "react";
 import {connect} from "react-redux";
 import {testActionCreators} from "../redux";
@@ -26,12 +27,13 @@ class TestComponent extends React.Component<{} & ITestStateProps & ITestDispatch
   }
 
   public render() {
+    log.error(this.props.test);
     return <div>
       <div>Displays the response from the index of the backend server to test redux functionality</div>
       <br/>
       <div style={{color: '#666', fontSize: '10px'}}>
-        {this.props.test[1] ? this.props.test[1].data : 'Loading sample data...'}
-        </div>
+        {this.props.test[1] ? this.props.test[1].data : (this.props.test[0] ? 'Error fetching sample data' : 'Loading sample data...')}
+      </div>
     </div>
   }
 }
