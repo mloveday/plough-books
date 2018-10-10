@@ -25,6 +25,7 @@
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/nelmio/cors-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

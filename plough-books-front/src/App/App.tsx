@@ -6,6 +6,7 @@ import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
 import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import './App.css';
+import {Test} from "./TestComponent";
 
 export class App extends React.Component {
   public render() {
@@ -20,6 +21,7 @@ export class App extends React.Component {
             <li className="App-nav-item"><Link to="/rota">Rota</Link></li>
             <li className="App-nav-item"><Link to="/sign-in-sheet">Sign-in sheet</Link></li>
             <li className="App-nav-item"><Link to="/weekly-overview">Weekly overview</Link></li>
+            <li className="App-nav-item"><Link to="/test">Test</Link></li>
           </ul>
         </nav>
         <div className="App-content-container">
@@ -27,6 +29,7 @@ export class App extends React.Component {
             <Route path="/rota" component={Rota}/>
             <Route path="/sign-in-sheet" component={SignIn}/>
             <Route path="/weekly-overview" component={WeeklyOverview}/>
+            <Route path="/test" component={Test}/>
         </div>
       </div>
     );

@@ -15,15 +15,20 @@
   },
   "devDependencies": {
     "@types/jest": "^23.3.4",
+    "@types/loglevel": "^1.5.3",
     "@types/node": "^10.11.5",
     "@types/react": "^16.4.16",
     "@types/react-dom": "^16.0.9",
     "@types/react-redux": "^6.0.9",
     "@types/react-router": "^4.0.31",
     "@types/react-router-dom": "^4.3.1",
+    "@types/redux-thunk": "^2.1.0",
+    "loglevel": "^1.6.1",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
+    "redux-crud": "^3.3.0",
+    "redux-thunk": "^2.3.0",
     "typescript": "^3.1.1"
   }
 }
