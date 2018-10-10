@@ -1,3 +1,15 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+  path: /
+  controller: App\Controller\IndexController::indexAction
+cash-up:
+  path: /cash-up
+  controller: App\Controller\CashUpController::cashUpAction
+rota:
+  path: /rota
+  controller: App\Controller\RotaController::rotaAction
+sign-in:
+  path: /sign-in
+  controller: App\Controller\SignInController::signInAction
+weekly-overview:
+  path: /weekly-overview
+  controller: App\Controller\WeeklyOverviewController::weeklyOverviewAction
