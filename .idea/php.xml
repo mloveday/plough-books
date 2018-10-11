@@ -26,7 +26,37 @@
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/nelmio/cors-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/zendframework/zend-eventmanager" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/zendframework/zend-code" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/doctrine/doctrine-cache-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/doctrine-bridge" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/nikic/php-parser" />
     </include_path>
   </component>
-  <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/plough-books-back/vendor/autoload.php" />
+    </phpunit_settings>
+  </component>
 </project>
