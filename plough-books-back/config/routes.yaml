@@ -13,3 +13,9 @@ sign-in:
 weekly-overview:
   path: /weekly-overview
   controller: App\Controller\WeeklyOverviewController::weeklyOverviewAction
+user:
+  path: /user
+  controller: App\Controller\UserController::userAction
+role:
+  path: /user/role
+  controller: App\Controller\UserController::roleAction

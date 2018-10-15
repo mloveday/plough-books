@@ -10,3 +10,6 @@ sites:
   root: /vagrant/code/public
 apt-packages:
   - php7.2-xml
+ports:
+  - guest: 3306
+    host: 33060

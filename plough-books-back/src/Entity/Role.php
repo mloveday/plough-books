@@ -97,4 +97,17 @@ class Role
 
         return $this;
     }
+
+    public function serialiseAll() {
+        return (object) [
+            "role" => $this->getRole(),
+            "managesUsers" => $this->getManagesUsers()
+        ];
+    }
+
+    public function serialiseMinimal() {
+        return (object) [
+            "role" => $this->getRole()
+        ];
+    }
 }

@@ -103,4 +103,19 @@ class User
     public function getPassword() {}
     public function getSalt() {}
     public function eraseCredentials() {}
+
+    public function serialiseAll() {
+        return (object) [
+            "email" => $this->getEmail(),
+            "role" => $this->getRole()->serialiseAll(),
+            "whitelisted" => $this->getWhitelisted(),
+            "blacklisted" => $this->getBlacklisted(),
+        ];
+    }
+
+    public function serialiseMinimal() {
+        return (object) [
+            "email" => $this->getEmail()
+        ];
+    }
 }
