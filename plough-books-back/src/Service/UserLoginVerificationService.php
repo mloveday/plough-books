@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Repository\UserRepository;
 use Exception;
 use Google_Client;
 use Symfony\Component\Cache\Simple\FilesystemCache;
@@ -10,9 +11,26 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 class UserLoginVerificationService
 {
     private $filesystemCache;
+    private $userRepository;
 
-    public function __construct() {
+    public function __construct(UserRepository $userRepository) {
         $this->filesystemCache = new FilesystemCache();
+        $this->userRepository = $userRepository;
+    }
+
+    public function getAuthenticatedUserFromToken(string $token)
+    {
+        try {
+            $payload = $this->getUserPayload($token);
+            return $this->userRepository->getByEmail($payload['email']);
+        } catch (Exception $e) {
+            // could be an unregistered user from a whitelisted domain
+            $user = UserRepository::getPlaceholderUser()
+                ->setEmail("unknown user")
+                ->setBlacklisted(false);
+            $user->getRole()->setRole("user from whitelisted domain");
+            return $user;
+        }
     }
 
     public function getUserPayload(string $token)

@@ -8,20 +8,26 @@ use App\Entity\User;
 use App\Repository\DomainRepository;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
+use App\Service\UserLoginVerificationService;
 use App\Service\UserPersistenceService;
 use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserController {
 
-    public function userAction(Request $request, RequestValidator $requestValidator, UserRepository $userRepository, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
+    public function userAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserRepository $userRepository, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
+        $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         switch($request->getMethod()) {
             case 'GET':
-                $users = $userRepository->findAll();
-                return new JsonResponse(array_map(function (User $user) {return $user->serialiseAll();}, $users)); //TODO: should get current user
+                return new JsonResponse($authenticatedUser->serialiseAll());
             case 'POST':
+                if (!$authenticatedUser->getRole()->getManagesUsers()) {
+                    throw new UnauthorizedHttpException("User does not have required permissions");
+                }
                 $requestValidator->validateRequestFields($request, ['email', 'whitelisted', 'blacklisted', 'role']);
                 if ($request->request->has('id')) {
                     $user = $this->getUpdatedUserEntity($request, $userRepository, $roleRepository);
@@ -31,17 +37,23 @@ class UserController {
                 $userPersistenceService->persistUser($user);
                 return new JsonResponse($user->serialiseAll());
             case 'DELETE':
+                if (!$authenticatedUser->getRole()->getManagesUsers()) {
+                    throw new UnauthorizedHttpException("User does not have required permissions");
+                }
                 return new JsonResponse((object) []); //TODO: stub response
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
     }
 
-    public function roleAction(Request $request, RequestValidator $requestValidator, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
+    public function roleAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
+        $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
+        if (!$authenticatedUser->getRole()->getManagesUsers()) {
+            throw new UnauthorizedHttpException("User does not have required permissions");
+        }
         switch($request->getMethod()) {
             case 'GET':
-                $roles = $roleRepository->findAll();
-                return new JsonResponse(array_map(function(Role $role) {return $role->serialiseAll();}, $roles)); //TODO: should get current role
+                throw new NotFoundHttpException();
             case 'POST':
                 $requestValidator->validateRequestFields($request, ['role', 'managesUsers']);
                 if ($request->request->has('id')) {
@@ -58,11 +70,14 @@ class UserController {
         }
     }
 
-    public function domainAction(Request $request, RequestValidator $requestValidator, DomainRepository $domainRepository, UserPersistenceService $userPersistenceService) {
+    public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, DomainRepository $domainRepository, UserPersistenceService $userPersistenceService) {
+        $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
+        if (!$authenticatedUser->getRole()->getManagesUsers()) {
+            throw new UnauthorizedHttpException("User does not have required permissions");
+        }
         switch($request->getMethod()) {
             case 'GET':
-                $domains = $domainRepository->findAll();
-                return new JsonResponse(array_map(function(Domain $domain) {return $domain->serialiseAll();}, $domains)); //TODO: should get current domain
+                throw new NotFoundHttpException();
             case 'POST':
                 $requestValidator->validateRequestFields($request, ['domain', 'whitelisted', 'blacklisted']);
                 if ($request->request->has('id')) {

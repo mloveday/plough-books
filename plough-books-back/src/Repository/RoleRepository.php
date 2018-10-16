@@ -39,10 +39,10 @@ class RoleRepository extends ServiceEntityRepository
 
     public static function getPlaceholderRole(): Role
     {
-        $blankDomain = new Role();
-        $blankDomain->setManagesUsers(false);
-        $blankDomain->setRole("Role not found");
-        $blankDomain->setPlaceholder(true);
-        return $blankDomain;
+        $role = new Role();
+        $role->setManagesUsers(false)
+            ->setRole("Role not found")
+            ->setPlaceholder(true);
+        return $role;
     }
 }
