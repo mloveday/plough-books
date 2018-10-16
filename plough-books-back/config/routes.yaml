@@ -13,12 +13,24 @@ sign-in:
 weekly-overview:
   path: /weekly-overview
   controller: App\Controller\WeeklyOverviewController::weeklyOverviewAction
+users:
+  path: /users
+  controller: App\Controller\UserController::usersAction
+  methods: [GET]
 user:
-  path: /user
+  path: /users/user
   controller: App\Controller\UserController::userAction
 role:
-  path: /user/role
+  path: /users/role
   controller: App\Controller\UserController::roleAction
+roles:
+  path: /users/roles
+  controller: App\Controller\UserController::rolesAction
+  methods: [GET]
 domain:
-  path: /user/domain
+  path: /users/domain
   controller: App\Controller\UserController::domainAction
+domains:
+  path: /users/domains
+  controller: App\Controller\UserController::domainsAction
+  methods: [GET]

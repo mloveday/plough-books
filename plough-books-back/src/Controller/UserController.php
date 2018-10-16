@@ -46,6 +46,15 @@ class UserController {
         }
     }
 
+    public function usersAction(Request $request, UserLoginVerificationService $userLoginVerificationService, UserRepository $userRepository) {
+        $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
+        if (!$authenticatedUser->getRole()->getManagesUsers()) {
+            throw new UnauthorizedHttpException("User does not have required permissions");
+        }
+        $users = $userRepository->findAll();
+        return new JsonResponse(array_map(function (User $user) { return $user->serialiseAll(); }, $users));
+    }
+
     public function roleAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
@@ -70,6 +79,15 @@ class UserController {
         }
     }
 
+    public function rolesAction(Request $request, UserLoginVerificationService $userLoginVerificationService, RoleRepository $roleRepository) {
+        $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
+        if (!$authenticatedUser->getRole()->getManagesUsers()) {
+            throw new UnauthorizedHttpException("User does not have required permissions");
+        }
+        $roles = $roleRepository->findAll();
+        return new JsonResponse(array_map(function (Role $role) { return $role->serialiseAll(); }, $roles));
+    }
+
     public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, DomainRepository $domainRepository, UserPersistenceService $userPersistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
@@ -92,6 +110,15 @@ class UserController {
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
+    }
+
+    public function domainsAction(Request $request, UserLoginVerificationService $userLoginVerificationService, DomainRepository $domainRepository) {
+        $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
+        if (!$authenticatedUser->getRole()->getManagesUsers()) {
+            throw new UnauthorizedHttpException("User does not have required permissions");
+        }
+        $domains = $domainRepository->findAll();
+        return new JsonResponse(array_map(function (Domain $domain) { return $domain->serialiseAll(); }, $domains));
     }
 
     private function getUpdatedUserEntity(Request $request, UserRepository $userRepository, RoleRepository $roleRepository): User
