@@ -33,6 +33,8 @@ class Role
      */
     private $users;
 
+    private $placeholder = false;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -100,6 +102,7 @@ class Role
 
     public function serialiseAll() {
         return (object) [
+            "id" => $this->getId(),
             "role" => $this->getRole(),
             "managesUsers" => $this->getManagesUsers()
         ];
@@ -109,5 +112,23 @@ class Role
         return (object) [
             "role" => $this->getRole()
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPlaceholder(): bool
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param bool $placeholder
+     * @return Role
+     */
+    public function setPlaceholder(bool $placeholder): Role
+    {
+        $this->placeholder = $placeholder;
+        return $this;
     }
 }

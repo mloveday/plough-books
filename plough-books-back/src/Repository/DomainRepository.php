@@ -19,8 +19,7 @@ class DomainRepository extends ServiceEntityRepository
         parent::__construct($registry, Domain::class);
     }
 
-    public function getByDomain($domain)
-    {
+    public function getByDomain($domain): Domain {
         $domainEntity = $this->findOneBy(["domain" => strtolower($domain)]);
         if ($domainEntity === null) {
             return $this->getPlaceholderDomain();
@@ -28,7 +27,7 @@ class DomainRepository extends ServiceEntityRepository
         return $domainEntity;
     }
 
-    public function getById($id) {
+    public function getById($id): Domain {
         $domainEntity = $this->find($id);
         if ($domainEntity === null) {
             return $this->getPlaceholderDomain();
@@ -36,16 +35,12 @@ class DomainRepository extends ServiceEntityRepository
         return $domainEntity;
     }
 
-    /**
-     * @return Domain
-     */
-    public function getPlaceholderDomain(): Domain
-    {
+    public function getPlaceholderDomain(): Domain {
         $blankDomain = new Domain();
         $blankDomain->setBlacklisted(false);
         $blankDomain->setWhitelisted(false);
         $blankDomain->setDomain("Domain not found");
-        $blankDomain->setDomainPlaceholder(true);
+        $blankDomain->setPlaceholder(true);
         return $blankDomain;
     }
 }

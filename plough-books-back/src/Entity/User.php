@@ -37,6 +37,8 @@ class User
      */
     private $role;
 
+    private $placeholder = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +108,7 @@ class User
 
     public function serialiseAll() {
         return (object) [
+            "id" => $this->getId(),
             "email" => $this->getEmail(),
             "role" => $this->getRole()->serialiseAll(),
             "whitelisted" => $this->getWhitelisted(),
@@ -117,5 +120,23 @@ class User
         return (object) [
             "email" => $this->getEmail()
         ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPlaceholder(): bool
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param bool $placeholder
+     * @return User
+     */
+    public function setPlaceholder(bool $placeholder): User
+    {
+        $this->placeholder = $placeholder;
+        return $this;
     }
 }

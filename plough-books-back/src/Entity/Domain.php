@@ -31,7 +31,7 @@ class Domain
      */
     private $blacklisted;
 
-    private $domainPlaceholder = false;
+    private $placeholder = false;
 
     public function getId(): ?int
     {
@@ -91,21 +91,14 @@ class Domain
         ];
     }
 
-    /**
-     * @return bool
-     */
-    public function isDomainPlaceholder(): bool
+    public function isPlaceholder(): bool
     {
-        return $this->domainPlaceholder;
+        return $this->placeholder;
     }
 
-    /**
-     * @param bool $domainPlaceholder
-     * @return Domain
-     */
-    public function setDomainPlaceholder(bool $domainPlaceholder): Domain
+    public function setPlaceholder(bool $placeholder): Domain
     {
-        $this->domainPlaceholder = $domainPlaceholder;
+        $this->placeholder = $placeholder;
         return $this;
     }
 }

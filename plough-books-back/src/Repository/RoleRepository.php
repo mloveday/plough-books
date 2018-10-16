@@ -19,32 +19,30 @@ class RoleRepository extends ServiceEntityRepository
         parent::__construct($registry, Role::class);
     }
 
-//    /**
-//     * @return Role[] Returns an array of Role objects
-//     */
-    /*
-    public function findByExampleField($value)
+    public function getByRole($roleName)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $role = $this->findOneBy(['role' => $roleName]);
+        if ($role === null) {
+            return $this->getPlaceholderRole();
+        }
+        return $role;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Role
+    public function getById($id)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $role = $this->find($id);
+        if ($role === null) {
+            return $this->getPlaceholderRole();
+        }
+        return $role;
     }
-    */
+
+    public static function getPlaceholderRole(): Role
+    {
+        $blankDomain = new Role();
+        $blankDomain->setManagesUsers(false);
+        $blankDomain->setRole("Role not found");
+        $blankDomain->setPlaceholder(true);
+        return $blankDomain;
+    }
 }
