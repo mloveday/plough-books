@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Domain;
 use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,6 +25,12 @@ class UserPersistenceService
     public function persistRole(Role $role)
     {
         $this->entityManager->persist($role);
+        $this->entityManager->flush();
+    }
+
+    public function persistDomain(Domain $domain)
+    {
+        $this->entityManager->persist($domain);
         $this->entityManager->flush();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Role;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -17,5 +18,22 @@ class UserRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+    public function getByEmail($email)
+    {
+        $user = $this->findOneBy(["email" => strtolower($email)]);
+        if ($user === null) {
+            $blankUser = new User();
+            $blankUser->setEmail("User not found");
+            $blankUser->setWhitelisted(false);
+            $blankUser->setBlacklisted(true);
+            $blankRole = new Role();
+            $blankRole->setManagesUsers(false);
+            $blankRole->setRole("Role not found");
+            $blankUser->setRole($blankRole);
+            return $blankUser;
+        }
+        return $user;
     }
 }

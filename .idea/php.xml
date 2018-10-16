@@ -51,6 +51,16 @@
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/orm-pack" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/maker-bundle" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/google/apiclient" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/guzzlehttp/psr7" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

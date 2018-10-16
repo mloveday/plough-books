@@ -50,7 +50,7 @@ class Role
 
     public function setRole(string $role): self
     {
-        $this->role = $role;
+        $this->role = strtolower($role);
 
         return $this;
     }

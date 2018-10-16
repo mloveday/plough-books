@@ -5,6 +5,7 @@
         "php": "^7.2.10",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "google/apiclient": "v2.2.2",
         "nelmio/cors-bundle": "^1.5",
         "symfony/console": "*",
         "symfony/flex": "^1.1",
