@@ -9,34 +9,20 @@ use App\Repository\DomainRepository;
 use App\Repository\RoleRepository;
 use App\Repository\UserRepository;
 use App\Service\UserPersistenceService;
+use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UserController {
 
-    public function userAction(Request $request, UserRepository $userRepository, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
+    public function userAction(Request $request, RequestValidator $requestValidator, UserRepository $userRepository, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
         switch($request->getMethod()) {
             case 'GET':
                 $users = $userRepository->findAll();
                 return new JsonResponse(array_map(function (User $user) {return $user->serialiseAll();}, $users)); //TODO: should get current user
             case 'POST':
-                $missingRequestFields = [];
-                if (!$request->request->has('email')) {
-                    $missingRequestFields[] = 'email';
-                }
-                if (!$request->request->has('whitelisted')) {
-                    $missingRequestFields[] = 'whitelisted';
-                }
-                if (!$request->request->has('blacklisted')) {
-                    $missingRequestFields[] = 'blacklisted';
-                }
-                if (!$request->request->has('role')) {
-                    $missingRequestFields[] = 'role';
-                }
-                if (count($missingRequestFields) > 0) {
-                    throw new BadRequestHttpException("Must include fields ".join(", ",$missingRequestFields)." in body");
-                }
+                $requestValidator->validateRequestFields($request, ['email', 'whitelisted', 'blacklisted', 'role']);
                 $role = $roleRepository->findOneBy(['role' => $request->request->get('role')]); // TODO change to using ID
                 $user = new User();
                 $user->setEmail($request->request->get('email'))
@@ -52,22 +38,13 @@ class UserController {
         }
     }
 
-    public function roleAction(Request $request, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
+    public function roleAction(Request $request, RequestValidator $requestValidator, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
         switch($request->getMethod()) {
             case 'GET':
                 $roles = $roleRepository->findAll();
                 return new JsonResponse(array_map(function(Role $role) {return $role->serialiseAll();}, $roles)); //TODO: should get current role
             case 'POST':
-                $missingRequestFields = [];
-                if (!$request->request->has('role')) {
-                    $missingRequestFields[] = 'role';
-                }
-                if (!$request->request->has('managesUsers')) {
-                    $missingRequestFields[] = 'managesUsers';
-                }
-                if (count($missingRequestFields) > 0) {
-                    throw new BadRequestHttpException("Must include fields ".join(", ",$missingRequestFields)." in body");
-                }
+                $requestValidator->validateRequestFields($request, ['role', 'managesUsers']);
                 $role = new Role();
                 $role->setRole($request->request->get('role'))
                     ->setManagesUsers($request->request->getBoolean('managesUsers'));
@@ -80,25 +57,13 @@ class UserController {
         }
     }
 
-    public function domainAction(Request $request, DomainRepository $domainRepository, UserPersistenceService $userPersistenceService) {
+    public function domainAction(Request $request, RequestValidator $requestValidator, DomainRepository $domainRepository, UserPersistenceService $userPersistenceService) {
         switch($request->getMethod()) {
             case 'GET':
                 $domains = $domainRepository->findAll();
                 return new JsonResponse(array_map(function(Domain $domain) {return $domain->serialiseAll();}, $domains)); //TODO: should get current domain
             case 'POST':
-                $missingRequestFields = [];
-                if (!$request->request->has('domain')) {
-                    $missingRequestFields[] = 'domain';
-                }
-                if (!$request->request->has('whitelisted')) {
-                    $missingRequestFields[] = 'whitelisted';
-                }
-                if (!$request->request->has('blacklisted')) {
-                    $missingRequestFields[] = 'blacklisted';
-                }
-                if (count($missingRequestFields) > 0) {
-                    throw new BadRequestHttpException("Must include fields ".join(", ",$missingRequestFields)." in body");
-                }
+                $requestValidator->validateRequestFields($request, ['domain', 'whitelisted', 'blacklisted']);
                 if ($request->request->has('id')) {
                     // update
                     $domain = $domainRepository->getById($request->request->get('id'));
