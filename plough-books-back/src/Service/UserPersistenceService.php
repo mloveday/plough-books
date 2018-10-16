@@ -22,15 +22,33 @@ class UserPersistenceService
         $this->entityManager->flush();
     }
 
+    public function deleteUser(User $user)
+    {
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+    }
+
     public function persistRole(Role $role)
     {
         $this->entityManager->persist($role);
         $this->entityManager->flush();
     }
 
+    public function deleteRole(Role $role)
+    {
+        $this->entityManager->remove($role);
+        $this->entityManager->flush();
+    }
+
     public function persistDomain(Domain $domain)
     {
         $this->entityManager->persist($domain);
+        $this->entityManager->flush();
+    }
+
+    public function deleteDomain(Domain $domain)
+    {
+        $this->entityManager->remove($domain);
         $this->entityManager->flush();
     }
 }

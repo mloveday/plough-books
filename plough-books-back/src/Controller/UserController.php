@@ -14,20 +14,20 @@ use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserController {
 
     public function userAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserRepository $userRepository, RoleRepository $roleRepository, UserPersistenceService $userPersistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
+        if ($request->getMethod() === 'GET') {
+            return new JsonResponse($authenticatedUser->serialiseAll());
+        }
+        if (!$authenticatedUser->getRole()->getManagesUsers()) {
+            throw new UnauthorizedHttpException("User does not have required permissions");
+        }
         switch($request->getMethod()) {
-            case 'GET':
-                return new JsonResponse($authenticatedUser->serialiseAll());
             case 'POST':
-                if (!$authenticatedUser->getRole()->getManagesUsers()) {
-                    throw new UnauthorizedHttpException("User does not have required permissions");
-                }
                 $requestValidator->validateRequestFields($request, ['email', 'whitelisted', 'blacklisted', 'role']);
                 if ($request->request->has('id')) {
                     $user = $this->getUpdatedUserEntity($request, $userRepository, $roleRepository);
@@ -37,10 +37,10 @@ class UserController {
                 $userPersistenceService->persistUser($user);
                 return new JsonResponse($user->serialiseAll());
             case 'DELETE':
-                if (!$authenticatedUser->getRole()->getManagesUsers()) {
-                    throw new UnauthorizedHttpException("User does not have required permissions");
-                }
-                return new JsonResponse((object) []); //TODO: stub response
+                $requestValidator->validateRequestFields($request, ['id']);
+                $user = $this->getUserEntityForDeletion($request, $userRepository);
+                $userPersistenceService->deleteUser($user);
+                return new JsonResponse(null);
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
@@ -61,8 +61,6 @@ class UserController {
             throw new UnauthorizedHttpException("User does not have required permissions");
         }
         switch($request->getMethod()) {
-            case 'GET':
-                throw new NotFoundHttpException();
             case 'POST':
                 $requestValidator->validateRequestFields($request, ['role', 'managesUsers']);
                 if ($request->request->has('id')) {
@@ -73,7 +71,10 @@ class UserController {
                 $userPersistenceService->persistRole($role);
                 return new JsonResponse($role->serialiseAll());
             case 'DELETE':
-                return new JsonResponse((object) []); //TODO: stub response
+                $requestValidator->validateRequestFields($request, ['id']);
+                $role = $this->getRoleEntityForDeletion($request, $roleRepository);
+                $userPersistenceService->deleteRole($role);
+                return new JsonResponse(null);
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
@@ -94,8 +95,6 @@ class UserController {
             throw new UnauthorizedHttpException("User does not have required permissions");
         }
         switch($request->getMethod()) {
-            case 'GET':
-                throw new NotFoundHttpException();
             case 'POST':
                 $requestValidator->validateRequestFields($request, ['domain', 'whitelisted', 'blacklisted']);
                 if ($request->request->has('id')) {
@@ -106,7 +105,10 @@ class UserController {
                 $userPersistenceService->persistDomain($domain);
                 return new JsonResponse($domain->serialiseAll());
             case 'DELETE':
-                return new JsonResponse((object) []); //TODO: stub response
+                $requestValidator->validateRequestFields($request, ['id']);
+                $domain = $this->getDomainEntityForDeletion($request, $domainRepository);
+                $userPersistenceService->deleteDomain($domain);
+                return new JsonResponse(null);
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
@@ -155,6 +157,15 @@ class UserController {
             ->setRole($role);
         return $user;
     }
+    
+    private function getUserEntityForDeletion(Request $request, UserRepository $userRepository): User {
+
+        $user = $userRepository->getById($request->request->getInt('id'));
+        if ($user->isPlaceholder()) {
+            throw new BadRequestHttpException("User with given ID does not exist");
+        }
+        return $user;
+    }
 
     private function getUpdatedRoleEntity(Request $request, RoleRepository $roleRepository)
     {
@@ -176,6 +187,15 @@ class UserController {
         $role = new Role();
         $role->setRole($request->request->get('role'))
             ->setManagesUsers($request->request->getBoolean('managesUsers'));
+        return $role;
+    }
+
+    private function getRoleEntityForDeletion(Request $request, RoleRepository $roleRepository)
+    {
+        $role = $roleRepository->getById($request->request->getInt('id'));
+        if ($role->isPlaceholder()) {
+            throw new BadRequestHttpException("Role with given ID does not exist");
+        }
         return $role;
     }
 
@@ -201,6 +221,15 @@ class UserController {
         $domain->setDomain($request->request->get('domain'))
             ->setWhitelisted($request->request->getBoolean('whitelisted'))
             ->setBlacklisted($request->request->getBoolean('blacklisted'));
+        return $domain;
+    }
+
+    private function getDomainEntityForDeletion(Request $request, DomainRepository $domainRepository): Domain
+    {
+        $domain = $domainRepository->getById($request->request->get('id'));
+        if ($domain->isPlaceholder()) {
+            throw new BadRequestHttpException("Domain with given ID does not exist");
+        }
         return $domain;
     }
 }
