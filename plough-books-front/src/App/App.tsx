@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Route} from "react-router";
 import {Link} from "react-router-dom";
+import {Auth} from "../Auth/Auth";
 import {CashUp} from "../DataEntry/CashUp/CashUp";
 import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
@@ -17,11 +18,12 @@ export class App extends React.Component {
         </header>
         <nav className="App-nav">
           <ul className="App-nav-list">
-            <li className="App-nav-item"><Link to="/cash-up">Cash up</Link></li>
-            <li className="App-nav-item"><Link to="/rota">Rota</Link></li>
-            <li className="App-nav-item"><Link to="/sign-in-sheet">Sign-in sheet</Link></li>
-            <li className="App-nav-item"><Link to="/weekly-overview">Weekly overview</Link></li>
-            <li className="App-nav-item"><Link to="/test">Test</Link></li>
+            <li className="App-nav-item"><Auth /></li>
+            <li className="App-nav-item"><Link className="App-nav-anchor" to="/cash-up">Cash up</Link></li>
+            <li className="App-nav-item"><Link className="App-nav-anchor" to="/rota">Rota</Link></li>
+            <li className="App-nav-item"><Link className="App-nav-anchor" to="/sign-in-sheet">Sign-in sheet</Link></li>
+            <li className="App-nav-item"><Link className="App-nav-anchor" to="/weekly-overview">Weekly overview</Link></li>
+            <li className="App-nav-item"><Link className="App-nav-anchor" to="/test">Test</Link></li>
           </ul>
         </nav>
         <div className="App-content-container">

@@ -1,4 +1,6 @@
 import reduxCrud from 'redux-crud';
+import {authReducer} from "./Auth/AuthReducer";
+import {AuthState} from "./Auth/AuthState";
 
 const testIdentifier = 'test';
 const testSyncActionCreators = reduxCrud.actionCreatorsFor(testIdentifier);
@@ -24,6 +26,12 @@ function testReducers(state = [], action: any) {
   }
 }
 
+export interface AppState {
+  authState: AuthState;
+  test: any;
+}
+
 export const reducers = {
-  test: testReducers
+  authState: authReducer,
+  test: testReducers,
 };
