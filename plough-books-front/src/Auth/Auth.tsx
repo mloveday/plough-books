@@ -46,13 +46,21 @@ type AuthProps = AuthOwnProps & AuthStateProps & AuthDispatchProps;
 
 class AuthComponent extends React.Component<AuthProps, {}> {
   public render() {
-    if (this.props.authState.isValid() && this.props.authState.currentUser) {
+    if (this.props.authState.isValid() && !this.props.authState.currentUser) {
       return (
-        <div className="App-nav-anchor">{this.props.authState.currentUser.email}</div>
+        <div className="App-nav-anchor">Loading user...</div>
       )
     }
+
+    if (this.props.authState.isValid() && this.props.authState.currentUser) {
+      return (
+        <button className="App-nav-anchor" title={this.props.authState.currentUser.email} onClick={() => this.props.signOut()}>Logout</button>
+      )
+    }
+
     return (
       <GoogleLogin
+        className="App-nav-anchor"
         clientId="491973077715-1oqkalirg0v7gmdrehuv605nf3sju2si.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={response => this.responseGoogle(response)}
