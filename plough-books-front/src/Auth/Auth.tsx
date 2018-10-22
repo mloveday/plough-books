@@ -9,9 +9,9 @@ bootstrapFromLocalStorage,
 clearAuthentication,
 fetchCurrentUser,
 handleAuthenticationResponse
-} from './AuthActions';
-import {AuthState} from './AuthState';
-import {getResponseFromLocalStorage} from './local-storage/AuthStorage';
+} from './State/AuthActions';
+import {AuthState} from './State/AuthState';
+import {getResponseFromLocalStorage} from './State/AuthStorage';
 
 interface AuthOwnProps {
 }

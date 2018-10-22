@@ -1,12 +1,12 @@
 import {createAction} from "redux-actions";
-import {AuthenticatedUserResponse} from './AuthenticatedUserResponse';
-import {getCurrentUser} from "./CurrentUserRepo";
+import {AuthenticatedUserResponse} from '../Model/AuthenticatedUserResponse';
+import {User} from "../Model/User";
+import {getCurrentUser} from "../Repo/CurrentUserRepo";
 import {
-    getResponseFromLocalStorage,
-    removeAuthFromLocalStorage,
-    storeAuthInLocalStorage
-} from './local-storage/AuthStorage';
-import {User} from "./User";
+getResponseFromLocalStorage,
+removeAuthFromLocalStorage,
+storeAuthInLocalStorage
+} from './AuthStorage';
 
 export const AUTH_CLEAR = "AUTH_CLEAR";
 export const AUTH_SET = "AUTH_SET";

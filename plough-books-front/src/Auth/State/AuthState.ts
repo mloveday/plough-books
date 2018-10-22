@@ -1,5 +1,5 @@
-import {AuthenticatedUserResponse} from './AuthenticatedUserResponse';
-import {User} from "./User";
+import {AuthenticatedUserResponse} from '../Model/AuthenticatedUserResponse';
+import {User} from "../Model/User";
 
 export class AuthState {
   public static cleared(): AuthState {

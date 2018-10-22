@@ -1,5 +1,5 @@
-import {backendApiDomain, tokenQueryParam} from "../env/Config";
-import {getAuthTokenFromLocalStorage} from "./local-storage/AuthStorage";
+import {backendApiDomain, tokenQueryParam} from "../../env/Config";
+import {getAuthTokenFromLocalStorage} from "../State/AuthStorage";
 
 export function authenticatedFetch(url: string, onAuthError: () => void, init?: RequestInit): Promise<any> {
     return fetch(authenticatedUrl(url), init)

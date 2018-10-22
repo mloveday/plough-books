@@ -1,6 +1,6 @@
 import reduxCrud from 'redux-crud';
-import {authReducer} from "./Auth/AuthReducer";
-import {AuthState} from "./Auth/AuthState";
+import {authReducer} from "./Auth/State/AuthReducer";
+import {AuthState} from "./Auth/State/AuthState";
 
 const testIdentifier = 'test';
 const testSyncActionCreators = reduxCrud.actionCreatorsFor(testIdentifier);
