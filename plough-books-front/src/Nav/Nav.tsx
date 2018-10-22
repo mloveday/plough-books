@@ -2,16 +2,20 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {Auth} from "../Auth/Auth";
+import {AuthState} from "../Auth/State/AuthState";
 import {AppState} from "../redux";
 
 interface NavOwnProps {
 }
 
 interface NavStateProps {
+  authState: AuthState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: NavOwnProps): NavStateProps => {
-  return {}
+  return {
+    authState: state.authState,
+  }
 };
 
 interface NavDispatchProps {
@@ -33,7 +37,8 @@ class NavComponent extends React.Component<NavProps, {}> {
           <li className="App-nav-item"><Link className="App-nav-anchor" to="/rota">Rota</Link></li>
           <li className="App-nav-item"><Link className="App-nav-anchor" to="/sign-in-sheet">Sign-in sheet</Link></li>
           <li className="App-nav-item"><Link className="App-nav-anchor" to="/weekly-overview">Weekly overview</Link></li>
-          <li className="App-nav-item"><Link className="App-nav-anchor" to="/test">Test</Link></li>
+          {this.props.authState.currentUser && this.props.authState.currentUser.role.managesUsers &&
+            <li className="App-nav-item"><Link className="App-nav-anchor" to="/test">Test</Link></li>}
         </ul>
       </nav>
     )
