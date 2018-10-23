@@ -1,6 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../redux";
+import {HeroImage} from "./HeroImage";
 
 interface HeaderOwnProps {
 }
@@ -25,6 +26,7 @@ class HeaderComponent extends React.Component<HeaderProps, {}> {
   public render() {
     return (
       <header className="App-header">
+        <HeroImage/>
         <h1 className="App-title">Plough Books</h1>
       </header>
     )
