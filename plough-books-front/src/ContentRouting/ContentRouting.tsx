@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Route, Switch} from "react-router";
+import {Switch} from "react-router";
 import {Test} from "../App/TestComponent";
 import {AuthState} from "../Auth/State/AuthState";
 import {CashUp} from "../DataEntry/CashUp/CashUp";
@@ -8,7 +8,8 @@ import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
 import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {AppState} from "../redux";
-import {RouteManagesUsersOnly} from "./RouteManagesUsersOnly";
+import {Routes} from "../Routing/Routes";
+import {RouteWithAuth} from "./RouteWithAuth";
 
 interface ContentRoutingOwnProps {
 }
@@ -39,11 +40,11 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
         {/*Do not show any content unless authorised*/}
         {this.props.authState.isSignedInAndAuthorised() &&
           <Switch>
-            <Route exact={true} path="/cash-up" component={CashUp}/>
-            <Route exact={true} path="/rota" component={Rota}/>
-            <Route exact={true} path="/sign-in-sheet" component={SignIn}/>
-            <Route exact={true} path="/weekly-overview" component={WeeklyOverview}/>
-            <RouteManagesUsersOnly exact={true} path="/test" component={Test}/>
+            <RouteWithAuth exact={true} path={Routes.CASH_UP} component={CashUp}/>
+            <RouteWithAuth exact={true} path={Routes.ROTA} component={Rota}/>
+            <RouteWithAuth exact={true} path={Routes.SIGN_IN_SHEET} component={SignIn}/>
+            <RouteWithAuth exact={true} path={Routes.WEEKLY_OVERVIEW} component={WeeklyOverview}/>
+            <RouteWithAuth managesUsers={true} exact={true} path={Routes.TEST} component={Test}/>
           </Switch>
         }
       </div>
