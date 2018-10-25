@@ -46,15 +46,21 @@ type AuthProps = AuthOwnProps & AuthStateProps & AuthDispatchProps;
 
 class AuthComponent extends React.Component<AuthProps, {}> {
   public render() {
-    if (this.props.authState.isValid() && !this.props.authState.currentUser) {
+    if (this.props.authState.isSignedInAndWaitingAuthorisation()) {
       return (
         <div className="App-nav-anchor">Loading user...</div>
       )
     }
 
-    if (this.props.authState.isValid() && this.props.authState.currentUser) {
+    if (this.props.authState.isSignedInAndUnauthorised()) {
       return (
-        <button className="App-nav-anchor" title={this.props.authState.currentUser.email} onClick={() => this.props.signOut()}>Logout</button>
+        <button className="App-nav-anchor" onClick={() => this.props.signOut()}>Logout</button>
+      )
+    }
+
+    if (this.props.authState.isSignedInAndAuthorised()) {
+      return (
+        <button className="App-nav-anchor" onClick={() => this.props.signOut()}>Logout</button>
       )
     }
 
@@ -64,7 +70,7 @@ class AuthComponent extends React.Component<AuthProps, {}> {
         clientId="491973077715-1oqkalirg0v7gmdrehuv605nf3sju2si.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={response => this.responseGoogle(response)}
-        onFailure={response => this.errorGoogle(response)}
+        onFailure={response => log.error(response)}
       />
     )
   }
@@ -81,16 +87,12 @@ class AuthComponent extends React.Component<AuthProps, {}> {
     this.props.handleAuthResponse(response);
   }
 
-  public errorGoogle(error: any) {
-    log.error(error);
-  }
-
   private maintainAuthState() {
-    if (!this.props.authState.isValid() && getResponseFromLocalStorage()) {
+    if (!this.props.authState.isSignedIn() && getResponseFromLocalStorage()) {
       this.props.bootstrapAuth();
       return;
     }
-    if (this.props.authState.isValid() && !this.props.authState.hasCurrentUser()) {
+    if (this.props.authState.isSignedInAndWaitingAuthorisation()) {
       this.props.fetchCurrentUser();
       return;
     }
