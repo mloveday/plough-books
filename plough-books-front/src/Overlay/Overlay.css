@@ -1,0 +1,13 @@
+.App-overlay {
+    position: static;
+    width: 100vw;
+    height: 100vw;
+}
+
+.overlay-warning {
+    margin: 16px;
+}
+
+.overlay-button {
+    padding: 8px 16px;
+}

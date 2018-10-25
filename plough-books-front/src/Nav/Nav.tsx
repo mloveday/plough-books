@@ -2,8 +2,10 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {Auth} from "../Auth/Auth";
+import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
 import {AppState} from "../redux";
+import {Routes} from "../Routing/Routes";
 
 interface NavOwnProps {
 }
@@ -33,15 +35,26 @@ class NavComponent extends React.Component<NavProps, {}> {
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className="App-nav-item"><Auth /></li>
-          <li className="App-nav-item"><Link className="App-nav-anchor" to="/cash-up">Cash up</Link></li>
-          <li className="App-nav-item"><Link className="App-nav-anchor" to="/rota">Rota</Link></li>
-          <li className="App-nav-item"><Link className="App-nav-anchor" to="/sign-in-sheet">Sign-in sheet</Link></li>
-          <li className="App-nav-item"><Link className="App-nav-anchor" to="/weekly-overview">Weekly overview</Link></li>
-          {this.props.authState.currentUser && this.props.authState.currentUser.role.managesUsers &&
-            <li className="App-nav-item"><Link className="App-nav-anchor" to="/test">Test</Link></li>}
+          {this.routeItem(Routes.CASH_UP, "Cash up")}
+          {this.routeItem(Routes.ROTA, "Rota")}
+          {this.routeItem(Routes.SIGN_IN_SHEET, "Sign-in sheet")}
+          {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
+          {this.routeItem(Routes.TEST, "Test")}
+          {this.routeItem(Routes.USERS, "Users")}
         </ul>
       </nav>
     )
+  }
+
+  private routeItem(route: string, text: string): JSX.Element|null {
+    if (this.isRouteAllowed(route)) {
+      return (<li className="App-nav-item"><Link className="App-nav-anchor" to={route}>{text}</Link></li>);
+    }
+    return null;
+  }
+
+  private isRouteAllowed(route:string): boolean {
+    return !!this.props.authState.currentUser && routeAllowed(Routes.TEST, this.props.authState.currentUser);
   }
 }
 
