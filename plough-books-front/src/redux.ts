@@ -1,6 +1,8 @@
 import reduxCrud from 'redux-crud';
 import {authReducer} from "./Auth/State/AuthReducer";
 import {AuthState} from "./Auth/State/AuthState";
+import {CashUpState} from "./DataEntry/CashUp/State/CashUpState";
+import {cashUpReducers} from "./DataEntry/CashUp/State/Redux";
 
 const testIdentifier = 'test';
 const testSyncActionCreators = reduxCrud.actionCreatorsFor(testIdentifier);
@@ -28,10 +30,12 @@ function testReducers(state = [], action: any) {
 
 export interface AppState {
   authState: AuthState;
+  cashUpState: CashUpState;
   test: any;
 }
 
 export const reducers = {
   authState: authReducer,
+  cashUpState: cashUpReducers,
   test: testReducers,
 };

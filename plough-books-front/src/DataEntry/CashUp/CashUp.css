@@ -5,8 +5,10 @@
     grid-template-rows: 40px;
     grid-template-columns: repeat(4, 1fr);
     grid-template-areas:
-        "summary_title mod daily_notes daily_notes"
-        "summary_title mod daily_notes daily_notes"
+        "date . . ."
+        "summary_title . . ."
+        "mod daily_notes daily_notes ."
+        "mod daily_notes daily_notes ."
         ". till_labels till_labels till_labels"
         "till_float_title till_float_tills till_float_tills till_float_tills"
         "amex_label amex_tills amex_tills amex_tills"
@@ -22,14 +24,14 @@
         "ten_p_label ten_p_tills ten_p_tills ten_p_tills"
         "five_p_label five_p_tills five_p_tills five_p_tills"
         "z_label z_tills z_tills z_tills"
-        "discounts_label credit_card_label . ."
-        "comps_wet amex_tots visa_mc_tots ."
-        "d_staff_dry receipts_label . ."
-        "d_customers_wet receipt_desc receipt_amnt ."
-        "d_customers_dry spend_staff_pts como_disc_asset ."
-        "d_customers_coffee . . ."
-        "fwt_wet . . ."
+        "credit_card_label . . ."
+        "amex_tots visa_mc_tots . ."
+        "discounts_label . . ."
+        "comps_wet fwt_wet . ."
+        "d_staff_dry d_customers_wet d_customers_dry d_customers_coffee"
+        "spend_staff_pts como_disc_asset . ."
         "como_in_drawer . . ."
+        "receipts_group receipts_group receipts_group receipts_group"
         "nett_takes_label . . ."
         "take_dry take_coffee take_gift_card take_deposit_paid"
         "banking_label . . ."
@@ -40,7 +42,16 @@
         "safe_float_notes . . ."
         "summary_label . . ."
         "pub_secured_by bar_closed_by floor_closed_by next_door_by"
+        ". . . submit_button"
 ;
+}
+
+.date {
+    grid-area: date;
+}
+
+.submit-button {
+    grid-area: submit_button;
 }
 
 .per-till {
@@ -246,8 +257,28 @@
   grid-area: visa_mc_tots;
 }
 
+.receipts-group {
+    grid-area: receipts_group;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 1fr 1fr;
+}
+
 .receipts_label {
-  grid-area: receipts_label;
+    grid-column: 1 / span 2;
+}
+
+.receipt_add_button {
+    grid-column: 1 / span 2;
+}
+
+.receipt {
+    display: grid;
+    grid-gap: 4px;
+    border: 1px solid lightgrey;
+    padding: 4px;
+    grid-template-areas: "receipt_desc receipt_amnt";
+    background: lightgoldenrodyellow;
 }
 
 .receipt_desc {
