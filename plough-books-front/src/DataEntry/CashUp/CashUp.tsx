@@ -1,5 +1,7 @@
+import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
+import {match} from "react-router";
 import {AppState} from "../../redux";
 import {accountingWeek, accountingYearString} from "../../Util/DateUtils";
 import {validateCash} from "../../Util/Validation";
@@ -10,6 +12,9 @@ import {cashUpDataEntry} from "./State/Redux";
 import {TillDenominations} from "./State/TillDenominations";
 
 interface CashUpOwnProps {
+  match: match<{
+    date: string
+  }>;
 }
 
 interface CashUpStateProps {
@@ -35,6 +40,14 @@ const mapDispatchToProps = (dispatch: any, ownProps: CashUpOwnProps): CashUpDisp
 type CashUpProps = CashUpOwnProps & CashUpStateProps & CashUpDispatchProps;
 
 class CashUpComponent extends React.Component<CashUpProps, {}> {
+  public componentDidMount() {
+    this.maintainStateWithUrl();
+  }
+
+  public componentDidUpdate() {
+    this.maintainStateWithUrl();
+  }
+
   public render() {
     const tills = [0,1,2,3,4,5,6];
     const startOfWeek = this.props.cashUpState.date.clone().startOf('isoWeek');
@@ -364,6 +377,14 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
         }} >Save</button>
       </form>
     )
+  }
+
+  private maintainStateWithUrl() {
+    const paramDate = moment(this.props.match.params.date);
+    if (this.props.cashUpState.date.isSame(paramDate, 'day')) {
+      return;
+    }
+    this.formUpdate({date: paramDate});
   }
 
   private tillInput(property: string, index: number, friendlyName: string) {
