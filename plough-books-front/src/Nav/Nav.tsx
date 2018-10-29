@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
@@ -35,7 +36,7 @@ class NavComponent extends React.Component<NavProps, {}> {
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className="App-nav-item"><Auth /></li>
-          {this.routeItem(Routes.CASH_UP, "Cash up")}
+          {this.routeItem(Routes.cashUpUrl(moment()), "Cash up")}
           {this.routeItem(Routes.ROTA, "Rota")}
           {this.routeItem(Routes.SIGN_IN_SHEET, "Sign-in sheet")}
           {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}

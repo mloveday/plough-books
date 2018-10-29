@@ -1,6 +1,7 @@
+import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Switch} from "react-router";
+import {Redirect, Switch} from "react-router";
 import {Test} from "../App/TestComponent";
 import {AuthState} from "../Auth/State/AuthState";
 import {CashUp} from "../DataEntry/CashUp/CashUp";
@@ -40,7 +41,8 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
         {/*Do not show any content unless authorised*/}
         {this.props.authState.isSignedInAndAuthorised() &&
           <Switch>
-            <RouteWithAuth exact={true} path={Routes.CASH_UP} component={CashUp}/>
+            <Redirect to={Routes.cashUpUrl(moment())} exact={true} path={Routes.CASH_UP} /> {/* Redirect /cash-up to /cash-up/:today */}
+            <RouteWithAuth exact={true} path={Routes.cashUpRoute()} component={CashUp}/>
             <RouteWithAuth exact={true} path={Routes.ROTA} component={Rota}/>
             <RouteWithAuth exact={true} path={Routes.SIGN_IN_SHEET} component={SignIn}/>
             <RouteWithAuth exact={true} path={Routes.WEEKLY_OVERVIEW} component={WeeklyOverview}/>
