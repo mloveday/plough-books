@@ -6,6 +6,7 @@ import {AppState} from "../../redux";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.css';
 import {DatePicker} from "./DatePicker";
+import {SafeFloatDenom} from "./SafeFloatDenom";
 import {CashUpState} from "./State/CashUpState";
 import {Receipt} from "./State/Receipt";
 import {cashUpDataEntry} from "./State/Redux";
@@ -284,42 +285,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
         <h3 className="group-title safe_float_label">Safe float denom</h3>
         <div className="safe_float_denom_time_groups">
-          <div className="safe_float_am">
-            <h4 className="group-label">AM</h4>
-            {this.sfdInput('sfdAm', 'fiftyPounds', '£50')}
-            {this.sfdInput('sfdAm', 'twentyPounds', '£20')}
-            {this.sfdInput('sfdAm', 'tenPounds', '£10')}
-            {this.sfdInput('sfdAm', 'fivePounds', '£5')}
-            {this.sfdInput('sfdAm', 'pounds', '£1 & £2')}
-            {this.sfdInput('sfdAm', 'fiftyPence', '50p')}
-            {this.sfdInput('sfdAm', 'twentyPence', '20p')}
-            {this.sfdInput('sfdAm', 'tenPence', '10p')}
-            {this.sfdInput('sfdAm', 'fivePence', '5p')}
-            <div className="label-and-input">
-              <label htmlFor="sfd_am_initial">Initial</label>
-              <input id="sfd_am_initial" type="text"
-                     value={this.props.cashUpState.sfdAm.initials}
-                     onChange={ev => this.formUpdate({sfdAm: this.props.cashUpState.sfdAm.with({initials: ev.target.value})})} />
-            </div>
-          </div>
-          <div className="safe_float_pm">
-            <h4 className="group-label safe_float_pm">PM</h4>
-            {this.sfdInput('sfdPm', 'fiftyPounds', '£50')}
-            {this.sfdInput('sfdPm', 'twentyPounds', '£20')}
-            {this.sfdInput('sfdPm', 'tenPounds', '£10')}
-            {this.sfdInput('sfdPm', 'fivePounds', '£5')}
-            {this.sfdInput('sfdPm', 'pounds', '£1 & £2')}
-            {this.sfdInput('sfdPm', 'fiftyPence', '50p')}
-            {this.sfdInput('sfdPm', 'twentyPence', '20p')}
-            {this.sfdInput('sfdPm', 'tenPence', '10p')}
-            {this.sfdInput('sfdPm', 'fivePence', '5p')}
-            <div className="label-and-input">
-              <label htmlFor="sfd_pm_initial">Initial</label>
-              <input id="sfd_pm_initial" type="text"
-                     value={this.props.cashUpState.sfdPm.initials}
-                     onChange={ev => this.formUpdate({sfdPm: this.props.cashUpState.sfdPm.with({initials: ev.target.value})})} />
-            </div>
-          </div>
+          <SafeFloatDenom cashUpPropName='sfdAm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="AM" safeFloatObj={this.props.cashUpState.sfdAm} />
+          <SafeFloatDenom cashUpPropName='sfdPm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="PM" safeFloatObj={this.props.cashUpState.sfdPm} />
         </div>
         <div className="label-and-input safe_float_notes">
           <label htmlFor="sfd_notes">Notes</label>
@@ -378,16 +345,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                onChange={ev => this.updateTill(index, this.props.cashUpState.tills[index].with({[property]: validateCash(ev.target.value, this.props.cashUpState.tills[index][property])}))}/>
       </div>
     );
-  }
-
-  private sfdInput(sfdProperty: string, property: string, friendlyName: string) {
-    const id = sfdProperty + '_' + property;
-    return <div className="label-and-input">
-      <label htmlFor={id}>{friendlyName}</label>
-      <input id={id} type="number"
-             value={this.props.cashUpState[sfdProperty][property]}
-             onChange={ev => this.formUpdate({[sfdProperty]: this.props.cashUpState[sfdProperty].with({[property]: validateCash(ev.target.value, this.props.cashUpState[sfdProperty][property])})})} />
-    </div>
   }
 
   private receiptInput(index: number) {
