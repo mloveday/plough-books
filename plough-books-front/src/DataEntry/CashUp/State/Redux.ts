@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
 import {CashUpState} from "./CashUpState";
 
@@ -9,4 +10,4 @@ export const cashUpReducers = handleActions<CashUpState, any>({
     [CASH_UP_DATA_ENTRY]: (state, action) => {
       return state.with(action.payload);
     }
-  }, CashUpState.default());
+  }, CashUpState.default(moment()));

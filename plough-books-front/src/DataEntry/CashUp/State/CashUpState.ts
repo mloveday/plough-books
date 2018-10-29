@@ -1,10 +1,12 @@
+import * as moment from 'moment';
 import {Receipt} from "./Receipt";
 import {SafeFloatDenominations} from "./SafeFloatDenominations";
 import {TillDenominations} from "./TillDenominations";
 
 export class CashUpState {
-  public static default(): CashUpState {
+  public static default(date: moment.Moment): CashUpState {
     return new CashUpState(
+      date,
       '',
       '',
       [
@@ -49,6 +51,8 @@ export class CashUpState {
     );
   }
 
+  public readonly date: moment.Moment;
+
   public readonly mod: string;
   public readonly dailyNotes: string;
 
@@ -92,7 +96,8 @@ export class CashUpState {
   public readonly floorClosedBy: number;
   public readonly nextDoorBy: number;
 
-  constructor(mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: number, banked: number, cashAdvantageBag: number, cashAdvantageBagSeenBy: number, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: number, barClosedBy: number, floorClosedBy: number, nextDoorBy: number) {
+  constructor(date: moment.Moment, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: number, banked: number, cashAdvantageBag: number, cashAdvantageBagSeenBy: number, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: number, barClosedBy: number, floorClosedBy: number, nextDoorBy: number) {
+    this.date = date;
     this.mod = mod;
     this.dailyNotes = dailyNotes;
     this.tills = tills;
@@ -130,7 +135,7 @@ export class CashUpState {
 
   public with(obj: any): CashUpState {
     return Object.assign(
-      new CashUpState(this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy),
+      new CashUpState(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy),
       obj
     );
   }
