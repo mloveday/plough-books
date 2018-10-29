@@ -10,7 +10,7 @@ import {SafeFloatDenom} from "./SafeFloatDenom";
 import {CashUpState} from "./State/CashUpState";
 import {Receipt} from "./State/Receipt";
 import {cashUpDataEntry} from "./State/Redux";
-import {TillDenominations} from "./State/TillDenominations";
+import {TillInputGroup} from "./TillInputGroup";
 
 interface CashUpOwnProps {
   match: match<{
@@ -50,7 +50,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   public render() {
-    const tills = [0,1,2,3,4,5,6];
     return (
       <form className="form-wrapper">
         <DatePicker dateParam={this.props.match.params.date} />
@@ -79,18 +78,11 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
         </div>
 
         <h3 className="group-title till_float_title">Till float</h3>
-        <div className="per-till till_float_tills">
-          {tills.map(index => this.tillInput('float', index, 'Till float'))}
-        </div>
-
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Till float'} groupIdentifier={'till_float_tills'} tillProperty={'float'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label amex_label">AMEX</h4>
-        <div className="per-till amex_tills">
-          {tills.map(index => this.tillInput('amex', index, 'AMEX total'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'amex'} groupIdentifier={'amex_tills'} tillProperty={'amex'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label visa_label">VISA</h4>
-        <div className="per-till visa_tills">
-          {tills.map(index => this.tillInput('visa', index, 'VISA total'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'visa'} groupIdentifier={'visa_tills'} tillProperty={'visa'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label charge_deposit_label">Charge & deposit</h4>
         <div className="label-and-input charge_to_ac">
           <label htmlFor="charge_to_ac">Charge to account</label>
@@ -105,45 +97,25 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                  onChange={ev => this.formUpdate({depositRedeemed: validateCash(ev.target.value, this.props.cashUpState.depositRedeemed)})} />
         </div>
         <h4 className="group-label fifty_label">£50</h4>
-        <div className="per-till fifty_tills">
-          {tills.map(index => this.tillInput('fiftyPounds', index, '£50'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£50'} groupIdentifier={'fifty_tills'} tillProperty={'fiftyPounds'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label twenty_label">£20</h4>
-        <div className="per-till twenty_tills">
-          {tills.map(index => this.tillInput('twentyPounds', index, '£20'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£20'} groupIdentifier={'twenty_tills'} tillProperty={'twentyPounds'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label ten_label">£10</h4>
-        <div className="per-till ten_tills">
-          {tills.map(index => this.tillInput('tenPounds', index, '£10'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£10'} groupIdentifier={'ten_tills'} tillProperty={'tenPounds'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label five_label">£5</h4>
-        <div className="per-till five_tills">
-          {tills.map(index => this.tillInput('fivePounds', index, '£5'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£5'} groupIdentifier={'five_tills'} tillProperty={'fivePounds'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label pounds_label">£1 &amp; £2</h4>
-        <div className="per-till pounds_tills">
-          {tills.map(index => this.tillInput('pounds', index, '£1 & £2'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£1 & £2'} groupIdentifier={'pounds_tills'} tillProperty={'pounds'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label fifty_p_label">50p</h4>
-        <div className="per-till fifty_p_tills">
-          {tills.map(index => this.tillInput('fiftyPence', index, '50p'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'50p'} groupIdentifier={'fifty_p_tills'} tillProperty={'fiftyPence'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label twenty_p_label">20p</h4>
-        <div className="per-till twenty_p_tills">
-          {tills.map(index => this.tillInput('twentyPence', index, '20p'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'20p'} groupIdentifier={'twenty_p_tills'} tillProperty={'twentyPence'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label ten_p_label">10p</h4>
-        <div className="per-till ten_p_tills">
-          {tills.map(index => this.tillInput('tenPence', index, '10p'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'10p'} groupIdentifier={'ten_p_tills'} tillProperty={'tenPence'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label five_p_label">5p</h4>
-        <div className="per-till five_p_tills">
-          {tills.map(index => this.tillInput('fivePence', index, '5p'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'5p'} groupIdentifier={'five_p_tills'} tillProperty={'fivePence'} tills={this.props.cashUpState.tills} />
         <h4 className="group-label z_label">Z</h4>
-        <div className="per-till z_tills">
-          {tills.map(index => this.tillInput('zRead', index, 'Z'))}
-        </div>
+        <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'} groupIdentifier={'z_tills'} tillProperty={'zRead'} tills={this.props.cashUpState.tills} />
 
         <h3 className="group-title discounts_label">Discounts</h3>
         <div className="label-and-input comps_wet">
@@ -335,18 +307,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     this.formUpdate({date: paramDate});
   }
 
-  private tillInput(property: string, index: number, friendlyName: string) {
-    const id = property+'_'+index;
-    return (
-      <div className="label-and-input" key={index}>
-        <label htmlFor={id}>{friendlyName} {index+1}</label>
-        <input id={id} type="number"
-               value={this.props.cashUpState.tills[index][property]}
-               onChange={ev => this.updateTill(index, this.props.cashUpState.tills[index].with({[property]: validateCash(ev.target.value, this.props.cashUpState.tills[index][property])}))}/>
-      </div>
-    );
-  }
-
   private receiptInput(index: number) {
     return (
       <div className='receipt'>
@@ -369,14 +329,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   private formUpdate(obj: {}) {
     this.props.updateCashUpState(
       this.props.cashUpState.with(obj)
-    );
-  }
-
-  private updateTill(tillNo: number, denoms: TillDenominations) {
-    const clonedTills = this.props.cashUpState.tills.map(till => till.clone());
-    clonedTills[tillNo] = denoms;
-    this.props.updateCashUpState(
-      this.props.cashUpState.with({tills: clonedTills})
     );
   }
 
