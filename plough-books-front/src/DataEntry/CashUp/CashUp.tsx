@@ -3,9 +3,9 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
 import {AppState} from "../../redux";
-import {accountingWeek, accountingYearString} from "../../Util/DateUtils";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.css';
+import {DatePicker} from "./DatePicker";
 import {CashUpState} from "./State/CashUpState";
 import {Receipt} from "./State/Receipt";
 import {cashUpDataEntry} from "./State/Redux";
@@ -50,28 +50,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   public render() {
     const tills = [0,1,2,3,4,5,6];
-    const startOfWeek = this.props.cashUpState.date.clone().startOf('isoWeek');
-    const daysOfTheWeek = [
-      startOfWeek.clone(),
-      startOfWeek.clone().add(1, "days"),
-      startOfWeek.clone().add(2, "days"),
-      startOfWeek.clone().add(3, "days"),
-      startOfWeek.clone().add(4, "days"),
-      startOfWeek.clone().add(5, "days"),
-      startOfWeek.clone().add(6, "days"),
-    ];
     return (
       <form className="form-wrapper">
-        <div className="date-picker">
-          <h3 className="date-week-number">{accountingYearString(startOfWeek)} Week {accountingWeek(startOfWeek)} cash up</h3>
-          <ul className="date-list">
-            <li className="date-list-item">&lt;</li>
-            {daysOfTheWeek.map((dayOfWeek, index) => {
-              return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.cashUpState.date,'day') ? " selected" : "")}>{dayOfWeek.format('dddd D MMM')}</li>
-            })}
-            <li className="date-list-item">&gt;</li>
-          </ul>
-        </div>
+        <DatePicker dateParam={this.props.match.params.date} />
         <h3 className="group-title summary_title">Summary</h3>
         <div className="label-and-input mod">
           <label htmlFor="mod">MOD</label>
