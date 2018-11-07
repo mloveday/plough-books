@@ -4,6 +4,10 @@
 ### Running via vagrant box
 * Install Vagrant and VMWare VirtualBox
 * In a terminal, navigate to `vagrant`, run `vagrant up`
+* run `vagrant ssh`, in the vagrant box...
+    * navigate to `/vagrant/code`
+    * install dependencies with `composer install`
+    * run db migrations with `php bin/console doctrine:migrations:migrate`
 
 ### Running locally
 * Install php 7.2, mySQL 5.7, composer
