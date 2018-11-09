@@ -2,18 +2,6 @@
   text-align: center;
 }
 
-.App-overlay ~ .App-header {
-  display: none;
-}
-
-.App-overlay ~ .App-nav {
-  display: none;
-}
-
-.App-overlay ~ .App-content-container {
-  display: none;
-}
-
 .App-header {
   background-color: #222;
   height: 32px;
@@ -80,4 +68,8 @@
 
 .App-content-container {
   padding-top: 8px;
+}
+
+.App-overlay ~ * {
+  display: none;
 }
