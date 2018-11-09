@@ -8,6 +8,7 @@ use App\Entity\SafeFloatDenominations;
 use App\Entity\TillDenominations;
 use App\Repository\CashUpRepository;
 use App\Service\CashUpPersistenceService;
+use App\Util\DateUtils;
 use DateTime;
 use DateTimeInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -35,7 +36,14 @@ class CashUpController {
     }
 
     public function cashUpDateAction($dateString, CashUpRepository $cashUpRepository) {
-        return new JsonResponse($cashUpRepository->getByDate(new DateTime($dateString))->serialise()); // TODO check date string first
+        if (!DateUtils::dateIsValid($dateString)) {
+            throw new BadRequestHttpException("Invalid date string: '${dateString}'");
+        }
+        $cashUp = $cashUpRepository->getByDate(new DateTime($dateString));
+        if (is_null($cashUp)) {
+            return new JsonResponse((object) ['date' => $dateString]);
+        }
+        return new JsonResponse($cashUp->serialise());
     }
 
     private function getNewCashUpEntity(Request $request, CashUpRepository $cashUpRepository) {

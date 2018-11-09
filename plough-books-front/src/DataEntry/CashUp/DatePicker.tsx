@@ -1,7 +1,9 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import {AppState} from "../../redux";
+import {Routes} from "../../Routing/Routes";
 import {accountingWeek, accountingYearString} from "../../Util/DateUtils";
 
 interface DatePickerOwnProps {
@@ -45,7 +47,7 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
         <ul className="date-list">
           <li className="date-list-item">&lt;</li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
-            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}>{dayOfWeek.format('dddd D MMM')}</li>
+            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}><Link to={Routes.cashUpUrl(dayOfWeek)}>{dayOfWeek.format('dddd D MMM')}</Link></li>
           })}
           <li className="date-list-item">&gt;</li>
         </ul>

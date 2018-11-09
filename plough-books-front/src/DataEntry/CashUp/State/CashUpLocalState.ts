@@ -53,9 +53,13 @@ export class CashUpLocalState {
 
   public static fromBackend(obj: any): CashUpLocalState {
     obj.date = moment(obj.date);
-    obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
-      .filter((value: TillDenominations, index: number) => index < 7);
-    obj.receipts = obj.receipts.map((receipt: any) => Receipt.default().with(receipt));
+    if (obj.hasOwnProperty('tills')) {
+      obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
+        .filter((value: TillDenominations, index: number) => index < 7);
+    }
+    if (obj.hasOwnProperty('receipts')) {
+      obj.receipts = obj.receipts.map((receipt: any) => Receipt.default().with(receipt));
+    }
     obj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
     obj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
     return CashUpLocalState.default(obj.date).with(obj);

@@ -306,14 +306,10 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = moment(this.props.match.params.date);
-    if (this.props.cashUpExternalState.state === 'EMPTY') {
+    if (this.props.cashUpExternalState.state === 'EMPTY'
+      || (this.props.cashUpExternalState.cashUpExternalState && this.props.cashUpExternalState.state === 'OK' && !this.props.cashUpExternalState.cashUpExternalState.date.isSame(paramDate))
+    ) {
       this.props.fetchCashUpForDate(paramDate);
-    }
-    if (this.props.cashUpLocalState.date.isSame(paramDate, 'day')) {
-      return;
-    }
-    if (this.props.cashUpExternalState.state === 'START') {
-        return;
     }
   }
 

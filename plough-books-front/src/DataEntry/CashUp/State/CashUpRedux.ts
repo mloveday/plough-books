@@ -56,10 +56,10 @@ export const cashUpInternalReducers = handleActions<CashUpLocalState, any>({
     return state.with(action.payload);
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return state.with(action.payload);
+    return CashUpLocalState.fromBackend(action.payload);
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return state.with(action.payload);
+    return CashUpLocalState.fromBackend(action.payload);
   }
 }, CashUpLocalState.default(moment()));
 
