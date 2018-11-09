@@ -11,12 +11,12 @@ interface DatePickerOwnProps {
 }
 
 interface DatePickerStateProps {
-  date: moment.Moment;
+  selectedDate: moment.Moment;
 }
 
 const mapStateToProps = (state: AppState, ownProps: DatePickerOwnProps): DatePickerStateProps => {
   return {
-    date: state.cashUpLocalState.date,
+    selectedDate: state.cashUpLocalState.date,
   }
 };
 
@@ -31,7 +31,7 @@ type DatePickerProps = DatePickerOwnProps & DatePickerStateProps & DatePickerDis
 
 class DatePickerComponent extends React.Component<DatePickerProps, {}> {
   public render() {
-    const startOfWeek = this.props.date.clone().startOf('isoWeek');
+    const startOfWeek = this.props.selectedDate.clone().startOf('isoWeek');
     const daysOfTheWeek = [
       startOfWeek.clone(),
       startOfWeek.clone().add(1, "days"),
@@ -45,11 +45,11 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
       <div className="date-picker">
         <h3 className="date-week-number">{accountingYearString(startOfWeek)} Week {accountingWeek(startOfWeek)} cash up</h3>
         <ul className="date-list">
-          <li className="date-list-item">&lt;</li>
+          <li className="date-list-item"><Link to={Routes.cashUpUrl(this.props.selectedDate.clone().subtract(1, 'week'))}>&lt;</Link></li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
             return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}><Link to={Routes.cashUpUrl(dayOfWeek)}>{dayOfWeek.format('dddd D MMM')}</Link></li>
           })}
-          <li className="date-list-item">&gt;</li>
+          <li className="date-list-item"><Link to={Routes.cashUpUrl(this.props.selectedDate.clone().subtract(1, 'week'))}>&gt;</Link></li>
         </ul>
       </div>
     )
