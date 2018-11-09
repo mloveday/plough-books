@@ -21,6 +21,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
         if ($exception instanceof HttpException) {
             $response->setStatusCode($exception->getStatusCode());
+            $response->setContent(json_encode((object)["message" => $exception->getMessage()]));
         } else {
             if ($_ENV['APP_ENV'] === 'dev') {
                 $response->setContent(json_encode((object)["message" => $exception->getMessage(), "trace" => $exception->getTrace()]));

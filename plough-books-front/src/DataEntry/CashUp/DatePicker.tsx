@@ -14,7 +14,7 @@ interface DatePickerStateProps {
 
 const mapStateToProps = (state: AppState, ownProps: DatePickerOwnProps): DatePickerStateProps => {
   return {
-    date: state.cashUpState.date,
+    date: state.cashUpLocalState.date,
   }
 };
 

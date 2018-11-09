@@ -3,10 +3,10 @@ import {Receipt} from "./Receipt";
 import {SafeFloatDenominations} from "./SafeFloatDenominations";
 import {TillDenominations} from "./TillDenominations";
 
-export class CashUpState {
-  public static default(date: moment.Moment): CashUpState {
-    return new CashUpState(
-      date,
+export class CashUpLocalState {
+  public static default(date: moment.Moment): CashUpLocalState {
+    return new CashUpLocalState(
+      moment(date),
       '',
       '',
       [
@@ -37,20 +37,31 @@ export class CashUpState {
       0,
       0,
       0,
+      '',
       0,
-      0,
-      0,
-      0,
+      '',
+      '',
       SafeFloatDenominations.default(),
       SafeFloatDenominations.default(),
       '',
-      0,
-      0,
-      0,
-      0,
+      '',
+      '',
+      '',
+      '',
     );
   }
 
+  public static fromBackend(obj: any): CashUpLocalState {
+    obj.date = moment(obj.date);
+    obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
+      .filter((value: TillDenominations, index: number) => index < 7);
+    obj.receipts = obj.receipts.map((receipt: any) => Receipt.default().with(receipt));
+    obj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
+    obj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
+    return CashUpLocalState.default(obj.date).with(obj);
+  }
+
+  public readonly id?: number;
   public readonly date: moment.Moment;
 
   public readonly mod: string;
@@ -82,21 +93,22 @@ export class CashUpState {
   public readonly takeDepositPaid: number;
 
   public readonly paidOutAmnt: number;
-  public readonly paidOutTo: number;
+  public readonly paidOutTo: string;
   public readonly banked: number;
-  public readonly cashAdvantageBag: number;
-  public readonly cashAdvantageBagSeenBy: number;
+  public readonly cashAdvantageBag: string;
+  public readonly cashAdvantageBagSeenBy: string;
   
   public readonly sfdAm: SafeFloatDenominations;
   public readonly sfdPm: SafeFloatDenominations;
 
   public readonly sfdNotes: string;
-  public readonly pubSecuredBy: number;
-  public readonly barClosedBy: number;
-  public readonly floorClosedBy: number;
-  public readonly nextDoorBy: number;
+  public readonly pubSecuredBy: string;
+  public readonly barClosedBy: string;
+  public readonly floorClosedBy: string;
+  public readonly nextDoorBy: string;
 
-  constructor(date: moment.Moment, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: number, banked: number, cashAdvantageBag: number, cashAdvantageBagSeenBy: number, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: number, barClosedBy: number, floorClosedBy: number, nextDoorBy: number) {
+  constructor(date: moment.Moment, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: string, banked: number, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, id?: number) {
+    this.id = id;
     this.date = date;
     this.mod = mod;
     this.dailyNotes = dailyNotes;
@@ -133,9 +145,9 @@ export class CashUpState {
     this.nextDoorBy = nextDoorBy;
   }
 
-  public with(obj: any): CashUpState {
+  public with(obj: any): CashUpLocalState {
     return Object.assign(
-      new CashUpState(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy),
+      new CashUpLocalState(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, this.id),
       obj
     );
   }

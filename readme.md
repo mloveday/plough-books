@@ -14,3 +14,12 @@
 * In a terminal, navigate to plough-books-back and run
     * `composer install`
     * `php bin/console server:run`
+    
+    
+    
+    
+# development
+## Database
+* To add a db table with associated entity, ssh into the vagrant box, then...
+    * `php bin/console make:entity` to make a new entity & repo
+    * `php bin/console make:migration` to make a db migration

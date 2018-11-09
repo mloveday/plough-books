@@ -6,11 +6,10 @@ export class Routes {
   public static readonly ROTA = "/rota";
   public static readonly SIGN_IN_SHEET = "/sign-in-sheet";
   public static readonly WEEKLY_OVERVIEW = "/weekly-overview";
-  public static readonly TEST = "/test";
   public static readonly USERS = "/admin/users";
 
   public static cashUpUrl(date: moment.Moment) {
-    return `${this.CASH_UP}/${date.format("Y-M-D")}`;
+    return `${this.CASH_UP}/${date.format("Y-MM-DD")}`;
   }
 
   public static cashUpRoute() {

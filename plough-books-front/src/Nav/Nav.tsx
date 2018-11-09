@@ -36,26 +36,25 @@ class NavComponent extends React.Component<NavProps, {}> {
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className="App-nav-item"><Auth /></li>
-          {this.routeItem(Routes.cashUpUrl(moment()), "Cash up")}
+          {this.routeItem(Routes.cashUpUrl(moment()), "Cash up", Routes.CASH_UP)}
           {this.routeItem(Routes.ROTA, "Rota")}
           {this.routeItem(Routes.SIGN_IN_SHEET, "Sign-in sheet")}
           {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
-          {this.routeItem(Routes.TEST, "Test")}
           {this.routeItem(Routes.USERS, "Users")}
         </ul>
       </nav>
     )
   }
 
-  private routeItem(route: string, text: string): JSX.Element|null {
-    if (this.isRouteAllowed(route)) {
+  private routeItem(route: string, text: string, baseRoute?: string): JSX.Element|null {
+    if (this.isRouteAllowed(baseRoute ? baseRoute : route)) {
       return (<li className="App-nav-item"><Link className="App-nav-anchor" to={route}>{text}</Link></li>);
     }
     return null;
   }
 
   private isRouteAllowed(route:string): boolean {
-    return !!this.props.authState.currentUser && routeAllowed(Routes.TEST, this.props.authState.currentUser);
+    return !!this.props.authState.currentUser && routeAllowed(route, this.props.authState.currentUser);
   }
 }
 

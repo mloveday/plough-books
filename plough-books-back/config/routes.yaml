@@ -4,6 +4,11 @@ index:
 cash-up:
   path: /cash-up
   controller: App\Controller\CashUpController::cashUpAction
+  methods: [POST, DELETE]
+cash-up-date:
+  path: /cash-up/{dateString}
+  controller: App\Controller\CashUpController::cashUpDateAction
+  methods: [GET]
 rota:
   path: /rota
   controller: App\Controller\RotaController::rotaAction

@@ -3,6 +3,7 @@ export class Receipt {
     return new Receipt('',0);
   }
 
+  public readonly id?: number;
   public readonly description: string;
   public readonly amount: number;
 
