@@ -189,7 +189,10 @@ class RotaComponent extends React.Component<RotaProps, {}> {
         </div>
         <div className="temp-todo">
           <h2>TODO</h2>
-          <div>Save all changes</div>
+          <div>Save all changes for week</div>
+          <div>Do not override changes made to other days when saving one day</div>
+          <div>Choose/edit constants in front end</div>
+          <div>Do not update constants when updating/creating rota in backend - just choose current/existing constants</div>
           <div>Weekly overview</div>
           <div>Fixed costs proportional to proportion of week's revenue</div>
         </div>
