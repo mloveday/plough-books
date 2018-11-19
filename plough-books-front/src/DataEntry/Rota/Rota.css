@@ -1,0 +1,104 @@
+.rota-title {
+    text-transform: capitalize;
+}
+
+.rota-overview {
+    display: grid;
+    grid-auto-flow: column;
+}
+
+.rota-grid {
+    display: grid;
+    grid-gap: 1px;
+}
+
+.rota-times {
+    display: grid;
+    grid-template-columns: 150px 25px 75px 75px 75px repeat(50, 1fr);
+    grid-auto-rows: 50px;
+    grid-gap: 1px;
+}
+
+.rota-shift {
+    display: grid;
+    grid-template-columns: 150px 25px 75px 75px 75px repeat(50, 1fr);
+    grid-gap: 1px;
+}
+
+.rota-shift.no-shift {
+    color: #888;
+}
+
+.rota-horizontal-spacer {
+    height: 8px;
+}
+
+.rota-role-group {
+    display: grid;
+    grid-gap: 1px;
+}
+
+.rota-role-header {
+    margin-top: 8px;
+    padding: 2px;
+}
+
+.rota-header {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.rota-staff-name {
+    display: grid;
+    align-items: center;
+    justify-content: start;
+    padding: 2px;
+    overflow: hidden;
+}
+
+.rota-remove-shift-button {
+    padding: 2px;
+}
+
+.rota-new-shift {
+    grid-column-end: span 3;
+}
+
+.rota-new-shift-spacer {
+    display: none;
+}
+
+.rota-time {
+    background: #ddd;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    writing-mode: sideways-lr;
+    text-orientation: sideways;
+}
+
+.rota-breaks-input {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.rota-time-input {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.rota-time:nth-of-type(4n+0) {
+    background: #eee;
+}
+
+.rota-time:nth-of-type(4n+1) {
+    background: #eee;
+}
+
+.rota-time.working {
+    background: lightgreen;
+}

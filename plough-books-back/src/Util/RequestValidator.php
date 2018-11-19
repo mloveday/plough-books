@@ -19,4 +19,17 @@ class RequestValidator
             throw new BadRequestHttpException("Must include field(s) '".join("', '",$missingRequestFields)."' in body");
         }
     }
+
+    public function validateRequestNestedFields(array $request, array $fields, string $fieldName)
+    {
+        $missingRequestFields = [];
+        foreach ($fields as $field) {
+            if (!array_key_exists($field, $request)) {
+                $missingRequestFields[] = $field;
+            }
+        }
+        if (count($missingRequestFields) > 0) {
+            throw new BadRequestHttpException("Must include field(s) '".join("', '",$missingRequestFields)."' in field " . $fieldName);
+        }
+    }
 }

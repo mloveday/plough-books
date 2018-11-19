@@ -34,7 +34,7 @@ class CashUp
     private $daily_notes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TillDenominations", mappedBy="cashUp", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\TillDenominations", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $tills;
 
@@ -94,7 +94,7 @@ class CashUp
     private $visa_mc_tots;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Receipt", mappedBy="cashUp", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Receipt", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $receipts;
 
@@ -154,12 +154,12 @@ class CashUp
     private $cash_advantage_bag_seen_by;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\SafeFloatDenominations", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\SafeFloatDenominations", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $sfd_morning;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\SafeFloatDenominations", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\SafeFloatDenominations", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $sfd_evening;
 

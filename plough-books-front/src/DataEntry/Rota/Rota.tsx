@@ -1,7 +1,288 @@
-import * as React from 'react';
+import * as moment from "moment";
+import * as React from "react";
+import {connect} from "react-redux";
+import {match} from "react-router";
+import {AppState} from "../../redux";
+import {validateCash} from "../../Util/Validation";
+import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
+import {StaffMembersLocalState} from "../StaffMembers/State/StaffMembersLocalState";
+import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
+import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
+import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
+import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
+import './Rota.css';
+import {PlannedShift} from "./State/PlannedShift";
+import {RotaExternalState} from "./State/RotaExternalState";
+import {RotaLocalState} from "./State/RotaLocalState";
+import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
+import {StaffMember} from "./State/StaffMember";
 
-export class Rota extends React.Component {
-    public render() {
-        return <div>Rota data entry placeholder</div>
-    }
+interface RotaOwnProps {
+  match: match<{
+    date: string,
+    type: string,
+  }>;
 }
+
+interface RotaStateProps {
+  rotaExternalState: RotaExternalState;
+  rotaLocalState: RotaLocalState;
+  staffMembersExternalState: StaffMembersExternalState;
+  staffMembersLocalState: StaffMembersLocalState;
+  staffRolesExternalState: StaffRolesExternalState;
+  staffRolesLocalState: StaffRolesLocalState;
+}
+
+const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProps => {
+  return {
+    rotaExternalState: state.rotaExternalState,
+    rotaLocalState: state.rotaLocalState,
+    staffMembersExternalState: state.staffMembersExternalState,
+    staffMembersLocalState: state.staffMembersLocalState,
+    staffRolesExternalState: state.staffRolesExternalState,
+    staffRolesLocalState: state.staffRolesLocalState,
+  }
+};
+
+interface RotaDispatchProps {
+  createRota: (rota: RotaLocalState) => void;
+  fetchRotaForDate: (date: moment.Moment, type: string) => void;
+  fetchStaffMembers: () => void;
+  fetchStaffRoles: () => void;
+  updateRotaLocalState: (state: RotaLocalState) => void;
+}
+
+const mapDispatchToProps = (dispatch: any, ownProps: RotaOwnProps): RotaDispatchProps => {
+  return {
+    createRota: (rota: RotaLocalState) => dispatch(rotaCreate(rota)),
+    fetchRotaForDate: (date: moment.Moment, type: string) => dispatch(rotaFetch(date, type)),
+    fetchStaffMembers: () => dispatch(staffMembersFetch()),
+    fetchStaffRoles: () => dispatch(staffRolesFetch()),
+    updateRotaLocalState: (state: RotaLocalState) => dispatch(rotaDataEntry(state)),
+  };
+};
+
+type RotaProps = RotaOwnProps & RotaStateProps & RotaDispatchProps;
+
+class RotaComponent extends React.Component<RotaProps, {}> {
+  private DAY_START_HOUR = 6;
+
+  public componentDidMount() {
+    this.maintainStateWithUrl();
+  }
+
+  public componentDidUpdate() {
+    this.maintainStateWithUrl();
+  }
+
+  public render() {
+    const startTime = moment(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const endTime = moment(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
+    const timePeriods: moment.Moment[] = [];
+    for (let i=0; i<numberOfTimePeriods; i++) {
+      timePeriods.push(startTime.clone().add(i*30, 'minutes'));
+    }
+    const unusedMembers = this.props.staffMembersLocalState.members
+      .filter(
+      (member: StaffMember) => this.props.rotaLocalState.plannedShifts.filter(
+        shift => shift.staffMember.id === member.id
+      ).length === 0
+    );
+    const editingDisabled = this.props.rotaLocalState.status !== 'draft';
+    return (
+      <div>
+        <h1 className="rota-title">{this.props.match.params.type} Rota {this.props.rotaLocalState.date.format('ddd D MMM Y')}</h1>
+        <div className="rota-overview">
+          <div className="rota-stat">
+            Status:
+            <select value={this.props.rotaLocalState.status} onChange={ev => this.formUpdate({status: ev.target.value})}>
+              <option value='draft'>Draft</option>
+              <option value='final'>Final</option>
+              <option value='deleted'>Deleted</option>
+            </select>
+            </div>
+          <div className="rota-stat">
+            Forecast revenue: <input disabled={editingDisabled} type="number" step={0.01} value={this.props.rotaLocalState.forecastRevenue} className="rota-forecast"
+                                     onChange={ev => this.formUpdate({forecastRevenue: validateCash(ev.target.value, this.props.rotaLocalState.forecastRevenue)})} />
+          </div>
+          <div className="rota-stat">Total wage cost: £{this.props.rotaLocalState.calculateTotalLabourCost().toFixed(2)}</div>
+          <div className="rota-stat">Labour rate: {(this.props.rotaLocalState.calculateLabourRate() * 100).toFixed(2)}% (aiming for &lt; {(this.props.rotaLocalState.targetLabourRate * 100).toFixed(2)}%)</div>
+          <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.props.rotaLocalState)}>Save</button></div>
+        </div>
+        <div className="rota-grid">
+          <div className="rota-times">
+            <div className="rota-header rota-staff-name">Name</div>
+            <div className="rota-header rota-remove-shift"/>
+            <div className="rota-header rota-start-time">Start</div>
+            <div className="rota-header rota-end-time">End</div>
+            <div className="rota-header rota-breaks">Breaks</div>
+            {timePeriods.map((timePeriod, timeKey) => (
+              <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format('H:mm')}</div>
+            ))}
+          </div>
+          {     this.props.staffRolesExternalState.state === 'OK'
+            &&  this.props.rotaLocalState
+            &&  this.props.staffMembersExternalState.state === 'OK'
+            && this.props.staffRolesLocalState.roles.map((role, roleKey) => {
+              return (
+                <div className="rota-role-group" key={roleKey}>
+                  <div className="rota-role-header">{role.role}</div>
+                  {this.props.rotaLocalState.plannedShifts
+                    .filter(plannedShift => plannedShift.staffMember.role.id === role.id)
+                    .map((plannedShift, shiftKey) => (
+                      <div className="rota-shift" key={shiftKey}>
+                        <div className="rota-staff-name">{plannedShift.staffMember.name}</div>
+                        <div className="rota-remove-shift">
+                          {!editingDisabled && <button className="rota-remove-shift-button" type='button' onClick={() => this.removePlannedShift(plannedShift)}>x</button>}
+                        </div>
+                        <div className="rota-start-time">
+                          {editingDisabled ? (
+                            <div>{plannedShift.startTime.format('HH:mm')}</div>
+                          ) : (
+                            <input disabled={editingDisabled} type='time' step={1800} className="rota-time-input"
+                            value={plannedShift.startTimeInputValue}
+                            onChange={ev => this.startTimeHandler(ev.target.value, plannedShift)}
+                            />
+                          )}
+                        </div>
+                        <div className="rota-end-time">
+                          {editingDisabled ? (
+                              <div>{plannedShift.endTime.format('HH:mm')}</div>
+                          ) : (
+                            <input type='time' step={1800} className="rota-time-input"
+                            value={plannedShift.endTimeInputValue}
+                            onChange={ev => this.endTimeHandler(ev.target.value, plannedShift)}
+                            />
+                          )}
+                        </div>
+                        <div className="rota-breaks">{plannedShift.totalBreaks * 60} mins</div>
+                        {timePeriods.map((timePeriod, periodKey) => (
+                          <div className={plannedShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
+                        ))}
+                      </div>
+                    ))}
+                    <div className="rota-horizontal-spacer" />
+                  {!editingDisabled && unusedMembers
+                    .filter(member => member.role.id === role.id)
+                    .map((member, shiftKey) => (
+                      <div className="rota-shift no-shift" key={shiftKey}>
+                        <div className="rota-staff-name">{member.name}</div>
+                        <div className="rota-remove-shift"/>
+                        <div className="rota-new-shift">
+                          <button onClick={() => this.newShiftHandler(member)} type="button">Add to rota</button>
+                        </div>
+                        <div className="rota-new-shift-spacer"/>
+                        <div className="rota-new-shift-spacer"/>
+                        {timePeriods.map((timePeriod, periodKey) => (
+                          <div className="rota-time" key={periodKey}/>
+                        ))}
+                      </div>
+                    ))}
+                </div>);
+              }
+            )}
+        </div>
+        <div className="temp-todo">
+          <h2>TODO</h2>
+          <div>Date selector</div>
+          <div>Weekly overview</div>
+          <div>Get full week of rotas</div>
+          <div>Fixed costs proportional to proportion of week's revenue</div>
+        </div>
+      </div>)
+  }
+
+  private formUpdate(obj: {}) {
+    this.props.updateRotaLocalState(
+      this.props.rotaLocalState.with(obj)
+    );
+  }
+
+  private newShiftHandler(member: StaffMember) {
+    const time = moment(this.props.match.params.date).startOf('day');
+    this.addPlannedShift(PlannedShift.default().with({staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17)}));
+  }
+
+  private startTimeHandler(value: string, plannedShift: PlannedShift) {
+    const time = moment(`${plannedShift.startTime.format('Y-MM-DD')} ${value}`);
+    if (time.hour() < this.DAY_START_HOUR && time.isSame(this.props.rotaLocalState.date, 'day')) {
+      time.add(1, 'days');
+    }
+    if (time.hour() >= this.DAY_START_HOUR && !time.isSame(this.props.rotaLocalState.date, 'day')) {
+      time.subtract(1, 'days');
+    }
+    if (time.isAfter(plannedShift.endTime)) {
+      this.updatePlannedShift(plannedShift.with({startTimeInputValue: value, startTime: time, endTime: time, totalBreaks: this.getExpectedBreaks(time, plannedShift.endTime)}));
+    } else {
+      this.updatePlannedShift(plannedShift.with({startTimeInputValue: value, startTime: time, totalBreaks: this.getExpectedBreaks(time, plannedShift.endTime)}));
+    }
+  }
+
+  private endTimeHandler(value: string, plannedShift: PlannedShift) {
+    const time = moment(`${plannedShift.endTime.format('Y-MM-DD')} ${value}`);
+    if (time.hour() < this.DAY_START_HOUR && time.isSame(this.props.rotaLocalState.date, 'day')) {
+      time.add(1, 'days');
+    }
+    if (time.hour() >= this.DAY_START_HOUR && !time.isSame(this.props.rotaLocalState.date, 'day')) {
+      time.subtract(1, 'days');
+    }
+    if (time.isBefore(plannedShift.startTime)) {
+      this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: time, startTime: time, totalBreaks: this.getExpectedBreaks(plannedShift.startTime, time)}));
+    } else {
+      this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: time, totalBreaks: this.getExpectedBreaks(plannedShift.startTime, time)}));
+    }
+  }
+
+  private getExpectedBreaks(startTime: moment.Moment, endTime: moment.Moment): number {
+    const hoursDifference = endTime.diff(startTime, "hours");
+    if (hoursDifference > this.props.rotaLocalState.constants.hoursPerLongBreak) {
+      return this.props.rotaLocalState.constants.longBreakDuration;
+    }
+    if (hoursDifference > this.props.rotaLocalState.constants.hoursPerShortBreak) {
+      return this.props.rotaLocalState.constants.shortBreakDuration;
+    }
+    return 0;
+  }
+
+  private addPlannedShift(plannedShift: PlannedShift) {
+    const clonedPlannedShifts = this.props.rotaLocalState.plannedShifts.map(shift => shift.clone());
+    clonedPlannedShifts.push(plannedShift);
+    this.formUpdate({plannedShifts: clonedPlannedShifts});
+  }
+
+  private updatePlannedShift(plannedShift: PlannedShift) {
+    const clonedPlannedShifts = this.props.rotaLocalState.plannedShifts.map(shift => shift.staffMember.id === plannedShift.staffMember.id ? plannedShift : shift.clone());
+    this.formUpdate({plannedShifts: clonedPlannedShifts});
+  }
+
+  private removePlannedShift(plannedShift: PlannedShift) {
+    const clonedPlannedShifts = this.props.rotaLocalState.plannedShifts
+      .filter(shift => shift.staffMember.id !== plannedShift.staffMember.id)
+      .map(shift => shift.clone());
+    this.formUpdate({plannedShifts: clonedPlannedShifts});
+  }
+
+  private maintainStateWithUrl() {
+    const paramDate = moment(this.props.match.params.date);
+    if (this.props.rotaExternalState.state === 'EMPTY'
+      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.date.isSame(paramDate))
+    ) {
+      this.props.fetchRotaForDate(moment(paramDate), this.props.match.params.type);
+      return;
+    }
+    if (this.props.staffRolesExternalState.state === 'EMPTY') {
+      this.props.fetchStaffRoles();
+      return;
+    }
+    if (this.props.staffMembersExternalState.state === 'EMPTY') {
+      this.props.fetchStaffMembers();
+      return;
+    }
+  }
+}
+
+export const Rota = connect<RotaStateProps, RotaDispatchProps, RotaOwnProps>(
+  mapStateToProps,
+  mapDispatchToProps
+)(RotaComponent);

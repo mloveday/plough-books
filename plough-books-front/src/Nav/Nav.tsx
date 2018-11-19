@@ -37,7 +37,8 @@ class NavComponent extends React.Component<NavProps, {}> {
         <ul className="App-nav-list">
           <li className="App-nav-item"><Auth /></li>
           {this.routeItem(Routes.cashUpUrl(moment()), "Cash up", Routes.CASH_UP)}
-          {this.routeItem(Routes.ROTA, "Rota")}
+          {this.routeItem(Routes.rotaUrl(moment(), 'bar'), "Bar Rota", Routes.ROTA)}
+          {this.routeItem(Routes.rotaUrl(moment(), 'kitchen'), "Kitchen Rota", Routes.ROTA)}
           {this.routeItem(Routes.SIGN_IN_SHEET, "Sign-in sheet")}
           {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
           {this.routeItem(Routes.USERS, "Users")}

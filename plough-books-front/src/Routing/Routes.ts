@@ -15,4 +15,12 @@ export class Routes {
   public static cashUpRoute() {
     return `${this.CASH_UP}/:date`;
   }
+
+  public static rotaUrl(date: moment.Moment, type: string) {
+    return `${this.ROTA}/${date.format("Y-MM-DD")}/${type}`;
+  }
+
+  public static rotaRoute() {
+    return `${this.ROTA}/:date/:type(bar|kitchen)`;
+  }
 }
