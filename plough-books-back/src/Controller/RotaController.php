@@ -152,7 +152,7 @@ class RotaController {
             $rota->setConstants($this->getNewConstantsEntity($constants));
         }
 
-        foreach($request->request->get('plannedShift') as $plannedShift) {
+        foreach($request->request->get('plannedShifts') as $plannedShift) {
             if (array_key_exists('id', $plannedShift)) {
                 throw new BadRequestHttpException('Can not re-use an existing planned shift entity when creating a new rota');
             } else {
@@ -160,7 +160,7 @@ class RotaController {
             }
         }
 
-        foreach($request->request->get('actualShift') as $actualShift) {
+        foreach($request->request->get('actualShifts') as $actualShift) {
             if (array_key_exists('id', $actualShift)) {
                 throw new BadRequestHttpException('Can not re-use an existing actual shift entity when creating a new rota');
             } else {
