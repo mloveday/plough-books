@@ -41,7 +41,7 @@ class RotaController {
                     $rota = $this->getNewRotaEntity($request, $plannedShiftRepository, $actualShiftRepository, $constantsRepository, $staffMemberRepository);
                 }
                 $rotaPersistenceService->persistRota($rota);
-                return new JsonResponse($rota->serialise());
+                return new JsonResponse([$rota->serialise()]);
             case 'DELETE':
                 return new JsonResponse((object) []); //TODO: stub response
             default:
@@ -53,11 +53,11 @@ class RotaController {
         if (!DateUtils::dateIsValid($dateString)) {
             throw new BadRequestHttpException("Invalid date string: '${dateString}'");
         }
-        $rota = $rotaRepository->getByDateAndType(new DateTime($dateString), $type);
-        if (is_null($rota)) {
-            return new JsonResponse((object) ['date' => $dateString]);
+        $rotas = $rotaRepository->getWeekByDateAndType(new DateTime($dateString), $type);
+        if (is_null($rotas)) {
+            return new JsonResponse([(object) ['date' => $dateString]]);
         }
-        return new JsonResponse($rota->serialise());
+        return new JsonResponse(array_map(function(Rota $rota) { return $rota->serialise(); }, $rotas->toArray()));
     }
 
     private function getUpdatedRotaEntity(Request $request, RotaRepository $rotaRepository, PlannedShiftRepository $plannedShiftRepository, ActualShiftRepository $actualShiftRepository, ConstantsRepository $constantsRepository, StaffMemberRepository $staffMemberRepository) {

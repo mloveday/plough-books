@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Rota;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -18,6 +19,16 @@ class RotaRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Rota::class);
+    }
+
+    public function getWeekByDateAndType(DateTime $date, $type) {
+        $date->setTime(0,0,0,0);
+        $criteria = Criteria::create();
+        return $this->matching(
+            $criteria->where(Criteria::expr()->gte('date', clone $date->modify('Monday this week')))
+                ->andWhere(Criteria::expr()->lte('date', clone $date->modify('Sunday this week')))
+                ->andWhere(Criteria::expr()->eq('type', $type))
+        );
     }
 
     public function getByDateAndType(DateTime $date, $type) {

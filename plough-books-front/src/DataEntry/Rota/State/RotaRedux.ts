@@ -4,6 +4,7 @@ import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {RotaExternalState} from "./RotaExternalState";
 import {RotaLocalState} from "./RotaLocalState";
+import {RotaLocalStates} from "./RotaLocalStates";
 
 const ROTA_DATA_ENTRY = 'ROTA_DATA_ENTRY';
 
@@ -15,21 +16,21 @@ const ROTA_CREATE_START = 'ROTA_CREATE_START';
 const ROTA_CREATE_SUCCESS = 'ROTA_CREATE_SUCCESS';
 const ROTA_CREATE_ERROR = 'ROTA_CREATE_ERROR';
 
-export const rotaDataEntry = createAction<RotaLocalState>(ROTA_DATA_ENTRY);
+export const rotaDataEntry = createAction<RotaLocalState[]>(ROTA_DATA_ENTRY);
 
 export const rotaFetchStart = createAction<moment.Moment>(ROTA_FETCH_START);
-export const rotaFetchSuccess = createAction<RotaExternalState>(ROTA_FETCH_SUCCESS);
+export const rotaFetchSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(ROTA_FETCH_SUCCESS);
 export const rotaFetchError = createAction(ROTA_FETCH_ERROR);
 
 export const rotaCreateStart = createAction<RotaLocalState>(ROTA_CREATE_START);
-export const rotaCreateSuccess = createAction<RotaExternalState>(ROTA_CREATE_SUCCESS);
+export const rotaCreateSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(ROTA_CREATE_SUCCESS);
 export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
 
 export const rotaFetch = (date: moment.Moment, type: string) => {
   return (dispatch: any) => {
     dispatch(rotaFetchStart(date));
     return authenticatedFetch(`/rota/${date.format('Y-MM-DD')}/${type}`, () => dispatch(invalidUser()))
-      .then(d => dispatch(rotaFetchSuccess(d)))
+      .then(d => dispatch(rotaFetchSuccess({date, response: d})))
       .catch(e => dispatch(rotaFetchError(e)))
       ;
   }
@@ -45,42 +46,42 @@ export const rotaCreate = (rota: RotaLocalState) => {
       },
       method: 'POST',
     })
-      .then(d => dispatch(rotaCreateSuccess(d)))
+      .then(d => dispatch(rotaCreateSuccess({date: rota.date, response: d})))
       .catch(e => dispatch(rotaCreateError(e)))
       ;
   }
 };
 
-export const rotaInternalReducers = handleActions<RotaLocalState, any>({
+export const rotaInternalReducers = handleActions<RotaLocalStates, any>({
   [ROTA_DATA_ENTRY]: (state, action) => {
     return state.with(action.payload);
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
-    return RotaLocalState.default().with(action.payload);
+    return RotaLocalStates.defaultForWeek(action.payload.date).with(action.payload.response);
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return RotaLocalState.default().with(action.payload);
+    return RotaLocalStates.defaultForWeek(action.payload.date).with(action.payload.response);
   }
-}, RotaLocalState.default());
+}, RotaLocalStates.default());
 
 export const rotaExternalReducers = handleActions<RotaExternalState, any>({
   [ROTA_FETCH_START]: (state, action) => {
     return new RotaExternalState('START');
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
-    return new RotaExternalState('OK', RotaLocalState.default().with(action.payload));
+    return new RotaExternalState('OK', RotaLocalStates.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
   },
   [ROTA_FETCH_ERROR]: (state, action) => {
     return new RotaExternalState('ERROR');
   },
   [ROTA_CREATE_START]: (state, action) => {
-    return new RotaExternalState('START', RotaLocalState.default().with(action.payload));
+    return new RotaExternalState('START', RotaLocalStates.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return new RotaExternalState('OK', RotaLocalState.default().with(action.payload));
+    return new RotaExternalState('OK', RotaLocalStates.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
   },
   [ROTA_CREATE_ERROR]: (state, action) => {
     return new RotaExternalState('ERROR');
   },
 
-  }, new RotaExternalState('EMPTY', RotaLocalState.default()));
+  }, new RotaExternalState('EMPTY', RotaLocalStates.default()));

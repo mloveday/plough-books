@@ -2,10 +2,11 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
+import {Routes} from "../../Routing/Routes";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.css';
-import {DatePicker} from "./DatePicker";
 import {SafeFloatDenom} from "./SafeFloatDenom";
 import {CashUpExternalState} from "./State/CashUpExternalState";
 import {CashUpLocalState} from "./State/CashUpLocalState";
@@ -59,7 +60,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   public render() {
     return (
       <form className="form-wrapper">
-        <DatePicker dateParam={this.props.match.params.date} />
+        <DatePicker dateParam={this.props.match.params.date} urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date)} />
         <h3 className="group-title summary_title">Summary</h3>
         <div className="label-and-input mod">
           <label htmlFor="mod">MOD</label>

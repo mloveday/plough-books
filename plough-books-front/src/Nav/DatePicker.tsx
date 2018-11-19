@@ -2,21 +2,20 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {AppState} from "../../redux";
-import {Routes} from "../../Routing/Routes";
-import {accountingWeek, accountingYearString} from "../../Util/DateUtils";
+import {AppState} from "../redux";
+import {accountingWeek, accountingYearString} from "../Util/DateUtils";
+import './DatePicker.css';
 
 interface DatePickerOwnProps {
   dateParam: string;
+  urlFromDate: (date: moment.Moment) => string;
 }
 
 interface DatePickerStateProps {
-  selectedDate: moment.Moment;
 }
 
 const mapStateToProps = (state: AppState, ownProps: DatePickerOwnProps): DatePickerStateProps => {
   return {
-    selectedDate: state.cashUpLocalState.date,
   }
 };
 
@@ -31,7 +30,8 @@ type DatePickerProps = DatePickerOwnProps & DatePickerStateProps & DatePickerDis
 
 class DatePickerComponent extends React.Component<DatePickerProps, {}> {
   public render() {
-    const startOfWeek = this.props.selectedDate.clone().startOf('isoWeek');
+    const selectedDate = moment(this.props.dateParam);
+    const startOfWeek = selectedDate.clone().startOf('isoWeek');
     const daysOfTheWeek = [
       startOfWeek.clone(),
       startOfWeek.clone().add(1, "days"),
@@ -45,11 +45,13 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
       <div className="date-picker">
         <h3 className="date-week-number">{accountingYearString(startOfWeek)} Week {accountingWeek(startOfWeek)} cash up</h3>
         <ul className="date-list">
-          <li className="date-list-item"><Link to={Routes.cashUpUrl(this.props.selectedDate.clone().subtract(1, 'week'))}>&lt;</Link></li>
+          <li className="date-list-item"><Link to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'week'))}>&lt;</Link></li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
-            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}><Link to={Routes.cashUpUrl(dayOfWeek)}>{dayOfWeek.format('dddd D MMM')}</Link></li>
+            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}>
+              <Link className="date-link" to={this.props.urlFromDate(dayOfWeek)}>{dayOfWeek.format('dddd D MMM')}</Link>
+            </li>
           })}
-          <li className="date-list-item"><Link to={Routes.cashUpUrl(this.props.selectedDate.clone().subtract(1, 'week'))}>&gt;</Link></li>
+          <li className="date-list-item"><Link to={this.props.urlFromDate(selectedDate.clone().add(1, 'week'))}>&gt;</Link></li>
         </ul>
       </div>
     )

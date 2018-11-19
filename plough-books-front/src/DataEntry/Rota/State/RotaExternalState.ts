@@ -1,13 +1,11 @@
-import {RotaLocalState} from "./RotaLocalState";
+import {RotaLocalStates} from "./RotaLocalStates";
 
 export class RotaExternalState {
-    public readonly rotaExternalState: RotaLocalState|undefined;
+    public readonly rotaExternalState: RotaLocalStates|undefined;
     public readonly state: string;
-    public readonly id: string;
 
-    constructor(state: string, rotaExternalState?: RotaLocalState) {
+    constructor(state: string, rotaExternalState?: RotaLocalStates) {
         this.rotaExternalState = rotaExternalState;
         this.state = state;
-        this.id = rotaExternalState ? rotaExternalState.date.format('YMMDD') : '0';
     }
 }

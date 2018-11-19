@@ -10,7 +10,7 @@ export class RotaLocalState {
       0,
       0,
       Constants.default(),
-      'inactive',
+      'draft',
       'bar',
       [],
       [],
@@ -38,7 +38,7 @@ export class RotaLocalState {
     this.actualShifts = actualShifts;
   }
   
-  public with(obj: any) {
+  public with(obj: any): RotaLocalState {
     obj.date = obj.date ? moment(obj.date) : this.date.clone();
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
@@ -65,21 +65,21 @@ export class RotaLocalState {
     );
   }
 
-  public calculateLabourRate(): number {
-    return this.calculateTotalLabourCost()/this.forecastRevenue;
+  public calculateLabourRate(weeklyForecastRevenue: number): number {
+    return this.calculateTotalLabourCost(weeklyForecastRevenue)/this.forecastRevenue;
   }
 
-  public calculateTotalLabourCost(): number {
+  public calculateTotalLabourCost(weeklyForecastRevenue: number): number {
     const cost = this.plannedShifts
       .reduce<number>((a, b) => a + Math.max(b.staffMember.currentHourlyRate * ((b.endTime.diff(b.startTime, "minutes") / 60) - b.totalBreaks), 0), 0);
-    return this.constants.fixedCosts*this.getProportionOfRevenue() + cost + this.getErsWithHoliday(cost) + cost*this.constants.holidayLinearPercent + cost*this.constants.pensionLinearPercent;
+    return this.constants.fixedCosts*this.getProportionOfRevenue(weeklyForecastRevenue) + cost + this.getErsWithHoliday(cost) + cost*this.constants.holidayLinearPercent + cost*this.constants.pensionLinearPercent;
   }
 
   private getErsWithHoliday(cost: number) {
     return Math.max(0, cost - this.constants.ersThreshold)*this.constants.ersPercentAboveThreshold*(1+this.constants.holidayLinearPercent);
   }
 
-  private getProportionOfRevenue() {
+  private getProportionOfRevenue(weeklyForecastRevenue: number) {
     return this.type === 'bar' ? this.constants.barProportionOfRevenue : 1 - this.constants.barProportionOfRevenue;
   }
 }
