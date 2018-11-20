@@ -3,6 +3,9 @@ import {AuthState} from "./Auth/State/AuthState";
 import {CashUpExternalState} from "./DataEntry/CashUp/State/CashUpExternalState";
 import {CashUpLocalState} from "./DataEntry/CashUp/State/CashUpLocalState";
 import {cashUpExternalReducers, cashUpInternalReducers} from "./DataEntry/CashUp/State/CashUpRedux";
+import {ConstantsExternalState} from "./DataEntry/Constants/State/ConstantsExternalState";
+import {ConstantsLocalState} from "./DataEntry/Constants/State/ConstantsLocalState";
+import {constantsExternalReducers, constantsInternalReducers} from "./DataEntry/Constants/State/ConstantsRedux";
 import {RotaExternalState} from "./DataEntry/Rota/State/RotaExternalState";
 import {RotaLocalStates} from "./DataEntry/Rota/State/RotaLocalStates";
 import {rotaExternalReducers, rotaInternalReducers} from "./DataEntry/Rota/State/RotaRedux";
@@ -20,6 +23,8 @@ export interface AppState {
   authState: AuthState;
   cashUpExternalState: CashUpExternalState;
   cashUpLocalState: CashUpLocalState;
+  constantsExternalState: ConstantsExternalState;
+  constantsLocalState: ConstantsLocalState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotaLocalStates;
   staffMembersExternalState: StaffMembersExternalState;
@@ -32,6 +37,8 @@ export const reducers = {
   authState: authReducer,
   cashUpExternalState: cashUpExternalReducers,
   cashUpLocalState: cashUpInternalReducers,
+  constantsExternalState: constantsExternalReducers,
+  constantsLocalState: constantsInternalReducers,
   rotaExternalState: rotaExternalReducers,
   rotaLocalStates: rotaInternalReducers,
   staffMembersExternalState: staffMembersExternalReducers,

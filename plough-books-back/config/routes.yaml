@@ -53,3 +53,6 @@ staff-roles:
 staff-members:
   path: /staff/members
   controller: App\Controller\StaffController::staffMembersAction
+constants:
+  path: /constants
+  controller: App\Controller\ConstantsController::constantsAction

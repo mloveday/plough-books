@@ -6,6 +6,8 @@ import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {validateCash} from "../../Util/Validation";
+import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
+import {constantsFetch} from "../Constants/State/ConstantsRedux";
 import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../StaffMembers/State/StaffMembersLocalState";
 import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
@@ -28,6 +30,7 @@ interface RotaOwnProps {
 }
 
 interface RotaStateProps {
+  constantsExternalState: ConstantsExternalState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotaLocalStates;
   staffMembersExternalState: StaffMembersExternalState;
@@ -38,6 +41,7 @@ interface RotaStateProps {
 
 const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProps => {
   return {
+    constantsExternalState: state.constantsExternalState,
     rotaExternalState: state.rotaExternalState,
     rotaLocalStates: state.rotaLocalStates,
     staffMembersExternalState: state.staffMembersExternalState,
@@ -49,6 +53,7 @@ const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProp
 
 interface RotaDispatchProps {
   createRota: (rota: RotaLocalState) => void;
+  fetchConstants: () => void;
   fetchRotaForDate: (date: moment.Moment, type: string) => void;
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
@@ -58,6 +63,7 @@ interface RotaDispatchProps {
 const mapDispatchToProps = (dispatch: any, ownProps: RotaOwnProps): RotaDispatchProps => {
   return {
     createRota: (rota: RotaLocalState) => dispatch(rotaCreate(rota)),
+    fetchConstants: () => dispatch(constantsFetch()),
     fetchRotaForDate: (date: moment.Moment, type: string) => dispatch(rotaFetch(date, type)),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
@@ -106,6 +112,14 @@ class RotaComponent extends React.Component<RotaProps, {}> {
               <option value='deleted'>Deleted</option>
             </select>
             </div>
+          <div className="rota-stat">
+            Constants:
+            <select value={this.getRota().constants.id} onChange={ev => this.constantsUpdate(Number(ev.target.value))}>
+              {this.props.constantsExternalState.externalState && this.props.constantsExternalState.externalState.constants.map((constants, key) => (
+                <option key={key} value={constants.id}>{constants.date.format('YYYY-MM-DD')}</option>
+                ))}
+            </select>
+          </div>
           <div className="rota-stat">
             Forecast revenue: <input disabled={editingDisabled} type="number" step={0.01} value={this.getRota().forecastRevenue} className="rota-forecast"
                                      onChange={ev => this.formUpdate({forecastRevenue: validateCash(ev.target.value, this.getRota().forecastRevenue)})} />
@@ -191,8 +205,6 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           <h2>TODO</h2>
           <div>Save all changes for week</div>
           <div>Do not override changes made to other days when saving one day</div>
-          <div>Choose/edit constants in front end</div>
-          <div>Do not update constants when updating/creating rota in backend - just choose current/existing constants</div>
           <div>Weekly overview</div>
           <div>Fixed costs proportional to proportion of week's revenue</div>
         </div>
@@ -208,6 +220,14 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     this.props.updateRotaLocalState(
       [this.getRota().with(obj)]
     );
+  }
+
+  private constantsUpdate(id: number) {
+    if (this.props.constantsExternalState.externalState) {
+      this.formUpdate({
+        constants: this.props.constantsExternalState.externalState.constants.find((constants) => constants.id === id)
+      });
+    }
   }
 
   private newShiftHandler(member: StaffMember) {
@@ -276,12 +296,6 @@ class RotaComponent extends React.Component<RotaProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = moment(this.props.match.params.date);
-    if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
-    ) {
-      this.props.fetchRotaForDate(moment(paramDate), this.props.match.params.type);
-      return;
-    }
     if (this.props.staffRolesExternalState.state === 'EMPTY') {
       this.props.fetchStaffRoles();
       return;
@@ -289,6 +303,19 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     if (this.props.staffMembersExternalState.state === 'EMPTY') {
       this.props.fetchStaffMembers();
       return;
+    }
+    if (this.props.constantsExternalState.state === 'EMPTY') {
+      this.props.fetchConstants();
+      return;
+    }
+    if (this.props.rotaExternalState.state === 'EMPTY'
+      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
+    ) {
+      this.props.fetchRotaForDate(moment(paramDate), this.props.match.params.type);
+      return;
+    }
+    if (this.props.constantsExternalState.state === 'OK' && this.props.rotaExternalState.state === 'OK' && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
+      this.formUpdate({constants: this.props.constantsExternalState.externalState.constants.slice(0,1)[0]});
     }
   }
 }

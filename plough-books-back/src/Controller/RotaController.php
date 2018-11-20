@@ -80,7 +80,7 @@ class RotaController {
         if (array_key_exists('id', $constants)) {
             $rota->setConstants($this->getUpdatedConstantsEntity($constants, $constantsRepository));
         } else {
-            $rota->setConstants($this->getNewConstantsEntity($constants));
+            throw new BadRequestHttpException('Can not create a new constants entity when creating a rota');
         }
 
         $plannedShifts = $rota->getPlannedShifts();
@@ -149,7 +149,7 @@ class RotaController {
         if (array_key_exists('id', $constants)) {
             $rota->setConstants($this->getUpdatedConstantsEntity($constants, $constantsRepository));
         } else {
-            $rota->setConstants($this->getNewConstantsEntity($constants));
+            throw new BadRequestHttpException('Can not create a new constants entity when creating a rota');
         }
 
         foreach($request->request->get('plannedShifts') as $plannedShift) {
@@ -179,14 +179,6 @@ class RotaController {
         if (is_null($entity)) {
             throw new BadRequestHttpException("Constants with id ${$constants['id']} does not exist");
         }
-        return $this->updateConstantsEntity($constants, $entity);
-    }
-
-    private function getNewConstantsEntity(array $constants) {
-        if (array_key_exists('id', $constants)) {
-            throw new BadRequestHttpException("Constants with id ${$constants['id']} already exists");
-        }
-        $entity = new Constants();
         return $this->updateConstantsEntity($constants, $entity);
     }
 
