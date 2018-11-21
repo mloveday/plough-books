@@ -30,10 +30,10 @@ class RotaController {
                 $requestValidator->validateRequestFields($request, ['date', 'forecastRevenue', 'targetLabourRate', 'constants', 'status', 'plannedShifts', 'actualShifts']);
                 $requestValidator->validateRequestNestedFields($request->request->get('constants'), [], 'constants');
                 foreach($request->request->get('plannedShifts') as $index => $plannedShift) {
-                    $requestValidator->validateRequestNestedFields($plannedShift, [], "plannedShifts[${index}]");
+                    $requestValidator->validateRequestNestedFields($plannedShift, ['staffMember', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type'], "plannedShifts[${index}]");
                 }
                 foreach($request->request->get('actualShifts') as $index => $actualShift) {
-                    $requestValidator->validateRequestNestedFields($actualShift, [], "actualShifts[${index}]");
+                    $requestValidator->validateRequestNestedFields($actualShift, ['staffMember', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type'], "actualShifts[${index}]");
                 }
                 if ($request->request->has('id')) {
                     $rota = $this->getUpdatedRotaEntity($request, $rotaRepository, $plannedShiftRepository, $actualShiftRepository, $constantsRepository, $staffMemberRepository);
