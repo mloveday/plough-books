@@ -54,11 +54,6 @@ class Rota
      */
     private $actualShifts;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $type;
-
     public function __construct()
     {
         $this->plannedShifts = new ArrayCollection();
@@ -126,18 +121,6 @@ class Rota
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
@@ -212,7 +195,6 @@ class Rota
             'targetLabourRate' => $this->getTargetLabourRate(),
             'constants' => $this->getConstants()->serialise(),
             'status' => $this->getStatus(),
-            'type' => $this->getType(),
             'plannedShifts' => array_map(function(PlannedShift $plannedShift) { return $plannedShift->serialise();}, $this->getPlannedShifts()->toArray()),
             'actualShifts' => array_map(function(ActualShift $actualShift) { return $actualShift->serialise();}, $this->getActualShifts()->toArray()),
         ];

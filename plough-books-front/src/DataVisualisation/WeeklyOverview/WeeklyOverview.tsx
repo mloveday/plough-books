@@ -48,7 +48,7 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyOverviewOwnProps): Wee
 
 interface WeeklyOverviewDispatchProps {
   fetchConstants: () => void;
-  fetchRotaForDate: (date: moment.Moment, type: string) => void;
+  fetchRotaForDate: (date: moment.Moment) => void;
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
 }
@@ -56,7 +56,7 @@ interface WeeklyOverviewDispatchProps {
 const mapDispatchToProps = (dispatch: any, ownProps: WeeklyOverviewOwnProps): WeeklyOverviewDispatchProps => {
   return {
     fetchConstants: () => dispatch(constantsFetch()),
-    fetchRotaForDate: (date: moment.Moment, type: string) => dispatch(rotaFetch(date, type)),
+    fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
   };
@@ -75,16 +75,12 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
 
   public render() {
     const startOfThisWeek = this.getStartOfWeek();
-    const totalForecastBarRevenue = this.props.rotaLocalStates.getTotalForecastBarRevenue();
-    const totalForecastKitchenRevenue = this.props.rotaLocalStates.getTotalForecastKitchenRevenue();
-    const totalForecastRevenue = (totalForecastBarRevenue + totalForecastKitchenRevenue)/2; // TODO this should be equal in theory
+    const totalForecastRevenue = this.props.rotaLocalStates.getTotalForecastRevenue();
 
-    const totalVatAdjustedForecastBarRevenue = this.props.rotaLocalStates.getTotalVatAdjustedForecastBarRevenue();
-    const totalVatAdjustedForecastKitchenRevenue = this.props.rotaLocalStates.getTotalVatAdjustedForecastKitchenRevenue();
-    const totalVatAdjustedForecastRevenue = (totalVatAdjustedForecastBarRevenue + totalVatAdjustedForecastKitchenRevenue)/2; // TODO this should be equal in theory
+    const totalVatAdjustedForecastRevenue = this.props.rotaLocalStates.getTotalVatAdjustedForecastRevenue();
 
-    const totalForecastBarLabour = this.props.rotaLocalStates.getTotalBarLabour(totalForecastBarRevenue);
-    const totalForecastKitchenLabour = this.props.rotaLocalStates.getTotalKitchenLabour(totalForecastKitchenRevenue);
+    const totalForecastBarLabour = this.props.rotaLocalStates.getTotalBarLabour(totalForecastRevenue);
+    const totalForecastKitchenLabour = this.props.rotaLocalStates.getTotalKitchenLabour(totalForecastRevenue);
     const totalForecastLabour = totalForecastBarLabour + totalForecastKitchenLabour;
 
     return (
@@ -96,34 +92,22 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           <div className="overview-stat">Total costs: £{totalForecastLabour.toFixed(2)}</div>
         </div>
         <div className="overview-stats">
-          <div className="overview-stat">Bar revenue: £{totalForecastBarRevenue.toFixed(2)}</div>
-          <div className="overview-stat">Kitchen revenue: £{totalForecastKitchenRevenue.toFixed(2)}</div>
           <div className="overview-stat">Total revenue: £{totalForecastRevenue.toFixed(2)}</div>
         </div>
         <div className="overview-stats">
           <div className="overview-stat">Combined labour rate: {(100*totalForecastLabour/totalVatAdjustedForecastRevenue).toFixed(2)}%</div>
         </div>
         <div className="overview-rota-group">
-        {Array.from(this.props.rotaLocalStates.bar.values()).map((rota, key) => (
+        {Array.from(this.props.rotaLocalStates.rotas.values()).map((rota, key) => (
           <div className="overview-day" key={key}>
-            <div className="overview-stat">{rota.type} Rota {rota.date.format('ddd D MMM Y')}</div>
+            <div className="overview-stat">Rota {rota.date.format('ddd D MMM Y')}</div>
             <div className="overview-stat">Status: {rota.status}</div>
             <div className="overview-stat">Constants: {rota.constants.date.format('YYYY-MM-DD')}</div>
             <div className="overview-stat">Forecast revenue: {rota.forecastRevenue}</div>
-            <div className="overview-stat">Total wage cost: £{rota.getTotalLabourCost(totalForecastBarRevenue).toFixed(2)}</div>
-            <div className="overview-stat">Labour rate: {(rota.getLabourRate(totalForecastBarRevenue) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
-          </div>
-        ))}
-        </div>
-        <div className="overview-rota-group">
-        {Array.from(this.props.rotaLocalStates.kitchen.values()).map((rota, key) => (
-          <div className={`overview-day ${rota.date.format('ddd').toLowerCase()}`} key={key}>
-            <div className="overview-stat">{rota.type} Rota {rota.date.format('ddd D MMM Y')}</div>
-            <div className="overview-stat">Status: {rota.status}</div>
-            <div className="overview-stat">Constants: {rota.constants.date.format('YYYY-MM-DD')}</div>
-            <div className="overview-stat">Forecast revenue: {rota.forecastRevenue}</div>
-            <div className="overview-stat">Total wage cost: £{rota.getTotalLabourCost(totalForecastKitchenRevenue).toFixed(2)}</div>
-            <div className="overview-stat">Labour rate: {(rota.getLabourRate(totalForecastKitchenRevenue) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
+            <div className="overview-stat">Total bar wage cost: £{rota.getTotalLabourCost(totalForecastRevenue, 'bar').toFixed(2)}</div>
+            <div className="overview-stat">Bar labour rate: {(rota.getLabourRate(totalForecastRevenue, 'bar') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
+            <div className="overview-stat">Total kitchen wage cost: £{rota.getTotalLabourCost(totalForecastRevenue, 'kitchen').toFixed(2)}</div>
+            <div className="overview-stat">Kitchen labour rate: {(rota.getLabourRate(totalForecastRevenue, 'kitchen') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
           </div>
         ))}
         </div>
@@ -154,9 +138,9 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.bar.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
     ) {
-      this.props.fetchRotaForDate(moment(paramDate), 'all');
+      this.props.fetchRotaForDate(moment(paramDate));
       return;
     }
   }

@@ -26,10 +26,10 @@ export const rotaCreateStart = createAction<RotaLocalState>(ROTA_CREATE_START);
 export const rotaCreateSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(ROTA_CREATE_SUCCESS);
 export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
 
-export const rotaFetch = (date: moment.Moment, type: string) => {
+export const rotaFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
     dispatch(rotaFetchStart(date));
-    return authenticatedFetch(`/rota/${date.format('Y-MM-DD')}/${type}`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/rota/${date.format('Y-MM-DD')}`, () => dispatch(invalidUser()))
       .then(d => dispatch(rotaFetchSuccess({date, response: d})))
       .catch(e => dispatch(rotaFetchError(e)))
       ;

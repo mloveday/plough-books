@@ -21,16 +21,6 @@ class RotaRepository extends ServiceEntityRepository
         parent::__construct($registry, Rota::class);
     }
 
-    public function getWeekByDateAndType(DateTime $date, $type) {
-        $date->setTime(0,0,0,0);
-        $criteria = Criteria::create();
-        return $this->matching(
-            $criteria->where(Criteria::expr()->gte('date', clone $date->modify('Monday this week')))
-                ->andWhere(Criteria::expr()->lte('date', clone $date->modify('Sunday this week')))
-                ->andWhere(Criteria::expr()->eq('type', $type))
-        );
-    }
-
     public function getWeekByDate(DateTime $date) {
         $date->setTime(0,0,0,0);
         $criteria = Criteria::create();

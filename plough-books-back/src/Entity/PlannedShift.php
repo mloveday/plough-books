@@ -42,6 +42,11 @@ class PlannedShift
     private $total_breaks;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Rota", inversedBy="plannedShifts")
      */
     private $rota;
@@ -111,6 +116,18 @@ class PlannedShift
         return $this;
     }
 
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
     public function getRota(): ?Rota
     {
         return $this->rota;
@@ -131,6 +148,7 @@ class PlannedShift
             'startTime' => $this->getStartTime()->format('Y-m-d H:i'),
             'endTime' => $this->getEndTime()->format('Y-m-d H:i'),
             'totalBreaks' => $this->getTotalBreaks(),
+            'type' => $this->getType(),
         ];
     }
 }

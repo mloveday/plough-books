@@ -49,15 +49,11 @@ class RotaController {
         }
     }
 
-    public function rotaDateAction($dateString, $type, RotaRepository $rotaRepository) {
+    public function rotaDateAction($dateString, RotaRepository $rotaRepository) {
         if (!DateUtils::dateIsValid($dateString)) {
             throw new BadRequestHttpException("Invalid date string: '${dateString}'");
         }
-        if ($type === 'all') {
-            $rotas = $rotaRepository->getWeekByDate(new DateTime($dateString));
-        } else {
-            $rotas = $rotaRepository->getWeekByDateAndType(new DateTime($dateString), $type);
-        }
+        $rotas = $rotaRepository->getWeekByDate(new DateTime($dateString));
         if (is_null($rotas)) {
             return new JsonResponse([(object) ['date' => $dateString]]);
         }
@@ -78,7 +74,6 @@ class RotaController {
         $rota->setForecastRevenue((float) $request->request->get('forecastRevenue'));
         $rota->setTargetLabourRate((float) $request->request->get('targetLabourRate'));
         $rota->setStatus($request->request->get('status'));
-        $rota->setType($request->request->get('type'));
 
         $constants = $request->request->get('constants');
         if (array_key_exists('id', $constants)) {
@@ -147,7 +142,6 @@ class RotaController {
         $rota->setForecastRevenue((float) $request->request->get('forecastRevenue'));
         $rota->setTargetLabourRate((float) $request->request->get('targetLabourRate'));
         $rota->setStatus($request->request->get('status'));
-        $rota->setType($request->request->get('type'));
 
         $constants = $request->request->get('constants');
         if (array_key_exists('id', $constants)) {
@@ -266,7 +260,9 @@ class RotaController {
             ->setStartTime(new DateTime($plannedShift['startTime']))
             ->setEndTime(new DateTime($plannedShift['endTime']))
             ->setTotalBreaks((float)$plannedShift['totalBreaks'])
-            ->setHourlyRate((float)$plannedShift['hourlyRate']);
+            ->setHourlyRate((float)$plannedShift['hourlyRate'])
+            ->setType($plannedShift['type'])
+            ;
     }
 
     private function updateActualShiftEntity(array $actualShift, ActualShift $entity, StaffMember $staffMember): ActualShift {
@@ -275,6 +271,8 @@ class RotaController {
             ->setStartTime(new DateTime($actualShift['startTime']))
             ->setEndTime(new DateTime($actualShift['endTime']))
             ->setTotalBreaks((float)$actualShift['totalBreaks'])
-            ->setHourlyRate((float)$actualShift['hourlyRate']);
+            ->setHourlyRate((float)$actualShift['hourlyRate'])
+            ->setType($actualShift['type'])
+            ;
     }
 }

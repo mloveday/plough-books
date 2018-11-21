@@ -54,7 +54,7 @@ const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProp
 interface RotaDispatchProps {
   createRota: (rota: RotaLocalState) => void;
   fetchConstants: () => void;
-  fetchRotaForDate: (date: moment.Moment, type: string) => void;
+  fetchRotaForDate: (date: moment.Moment) => void;
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
   updateRotaLocalState: (state: RotaLocalState[]) => void;
@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: RotaOwnProps): RotaDispatch
   return {
     createRota: (rota: RotaLocalState) => dispatch(rotaCreate(rota)),
     fetchConstants: () => dispatch(constantsFetch()),
-    fetchRotaForDate: (date: moment.Moment, type: string) => dispatch(rotaFetch(date, type)),
+    fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
     updateRotaLocalState: (state: RotaLocalState[]) => dispatch(rotaDataEntry(state)),
@@ -124,8 +124,8 @@ class RotaComponent extends React.Component<RotaProps, {}> {
             Forecast revenue: <input disabled={editingDisabled} type="number" step={0.01} value={this.getRota().forecastRevenue} className="rota-forecast"
                                      onChange={ev => this.formUpdate({forecastRevenue: validateCash(ev.target.value, this.getRota().forecastRevenue)})} />
           </div>
-          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalLabourCost(this.props.rotaLocalStates.getTotalForecastBarRevenue()).toFixed(2)}</div>
-          <div className="rota-stat">Labour rate: {(this.getRota().getLabourRate(this.props.rotaLocalStates.getTotalForecastBarRevenue()) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
+          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type).toFixed(2)}</div>
+          <div className="rota-stat">Labour rate: {(this.getRota().getLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
         </div>
         <div className="rota-grid">
@@ -142,12 +142,13 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           {     this.props.staffRolesExternalState.state === 'OK'
             &&  this.getRota()
             &&  this.props.staffMembersExternalState.state === 'OK'
-            && this.props.staffRolesLocalState.roles.map((role, roleKey) => {
+            && this.props.staffRolesLocalState.roles.filter(role => role.type === this.props.match.params.type)
+              .map((role, roleKey) => {
               return (
                 <div className="rota-role-group" key={roleKey}>
                   <div className="rota-role-header">{role.role}</div>
                   {this.getRota().plannedShifts
-                    .filter(plannedShift => plannedShift.staffMember.role.id === role.id)
+                    .filter(plannedShift => plannedShift.staffMember.role.id === role.id && plannedShift.type === this.props.match.params.type)
                     .map((plannedShift, shiftKey) => (
                       <div className="rota-shift" key={shiftKey}>
                         <div className="rota-staff-name">{plannedShift.staffMember.name}</div>
@@ -203,17 +204,15 @@ class RotaComponent extends React.Component<RotaProps, {}> {
         </div>
         <div className="temp-todo">
           <h2>TODO</h2>
-          <div>Forecast revenue same for bar & kitchen for same day - join to table based on date in db</div>
           <div>Save all changes for week</div>
           <div>Do not override changes made to other days when saving one day</div>
           <div>Weekly overview</div>
-          <div>Fixed costs proportional to proportion of week's revenue</div>
         </div>
       </div>)
   }
   
   private getRota(): RotaLocalState {
-    const localState = this.props.rotaLocalStates.bar.get(this.props.match.params.date);
+    const localState = this.props.rotaLocalStates.rotas.get(this.props.match.params.date);
     return localState === undefined ? RotaLocalState.default() : localState;
   }
 
@@ -233,7 +232,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
 
   private newShiftHandler(member: StaffMember) {
     const time = moment(this.props.match.params.date).startOf('day');
-    this.addPlannedShift(PlannedShift.default().with({staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17)}));
+    this.addPlannedShift(PlannedShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17)}));
   }
 
   private startTimeHandler(value: string, plannedShift: PlannedShift) {
@@ -310,9 +309,9 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.bar.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
     ) {
-      this.props.fetchRotaForDate(moment(paramDate), this.props.match.params.type);
+      this.props.fetchRotaForDate(moment(paramDate));
       return;
     }
     if (this.props.constantsExternalState.state === 'OK' && this.props.rotaExternalState.state === 'OK' && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {

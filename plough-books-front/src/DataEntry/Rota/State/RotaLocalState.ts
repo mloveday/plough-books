@@ -12,7 +12,6 @@ export class RotaLocalState {
       0,
       Constants.default(),
       'draft',
-      'bar',
       [],
       [],
     );
@@ -24,17 +23,15 @@ export class RotaLocalState {
   public readonly targetLabourRate: number;
   public readonly constants: Constants;
   public readonly status: string;
-  public readonly type: string;
   public readonly plannedShifts: PlannedShift[];
   public readonly actualShifts: ActualShift[];
 
-  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: string, type: string, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
+  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: string, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
     this.date = date;
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
     this.constants = constants;
     this.status = status;
-    this.type = type;
     this.plannedShifts = plannedShifts;
     this.actualShifts = actualShifts;
   }
@@ -57,7 +54,6 @@ export class RotaLocalState {
         this.targetLabourRate,
         this.constants,
         this.status,
-        this.type,
         this.plannedShifts,
         this.actualShifts,
       ),
@@ -70,21 +66,22 @@ export class RotaLocalState {
     return CashManipulation.calculateVatAdjustedRevenue(this.forecastRevenue, this.constants.vatMultiplier);
   }
 
-  public getLabourRate(weeklyForecastRevenue: number): number {
+  public getLabourRate(weeklyForecastRevenue: number, type: string): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalLabourCost(weeklyForecastRevenue),
-      this.getProportionOfForecastRevenue(),
+      this.getTotalLabourCost(weeklyForecastRevenue, type),
+      this.getProportionOfForecastRevenue(type),
       this.constants.vatMultiplier
     );
   }
 
-  public getTotalLabourCost(weeklyForecastRevenue: number): number {
+  public getTotalLabourCost(weeklyForecastRevenue: number, type: string): number {
     const rawCost = this.plannedShifts
+      .filter(s => s.type === type)
       .reduce<number>((a, b) => a + b.getRawCost(), 0);
-    return CashManipulation.calculateTotalLabourCost(rawCost, this.forecastRevenue, weeklyForecastRevenue, this.type, this.constants);
+    return CashManipulation.calculateTotalLabourCost(rawCost, this.forecastRevenue, weeklyForecastRevenue, type, this.constants);
   }
 
-  private getProportionOfForecastRevenue() {
-    return this.forecastRevenue*CashManipulation.getProportionOfRevenue(this.type, this.constants);
+  private getProportionOfForecastRevenue(type: string) {
+    return this.forecastRevenue*CashManipulation.getProportionOfRevenue(type, this.constants);
   }
 }

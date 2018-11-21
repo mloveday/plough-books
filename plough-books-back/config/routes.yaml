@@ -14,7 +14,7 @@ rota:
   controller: App\Controller\RotaController::rotaAction
   methods: [POST, DELETE]
 rota-date:
-  path: /rota/{dateString}/{type}
+  path: /rota/{dateString}
   controller: App\Controller\RotaController::rotaDateAction
   methods: [GET]
 sign-in:

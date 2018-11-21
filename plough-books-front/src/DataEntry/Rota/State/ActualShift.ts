@@ -10,7 +10,8 @@ export class ActualShift {
       0,
       moment(),
       moment(),
-      0
+      0,
+      'bar',
     );
   }
 
@@ -23,8 +24,9 @@ export class ActualShift {
   public readonly totalBreaks: number;
   public readonly startTimeInputValue: string;
   public readonly endTimeInputValue: string;
+  public readonly type: string;
 
-  constructor(staffMember: StaffMember, status: string, hourlyRate: number, startTime: moment.Moment, endTime: moment.Moment, totalBreaks: number) {
+  constructor(staffMember: StaffMember, status: string, hourlyRate: number, startTime: moment.Moment, endTime: moment.Moment, totalBreaks: number, type: string) {
     this.staffMember = staffMember;
     this.status = status;
     this.hourlyRate = hourlyRate;
@@ -33,6 +35,7 @@ export class ActualShift {
     this.totalBreaks = totalBreaks;
     this.startTimeInputValue = startTime.format('HH:mm');
     this.endTimeInputValue = endTime.format('HH:mm');
+    this.type = type;
   }
 
   public isWorkingAtTime(time: moment.Moment) {
@@ -53,6 +56,7 @@ export class ActualShift {
         this.startTime,
         this.endTime,
         this.totalBreaks,
+        this.type,
       ),
       {id: this.id},
       obj,
