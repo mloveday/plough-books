@@ -89,25 +89,36 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
         <div className="overview-stats">
           <div className="overview-stat">Bar costs: £{totalForecastBarLabour.toFixed(2)}</div>
           <div className="overview-stat">Kitchen costs: £{totalForecastKitchenLabour.toFixed(2)}</div>
-          <div className="overview-stat">Total costs: £{totalForecastLabour.toFixed(2)}</div>
         </div>
         <div className="overview-stats">
+          <div className="overview-stat">Total costs: £{totalForecastLabour.toFixed(2)}</div>
           <div className="overview-stat">Total revenue: £{totalForecastRevenue.toFixed(2)}</div>
         </div>
         <div className="overview-stats">
           <div className="overview-stat">Combined labour rate: {(100*totalForecastLabour/totalVatAdjustedForecastRevenue).toFixed(2)}%</div>
+          <div className="overview-stat">Target labour rate: {(100*this.props.rotaLocalStates.getTargetLabourForWeek()).toFixed(2)}%</div>
         </div>
         <div className="overview-rota-group">
+          <div className="overview-day">
+            <div className="overview-stat">Date</div>
+            <div className="overview-stat">Status</div>
+            <div className="overview-stat">Constants from date</div>
+            <div className="overview-stat">Forecast revenue</div>
+            <div className="overview-stat">Total bar wage cost</div>
+            <div className="overview-stat">Bar labour rate</div>
+            <div className="overview-stat">Total kitchen wage cost</div>
+            <div className="overview-stat">Kitchen labour rate</div>
+          </div>
         {Array.from(this.props.rotaLocalStates.rotas.values()).map((rota, key) => (
-          <div className="overview-day" key={key}>
-            <div className="overview-stat">Rota {rota.date.format('ddd D MMM Y')}</div>
-            <div className="overview-stat">Status: {rota.status}</div>
-            <div className="overview-stat">Constants: {rota.constants.date.format('YYYY-MM-DD')}</div>
-            <div className="overview-stat">Forecast revenue: {rota.forecastRevenue}</div>
-            <div className="overview-stat">Total bar wage cost: £{rota.getTotalLabourCost(totalForecastRevenue, 'bar').toFixed(2)}</div>
-            <div className="overview-stat">Bar labour rate: {(rota.getLabourRate(totalForecastRevenue, 'bar') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
-            <div className="overview-stat">Total kitchen wage cost: £{rota.getTotalLabourCost(totalForecastRevenue, 'kitchen').toFixed(2)}</div>
-            <div className="overview-stat">Kitchen labour rate: {(rota.getLabourRate(totalForecastRevenue, 'kitchen') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
+          <div className={`overview-day ${rota.date.format('ddd').toLowerCase()}`} key={key}>
+            <div className="overview-stat">{rota.date.format('ddd D MMM')}</div>
+            <div className="overview-stat">{rota.status}</div>
+            <div className="overview-stat">{rota.constants.date.format('DD/MM/YYYY')}</div>
+            <div className="overview-stat">£{rota.forecastRevenue}</div>
+            <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, 'bar').toFixed(2)}</div>
+            <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, 'bar') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
+            <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, 'kitchen').toFixed(2)}</div>
+            <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, 'kitchen') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
           </div>
         ))}
         </div>

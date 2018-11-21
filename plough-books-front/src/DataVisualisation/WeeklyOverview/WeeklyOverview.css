@@ -11,8 +11,8 @@
 .overview-rota-group {
     grid-column-end: span 4;
     display: grid;
-    grid-template-areas: 'mon tue wed thu fri sat sun';
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-areas: '. mon tue wed thu fri sat sun';
+    grid-template-columns: repeat(8, 1fr);
     grid-gap: 8px;
 }
 

@@ -61,4 +61,8 @@ export class RotasForWeek {
     return Array.from(this.rotas.values())
       .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastKitchenRevenue, 'kitchen') + prev, 0);
   }
+
+  public getTargetLabourForWeek() {
+    return Array.from(this.rotas.values()).reduce((prev, curr) => prev + curr.targetLabourRate*curr.forecastRevenue, 0) / this.getTotalForecastRevenue();
+  }
 }
