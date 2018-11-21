@@ -25,6 +25,14 @@ export class Routes {
     return `${this.ROTA}/:date/:type(bar|kitchen)`;
   }
 
+  public static signInUrl(date: moment.Moment, type: string) {
+    return `${this.SIGN_IN_SHEET}/${date.format("Y-MM-DD")}/${type}`;
+  }
+
+  public static signInRoute() {
+    return `${this.SIGN_IN_SHEET}/:date/:type(bar|kitchen)`;
+  }
+
   public static weeklyOverviewUrl(date: moment.Moment) {
     return `${this.WEEKLY_OVERVIEW}/${accountingYear(date)}/${accountingWeek(date)}`;
   }

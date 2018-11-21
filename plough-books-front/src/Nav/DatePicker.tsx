@@ -43,7 +43,7 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
     ];
     return (
       <div className="date-picker">
-        <h3 className="date-week-number">{accountingYearString(startOfWeek)} Week {accountingWeek(startOfWeek)} cash up</h3>
+        <h3 className="date-week-number">{accountingYearString(startOfWeek)} Week {accountingWeek(startOfWeek)}</h3>
         <ul className="date-list">
           <li className="date-list-item"><Link to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'week'))}>&lt;</Link></li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
