@@ -4,9 +4,9 @@ import {ActualShift} from "./ActualShift";
 import {Constants} from "./Constants";
 import {PlannedShift} from "./PlannedShift";
 
-export class RotaLocalState {
+export class RotaEntity {
   public static default() {
-    return new RotaLocalState(
+    return new RotaEntity(
       moment(),
       0,
       0,
@@ -36,7 +36,7 @@ export class RotaLocalState {
     this.actualShifts = actualShifts;
   }
   
-  public with(obj: any): RotaLocalState {
+  public with(obj: any): RotaEntity {
     obj.date = obj.date ? moment(obj.date) : this.date.clone();
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
@@ -48,7 +48,7 @@ export class RotaLocalState {
       : this.actualShifts.map(actualShift => actualShift.with({})))
       .sort((a: ActualShift, b: ActualShift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return Object.assign(
-      new RotaLocalState(
+      new RotaEntity(
         this.date,
         this.forecastRevenue,
         this.targetLabourRate,

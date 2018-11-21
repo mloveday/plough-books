@@ -5,8 +5,8 @@ import {match} from "react-router";
 import {ConstantsExternalState} from "../../DataEntry/Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../../DataEntry/Constants/State/ConstantsRedux";
 import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
-import {RotaLocalStates} from "../../DataEntry/Rota/State/RotaLocalStates";
 import {rotaFetch} from "../../DataEntry/Rota/State/RotaRedux";
+import {RotasForWeek} from "../../DataEntry/Rota/State/RotasForWeek";
 import {StaffMembersExternalState} from "../../DataEntry/StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../../DataEntry/StaffMembers/State/StaffMembersLocalState";
 import {staffMembersFetch} from "../../DataEntry/StaffMembers/State/StaffMembersRedux";
@@ -27,7 +27,7 @@ interface WeeklyOverviewOwnProps {
 interface WeeklyOverviewStateProps {
   constantsExternalState: ConstantsExternalState;
   rotaExternalState: RotaExternalState;
-  rotaLocalStates: RotaLocalStates;
+  rotaLocalStates: RotasForWeek;
   staffMembersExternalState: StaffMembersExternalState;
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
@@ -138,7 +138,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
     ) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;

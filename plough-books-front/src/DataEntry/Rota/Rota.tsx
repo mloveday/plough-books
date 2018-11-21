@@ -16,10 +16,10 @@ import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.css';
 import {PlannedShift} from "./State/PlannedShift";
+import {RotaEntity} from "./State/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
-import {RotaLocalState} from "./State/RotaLocalState";
-import {RotaLocalStates} from "./State/RotaLocalStates";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
+import {RotasForWeek} from "./State/RotasForWeek";
 import {StaffMember} from "./State/StaffMember";
 
 interface RotaOwnProps {
@@ -32,7 +32,7 @@ interface RotaOwnProps {
 interface RotaStateProps {
   constantsExternalState: ConstantsExternalState;
   rotaExternalState: RotaExternalState;
-  rotaLocalStates: RotaLocalStates;
+  rotaLocalStates: RotasForWeek;
   staffMembersExternalState: StaffMembersExternalState;
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
@@ -52,22 +52,22 @@ const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProp
 };
 
 interface RotaDispatchProps {
-  createRota: (rota: RotaLocalState) => void;
+  createRota: (rota: RotaEntity) => void;
   fetchConstants: () => void;
   fetchRotaForDate: (date: moment.Moment) => void;
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
-  updateRotaLocalState: (state: RotaLocalState[]) => void;
+  updateRotaLocalState: (state: RotaEntity[]) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: RotaOwnProps): RotaDispatchProps => {
   return {
-    createRota: (rota: RotaLocalState) => dispatch(rotaCreate(rota)),
+    createRota: (rota: RotaEntity) => dispatch(rotaCreate(rota)),
     fetchConstants: () => dispatch(constantsFetch()),
     fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
-    updateRotaLocalState: (state: RotaLocalState[]) => dispatch(rotaDataEntry(state)),
+    updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
   };
 };
 
@@ -211,9 +211,9 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       </div>)
   }
   
-  private getRota(): RotaLocalState {
+  private getRota(): RotaEntity {
     const localState = this.props.rotaLocalStates.rotas.get(this.props.match.params.date);
-    return localState === undefined ? RotaLocalState.default() : localState;
+    return localState === undefined ? RotaEntity.default() : localState;
   }
 
   private formUpdate(obj: {}) {
@@ -309,7 +309,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
     ) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;

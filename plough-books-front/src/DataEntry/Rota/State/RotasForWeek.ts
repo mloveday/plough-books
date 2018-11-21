@@ -1,10 +1,10 @@
 import * as moment from "moment";
 import {CashManipulation} from "../../../Util/CashManipulation";
-import {RotaLocalState} from "./RotaLocalState";
+import {RotaEntity} from "./RotaEntity";
 
-export class RotaLocalStates {
+export class RotasForWeek {
   public static default() {
-    return new RotaLocalStates();
+    return new RotasForWeek();
   }
 
   public static defaultForWeek(dayInWeek: moment.Moment) {
@@ -18,26 +18,26 @@ export class RotaLocalStates {
       {'date': startOfWeek.clone().add(5, 'days')},
       {'date': startOfWeek.clone().add(6, 'days')},
     ];
-    return RotaLocalStates.default().with(dates);
+    return RotasForWeek.default().with(dates);
   }
 
-  public readonly rotas: Map<string, RotaLocalState> = new Map<string, RotaLocalState>();
+  public readonly rotas: Map<string, RotaEntity> = new Map<string, RotaEntity>();
 
-  public with(obj: any[]|undefined): RotaLocalStates {
-    const newRotas = new Map<string, RotaLocalState>();
+  public with(obj: any[]|undefined): RotasForWeek {
+    const newRotas = new Map<string, RotaEntity>();
     if (obj !== undefined) {
       obj.forEach(v => {
-        newRotas.set(moment(v.date).format('YYYY-MM-DD'), RotaLocalState.default().with(v))
+        newRotas.set(moment(v.date).format('YYYY-MM-DD'), RotaEntity.default().with(v))
       });
     }
-    const rotas = new Map<string, RotaLocalState>();
+    const rotas = new Map<string, RotaEntity>();
     this.rotas.forEach((v, k) => {
       const rota = newRotas.get(k);
       rotas.set(k, rota ? rota : v.with({}));
     });
     newRotas.forEach((v,k) => rotas.set(k, v));
     return Object.assign(
-      new RotaLocalStates(),
+      new RotasForWeek(),
       {rotas}
       );
   }

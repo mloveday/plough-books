@@ -7,8 +7,8 @@ import {ConstantsExternalState} from "./DataEntry/Constants/State/ConstantsExter
 import {ConstantsLocalState} from "./DataEntry/Constants/State/ConstantsLocalState";
 import {constantsExternalReducers, constantsInternalReducers} from "./DataEntry/Constants/State/ConstantsRedux";
 import {RotaExternalState} from "./DataEntry/Rota/State/RotaExternalState";
-import {RotaLocalStates} from "./DataEntry/Rota/State/RotaLocalStates";
 import {rotaExternalReducers, rotaInternalReducers} from "./DataEntry/Rota/State/RotaRedux";
+import {RotasForWeek} from "./DataEntry/Rota/State/RotasForWeek";
 import {StaffMembersExternalState} from "./DataEntry/StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "./DataEntry/StaffMembers/State/StaffMembersLocalState";
 import {
@@ -26,7 +26,7 @@ export interface AppState {
   constantsExternalState: ConstantsExternalState;
   constantsLocalState: ConstantsLocalState;
   rotaExternalState: RotaExternalState;
-  rotaLocalStates: RotaLocalStates;
+  rotaLocalStates: RotasForWeek;
   staffMembersExternalState: StaffMembersExternalState;
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
