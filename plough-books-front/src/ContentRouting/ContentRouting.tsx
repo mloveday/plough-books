@@ -43,7 +43,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.cashUpRoute()} component={CashUp}/>
             <RouteWithAuth exact={true} path={Routes.rotaRoute()} component={Rota}/>
             <RouteWithAuth exact={true} path={Routes.SIGN_IN_SHEET} component={SignIn}/>
-            <RouteWithAuth exact={true} path={Routes.WEEKLY_OVERVIEW} component={WeeklyOverview}/>
+            <RouteWithAuth exact={true} path={Routes.weeklyOverviewRoute()} component={WeeklyOverview}/>
             <Redirect to={Routes.cashUpUrl(moment())} exact={false} path={Routes.CASH_UP} /> {/* Redirect /cash-up to /cash-up/:today */}
             <Redirect to={Routes.rotaUrl(moment(), 'bar')} exact={false} path={Routes.ROTA} /> {/* Redirect /rota to /rota/:today/bar */}
           </Switch>

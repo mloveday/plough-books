@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {CashManipulation} from "../../../Util/CashManipulation";
 import {ActualShift} from "./ActualShift";
 import {Constants} from "./Constants";
 import {PlannedShift} from "./PlannedShift";
@@ -65,21 +66,25 @@ export class RotaLocalState {
     );
   }
 
-  public calculateLabourRate(weeklyForecastRevenue: number): number {
-    return this.calculateTotalLabourCost(weeklyForecastRevenue)/this.forecastRevenue;
+  public getVatAdjustedForecastRevenue() {
+    return CashManipulation.calculateVatAdjustedRevenue(this.forecastRevenue, this.constants.vatMultiplier);
   }
 
-  public calculateTotalLabourCost(weeklyForecastRevenue: number): number {
-    const cost = this.plannedShifts
-      .reduce<number>((a, b) => a + Math.max(b.staffMember.currentHourlyRate * ((b.endTime.diff(b.startTime, "minutes") / 60) - b.totalBreaks), 0), 0);
-    return this.constants.fixedCosts*this.getProportionOfRevenue(weeklyForecastRevenue) + cost + this.getErsWithHoliday(cost) + cost*this.constants.holidayLinearPercent + cost*this.constants.pensionLinearPercent;
+  public getLabourRate(weeklyForecastRevenue: number): number {
+    return CashManipulation.calculateLabourRate(
+      this.getTotalLabourCost(weeklyForecastRevenue),
+      this.getProportionOfForecastRevenue(),
+      this.constants.vatMultiplier
+    );
   }
 
-  private getErsWithHoliday(cost: number) {
-    return Math.max(0, cost - this.constants.ersThreshold)*this.constants.ersPercentAboveThreshold*(1+this.constants.holidayLinearPercent);
+  public getTotalLabourCost(weeklyForecastRevenue: number): number {
+    const rawCost = this.plannedShifts
+      .reduce<number>((a, b) => a + b.getRawCost(), 0);
+    return CashManipulation.calculateTotalLabourCost(rawCost, this.forecastRevenue, weeklyForecastRevenue, this.type, this.constants);
   }
 
-  private getProportionOfRevenue(weeklyForecastRevenue: number) {
-    return this.type === 'bar' ? this.constants.barProportionOfRevenue : 1 - this.constants.barProportionOfRevenue;
+  private getProportionOfForecastRevenue() {
+    return this.forecastRevenue*CashManipulation.getProportionOfRevenue(this.type, this.constants);
   }
 }

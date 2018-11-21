@@ -31,6 +31,15 @@ class RotaRepository extends ServiceEntityRepository
         );
     }
 
+    public function getWeekByDate(DateTime $date) {
+        $date->setTime(0,0,0,0);
+        $criteria = Criteria::create();
+        return $this->matching(
+            $criteria->where(Criteria::expr()->gte('date', clone $date->modify('Monday this week')))
+                ->andWhere(Criteria::expr()->lte('date', clone $date->modify('Sunday this week')))
+        );
+    }
+
     public function getByDateAndType(DateTime $date, $type) {
         $date->setTime(0,0,0,0);
         return $this->findOneBy(['date' => $date, 'type' => $type]);

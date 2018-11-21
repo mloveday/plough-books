@@ -62,4 +62,8 @@ export class PlannedShift {
   public clone() {
     return this.with({});
   }
+  
+  public getRawCost() {
+    return Math.max(this.staffMember.currentHourlyRate * ((this.endTime.diff(this.startTime, "minutes") / 60) - this.totalBreaks), 0)
+  }
 }

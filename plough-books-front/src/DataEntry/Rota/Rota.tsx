@@ -124,8 +124,8 @@ class RotaComponent extends React.Component<RotaProps, {}> {
             Forecast revenue: <input disabled={editingDisabled} type="number" step={0.01} value={this.getRota().forecastRevenue} className="rota-forecast"
                                      onChange={ev => this.formUpdate({forecastRevenue: validateCash(ev.target.value, this.getRota().forecastRevenue)})} />
           </div>
-          <div className="rota-stat">Total wage cost: £{this.getRota().calculateTotalLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue()).toFixed(2)}</div>
-          <div className="rota-stat">Labour rate: {(this.getRota().calculateLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue()) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
+          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalLabourCost(this.props.rotaLocalStates.getTotalForecastBarRevenue()).toFixed(2)}</div>
+          <div className="rota-stat">Labour rate: {(this.getRota().getLabourRate(this.props.rotaLocalStates.getTotalForecastBarRevenue()) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
         </div>
         <div className="rota-grid">
@@ -203,6 +203,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
         </div>
         <div className="temp-todo">
           <h2>TODO</h2>
+          <div>Forecast revenue same for bar & kitchen for same day - join to table based on date in db</div>
           <div>Save all changes for week</div>
           <div>Do not override changes made to other days when saving one day</div>
           <div>Weekly overview</div>
@@ -212,7 +213,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
   
   private getRota(): RotaLocalState {
-    const localState = this.props.rotaLocalStates.rotas.get(this.props.match.params.date);
+    const localState = this.props.rotaLocalStates.bar.get(this.props.match.params.date);
     return localState === undefined ? RotaLocalState.default() : localState;
   }
 
@@ -309,13 +310,13 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.rotas.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotaExternalState && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotaExternalState.bar.has(paramDate.format('YYYY-MM-DD')))
     ) {
       this.props.fetchRotaForDate(moment(paramDate), this.props.match.params.type);
       return;
     }
     if (this.props.constantsExternalState.state === 'OK' && this.props.rotaExternalState.state === 'OK' && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
-      this.formUpdate({constants: this.props.constantsExternalState.externalState.constants.slice(0,1)[0]});
+      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.constants.slice(0,1)[0]});
     }
   }
 }

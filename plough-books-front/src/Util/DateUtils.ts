@@ -22,6 +22,10 @@ export const accountingYear = (date: moment.Moment): number => {
   }
 };
 
+export const startOfWeek = (year: number, weekNumber: number): moment.Moment => {
+  return getStartOfAccountingYear(moment().year(year)).add(weekNumber, "weeks");
+};
+
 export const accountingYearString = (date: moment.Moment): string => {
   const accountingYearNumber = accountingYear(date);
   return `${accountingYearNumber}-${accountingYearNumber+1}`;

@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {accountingWeek, accountingYear} from "../Util/DateUtils";
 
 export class Routes {
   public static readonly INDEX = "/";
@@ -22,5 +23,13 @@ export class Routes {
 
   public static rotaRoute() {
     return `${this.ROTA}/:date/:type(bar|kitchen)`;
+  }
+
+  public static weeklyOverviewUrl(date: moment.Moment) {
+    return `${this.WEEKLY_OVERVIEW}/${accountingYear(date)}/${accountingWeek(date)}`;
+  }
+
+  public static weeklyOverviewRoute() {
+    return `${this.WEEKLY_OVERVIEW}/:year/:weekNumber`;
   }
 }

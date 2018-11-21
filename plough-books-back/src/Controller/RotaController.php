@@ -53,7 +53,11 @@ class RotaController {
         if (!DateUtils::dateIsValid($dateString)) {
             throw new BadRequestHttpException("Invalid date string: '${dateString}'");
         }
-        $rotas = $rotaRepository->getWeekByDateAndType(new DateTime($dateString), $type);
+        if ($type === 'all') {
+            $rotas = $rotaRepository->getWeekByDate(new DateTime($dateString));
+        } else {
+            $rotas = $rotaRepository->getWeekByDateAndType(new DateTime($dateString), $type);
+        }
         if (is_null($rotas)) {
             return new JsonResponse([(object) ['date' => $dateString]]);
         }
