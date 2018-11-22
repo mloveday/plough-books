@@ -13,6 +13,7 @@ import {staffMembersFetch} from "../../DataEntry/StaffMembers/State/StaffMembers
 import {StaffRolesExternalState} from "../../DataEntry/StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../../DataEntry/StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../../DataEntry/StaffRoles/State/StaffRolesRedux";
+import {FetchStatus} from "../../Enum/FetchStatus";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {startOfWeek} from "../../Util/DateUtils";
@@ -137,20 +138,20 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = this.getStartOfWeek();
-    if (this.props.staffRolesExternalState.state === 'EMPTY') {
+    if (this.props.staffRolesExternalState.state === FetchStatus.EMPTY) {
       this.props.fetchStaffRoles();
       return;
     }
-    if (this.props.staffMembersExternalState.state === 'EMPTY') {
+    if (this.props.staffMembersExternalState.state === FetchStatus.EMPTY) {
       this.props.fetchStaffMembers();
       return;
     }
-    if (this.props.constantsExternalState.state === 'EMPTY') {
+    if (this.props.constantsExternalState.state === FetchStatus.EMPTY) {
       this.props.fetchConstants();
       return;
     }
-    if (this.props.rotaExternalState.state === 'EMPTY'
-      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.state === 'OK' && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
+    if (this.props.rotaExternalState.state === FetchStatus.EMPTY
+      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.state === FetchStatus.OK && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
     ) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;

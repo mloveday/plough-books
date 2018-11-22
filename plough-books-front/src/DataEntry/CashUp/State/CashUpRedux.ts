@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
+import {FetchStatus} from "../../../Enum/FetchStatus";
 import {CashUpExternalState} from "./CashUpExternalState";
 import {CashUpLocalState} from "./CashUpLocalState";
 
@@ -65,22 +66,22 @@ export const cashUpInternalReducers = handleActions<CashUpLocalState, any>({
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action) => {
-    return new CashUpExternalState('START');
+    return new CashUpExternalState(FetchStatus.STARTED);
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return new CashUpExternalState('OK', CashUpLocalState.fromBackend(action.payload));
+    return new CashUpExternalState(FetchStatus.OK, CashUpLocalState.fromBackend(action.payload));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
-    return new CashUpExternalState('ERROR');
+    return new CashUpExternalState(FetchStatus.ERROR);
   },
   [CASH_UP_CREATE_START]: (state, action) => {
-    return new CashUpExternalState('START', CashUpLocalState.fromBackend(action.payload));
+    return new CashUpExternalState(FetchStatus.STARTED, CashUpLocalState.fromBackend(action.payload));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return new CashUpExternalState('OK', CashUpLocalState.fromBackend(action.payload));
+    return new CashUpExternalState(FetchStatus.OK, CashUpLocalState.fromBackend(action.payload));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
-    return new CashUpExternalState('ERROR');
+    return new CashUpExternalState(FetchStatus.ERROR);
   },
 
-  }, new CashUpExternalState('EMPTY', CashUpLocalState.default(moment())));
+  }, new CashUpExternalState(FetchStatus.EMPTY, CashUpLocalState.default(moment())));

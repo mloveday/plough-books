@@ -1,6 +1,7 @@
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
+import {FetchStatus} from "../../../Enum/FetchStatus";
 import {StaffRolesExternalState} from "./StaffRolesExternalState";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
@@ -65,22 +66,22 @@ export const staffRolesInternalReducers = handleActions<StaffRolesLocalState, an
 
 export const staffRolesExternalReducers = handleActions<StaffRolesExternalState, any>({
   [STAFF_ROLES_FETCH_START]: (state, action) => {
-    return new StaffRolesExternalState('START');
+    return new StaffRolesExternalState(FetchStatus.STARTED);
   },
   [STAFF_ROLES_FETCH_SUCCESS]: (state, action) => {
-    return new StaffRolesExternalState('OK', StaffRolesLocalState.default().with(action.payload));
+    return new StaffRolesExternalState(FetchStatus.OK, StaffRolesLocalState.default().with(action.payload));
   },
   [STAFF_ROLES_FETCH_ERROR]: (state, action) => {
-    return new StaffRolesExternalState('ERROR');
+    return new StaffRolesExternalState(FetchStatus.ERROR);
   },
   [STAFF_ROLES_CREATE_START]: (state, action) => {
-    return new StaffRolesExternalState('START', StaffRolesLocalState.default().with(action.payload));
+    return new StaffRolesExternalState(FetchStatus.STARTED, StaffRolesLocalState.default().with(action.payload));
   },
   [STAFF_ROLES_CREATE_SUCCESS]: (state, action) => {
-    return new StaffRolesExternalState('OK', StaffRolesLocalState.default().with(action.payload));
+    return new StaffRolesExternalState(FetchStatus.OK, StaffRolesLocalState.default().with(action.payload));
   },
   [STAFF_ROLES_CREATE_ERROR]: (state, action) => {
-    return new StaffRolesExternalState('ERROR');
+    return new StaffRolesExternalState(FetchStatus.ERROR);
   },
 
-  }, new StaffRolesExternalState('EMPTY', StaffRolesLocalState.default()));
+  }, new StaffRolesExternalState(FetchStatus.EMPTY, StaffRolesLocalState.default()));

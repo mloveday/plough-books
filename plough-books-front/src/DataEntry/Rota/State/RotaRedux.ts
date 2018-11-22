@@ -2,6 +2,7 @@ import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
+import {FetchStatus} from "../../../Enum/FetchStatus";
 import {RotaEntity} from "./RotaEntity";
 import {RotaExternalState} from "./RotaExternalState";
 import {RotasForWeek} from "./RotasForWeek";
@@ -66,22 +67,22 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
 
 export const rotaExternalReducers = handleActions<RotaExternalState, any>({
   [ROTA_FETCH_START]: (state, action) => {
-    return new RotaExternalState('START');
+    return new RotaExternalState(FetchStatus.STARTED);
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
-    return new RotaExternalState('OK', RotasForWeek.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
+    return new RotaExternalState(FetchStatus.OK, RotasForWeek.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
   },
   [ROTA_FETCH_ERROR]: (state, action) => {
-    return new RotaExternalState('ERROR');
+    return new RotaExternalState(FetchStatus.ERROR);
   },
   [ROTA_CREATE_START]: (state, action) => {
-    return new RotaExternalState('START', RotasForWeek.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
+    return new RotaExternalState(FetchStatus.STARTED, RotasForWeek.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return new RotaExternalState('OK', RotasForWeek.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
+    return new RotaExternalState(FetchStatus.OK, RotasForWeek.defaultForWeek(moment(action.payload.date)).with(action.payload.response));
   },
   [ROTA_CREATE_ERROR]: (state, action) => {
-    return new RotaExternalState('ERROR');
+    return new RotaExternalState(FetchStatus.ERROR);
   },
 
-  }, new RotaExternalState('EMPTY', RotasForWeek.default()));
+  }, new RotaExternalState(FetchStatus.EMPTY, RotasForWeek.default()));

@@ -1,6 +1,7 @@
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
+import {FetchStatus} from "../../../Enum/FetchStatus";
 import {ConstantsExternalState} from "./ConstantsExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
 
@@ -64,22 +65,22 @@ export const constantsInternalReducers = handleActions<ConstantsLocalState, any>
 
 export const constantsExternalReducers = handleActions<ConstantsExternalState, any>({
   [CONSTANTS_FETCH_START]: (state, action) => {
-    return new ConstantsExternalState('START');
+    return new ConstantsExternalState(FetchStatus.STARTED);
   },
   [CONSTANTS_FETCH_SUCCESS]: (state, action) => {
-    return new ConstantsExternalState('OK', ConstantsLocalState.default().with(action.payload));
+    return new ConstantsExternalState(FetchStatus.OK, ConstantsLocalState.default().with(action.payload));
   },
   [CONSTANTS_FETCH_ERROR]: (state, action) => {
-    return new ConstantsExternalState('ERROR');
+    return new ConstantsExternalState(FetchStatus.ERROR);
   },
   [CONSTANTS_CREATE_START]: (state, action) => {
-    return new ConstantsExternalState('START', ConstantsLocalState.default().with(action.payload));
+    return new ConstantsExternalState(FetchStatus.STARTED, ConstantsLocalState.default().with(action.payload));
   },
   [CONSTANTS_CREATE_SUCCESS]: (state, action) => {
-    return new ConstantsExternalState('OK', ConstantsLocalState.default().with(action.payload));
+    return new ConstantsExternalState(FetchStatus.OK, ConstantsLocalState.default().with(action.payload));
   },
   [CONSTANTS_CREATE_ERROR]: (state, action) => {
-    return new ConstantsExternalState('ERROR');
+    return new ConstantsExternalState(FetchStatus.ERROR);
   },
 
-  }, new ConstantsExternalState('EMPTY', ConstantsLocalState.default()));
+  }, new ConstantsExternalState(FetchStatus.EMPTY, ConstantsLocalState.default()));

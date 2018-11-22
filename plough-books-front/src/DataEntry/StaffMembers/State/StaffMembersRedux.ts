@@ -1,6 +1,7 @@
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
+import {FetchStatus} from "../../../Enum/FetchStatus";
 import {StaffMembersExternalState} from "./StaffMembersExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
@@ -65,22 +66,22 @@ export const staffMembersInternalReducers = handleActions<StaffMembersLocalState
 
 export const staffMembersExternalReducers = handleActions<StaffMembersExternalState, any>({
   [STAFF_MEMBERS_FETCH_START]: (state, action) => {
-    return new StaffMembersExternalState('START');
+    return new StaffMembersExternalState(FetchStatus.STARTED);
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
-    return new StaffMembersExternalState('OK', StaffMembersLocalState.default().with(action.payload));
+    return new StaffMembersExternalState(FetchStatus.OK, StaffMembersLocalState.default().with(action.payload));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action) => {
-    return new StaffMembersExternalState('ERROR');
+    return new StaffMembersExternalState(FetchStatus.ERROR);
   },
   [STAFF_MEMBERS_CREATE_START]: (state, action) => {
-    return new StaffMembersExternalState('START', StaffMembersLocalState.default().with(action.payload));
+    return new StaffMembersExternalState(FetchStatus.STARTED, StaffMembersLocalState.default().with(action.payload));
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
-    return new StaffMembersExternalState('OK', StaffMembersLocalState.default().with(action.payload));
+    return new StaffMembersExternalState(FetchStatus.OK , StaffMembersLocalState.default().with(action.payload));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action) => {
-    return new StaffMembersExternalState('ERROR');
+    return new StaffMembersExternalState(FetchStatus.ERROR);
   },
 
-  }, new StaffMembersExternalState('EMPTY', StaffMembersLocalState.default()));
+  }, new StaffMembersExternalState(FetchStatus.EMPTY, StaffMembersLocalState.default()));
