@@ -39,7 +39,8 @@ class NavComponent extends React.Component<NavProps, {}> {
           {this.routeItem(Routes.cashUpUrl(moment()), "Cash up", Routes.CASH_UP)}
           {this.routeItem(Routes.rotaUrl(moment(), 'bar'), "Bar Rota", Routes.ROTA)}
           {this.routeItem(Routes.rotaUrl(moment(), 'kitchen'), "Kitchen Rota", Routes.ROTA)}
-          {this.routeItem(Routes.SIGN_IN_SHEET, "Sign-in sheet")}
+          {this.routeItem(Routes.signInUrl(moment(), 'bar'), "Sign-in bar", Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.signInUrl(moment(), 'kitchen'), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
           {this.routeItem(Routes.USERS, "Users")}
         </ul>
