@@ -1,4 +1,5 @@
 import {Constants} from "../DataEntry/Rota/State/Constants";
+import {WorkTypes} from "../Enum/WorkTypes";
 
 export class CashManipulation {
   public static calculateVatAdjustedRevenue(revenue: number, vatMultiplier: number) {
@@ -18,6 +19,6 @@ export class CashManipulation {
   };
 
   public static getProportionOfRevenue = (type: string, constants: Constants) => {
-    return type === 'bar' ? constants.barProportionOfRevenue : 1 - constants.barProportionOfRevenue;
+    return type === WorkTypes.BAR ? constants.barProportionOfRevenue : 1 - constants.barProportionOfRevenue;
   };
 }

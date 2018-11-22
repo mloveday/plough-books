@@ -7,6 +7,7 @@ import {CashUp} from "../DataEntry/CashUp/CashUp";
 import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
 import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
 import {RouteWithAuth} from "./RouteWithAuth";
@@ -46,8 +47,8 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.weeklyOverviewRoute()} component={WeeklyOverview}/>
             <Redirect to={Routes.weeklyOverviewUrl(moment())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
             <Redirect to={Routes.cashUpUrl(moment())} exact={false} path={Routes.CASH_UP} />
-            <Redirect to={Routes.rotaUrl(moment(), 'bar')} exact={false} path={Routes.ROTA} />
-            <Redirect to={Routes.signInUrl(moment(), 'bar')} exact={false} path={Routes.SIGN_IN_SHEET} />
+            <Redirect to={Routes.rotaUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />
+            <Redirect to={Routes.signInUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.SIGN_IN_SHEET} />
           </Switch>
         }
       </div>

@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {WorkTypes} from "../../../Enum/WorkTypes";
 import {StaffMember} from "./StaffMember";
 
 export class PlannedShift {
@@ -11,7 +12,7 @@ export class PlannedShift {
       moment(),
       moment(),
       0,
-      'bar',
+      WorkTypes.BAR,
     );
   }
 

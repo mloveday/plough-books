@@ -1,3 +1,5 @@
+import {WorkTypes} from "../../../Enum/WorkTypes";
+
 export class StaffRole {
 
   public static default() {
@@ -5,7 +7,7 @@ export class StaffRole {
       '',
       0,
       'inactive',
-      'bar',
+      WorkTypes.BAR,
     );
   }
 

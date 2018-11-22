@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {RotaEntity} from "./RotaEntity";
 
@@ -54,12 +55,12 @@ export class RotasForWeek {
 
   public getTotalBarLabour(totalForecastBarRevenue: number): number {
     return Array.from(this.rotas.values())
-      .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastBarRevenue, 'bar') + prev, 0);
+      .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastBarRevenue, WorkTypes.BAR) + prev, 0);
   }
 
   public getTotalKitchenLabour(totalForecastKitchenRevenue: number): number {
     return Array.from(this.rotas.values())
-      .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastKitchenRevenue, 'kitchen') + prev, 0);
+      .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN) + prev, 0);
   }
 
   public getTargetLabourForWeek() {

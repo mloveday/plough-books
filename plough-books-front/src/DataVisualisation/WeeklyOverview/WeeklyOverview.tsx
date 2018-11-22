@@ -13,6 +13,7 @@ import {staffMembersFetch} from "../../DataEntry/StaffMembers/State/StaffMembers
 import {StaffRolesExternalState} from "../../DataEntry/StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../../DataEntry/StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../../DataEntry/StaffRoles/State/StaffRolesRedux";
+import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {startOfWeek} from "../../Util/DateUtils";
 import './WeeklyOverview.css';
@@ -115,10 +116,10 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
             <div className="overview-stat">{rota.status}</div>
             <div className="overview-stat">{rota.constants.date.format('DD/MM/YYYY')}</div>
             <div className="overview-stat">£{rota.forecastRevenue}</div>
-            <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, 'bar').toFixed(2)}</div>
-            <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, 'bar') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
-            <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, 'kitchen').toFixed(2)}</div>
-            <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, 'kitchen') * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
+            <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
+            <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
+            <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+            <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
           </div>
         ))}
         </div>

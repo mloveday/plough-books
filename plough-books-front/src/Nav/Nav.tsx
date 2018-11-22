@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {Auth} from "../Auth/Auth";
 import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
 
@@ -37,10 +38,10 @@ class NavComponent extends React.Component<NavProps, {}> {
         <ul className="App-nav-list">
           <li className="App-nav-item"><Auth /></li>
           {this.routeItem(Routes.cashUpUrl(moment()), "Cash up", Routes.CASH_UP)}
-          {this.routeItem(Routes.rotaUrl(moment(), 'bar'), "Bar Rota", Routes.ROTA)}
-          {this.routeItem(Routes.rotaUrl(moment(), 'kitchen'), "Kitchen Rota", Routes.ROTA)}
-          {this.routeItem(Routes.signInUrl(moment(), 'bar'), "Sign-in bar", Routes.SIGN_IN_SHEET)}
-          {this.routeItem(Routes.signInUrl(moment(), 'kitchen'), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.rotaUrl(moment(), WorkTypes.BAR), "Bar Rota", Routes.ROTA)}
+          {this.routeItem(Routes.rotaUrl(moment(), WorkTypes.KITCHEN), "Kitchen Rota", Routes.ROTA)}
+          {this.routeItem(Routes.signInUrl(moment(), WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.signInUrl(moment(), WorkTypes.KITCHEN), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
           {this.routeItem(Routes.USERS, "Users")}
         </ul>
