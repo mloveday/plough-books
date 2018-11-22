@@ -1,5 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {Auth} from "../Auth/Auth";
 import {clearAuthentication} from "../Auth/State/AuthActions";
 import {AuthState} from "../Auth/State/AuthState";
 import {AppState} from "../redux";
@@ -41,6 +42,7 @@ class UnauthorisedUserOverlayComponent extends React.Component<UnauthorisedUserO
     return (
       <div className="App-overlay">
         <div className="overlay-warning">You are not authorised to access this dashboard.</div>
+        <Auth/>
         <button className="overlay-button" onClick={() => this.props.signOut()}>Logout</button>
       </div>
     )
