@@ -3,6 +3,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {DateFormats} from "../../../Util/DateFormats";
 import {RotaEntity} from "./RotaEntity";
 import {RotaExternalState} from "./RotaExternalState";
 import {RotasForWeek} from "./RotasForWeek";
@@ -30,7 +31,7 @@ export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
 export const rotaFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
     dispatch(rotaFetchStart(date));
-    return authenticatedFetch(`/rota/${date.format('Y-MM-DD')}`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/rota/${date.format(DateFormats.API)}`, () => dispatch(invalidUser()))
       .then(d => dispatch(rotaFetchSuccess({date, response: d})))
       .catch(e => dispatch(rotaFetchError(e)))
       ;

@@ -3,6 +3,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {AppState} from "../redux";
+import {DateFormats} from "../Util/DateFormats";
 import {accountingWeek, accountingYearString} from "../Util/DateUtils";
 import './DatePicker.css';
 
@@ -48,7 +49,7 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
           <li className="date-list-item"><Link to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'week'))}>&lt;</Link></li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
             return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}>
-              <Link className="date-link" to={this.props.urlFromDate(dayOfWeek)}>{dayOfWeek.format('dddd D MMM')}</Link>
+              <Link className="date-link" to={this.props.urlFromDate(dayOfWeek)}>{dayOfWeek.format(DateFormats.READABLE_NO_YEAR)}</Link>
             </li>
           })}
           <li className="date-list-item"><Link to={this.props.urlFromDate(selectedDate.clone().add(1, 'week'))}>&gt;</Link></li>

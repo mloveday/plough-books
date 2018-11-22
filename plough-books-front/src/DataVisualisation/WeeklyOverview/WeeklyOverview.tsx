@@ -15,6 +15,7 @@ import {StaffRolesLocalState} from "../../DataEntry/StaffRoles/State/StaffRolesL
 import {staffRolesFetch} from "../../DataEntry/StaffRoles/State/StaffRolesRedux";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
+import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import './WeeklyOverview.css';
 
@@ -86,7 +87,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
 
     return (
       <div className="weekly-overview">
-        <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({startOfThisWeek.format('ddd D MMM Y')})</h1>
+        <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({startOfThisWeek.format(DateFormats.READABLE_WITH_YEAR)})</h1>
         <div className="overview-stats">
           <div className="overview-stat">Bar costs: £{totalForecastBarLabour.toFixed(2)}</div>
           <div className="overview-stat">Kitchen costs: £{totalForecastKitchenLabour.toFixed(2)}</div>
@@ -112,9 +113,9 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           </div>
         {Array.from(this.props.rotaLocalStates.rotas.values()).map((rota, key) => (
           <div className={`overview-day ${rota.date.format('ddd').toLowerCase()}`} key={key}>
-            <div className="overview-stat">{rota.date.format('ddd D MMM')}</div>
+            <div className="overview-stat">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
             <div className="overview-stat">{rota.status}</div>
-            <div className="overview-stat">{rota.constants.date.format('DD/MM/YYYY')}</div>
+            <div className="overview-stat">{rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
             <div className="overview-stat">£{rota.forecastRevenue}</div>
             <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
             <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
@@ -150,7 +151,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.isEmpty()
-      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.isLoaded() && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.isLoaded() && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format(DateFormats.API)))
     ) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;

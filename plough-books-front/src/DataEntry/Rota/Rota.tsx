@@ -5,6 +5,7 @@ import {match} from "react-router";
 import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
+import {DateFormats} from "../../Util/DateFormats";
 import {validateCash} from "../../Util/Validation";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
@@ -101,7 +102,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     const editingDisabled = this.getRota().status !== 'draft';
     return (
       <div>
-        <h1 className="rota-title">{this.props.match.params.type} Rota {this.getRota().date.format('ddd D MMM Y')}</h1>
+        <h1 className="rota-title">{this.props.match.params.type} Rota {this.getRota().date.format(DateFormats.READABLE_WITH_YEAR)}</h1>
         <DatePicker dateParam={this.props.match.params.date} urlFromDate={(date: moment.Moment) => Routes.rotaUrl(date, this.props.match.params.type)}/>
         <div className="rota-overview">
           <div className="rota-stat">
@@ -116,7 +117,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
             Constants:
             <select value={this.getRota().constants.id} onChange={ev => this.constantsUpdate(Number(ev.target.value))}>
               {this.props.constantsExternalState.externalState && this.props.constantsExternalState.externalState.constants.map((constants, key) => (
-                <option key={key} value={constants.id}>{constants.date.format('YYYY-MM-DD')}</option>
+                <option key={key} value={constants.id}>{constants.date.format(DateFormats.API)}</option>
                 ))}
             </select>
           </div>
@@ -136,7 +137,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
             <div className="rota-header rota-end-time">End</div>
             <div className="rota-header rota-breaks">Breaks</div>
             {timePeriods.map((timePeriod, timeKey) => (
-              <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format('H:mm')}</div>
+              <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
             ))}
           </div>
           {     this.props.staffRolesExternalState.isLoaded()
@@ -157,7 +158,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
                         </div>
                         <div className="rota-start-time">
                           {editingDisabled ? (
-                            <div>{plannedShift.startTime.format('HH:mm')}</div>
+                            <div>{plannedShift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
                           ) : (
                             <input disabled={editingDisabled} type='time' step={1800} className="rota-time-input"
                             value={plannedShift.startTimeInputValue}
@@ -167,7 +168,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
                         </div>
                         <div className="rota-end-time">
                           {editingDisabled ? (
-                              <div>{plannedShift.endTime.format('HH:mm')}</div>
+                              <div>{plannedShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
                           ) : (
                             <input type='time' step={1800} className="rota-time-input"
                             value={plannedShift.endTimeInputValue}
@@ -236,7 +237,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   private startTimeHandler(value: string, plannedShift: PlannedShift) {
-    const time = moment(`${plannedShift.startTime.format('Y-MM-DD')} ${value}`);
+    const time = moment(`${plannedShift.startTime.format(DateFormats.API)} ${value}`);
     if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
       time.add(1, 'days');
     }
@@ -251,7 +252,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   private endTimeHandler(value: string, plannedShift: PlannedShift) {
-    const time = moment(`${plannedShift.endTime.format('Y-MM-DD')} ${value}`);
+    const time = moment(`${plannedShift.endTime.format(DateFormats.API)} ${value}`);
     if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
       time.add(1, 'days');
     }
@@ -309,7 +310,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.isEmpty()
-      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.isLoaded() && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
+      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.isLoaded() && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format(DateFormats.API)))
     ) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;

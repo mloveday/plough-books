@@ -3,6 +3,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpExternalState} from "./CashUpExternalState";
 import {CashUpLocalState} from "./CashUpLocalState";
 
@@ -29,7 +30,7 @@ export const cashUpCreateError = createAction(CASH_UP_CREATE_ERROR);
 export const cashUpFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
     dispatch(cashUpFetchStart(date));
-    return authenticatedFetch(`/cash-up/${date.format('Y-MM-DD')}`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/cash-up/${date.format(DateFormats.API)}`, () => dispatch(invalidUser()))
       .then(d => dispatch(cashUpFetchSuccess(d)))
       .catch(e => dispatch(cashUpFetchError(e)))
       ;

@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
+import {DateFormats} from "../../../Util/DateFormats";
 import {RotaEntity} from "./RotaEntity";
 
 export class RotasForWeek {
@@ -28,7 +29,7 @@ export class RotasForWeek {
     const newRotas = new Map<string, RotaEntity>();
     if (obj !== undefined) {
       obj.forEach(v => {
-        newRotas.set(moment(v.date).format('YYYY-MM-DD'), RotaEntity.default().with(v))
+        newRotas.set(moment(v.date).format(DateFormats.API), RotaEntity.default().with(v))
       });
     }
     const rotas = new Map<string, RotaEntity>();
