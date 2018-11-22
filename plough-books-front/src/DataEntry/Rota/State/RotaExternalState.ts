@@ -1,11 +1,12 @@
+import {FetchStatus} from "../../../Enum/FetchStatus";
+import {ExternalState} from "../../../State/ExternalState";
 import {RotasForWeek} from "./RotasForWeek";
 
-export class RotaExternalState {
+export class RotaExternalState extends ExternalState {
     public readonly rotasForWeek: RotasForWeek|undefined;
-    public readonly state: string;
 
-    constructor(state: string, rotasForWeek?: RotasForWeek) {
+    constructor(state: FetchStatus, rotasForWeek?: RotasForWeek) {
+        super(state);
         this.rotasForWeek = rotasForWeek;
-        this.state = state;
     }
 }

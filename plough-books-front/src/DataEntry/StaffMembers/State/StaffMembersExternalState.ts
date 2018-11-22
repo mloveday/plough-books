@@ -1,12 +1,13 @@
+import {FetchStatus} from "../../../Enum/FetchStatus";
+import {ExternalState} from "../../../State/ExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
-export class StaffMembersExternalState {
+export class StaffMembersExternalState extends ExternalState {
   public readonly rotaExternalState: StaffMembersLocalState | undefined;
-  public readonly state: string;
   public readonly id: number = 0;
 
-  constructor(state: string, rotaExternalState?: StaffMembersLocalState) {
+  constructor(state: FetchStatus, rotaExternalState?: StaffMembersLocalState) {
+    super(state);
     this.rotaExternalState = rotaExternalState;
-    this.state = state;
   }
 }

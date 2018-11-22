@@ -1,11 +1,12 @@
+import {FetchStatus} from "../../../Enum/FetchStatus";
+import {ExternalState} from "../../../State/ExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
 
-export class ConstantsExternalState {
+export class ConstantsExternalState extends ExternalState {
   public readonly externalState: ConstantsLocalState | undefined;
-  public readonly state: string;
 
-  constructor(state: string, constantsLocalState?: ConstantsLocalState) {
+  constructor(state: FetchStatus, constantsLocalState?: ConstantsLocalState) {
+    super(state);
     this.externalState = constantsLocalState;
-    this.state = state;
   }
 }

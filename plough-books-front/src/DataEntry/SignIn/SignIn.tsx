@@ -2,7 +2,6 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
-import {FetchStatus} from "../../Enum/FetchStatus";
 import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
@@ -139,9 +138,9 @@ class SignInComponent extends React.Component<SignInProps, {}> {
               <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format('H:mm')}</div>
             ))}
           </div>
-          {     this.props.staffRolesExternalState.state === FetchStatus.OK
+          {     this.props.staffRolesExternalState.isLoaded()
           &&  this.getRota()
-          &&  this.props.staffMembersExternalState.state === FetchStatus.OK
+          &&  this.props.staffMembersExternalState.isLoaded()
           && this.props.staffRolesLocalState.roles.filter(role => role.type === this.props.match.params.type)
             .map((role, roleKey) => {
                 return (
@@ -296,25 +295,25 @@ class SignInComponent extends React.Component<SignInProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = moment(this.props.match.params.date);
-    if (this.props.staffRolesExternalState.state === FetchStatus.EMPTY) {
+    if (this.props.staffRolesExternalState.isEmpty()) {
       this.props.fetchStaffRoles();
       return;
     }
-    if (this.props.staffMembersExternalState.state === FetchStatus.EMPTY) {
+    if (this.props.staffMembersExternalState.isEmpty()) {
       this.props.fetchStaffMembers();
       return;
     }
-    if (this.props.constantsExternalState.state === FetchStatus.EMPTY) {
+    if (this.props.constantsExternalState.isEmpty()) {
       this.props.fetchConstants();
       return;
     }
-    if (this.props.rotaExternalState.state === FetchStatus.EMPTY
-      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.state === FetchStatus.OK && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
+    if (this.props.rotaExternalState.isEmpty()
+      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.isLoaded() && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format('YYYY-MM-DD')))
     ) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;
     }
-    if (this.props.constantsExternalState.state === FetchStatus.OK && this.props.rotaExternalState.state === FetchStatus.OK && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
+    if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
       this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.constants.slice(0,1)[0]});
     }
   }

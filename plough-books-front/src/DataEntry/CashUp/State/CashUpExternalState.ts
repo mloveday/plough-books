@@ -1,13 +1,14 @@
+import {FetchStatus} from "../../../Enum/FetchStatus";
+import {ExternalState} from "../../../State/ExternalState";
 import {CashUpLocalState} from "./CashUpLocalState";
 
-export class CashUpExternalState {
+export class CashUpExternalState extends ExternalState {
     public readonly cashUpExternalState: CashUpLocalState|undefined;
-    public readonly state: string;
     public readonly id: string;
 
-    constructor(state: string, cashUpExternalState?: CashUpLocalState) {
+    constructor(state: FetchStatus, cashUpExternalState?: CashUpLocalState) {
+        super(state);
         this.cashUpExternalState = cashUpExternalState;
-        this.state = state;
         this.id = cashUpExternalState ? cashUpExternalState.date.format('YMMDD') : '0';
     }
 }

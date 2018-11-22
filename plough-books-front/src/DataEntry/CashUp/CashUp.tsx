@@ -2,7 +2,6 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
-import {FetchStatus} from "../../Enum/FetchStatus";
 import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
@@ -308,8 +307,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = moment(this.props.match.params.date);
-    if (this.props.cashUpExternalState.state === FetchStatus.EMPTY
-      || (this.props.cashUpExternalState.cashUpExternalState && this.props.cashUpExternalState.state === FetchStatus.OK && !this.props.cashUpExternalState.cashUpExternalState.date.isSame(paramDate))
+    if (this.props.cashUpExternalState.isEmpty()
+      || (this.props.cashUpExternalState.cashUpExternalState && this.props.cashUpExternalState.isLoaded() && !this.props.cashUpExternalState.cashUpExternalState.date.isSame(paramDate))
     ) {
       this.props.fetchCashUpForDate(paramDate);
     }
