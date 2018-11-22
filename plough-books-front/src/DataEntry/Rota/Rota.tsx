@@ -238,10 +238,10 @@ class RotaComponent extends React.Component<RotaProps, {}> {
 
   private startTimeHandler(value: string, plannedShift: PlannedShift) {
     const time = moment(`${plannedShift.startTime.format(DateFormats.API)} ${value}`);
-    if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
+    if (this.isBeforeRotaStarts(time)) {
       time.add(1, 'days');
     }
-    if (time.hour() >= this.DAY_START_HOUR && !time.isSame(this.getRota().date, 'day')) {
+    if (this.isAfterRotaEnds(time)) {
       time.subtract(1, 'days');
     }
     if (time.isAfter(plannedShift.endTime)) {
@@ -253,10 +253,10 @@ class RotaComponent extends React.Component<RotaProps, {}> {
 
   private endTimeHandler(value: string, plannedShift: PlannedShift) {
     const time = moment(`${plannedShift.endTime.format(DateFormats.API)} ${value}`);
-    if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
+    if (this.isBeforeRotaStarts(time)) {
       time.add(1, 'days');
     }
-    if (time.hour() >= this.DAY_START_HOUR && !time.isSame(this.getRota().date, 'day')) {
+    if (this.isAfterRotaEnds(time)) {
       time.subtract(1, 'days');
     }
     if (time.isBefore(plannedShift.startTime)) {
@@ -264,6 +264,14 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     } else {
       this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: time, totalBreaks: this.getExpectedBreaks(plannedShift.startTime, time)}));
     }
+  }
+
+  private isBeforeRotaStarts(time: moment.Moment) {
+    return time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day');
+  }
+
+  private isAfterRotaEnds(time: moment.Moment) {
+    return time.hour() >= this.DAY_START_HOUR && !time.isSame(this.getRota().date, 'day');
   }
 
   private getExpectedBreaks(startTime: moment.Moment, endTime: moment.Moment): number {
