@@ -308,9 +308,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
       this.props.fetchConstants();
       return;
     }
-    if (this.props.rotaExternalState.isEmpty()
-      || (this.props.rotaExternalState.rotasForWeek && this.props.rotaExternalState.isLoaded() && !this.props.rotaExternalState.rotasForWeek.rotas.has(paramDate.format(DateFormats.API)))
-    ) {
+    if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;
     }
