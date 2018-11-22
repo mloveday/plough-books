@@ -17,12 +17,6 @@ rota-date:
   path: /rota/{dateString}
   controller: App\Controller\RotaController::rotaDateAction
   methods: [GET]
-sign-in:
-  path: /sign-in
-  controller: App\Controller\SignInController::signInAction
-weekly-overview:
-  path: /weekly-overview
-  controller: App\Controller\WeeklyOverviewController::weeklyOverviewAction
 users:
   path: /users
   controller: App\Controller\UserController::usersAction
