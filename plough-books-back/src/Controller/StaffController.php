@@ -22,7 +22,7 @@ class StaffController {
                 $staffRoles = $staffRoleRepository->findAll();
                 return new JsonResponse(array_map(function (StaffRole $role) { return $role->serialise(); }, $staffRoles));
             case 'POST':
-                $requestValidator->validateRequestFields($request, ['role', 'status', 'type', 'orderInRota']);
+                $requestValidator->validateRequestFields($request->request->all(), ['role', 'status', 'type', 'orderInRota']);
                 if ($request->request->has('id')) {
                     $role = $roleParsingService->getUpdatedStaffRoleEntity($request->request->all());
                 } else {
@@ -41,7 +41,7 @@ class StaffController {
                 $staffMembers = $staffMemberRepository->findAll();
                 return new JsonResponse(array_map(function (StaffMember $staffMember) { return $staffMember->serialise(); }, $staffMembers));
             case 'POST':
-                $requestValidator->validateRequestFields($request, ['name', 'status', 'currentHourlyRate', 'role']);
+                $requestValidator->validateRequestFields($request->request->all(), ['name', 'status', 'currentHourlyRate', 'role']);
                 $requestValidator->validateRequestNestedFields($request->request->get('role'), ['id'], 'role');
                 if ($request->request->has('id')) {
                     $staffMember = $staffMemberParsingService->getUpdatedStaffMemberEntity($request->request->all());

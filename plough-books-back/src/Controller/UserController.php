@@ -25,7 +25,7 @@ class UserController {
         }
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request, ['email', 'whitelisted', 'blacklisted', 'role']);
+                $requestValidator->validateRequestFields($request->request->all(), ['email', 'whitelisted', 'blacklisted', 'role']);
                 if ($request->request->has('id')) {
                     $user = $userParsingService->getUpdatedUserEntity($request);
                 } else {
@@ -34,7 +34,7 @@ class UserController {
                 $persistenceService->persist($user);
                 return new JsonResponse($user->serialiseAll());
             case 'DELETE':
-                $requestValidator->validateRequestFields($request, ['id']);
+                $requestValidator->validateRequestFields($request->request->all(), ['id']);
                 $user = $userParsingService->getUserEntityForDeletion($request);
                 $persistenceService->delete($user);
                 return new JsonResponse(null);

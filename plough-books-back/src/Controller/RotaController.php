@@ -18,7 +18,7 @@ class RotaController {
     public function rotaAction(Request $request, RequestValidator $requestValidator, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request, ['date', 'forecastRevenue', 'targetLabourRate', 'constants', 'status', 'plannedShifts', 'actualShifts']);
+                $requestValidator->validateRequestFields($request->request->all(), ['date', 'forecastRevenue', 'targetLabourRate', 'constants', 'status', 'plannedShifts', 'actualShifts']);
                 $requestValidator->validateRequestNestedFields($request->request->get('constants'), [], 'constants');
                 foreach($request->request->get('plannedShifts') as $index => $plannedShift) {
                     $requestValidator->validateRequestNestedFields($plannedShift, ['staffMember', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type'], "plannedShifts[${index}]");

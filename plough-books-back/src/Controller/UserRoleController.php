@@ -22,7 +22,7 @@ class UserRoleController {
         }
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request, ['role', 'managesUsers']);
+                $requestValidator->validateRequestFields($request->request->all(), ['role', 'managesUsers']);
                 if ($request->request->has('id')) {
                     $role = $roleParsingService->getUpdatedRoleEntity($request);
                 } else {
@@ -31,7 +31,7 @@ class UserRoleController {
                 $persistenceService->persist($role);
                 return new JsonResponse($role->serialiseAll());
             case 'DELETE':
-                $requestValidator->validateRequestFields($request, ['id']);
+                $requestValidator->validateRequestFields($request->request->all(), ['id']);
                 $role = $roleParsingService->getRoleEntityForDeletion($request);
                 $persistenceService->delete($role);
                 return new JsonResponse(null);

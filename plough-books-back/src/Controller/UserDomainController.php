@@ -22,7 +22,7 @@ class UserDomainController {
         }
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request, ['domain', 'whitelisted', 'blacklisted']);
+                $requestValidator->validateRequestFields($request->request->all(), ['domain', 'whitelisted', 'blacklisted']);
                 if ($request->request->has('id')) {
                     $domain = $domainParsingService->getUpdatedDomainEntity($request);
                 } else {
@@ -31,7 +31,7 @@ class UserDomainController {
                 $persistenceService->persist($domain);
                 return new JsonResponse($domain->serialiseAll());
             case 'DELETE':
-                $requestValidator->validateRequestFields($request, ['id']);
+                $requestValidator->validateRequestFields($request->request->all(), ['id']);
                 $domain = $domainParsingService->getDomainEntityForDeletion($request);
                 $persistenceService->delete($domain);
                 return new JsonResponse(null);

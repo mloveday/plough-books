@@ -2,19 +2,13 @@
 
 namespace App\Util;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RequestValidator
 {
-    public function validateRequestFields(Request $request, array $fields)
+    public function validateRequestFields(array $request, array $fields)
     {
-        $missingRequestFields = [];
-        foreach ($fields as $field) {
-            if (!$request->request->has($field)) {
-                $missingRequestFields[] = $field;
-            }
-        }
+        $missingRequestFields = $this->getMissingFields($request, $fields);
         if (count($missingRequestFields) > 0) {
             throw new BadRequestHttpException("Must include field(s) '".join("', '",$missingRequestFields)."' in body");
         }
@@ -22,14 +16,19 @@ class RequestValidator
 
     public function validateRequestNestedFields(array $request, array $fields, string $fieldName)
     {
+        $missingRequestFields = $this->getMissingFields($request, $fields);
+        if (count($missingRequestFields) > 0) {
+            throw new BadRequestHttpException("Must include field(s) '".join("', '",$missingRequestFields)."' in field " . $fieldName);
+        }
+    }
+
+    private function getMissingFields(array $request, array $fields): array {
         $missingRequestFields = [];
         foreach ($fields as $field) {
             if (!array_key_exists($field, $request)) {
                 $missingRequestFields[] = $field;
             }
         }
-        if (count($missingRequestFields) > 0) {
-            throw new BadRequestHttpException("Must include field(s) '".join("', '",$missingRequestFields)."' in field " . $fieldName);
-        }
+        return $missingRequestFields;
     }
 }
