@@ -35,14 +35,13 @@ class StaffController {
         }
     }
 
-    public function staffMembersAction(Request $request, RequestValidator $requestValidator, StaffMemberRepository $staffMemberRepository, StaffMemberParsingService $staffMemberParsingService, PersistenceService $persistenceService) {
+    public function staffMembersAction(Request $request, StaffMemberRepository $staffMemberRepository, StaffMemberParsingService $staffMemberParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'GET':
                 $staffMembers = $staffMemberRepository->findAll();
                 return new JsonResponse(array_map(function (StaffMember $staffMember) { return $staffMember->serialise(); }, $staffMembers));
             case 'POST':
-                $requestValidator->validateRequestFields($request->request->all(), ['name', 'status', 'currentHourlyRate', 'role']);
-                $requestValidator->validateRequestNestedFields($request->request->get('role'), ['id'], 'role');
+                $staffMemberParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $staffMember = $staffMemberParsingService->getUpdatedStaffMemberEntity($request->request->all());
                 } else {
