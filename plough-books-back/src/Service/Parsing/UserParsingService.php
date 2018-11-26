@@ -3,7 +3,7 @@
 namespace App\Service\Parsing;
 
 use App\Entity\User;
-use App\Repository\RoleRepository;
+use App\Repository\UserRoleRepository;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -12,10 +12,10 @@ class UserParsingService {
 
     /** @var UserRepository */
     private $userRepository;
-    /** @var RoleRepository */
+    /** @var UserRoleRepository */
     private $roleRepository;
 
-    public function __construct(UserRepository $userRepository, RoleRepository $roleRepository) {
+    public function __construct(UserRepository $userRepository, UserRoleRepository $roleRepository) {
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
     }

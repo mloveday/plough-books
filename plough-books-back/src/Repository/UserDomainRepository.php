@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  * @method Domain[]    findAll()
  * @method Domain[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DomainRepository extends ServiceEntityRepository
+class UserDomainRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {

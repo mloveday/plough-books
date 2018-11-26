@@ -1,7 +1,7 @@
 <?php
 namespace App\Service;
 
-use App\Repository\DomainRepository;
+use App\Repository\UserDomainRepository;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Driver\Connection;
 
@@ -13,7 +13,7 @@ class AccessControlService {
     private $userRepository;
     private $domainRepository;
 
-    public function __construct(Connection $connection, UserRepository $userRepository, DomainRepository $domainRepository) {
+    public function __construct(Connection $connection, UserRepository $userRepository, UserDomainRepository $domainRepository) {
         $this->connection = $connection;
         $this->userRepository = $userRepository;
         $this->domainRepository = $domainRepository;

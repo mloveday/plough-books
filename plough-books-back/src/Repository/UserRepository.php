@@ -41,7 +41,7 @@ class UserRepository extends ServiceEntityRepository
         $user->setWhitelisted(false);
         $user->setBlacklisted(true);
         $user->setPlaceholder(true);
-        $user->setRole(RoleRepository::getPlaceholderRole());
+        $user->setRole(UserRoleRepository::getPlaceholderRole());
         return $user;
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Domain;
-use App\Repository\DomainRepository;
-use App\Service\Parsing\DomainParsingService;
+use App\Repository\UserDomainRepository;
+use App\Service\Parsing\UserDomainParsingService;
 use App\Service\PersistenceService;
 use App\Service\UserLoginVerificationService;
 use App\Util\RequestValidator;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserDomainController {
 
-    public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, DomainParsingService $domainParsingService, PersistenceService $persistenceService) {
+    public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserDomainParsingService $domainParsingService, PersistenceService $persistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
             throw new UnauthorizedHttpException("User does not have required permissions");
@@ -40,7 +40,7 @@ class UserDomainController {
         }
     }
 
-    public function domainsAction(Request $request, UserLoginVerificationService $userLoginVerificationService, DomainRepository $domainRepository) {
+    public function domainsAction(Request $request, UserLoginVerificationService $userLoginVerificationService, UserDomainRepository $domainRepository) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
             throw new UnauthorizedHttpException("User does not have required permissions");

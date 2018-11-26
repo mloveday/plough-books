@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Role;
-use App\Repository\RoleRepository;
-use App\Service\Parsing\RoleParsingService;
+use App\Repository\UserRoleRepository;
+use App\Service\Parsing\UserRoleParsingService;
 use App\Service\PersistenceService;
 use App\Service\UserLoginVerificationService;
 use App\Util\RequestValidator;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserRoleController {
 
-    public function roleAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, RoleParsingService $roleParsingService, PersistenceService $persistenceService) {
+    public function roleAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserRoleParsingService $roleParsingService, PersistenceService $persistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
             throw new UnauthorizedHttpException("User does not have required permissions");
@@ -40,7 +40,7 @@ class UserRoleController {
         }
     }
 
-    public function rolesAction(Request $request, UserLoginVerificationService $userLoginVerificationService, RoleRepository $roleRepository) {
+    public function rolesAction(Request $request, UserLoginVerificationService $userLoginVerificationService, UserRoleRepository $roleRepository) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
             throw new UnauthorizedHttpException("User does not have required permissions");

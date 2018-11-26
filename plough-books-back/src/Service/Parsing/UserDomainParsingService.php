@@ -3,16 +3,16 @@
 namespace App\Service\Parsing;
 
 use App\Entity\Domain;
-use App\Repository\DomainRepository;
+use App\Repository\UserDomainRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class DomainParsingService {
+class UserDomainParsingService {
 
-    /** @var DomainRepository */
+    /** @var UserDomainRepository */
     private $domainRepository;
 
-    public function __construct(DomainRepository $domainRepository) {
+    public function __construct(UserDomainRepository $domainRepository) {
         $this->domainRepository = $domainRepository;
     }
 

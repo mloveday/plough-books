@@ -6,7 +6,7 @@ use App\Entity\StaffMember;
 use App\Entity\StaffRole;
 use App\Repository\StaffMemberRepository;
 use App\Repository\StaffRoleRepository;
-use App\Service\Parsing\RoleParsingService;
+use App\Service\Parsing\UserRoleParsingService;
 use App\Service\PersistenceService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class StaffController {
 
-    public function staffRolesAction(Request $request, StaffRoleRepository $staffRoleRepository, RoleParsingService $roleParsingService, PersistenceService $persistenceService) {
+    public function staffRolesAction(Request $request, StaffRoleRepository $staffRoleRepository, UserRoleParsingService $roleParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'GET':
                 $staffRoles = $staffRoleRepository->findAll();
