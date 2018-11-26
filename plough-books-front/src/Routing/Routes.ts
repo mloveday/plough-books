@@ -7,6 +7,8 @@ export class Routes {
   public static readonly ROTA = "/rota";
   public static readonly SIGN_IN_SHEET = "/sign-in";
   public static readonly WEEKLY_OVERVIEW = "/weekly-overview";
+  public static readonly STAFF_MEMBERS = "/staff/members";
+  public static readonly STAFF_ROLES = "/staff/roles";
   public static readonly USERS = "/admin/users";
 
   public static cashUpUrl(date: moment.Moment) {

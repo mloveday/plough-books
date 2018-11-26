@@ -6,6 +6,8 @@ import {AuthState} from "../Auth/State/AuthState";
 import {CashUp} from "../DataEntry/CashUp/CashUp";
 import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
+import {StaffMembers} from "../DataEntry/StaffMembers/StaffMembers";
+import {StaffRoles} from "../DataEntry/StaffRoles/StaffRoles";
 import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
@@ -45,6 +47,8 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.rotaRoute()} component={Rota}/>
             <RouteWithAuth exact={true} path={Routes.signInRoute()} component={SignIn}/>
             <RouteWithAuth exact={true} path={Routes.weeklyOverviewRoute()} component={WeeklyOverview}/>
+            <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
+            <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
             <Redirect to={Routes.weeklyOverviewUrl(moment())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
             <Redirect to={Routes.cashUpUrl(moment())} exact={false} path={Routes.CASH_UP} />
             <Redirect to={Routes.rotaUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />

@@ -43,6 +43,8 @@ class NavComponent extends React.Component<NavProps, {}> {
           {this.routeItem(Routes.signInUrl(moment(), WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.signInUrl(moment(), WorkTypes.KITCHEN), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
+          {this.routeItem(Routes.STAFF_MEMBERS, "Staff")}
+          {this.routeItem(Routes.STAFF_ROLES, "Staff roles")}
           {this.routeItem(Routes.USERS, "Users")}
         </ul>
       </nav>

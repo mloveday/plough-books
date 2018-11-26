@@ -8,6 +8,8 @@ export const routeAllowed = (route: string, user: User): boolean => {
     case Routes.ROTA:
     case Routes.SIGN_IN_SHEET:
     case Routes.WEEKLY_OVERVIEW:
+    case Routes.STAFF_MEMBERS:
+    case Routes.STAFF_ROLES:
       return true;
     case Routes.USERS:
       return user.role.managesUsers;
