@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class DomainController {
+class UserDomainController {
 
     public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, DomainParsingService $domainParsingService, PersistenceService $persistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));

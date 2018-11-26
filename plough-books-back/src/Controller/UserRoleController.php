@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class RoleController {
+class UserRoleController {
 
     public function roleAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, RoleParsingService $roleParsingService, PersistenceService $persistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));

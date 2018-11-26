@@ -27,19 +27,19 @@ user:
   methods: [GET, POST]
 role:
   path: /users/role
-  controller: App\Controller\RoleController::roleAction
+  controller: App\Controller\UserRoleController::roleAction
   methods: [POST]
 roles:
   path: /users/roles
-  controller: App\Controller\RoleController::rolesAction
+  controller: App\Controller\UserRoleController::rolesAction
   methods: [GET]
 domain:
   path: /users/domain
-  controller: App\Controller\DomainController::domainAction
+  controller: App\Controller\UserDomainController::domainAction
   methods: [POST]
 domains:
   path: /users/domains
-  controller: App\Controller\DomainController::domainsAction
+  controller: App\Controller\UserDomainController::domainsAction
   methods: [GET]
 staff-roles:
   path: /staff/roles
