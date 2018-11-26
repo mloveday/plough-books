@@ -16,7 +16,7 @@ class StaffController {
         switch($request->getMethod()) {
             case 'GET':
                 $staffRoles = $staffRoleRepository->findAll();
-                return new JsonResponse(array_map(function (StaffRole $role) { return $role->serialise(); }, $staffRoles)); //TODO: stub response
+                return new JsonResponse(array_map(function (StaffRole $role) { return $role->serialise(); }, $staffRoles));
             case 'POST':
                 return new JsonResponse((object) []); //TODO: stub response
             case 'DELETE':
@@ -30,7 +30,7 @@ class StaffController {
         switch($request->getMethod()) {
             case 'GET':
                 $staffMembers = $staffMemberRepository->findAll();
-                return new JsonResponse(array_map(function (StaffMember $staffMember) { return $staffMember->serialise(); }, $staffMembers)); //TODO: stub response
+                return new JsonResponse(array_map(function (StaffMember $staffMember) { return $staffMember->serialise(); }, $staffMembers));
             case 'POST':
                 return new JsonResponse((object) []); //TODO: stub response
             case 'DELETE':
