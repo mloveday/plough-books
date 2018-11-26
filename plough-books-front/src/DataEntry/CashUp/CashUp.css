@@ -1,64 +1,26 @@
 .form-wrapper {
     margin: 16px 64px;
-    display: grid;
-    grid-gap: 8px;
-    grid-template-rows: [row1] 80px 40px;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-areas:
-        "date-picker date-picker date-picker date-picker"
-        "summary_title mod daily_notes ."
-        ". till_labels till_labels till_labels"
-        "till_float_title till_float_tills till_float_tills till_float_tills"
-        "amex_label amex_tills amex_tills amex_tills"
-        "visa_label visa_tills visa_tills visa_tills"
-        "charge_deposit_label charge_to_ac deposit_redeemed ."
-        "fifty_label fifty_tills fifty_tills fifty_tills"
-        "twenty_label twenty_tills twenty_tills twenty_tills"
-        "ten_label ten_tills ten_tills ten_tills"
-        "five_label five_tills five_tills five_tills"
-        "pounds_label pounds_tills pounds_tills pounds_tills"
-        "fifty_p_label fifty_p_tills fifty_p_tills fifty_p_tills"
-        "twenty_p_label twenty_p_tills twenty_p_tills twenty_p_tills"
-        "ten_p_label ten_p_tills ten_p_tills ten_p_tills"
-        "five_p_label five_p_tills five_p_tills five_p_tills"
-        "z_label z_tills z_tills z_tills"
-        "credit_card_label . . ."
-        "amex_tots visa_mc_tots . ."
-        "discounts_label . . ."
-        "comps_wet fwt_wet . ."
-        "d_staff_dry d_customers_wet d_customers_dry d_customers_coffee"
-        "spend_staff_pts como_disc_asset . ."
-        "como_in_drawer . . ."
-        "receipts_group receipts_group receipts_group receipts_group"
-        "nett_takes_label . . ."
-        "take_dry take_coffee take_gift_card take_deposit_paid"
-        "banking_label . . ."
-        "paid_out_amnt paid_out_to . ."
-        "banked cash_advantage_bag cash_advantage_bag_seen_by ."
-        "safe_float_label . . ."
-        "safe_float_denom_time_groups safe_float_denom_time_groups safe_float_denom_time_groups safe_float_denom_time_groups"
-        "safe_float_notes . . ."
-        "summary_label . . ."
-        "pub_secured_by bar_closed_by floor_closed_by next_door_by"
-        ". . . submit_button"
-;
 }
 
-.submit-button {
-    grid-area: submit_button;
+.form-group {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 0 16px 0;
 }
 
 .per-till {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-gap: 2px;
+    grid-column: 2 / span 3;
 }
 
 .till-labels {
-    grid-area: till_labels;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     grid-gap: 2px;
+    grid-column: 2 / span 3;
 }
 
 .per-till label {
@@ -66,314 +28,54 @@
 }
 
 .label-and-input {
-    display: grid;
-    grid-gap: 2px;
-    grid-template-columns: 150px auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.label-and-input label {
+    width: 150px;
+}
+
+.label-and-input input {
+    flex: 1;
+}
+
+.label-and-input textarea {
+    flex: 1;
 }
 
 .group-title {
     margin: 0;
+    grid-column: 1 / span 4;
 }
 
 .group-label {
     margin: 0;
-}
-
-.summary_title {
-  grid-area: summary_title;
-}
-
-.mod {
-  grid-area: mod;
+    grid-column: 1;
 }
 
 .daily_notes {
-  grid-area: daily_notes;
+    grid-column-end: span 2;
 }
 
 .till_float_title {
-  grid-area: till_float_title;
+    grid-column: 1;
 }
 
 .till_float_tills {
-  grid-area: till_float_tills;
+    grid-column: 2 / span 3;
 }
 
-.amex_label {
-  grid-area: amex_label;
-}
-
-.amex_tills {
-  grid-area: amex_tills;
-}
-
-.visa_label {
-  grid-area: visa_label;
-}
-
-.visa_tills {
-  grid-area: visa_tills;
-}
-
-.charge_deposit_label {
-  grid-area: charge_deposit_label;
-}
-
-.charge_to_ac {
-  grid-area: charge_to_ac;
-}
-
-.deposit_redeemed {
-  grid-area: deposit_redeemed;
-}
-
-.fifty_label {
-  grid-area: fifty_label;
-}
-
-.fifty_tills {
-  grid-area: fifty_tills;
-}
-
-.twenty_label {
-  grid-area: twenty_label;
-}
-
-.twenty_tills {
-  grid-area: twenty_tills;
-}
-
-.ten_label {
-  grid-area: ten_label;
-}
-
-.ten_tills {
-  grid-area: ten_tills;
-}
-
-.five_label {
-  grid-area: five_label;
-}
-
-.five_tills {
-  grid-area: five_tills;
-}
-
-.pounds_label {
-  grid-area: pounds_label;
-}
-
-.pounds_tills {
-  grid-area: pounds_tills;
-}
-
-.fifty_p_label {
-  grid-area: fifty_p_label;
-}
-
-.fifty_p_tills {
-  grid-area: fifty_p_tills;
-}
-
-.twenty_p_label {
-  grid-area: twenty_p_label;
-}
-
-.twenty_p_tills {
-  grid-area: twenty_p_tills;
-}
-
-.ten_p_label {
-  grid-area: ten_p_label;
-}
-
-.ten_p_tills {
-  grid-area: ten_p_tills;
-}
-
-.five_p_label {
-  grid-area: five_p_label;
-}
-
-.five_p_tills {
-  grid-area: five_p_tills;
-}
-
-.z_label {
-  grid-area: z_label;
-}
-
-.z_tills {
-  grid-area: z_tills;
-}
-
-.discounts_label {
-  grid-area: discounts_label;
-}
-
-.comps_wet {
-  grid-area: comps_wet;
-}
-
-.d_staff_dry {
-  grid-area: d_staff_dry;
-}
-
-.d_customers_wet {
-  grid-area: d_customers_wet;
-}
-
-.d_customers_dry {
-  grid-area: d_customers_dry;
-}
-
-.d_customers_coffee {
-  grid-area: d_customers_coffee;
-}
-
-.fwt_wet {
-  grid-area: fwt_wet;
-}
-
-.como_in_drawer {
-  grid-area: como_in_drawer;
-}
-
-.credit_card_label {
-  grid-area: credit_card_label;
-}
-
-.amex_tots {
-  grid-area: amex_tots;
-}
-
-.visa_mc_tots {
-  grid-area: visa_mc_tots;
-}
-
-.receipts-group {
-    grid-area: receipts_group;
-    display: grid;
-    grid-gap: 8px;
-    grid-template-columns: 1fr 1fr;
-}
-
-.receipts_label {
+.group-title.receipts_label {
     grid-column: 1 / span 2;
 }
 
 .receipt_add_button {
-    grid-column: 1 / span 2;
+    grid-column: 3 / span 2;
 }
 
 .receipt {
-    display: grid;
-    grid-gap: 4px;
     border: 1px solid lightgrey;
     padding: 4px;
-    grid-template-areas: "receipt_desc receipt_amnt";
     background: lightgoldenrodyellow;
-}
-
-.receipt_desc {
-  grid-area: receipt_desc;
-}
-
-.receipt_amnt {
-  grid-area: receipt_amnt;
-}
-
-.spend_staff_pts {
-  grid-area: spend_staff_pts;
-}
-
-.como_disc_asset {
-  grid-area: como_disc_asset;
-}
-
-.nett_takes_label {
-  grid-area: nett_takes_label;
-}
-
-.take_dry {
-  grid-area: take_dry;
-}
-
-.take_coffee {
-  grid-area: take_coffee;
-}
-
-.take_gift_card {
-  grid-area: take_gift_card;
-}
-
-.take_deposit_paid {
-  grid-area: take_deposit_paid;
-}
-
-.banking_label {
-  grid-area: banking_label;
-}
-
-.paid_out_amnt {
-  grid-area: paid_out_amnt;
-}
-
-.paid_out_to {
-  grid-area: paid_out_to;
-}
-
-.banked {
-  grid-area: banked;
-}
-
-.cash_advantage_bag {
-  grid-area: cash_advantage_bag;
-}
-
-.cash_advantage_bag_seen_by {
-  grid-area: cash_advantage_bag_seen_by;
-}
-
-.safe_float_label {
-  grid-area: safe_float_label;
-}
-
-.safe_float_denom_time_groups {
-  grid-area: safe_float_denom_time_groups;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas: "sfd_am sfd_pm";
-}
-
-.safe_float_am {
-    grid-area: sfd_am;
-}
-
-.safe_float_pm {
-    grid-area: sfd_pm;
-}
-
-.safe_float_notes {
-    grid-area: safe_float_notes;
-}
-
-.summary_label {
-  grid-area: summary_label;
-}
-
-.pub_secured_by {
-  grid-area: pub_secured_by;
-}
-
-.bar_closed_by {
-  grid-area: bar_closed_by;
-}
-
-.floor_closed_by {
-  grid-area: floor_closed_by;
-}
-
-.next_door_by {
-  grid-area: next_door_by;
 }
