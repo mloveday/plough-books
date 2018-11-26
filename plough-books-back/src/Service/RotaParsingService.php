@@ -3,13 +3,8 @@
 namespace App\Service;
 
 use App\Entity\ActualShift;
-use App\Entity\Constants;
 use App\Entity\PlannedShift;
 use App\Entity\Rota;
-use App\Entity\StaffMember;
-use App\Repository\ActualShiftRepository;
-use App\Repository\ConstantsRepository;
-use App\Repository\PlannedShiftRepository;
 use App\Repository\RotaRepository;
 use App\Repository\StaffMemberRepository;
 use DateTime;
@@ -21,31 +16,22 @@ class RotaParsingService {
     const NEW_ROTA_ID = -1;
     /** @var RotaRepository */
     private $rotaRepository;
-    /** @var PlannedShiftRepository */
-    private $plannedShiftRepository;
-    /** @var ActualShiftRepository */
-    private $actualShiftRepository;
-    /** @var ConstantsRepository */
-    private $constantsRepository;
+    /** @var PlannedShiftParsingService */
+    private $plannedShiftParsingService;
+    /** @var ActualShiftParsingService */
+    private $actualShiftParsingService;
+    /** @var ConstantsParsingService */
+    private $constantsParsingService;
     /** @var StaffMemberRepository */
     private $staffMemberRepository;
 
-    /**
-     * RotaParsingService constructor.
-     * @param RotaRepository $rotaRepository
-     * @param PlannedShiftRepository $plannedShiftRepository
-     * @param ActualShiftRepository $actualShiftRepository
-     * @param ConstantsRepository $constantsRepository
-     * @param StaffMemberRepository $staffMemberRepository
-     */
-    public function __construct(RotaRepository $rotaRepository, PlannedShiftRepository $plannedShiftRepository, ActualShiftRepository $actualShiftRepository, ConstantsRepository $constantsRepository, StaffMemberRepository $staffMemberRepository) {
+    public function __construct(RotaRepository $rotaRepository, PlannedShiftParsingService $plannedShiftParsingService, ActualShiftParsingService $actualShiftParsingService, ConstantsParsingService $constantsParsingService, StaffMemberRepository $staffMemberRepository) {
         $this->rotaRepository = $rotaRepository;
-        $this->plannedShiftRepository = $plannedShiftRepository;
-        $this->actualShiftRepository = $actualShiftRepository;
-        $this->constantsRepository = $constantsRepository;
+        $this->plannedShiftParsingService = $plannedShiftParsingService;
+        $this->actualShiftParsingService = $actualShiftParsingService;
+        $this->constantsParsingService = $constantsParsingService;
         $this->staffMemberRepository = $staffMemberRepository;
     }
-
 
     public function getUpdatedRotaEntity(Request $request) {
         if (!$request->request->has('id')) {
@@ -64,7 +50,7 @@ class RotaParsingService {
 
         $constants = $request->request->get('constants');
         if (array_key_exists('id', $constants)) {
-            $rota->setConstants($this->getUpdatedConstantsEntity($constants));
+            $rota->setConstants($this->constantsParsingService->getUpdatedConstantsEntity($constants));
         } else {
             throw new BadRequestHttpException('Can not create a new constants entity when creating a rota');
         }
@@ -89,9 +75,9 @@ class RotaParsingService {
                     throw new BadRequestHttpException("Planned shift with id ${$id} must exist to update it");
                 }
 
-                $this->getUpdatedPlannedShiftEntity($plannedShift, $plannedShifts->first());
+                $this->plannedShiftParsingService->getUpdatedPlannedShiftEntity($plannedShift, $plannedShifts->first());
             } else {
-                $rota->addPlannedShift($this->getNewPlannedShiftEntity(self::NEW_ROTA_ID, $plannedShift));
+                $rota->addPlannedShift($this->plannedShiftParsingService->getNewPlannedShiftEntity(self::NEW_ROTA_ID, $plannedShift));
             }
         }
 
@@ -114,9 +100,9 @@ class RotaParsingService {
                 if (count($actualShifts) === 0) {
                     throw new BadRequestHttpException("Actual shift with id ${$id} must exist to update it");
                 }
-                $this->getUpdatedActualShiftEntity($actualShift, $actualShifts->first());
+                $this->actualShiftParsingService->getUpdatedActualShiftEntity($actualShift, $actualShifts->first());
             } else {
-                $rota->addActualShift($this->getNewActualShiftEntity(self::NEW_ROTA_ID, $actualShift));
+                $rota->addActualShift($this->actualShiftParsingService->getNewActualShiftEntity(self::NEW_ROTA_ID, $actualShift));
             }
         }
 
@@ -132,7 +118,7 @@ class RotaParsingService {
 
         $constants = $request->request->get('constants');
         if (array_key_exists('id', $constants)) {
-            $rota->setConstants($this->getUpdatedConstantsEntity($constants));
+            $rota->setConstants($this->constantsParsingService->getUpdatedConstantsEntity($constants));
         } else {
             throw new BadRequestHttpException('Can not create a new constants entity when creating a rota');
         }
@@ -141,7 +127,7 @@ class RotaParsingService {
             if (array_key_exists('id', $plannedShift)) {
                 throw new BadRequestHttpException('Can not re-use an existing planned shift entity when creating a new rota');
             } else {
-                $rota->addPlannedShift($this->getNewPlannedShiftEntity(self::NEW_ROTA_ID, $plannedShift));
+                $rota->addPlannedShift($this->plannedShiftParsingService->getNewPlannedShiftEntity(self::NEW_ROTA_ID, $plannedShift));
             }
         }
 
@@ -149,117 +135,10 @@ class RotaParsingService {
             if (array_key_exists('id', $actualShift)) {
                 throw new BadRequestHttpException('Can not re-use an existing actual shift entity when creating a new rota');
             } else {
-                $rota->addActualShift($this->getNewActualShiftEntity(self::NEW_ROTA_ID, $actualShift));
+                $rota->addActualShift($this->actualShiftParsingService->getNewActualShiftEntity(self::NEW_ROTA_ID, $actualShift));
             }
         }
 
         return $rota;
-    }
-
-    private function getUpdatedConstantsEntity(array $constants) {
-        if (!array_key_exists('id', $constants)) {
-            throw new BadRequestHttpException("Constants request has no id");
-        }
-        $entity = $this->constantsRepository->findOneBy(['id' => $constants['id']]);
-        if (is_null($entity)) {
-            throw new BadRequestHttpException("Constants with id ${$constants['id']} does not exist");
-        }
-        return $this->updateConstantsEntity($constants, $entity);
-    }
-
-    private function getUpdatedPlannedShiftEntity(array $plannedShift, PlannedShift $entity) {
-        if (!array_key_exists('id', $plannedShift['staffMember'])) {
-            throw new BadRequestHttpException('Planned shift staff member must have an id');
-        }
-        $staffMemberId = (int) $plannedShift['staffMember']['id'];
-        $staffMember = $this->staffMemberRepository->getById($staffMemberId);
-        if (is_null($staffMember)) {
-            throw new BadRequestHttpException("Planned shift staff member with id ${$staffMemberId} does not exist");
-        }
-        $this->updatePlannedShiftEntity($plannedShift, $entity, $staffMember);
-        return $entity;
-
-    }
-
-    private function getNewPlannedShiftEntity(int $rotaId, array $plannedShift) {
-        if (!array_key_exists('id', $plannedShift['staffMember'])) {
-            throw new BadRequestHttpException('Planned shift staff member must have an id');
-        }
-        $staffMemberId = (int) $plannedShift['staffMember']['id'];
-        $staffMember = $this->staffMemberRepository->getById($staffMemberId);
-        if (is_null($staffMember)) {
-            throw new BadRequestHttpException("Planned shift staff member with id ${$staffMemberId} does not exist");
-        }
-        if ($rotaId !== self::NEW_ROTA_ID && !is_null($this->plannedShiftRepository->findByRotaIdAndStaffMemberId($rotaId, $staffMemberId))) {
-            throw new BadRequestHttpException("Planned shift for staff member with id ${staffMemberId} already exists");
-        }
-        $entity = new PlannedShift();
-        $this->updatePlannedShiftEntity($plannedShift, $entity, $staffMember);
-        return $entity;
-    }
-
-    private function getUpdatedActualShiftEntity(array $actualShift, ActualShift $entity) {
-        if (!array_key_exists('id', $actualShift['staffMember'])) {
-            throw new BadRequestHttpException('Actual shift staff member must have an id');
-        }
-        $staffMemberId = (int) $actualShift['staffMember']['id'];
-        $staffMember = $this->staffMemberRepository->getById($staffMemberId);
-        if (is_null($staffMember)) {
-            throw new BadRequestHttpException("Actual shift staff member with id ${$staffMemberId} does not exist");
-        }
-        return $this->updateActualShiftEntity($actualShift, $entity, $staffMember);
-    }
-
-    private function getNewActualShiftEntity(int $rotaId, array $actualShift) {
-        if (!array_key_exists('id', $actualShift['staffMember'])) {
-            throw new BadRequestHttpException('Actual shift staff member must have an id');
-        }
-        $staffMemberId = (int) $actualShift['staffMember']['id'];
-        $staffMember = $this->staffMemberRepository->getById($staffMemberId);
-        if (is_null($staffMember)) {
-            throw new BadRequestHttpException("Actual shift staff member with id ${$staffMemberId} does not exist");
-        }
-        if ($rotaId !== self::NEW_ROTA_ID && !is_null($this->actualShiftRepository->findByRotaIdAndStaffMemberId($rotaId, $staffMemberId))) {
-            throw new BadRequestHttpException("Actual shift for staff member with id ${staffMemberId} already exists");
-        }
-        return $this->updateActualShiftEntity($actualShift, new ActualShift(), $staffMember);
-    }
-
-    private function updateConstantsEntity(array $constants, Constants $entity) {
-        return $entity->setDate(new DateTime($constants['date']))
-            ->setBarProportionOfRevenue((float)$constants['barProportionOfRevenue'])
-            ->setErsPercentAboveThreshold((float)$constants['ersPercentAboveThreshold'])
-            ->setErsThreshold((float)$constants['ersThreshold'])
-            ->setFixedCosts((float)$constants['fixedCosts'])
-            ->setHolidayLinearPercent((float)$constants['holidayLinearPercent'])
-            ->setHoursPerLongBreak((float)$constants['hoursPerLongBreak'])
-            ->setHoursPerShortBreak((float)$constants['hoursPerShortBreak'])
-            ->setLabourRate((float)$constants['labourRate'])
-            ->setLongBreakDuration((float)$constants['longBreakDuration'])
-            ->setPensionLinearPercent((float)$constants['pensionLinearPercent'])
-            ->setShortBreakDuration((float)$constants['shortBreakDuration'])
-            ->setVatMultiplier((float)$constants['vatMultiplier']);
-    }
-
-    private function updatePlannedShiftEntity(array $plannedShift, PlannedShift $entity, StaffMember $staffMember): PlannedShift {
-        return $entity
-            ->setStaffMember($staffMember)
-            ->setStartTime(new DateTime($plannedShift['startTime']))
-            ->setEndTime(new DateTime($plannedShift['endTime']))
-            ->setTotalBreaks((float)$plannedShift['totalBreaks'])
-            ->setHourlyRate((float)$plannedShift['hourlyRate'])
-            ->setType($plannedShift['type'])
-            ;
-    }
-
-    private function updateActualShiftEntity(array $actualShift, ActualShift $entity, StaffMember $staffMember): ActualShift {
-        return $entity
-            ->setStaffMember($staffMember)
-            ->setStartTime(new DateTime($actualShift['startTime']))
-            ->setEndTime(new DateTime($actualShift['endTime']))
-            ->setTotalBreaks((float)$actualShift['totalBreaks'])
-            ->setHourlyRate((float)$actualShift['hourlyRate'])
-            ->setType($actualShift['type'])
-            ;
     }
 }

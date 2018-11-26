@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Service;
+
+use App\Entity\Constants;
+use App\Repository\ConstantsRepository;
+use DateTime;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
+class ConstantsParsingService {
+
+    /** @var ConstantsRepository */
+    private $constantsRepository;
+
+    public function __construct(ConstantsRepository $constantsRepository) {
+        $this->constantsRepository = $constantsRepository;
+    }
+
+    public function getUpdatedConstantsEntity(array $constants) {
+        if (!array_key_exists('id', $constants)) {
+            throw new BadRequestHttpException("Constants request has no id");
+        }
+        $entity = $this->constantsRepository->findOneBy(['id' => $constants['id']]);
+        if (is_null($entity)) {
+            throw new BadRequestHttpException("Constants with id ${$constants['id']} does not exist");
+        }
+        return $this->updateConstantsEntity($constants, $entity);
+    }
+
+    private function updateConstantsEntity(array $constants, Constants $entity) {
+        return $entity->setDate(new DateTime($constants['date']))
+            ->setBarProportionOfRevenue((float)$constants['barProportionOfRevenue'])
+            ->setErsPercentAboveThreshold((float)$constants['ersPercentAboveThreshold'])
+            ->setErsThreshold((float)$constants['ersThreshold'])
+            ->setFixedCosts((float)$constants['fixedCosts'])
+            ->setHolidayLinearPercent((float)$constants['holidayLinearPercent'])
+            ->setHoursPerLongBreak((float)$constants['hoursPerLongBreak'])
+            ->setHoursPerShortBreak((float)$constants['hoursPerShortBreak'])
+            ->setLabourRate((float)$constants['labourRate'])
+            ->setLongBreakDuration((float)$constants['longBreakDuration'])
+            ->setPensionLinearPercent((float)$constants['pensionLinearPercent'])
+            ->setShortBreakDuration((float)$constants['shortBreakDuration'])
+            ->setVatMultiplier((float)$constants['vatMultiplier']);
+    }
+}
