@@ -4,7 +4,7 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-abstract class PersistenceService
+class PersistenceService
 {
     private $entityManager;
 
