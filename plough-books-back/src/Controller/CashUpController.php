@@ -16,6 +16,7 @@ class CashUpController {
     public function cashUpAction(Request $request, CashUpParsingService $cashUpParsingService, PersistenceService $cashUpPersistenceService) {
         switch($request->getMethod()) {
             case 'POST':
+                $cashUpParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $cashUpEntity = $cashUpParsingService->getUpdatedExistingCashUpEntity($request);
                 } else {

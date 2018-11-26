@@ -18,6 +18,7 @@ class ConstantsController {
                 $allConstants = $constantsRepository->findAll();
                 return new JsonResponse(array_map(function (Constants $constants) { return $constants->serialise(); }, $allConstants));
             case 'POST':
+                $constantsParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $constants = $constantsParsingService->getUpdatedConstantsEntity($request->request->all());
                 } else {

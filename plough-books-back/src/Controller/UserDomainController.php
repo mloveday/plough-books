@@ -15,24 +15,24 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserDomainController {
 
-    public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserDomainParsingService $domainParsingService, PersistenceService $persistenceService) {
+    public function domainAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserDomainParsingService $userDomainParsingService, PersistenceService $persistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if (!$authenticatedUser->getRole()->getManagesUsers()) {
             throw new UnauthorizedHttpException("User does not have required permissions");
         }
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request->request->all(), ['domain', 'whitelisted', 'blacklisted']);
+                $userDomainParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
-                    $domain = $domainParsingService->getUpdatedDomainEntity($request);
+                    $domain = $userDomainParsingService->getUpdatedDomainEntity($request);
                 } else {
-                    $domain = $domainParsingService->getNewDomainEntity($request);
+                    $domain = $userDomainParsingService->getNewDomainEntity($request);
                 }
                 $persistenceService->persist($domain);
                 return new JsonResponse($domain->serialiseAll());
             case 'DELETE':
                 $requestValidator->validateRequestFields($request->request->all(), ['id']);
-                $domain = $domainParsingService->getDomainEntityForDeletion($request);
+                $domain = $userDomainParsingService->getDomainEntityForDeletion($request);
                 $persistenceService->delete($domain);
                 return new JsonResponse(null);
             default:

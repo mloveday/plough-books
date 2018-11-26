@@ -9,20 +9,19 @@ use App\Repository\StaffRoleRepository;
 use App\Service\Parsing\StaffMemberParsingService;
 use App\Service\Parsing\StaffRoleParsingService;
 use App\Service\PersistenceService;
-use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class StaffController {
 
-    public function staffRolesAction(Request $request, RequestValidator $requestValidator, StaffRoleRepository $staffRoleRepository, StaffRoleParsingService $roleParsingService, PersistenceService $persistenceService) {
+    public function staffRolesAction(Request $request, StaffRoleRepository $staffRoleRepository, StaffRoleParsingService $roleParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'GET':
                 $staffRoles = $staffRoleRepository->findAll();
                 return new JsonResponse(array_map(function (StaffRole $role) { return $role->serialise(); }, $staffRoles));
             case 'POST':
-                $requestValidator->validateRequestFields($request->request->all(), ['role', 'status', 'type', 'orderInRota']);
+                $roleParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $role = $roleParsingService->getUpdatedStaffRoleEntity($request->request->all());
                 } else {

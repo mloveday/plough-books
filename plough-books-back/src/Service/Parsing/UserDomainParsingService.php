@@ -4,6 +4,7 @@ namespace App\Service\Parsing;
 
 use App\Entity\Domain;
 use App\Repository\UserDomainRepository;
+use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -11,9 +12,16 @@ class UserDomainParsingService {
 
     /** @var UserDomainRepository */
     private $domainRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(UserDomainRepository $domainRepository) {
+    public function __construct(UserDomainRepository $domainRepository, RequestValidator $requestValidator) {
         $this->domainRepository = $domainRepository;
+        $this->requestValidator = $requestValidator;
+    }
+
+    public function validateRequestFields(array $request) {
+        $this->requestValidator->validateRequestFields($request, ['domain', 'whitelisted', 'blacklisted']);
     }
 
     public function getUpdatedDomainEntity(Request $request): Domain

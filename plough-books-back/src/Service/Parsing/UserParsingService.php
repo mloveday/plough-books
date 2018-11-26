@@ -3,8 +3,9 @@
 namespace App\Service\Parsing;
 
 use App\Entity\User;
-use App\Repository\UserRoleRepository;
 use App\Repository\UserRepository;
+use App\Repository\UserRoleRepository;
+use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -14,10 +15,17 @@ class UserParsingService {
     private $userRepository;
     /** @var UserRoleRepository */
     private $roleRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(UserRepository $userRepository, UserRoleRepository $roleRepository) {
+    public function __construct(UserRepository $userRepository, UserRoleRepository $roleRepository, RequestValidator $requestValidator) {
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
+        $this->requestValidator = $requestValidator;
+    }
+
+    public function validateRequestFields(array $request) {
+        $this->requestValidator->validateRequestFields($request, ['email', 'whitelisted', 'blacklisted', 'role']);
     }
 
     public function getUpdatedUserEntity(Request $request): User {

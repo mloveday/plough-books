@@ -4,6 +4,7 @@ namespace App\Service\Parsing;
 
 use App\Entity\Constants;
 use App\Repository\ConstantsRepository;
+use App\Util\RequestValidator;
 use DateTime;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -11,9 +12,30 @@ class ConstantsParsingService {
 
     /** @var ConstantsRepository */
     private $constantsRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(ConstantsRepository $constantsRepository) {
+    public function __construct(ConstantsRepository $constantsRepository, RequestValidator $requestValidator) {
         $this->constantsRepository = $constantsRepository;
+        $this->requestValidator = $requestValidator;
+    }
+
+    public function validateRequestFields(array $request) {
+        $this->requestValidator->validateRequestFields($request, [
+            'date',
+            'barProportionOfRevenue',
+            'ersPercentAboveThreshold',
+            'ersThreshold',
+            'fixedCosts',
+            'holidayLinearPercent',
+            'hoursPerLongBreak',
+            'hoursPerShortBreak',
+            'labourRate',
+            'longBreakDuration',
+            'pensionLinearPercent',
+            'shortBreakDuration',
+            'vatMultiplier',
+        ]);
     }
 
     public function getNewConstantsEntity(array $constants) {

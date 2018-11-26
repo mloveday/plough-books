@@ -22,7 +22,7 @@ class UserRoleController {
         }
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request->request->all(), ['role', 'managesUsers']);
+                $roleParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $role = $roleParsingService->getUpdatedRoleEntity($request);
                 } else {

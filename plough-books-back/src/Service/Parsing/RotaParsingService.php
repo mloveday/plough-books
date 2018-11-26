@@ -7,9 +7,7 @@ use App\Entity\PlannedShift;
 use App\Entity\Rota;
 use App\Repository\RotaRepository;
 use App\Repository\StaffMemberRepository;
-use App\Service\Parsing\ActualShiftParsingService;
-use App\Service\Parsing\ConstantsParsingService;
-use App\Service\Parsing\PlannedShiftParsingService;
+use App\Util\RequestValidator;
 use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -27,13 +25,26 @@ class RotaParsingService {
     private $constantsParsingService;
     /** @var StaffMemberRepository */
     private $staffMemberRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(RotaRepository $rotaRepository, PlannedShiftParsingService $plannedShiftParsingService, ActualShiftParsingService $actualShiftParsingService, ConstantsParsingService $constantsParsingService, StaffMemberRepository $staffMemberRepository) {
+    public function __construct(RotaRepository $rotaRepository, \App\Service\Parsing\PlannedShiftParsingService $plannedShiftParsingService, \App\Service\Parsing\ActualShiftParsingService $actualShiftParsingService, \App\Service\Parsing\ConstantsParsingService $constantsParsingService, StaffMemberRepository $staffMemberRepository, RequestValidator $requestValidator) {
         $this->rotaRepository = $rotaRepository;
         $this->plannedShiftParsingService = $plannedShiftParsingService;
         $this->actualShiftParsingService = $actualShiftParsingService;
         $this->constantsParsingService = $constantsParsingService;
         $this->staffMemberRepository = $staffMemberRepository;
+        $this->requestValidator = $requestValidator;
+    }
+    
+    public function validateRequestFields(array $request) {
+        $this->requestValidator->validateRequestFields($request, ['date', 'forecastRevenue', 'targetLabourRate', 'constants', 'status', 'plannedShifts', 'actualShifts']);
+        foreach($request['plannedShifts'] as $index => $plannedShift) {
+            $this->plannedShiftParsingService->validateRequestFields($plannedShift);
+        }
+        foreach($request['actualShifts'] as $index => $actualShift) {
+            $this->actualShiftParsingService->validateRequestFields($actualShift);
+        }
     }
 
     public function getUpdatedRotaEntity(Request $request) {
@@ -55,7 +66,7 @@ class RotaParsingService {
         if (array_key_exists('id', $constants)) {
             $rota->setConstants($this->constantsParsingService->getUpdatedConstantsEntity($constants));
         } else {
-            throw new BadRequestHttpException('Can not create a new constants entity when creating a rota');
+            throw new BadRequestHttpException('Constants ID missing in request. Can not create a new constants entity when creating a rota');
         }
 
         $plannedShifts = $rota->getPlannedShifts();

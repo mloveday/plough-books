@@ -4,15 +4,23 @@ namespace App\Service\Parsing;
 
 use App\Entity\StaffRole;
 use App\Repository\StaffRoleRepository;
+use App\Util\RequestValidator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class StaffRoleParsingService {
 
     /** @var StaffRoleRepository */
     private $staffRoleRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(StaffRoleRepository $staffRoleRepository) {
+    public function __construct(StaffRoleRepository $staffRoleRepository, RequestValidator $requestValidator) {
         $this->staffRoleRepository = $staffRoleRepository;
+        $this->requestValidator = $requestValidator;
+    }
+
+    public function validateRequestFields(array $request) {
+        $this->requestValidator->validateRequestFields($request, ['role', 'status', 'type', 'orderInRota']);
     }
 
     public function getNewStaffRoleEntity(array $staffRole) {

@@ -7,6 +7,7 @@ use App\Entity\Receipt;
 use App\Entity\SafeFloatDenominations;
 use App\Entity\TillDenominations;
 use App\Repository\CashUpRepository;
+use App\Util\RequestValidator;
 use DateTime;
 use DateTimeInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -17,9 +18,16 @@ class CashUpParsingService {
 
     /** @var CashUpRepository */
     private $cashUpRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(CashUpRepository $cashUpRepository) {
+    public function __construct(CashUpRepository $cashUpRepository, RequestValidator $requestValidator) {
         $this->cashUpRepository = $cashUpRepository;
+        $this->requestValidator = $requestValidator;
+    }
+
+    public function validateRequestFields(array $request) {
+
     }
 
     public function getNewCashUpEntity(Request $request) {

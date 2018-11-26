@@ -6,7 +6,7 @@ use App\Entity\ActualShift;
 use App\Entity\StaffMember;
 use App\Repository\ActualShiftRepository;
 use App\Repository\StaffMemberRepository;
-use App\Service\Parsing\RotaParsingService;
+use App\Util\RequestValidator;
 use DateTime;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -16,10 +16,17 @@ class ActualShiftParsingService {
     private $actualShiftRepository;
     /** @var StaffMemberRepository */
     private $staffMemberRepository;
+    /** @var RequestValidator */
+    private $requestValidator;
 
-    public function __construct(ActualShiftRepository $actualShiftRepository, StaffMemberRepository $staffMemberRepository) {
+    public function __construct(ActualShiftRepository $actualShiftRepository, StaffMemberRepository $staffMemberRepository, RequestValidator $requestValidator) {
         $this->actualShiftRepository = $actualShiftRepository;
         $this->staffMemberRepository = $staffMemberRepository;
+        $this->requestValidator = $requestValidator;
+    }
+
+    public function validateRequestFields(array $request) {
+        $this->requestValidator->validateRequestFields($request, ['staffMember', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type']);
     }
 
     public function getUpdatedActualShiftEntity(array $actualShift, ActualShift $entity) {

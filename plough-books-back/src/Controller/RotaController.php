@@ -7,7 +7,6 @@ use App\Repository\RotaRepository;
 use App\Service\Parsing\RotaParsingService;
 use App\Service\PersistenceService;
 use App\Util\DateUtils;
-use App\Util\RequestValidator;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,17 +14,10 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RotaController {
 
-    public function rotaAction(Request $request, RequestValidator $requestValidator, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
+    public function rotaAction(Request $request, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request->request->all(), ['date', 'forecastRevenue', 'targetLabourRate', 'constants', 'status', 'plannedShifts', 'actualShifts']);
-                $requestValidator->validateRequestNestedFields($request->request->get('constants'), [], 'constants');
-                foreach($request->request->get('plannedShifts') as $index => $plannedShift) {
-                    $requestValidator->validateRequestNestedFields($plannedShift, ['staffMember', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type'], "plannedShifts[${index}]");
-                }
-                foreach($request->request->get('actualShifts') as $index => $actualShift) {
-                    $requestValidator->validateRequestNestedFields($actualShift, ['staffMember', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type'], "actualShifts[${index}]");
-                }
+                $rotaParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $rota = $rotaParsingService->getUpdatedRotaEntity($request);
                 } else {

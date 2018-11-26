@@ -25,7 +25,7 @@ class UserController {
         }
         switch($request->getMethod()) {
             case 'POST':
-                $requestValidator->validateRequestFields($request->request->all(), ['email', 'whitelisted', 'blacklisted', 'role']);
+                $userParsingService->validateRequestFields($request->request->all());
                 if ($request->request->has('id')) {
                     $user = $userParsingService->getUpdatedUserEntity($request);
                 } else {
