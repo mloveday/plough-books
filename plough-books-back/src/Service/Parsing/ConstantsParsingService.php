@@ -16,9 +16,16 @@ class ConstantsParsingService {
         $this->constantsRepository = $constantsRepository;
     }
 
+    public function getNewConstantsEntity(array $constants) {
+        if (array_key_exists('id', $constants)) {
+            throw new BadRequestHttpException("New Constants entity in request should not have an id");
+        }
+        return $this->updateConstantsEntity($constants, new Constants());
+    }
+
     public function getUpdatedConstantsEntity(array $constants) {
         if (!array_key_exists('id', $constants)) {
-            throw new BadRequestHttpException("Constants request has no id");
+            throw new BadRequestHttpException("Existing Constants entity in request has no id");
         }
         $entity = $this->constantsRepository->findOneBy(['id' => $constants['id']]);
         if (is_null($entity)) {
