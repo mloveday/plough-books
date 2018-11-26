@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Persistence;
 
-use App\Entity\CashUp;
+use App\Entity\Rota;
 use Doctrine\ORM\EntityManagerInterface;
 
-class CashUpPersistenceService
+class RotaPersistenceService
 {
     private $entityManager;
 
@@ -14,9 +14,9 @@ class CashUpPersistenceService
         $this->entityManager = $entityManager;
     }
 
-    public function persistCashUp(CashUp $cashUp)
+    public function persistRota(Rota $rota)
     {
-        $this->entityManager->persist($cashUp);
+        $this->entityManager->persist($rota);
         $this->entityManager->flush();
     }
 }

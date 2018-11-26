@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Repository\RoleRepository;
-use App\Service\RoleParsingService;
+use App\Service\Parsing\RoleParsingService;
 use App\Service\UserLoginVerificationService;
-use App\Service\UserPersistenceService;
+use App\Service\Persistence\UserPersistenceService;
 use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

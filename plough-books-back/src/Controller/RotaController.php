@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Rota;
 use App\Repository\RotaRepository;
-use App\Service\RotaParsingService;
-use App\Service\RotaPersistenceService;
+use App\Service\Parsing\RotaParsingService;
+use App\Service\Persistence\RotaPersistenceService;
 use App\Util\DateUtils;
 use App\Util\RequestValidator;
 use DateTime;

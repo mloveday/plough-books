@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Repository\CashUpRepository;
-use App\Service\CashUpParsingService;
-use App\Service\CashUpPersistenceService;
+use App\Service\Parsing\CashUpParsingService;
+use App\Service\Persistence\CashUpPersistenceService;
 use App\Util\DateUtils;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;

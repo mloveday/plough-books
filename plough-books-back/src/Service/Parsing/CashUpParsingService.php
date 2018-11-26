@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Parsing;
 
 use App\Entity\CashUp;
 use App\Entity\Receipt;

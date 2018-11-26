@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Parsing;
 
 use App\Entity\Constants;
 use App\Repository\ConstantsRepository;

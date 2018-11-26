@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Domain;
 use App\Repository\DomainRepository;
-use App\Service\DomainParsingService;
+use App\Service\Parsing\DomainParsingService;
 use App\Service\UserLoginVerificationService;
-use App\Service\UserPersistenceService;
+use App\Service\Persistence\UserPersistenceService;
 use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

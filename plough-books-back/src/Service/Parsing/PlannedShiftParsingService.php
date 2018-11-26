@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Parsing;
 
 use App\Entity\PlannedShift;
 use App\Entity\StaffMember;
 use App\Repository\PlannedShiftRepository;
 use App\Repository\StaffMemberRepository;
+use App\Service\Parsing\RotaParsingService;
 use DateTime;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

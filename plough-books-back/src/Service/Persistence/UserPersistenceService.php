@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Persistence;
 
 use App\Entity\Domain;
 use App\Entity\Role;
