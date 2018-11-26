@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Persistence;
+namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -16,6 +16,12 @@ abstract class PersistenceService
     public function persist($entity)
     {
         $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+    }
+
+    public function delete($entity)
+    {
+        $this->entityManager->remove($entity);
         $this->entityManager->flush();
     }
 }

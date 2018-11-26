@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Service\UserLoginVerificationService;
 use App\Service\Parsing\UserParsingService;
-use App\Service\Persistence\UserPersistenceService;
+use App\Service\PersistenceService;
+use App\Service\UserLoginVerificationService;
 use App\Util\RequestValidator;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserController {
 
-    public function userAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserParsingService $userParsingService, UserPersistenceService $userPersistenceService) {
+    public function userAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserParsingService $userParsingService, PersistenceService $persistenceService) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if ($request->getMethod() === 'GET') {
             return new JsonResponse($authenticatedUser->serialiseAll());
@@ -31,12 +31,12 @@ class UserController {
                 } else {
                     $user = $userParsingService->getNewUserEntity($request);
                 }
-                $userPersistenceService->persistUser($user);
+                $persistenceService->persist($user);
                 return new JsonResponse($user->serialiseAll());
             case 'DELETE':
                 $requestValidator->validateRequestFields($request, ['id']);
                 $user = $userParsingService->getUserEntityForDeletion($request);
-                $userPersistenceService->deleteUser($user);
+                $persistenceService->delete($user);
                 return new JsonResponse(null);
             default:
                 throw new BadRequestHttpException("Method not allowed");

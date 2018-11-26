@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Repository\CashUpRepository;
 use App\Service\Parsing\CashUpParsingService;
-use App\Service\Persistence\CashUpPersistenceService;
+use App\Service\PersistenceService;
 use App\Util\DateUtils;
 use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CashUpController {
 
-    public function cashUpAction(Request $request, CashUpParsingService $cashUpParsingService, CashUpPersistenceService $cashUpPersistenceService) {
+    public function cashUpAction(Request $request, CashUpParsingService $cashUpParsingService, PersistenceService $cashUpPersistenceService) {
         switch($request->getMethod()) {
             case 'POST':
                 if ($request->request->has('id')) {
@@ -21,7 +21,7 @@ class CashUpController {
                 } else {
                     $cashUpEntity = $cashUpParsingService->getNewCashUpEntity($request);
                 }
-                $cashUpPersistenceService->persistCashUp($cashUpEntity);
+                $cashUpPersistenceService->persist($cashUpEntity);
                 return new JsonResponse($cashUpEntity->serialise());
             default:
                 throw new BadRequestHttpException("Method not allowed");

@@ -7,7 +7,7 @@ use App\Entity\StaffRole;
 use App\Repository\StaffMemberRepository;
 use App\Repository\StaffRoleRepository;
 use App\Service\Parsing\RoleParsingService;
-use App\Service\Persistence\PersistenceService;
+use App\Service\PersistenceService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

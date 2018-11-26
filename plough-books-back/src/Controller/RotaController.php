@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Rota;
 use App\Repository\RotaRepository;
 use App\Service\Parsing\RotaParsingService;
-use App\Service\Persistence\RotaPersistenceService;
+use App\Service\PersistenceService;
 use App\Util\DateUtils;
 use App\Util\RequestValidator;
 use DateTime;
@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RotaController {
 
-    public function rotaAction(Request $request, RequestValidator $requestValidator, RotaParsingService $rotaParsingService, RotaPersistenceService $rotaPersistenceService) {
+    public function rotaAction(Request $request, RequestValidator $requestValidator, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'POST':
                 $requestValidator->validateRequestFields($request, ['date', 'forecastRevenue', 'targetLabourRate', 'constants', 'status', 'plannedShifts', 'actualShifts']);
@@ -31,7 +31,7 @@ class RotaController {
                 } else {
                     $rota = $rotaParsingService->getNewRotaEntity($request);
                 }
-                $rotaPersistenceService->persistRota($rota);
+                $persistenceService->persist($rota);
                 return new JsonResponse([$rota->serialise()]);
             default:
                 throw new BadRequestHttpException("Method not allowed");
