@@ -17,8 +17,6 @@ class ConstantsController {
                 return new JsonResponse(array_map(function (Constants $constants) { return $constants->serialise(); }, $allConstants));
             case 'POST':
                 return new JsonResponse((object) []); //TODO: stub response
-            case 'DELETE':
-                return new JsonResponse((object) []); //TODO: stub response
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }

@@ -42,8 +42,6 @@ class RotaController {
                 }
                 $rotaPersistenceService->persistRota($rota);
                 return new JsonResponse([$rota->serialise()]);
-            case 'DELETE':
-                return new JsonResponse((object) []); //TODO: stub response
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }

@@ -19,8 +19,6 @@ class StaffController {
                 return new JsonResponse(array_map(function (StaffRole $role) { return $role->serialise(); }, $staffRoles));
             case 'POST':
                 return new JsonResponse((object) []); //TODO: stub response
-            case 'DELETE':
-                return new JsonResponse((object) []); //TODO: stub response
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
@@ -32,8 +30,6 @@ class StaffController {
                 $staffMembers = $staffMemberRepository->findAll();
                 return new JsonResponse(array_map(function (StaffMember $staffMember) { return $staffMember->serialise(); }, $staffMembers));
             case 'POST':
-                return new JsonResponse((object) []); //TODO: stub response
-            case 'DELETE':
                 return new JsonResponse((object) []); //TODO: stub response
             default:
                 throw new BadRequestHttpException("Method not allowed");

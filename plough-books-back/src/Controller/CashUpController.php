@@ -28,8 +28,6 @@ class CashUpController {
                 }
                 $cashUpPersistenceService->persistCashUp($cashUpEntity);
                 return new JsonResponse($cashUpEntity->serialise());
-            case 'DELETE':
-                return new JsonResponse((object) []); //TODO: stub response
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
