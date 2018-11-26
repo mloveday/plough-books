@@ -27,8 +27,9 @@ export const staffMembersCreateError = createAction(STAFF_MEMBERS_CREATE_ERROR);
 
 export const staffMembersFetch = () => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(staffMembersFetch());
     dispatch(staffMembersFetchStart());
-    return authenticatedFetch(`/staff/members`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/staff/members`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(staffMembersFetchSuccess(d)))
       .catch(e => dispatch(staffMembersFetchError(e)))
       ;
@@ -38,8 +39,9 @@ export const staffMembersFetch = () => {
 // TODO this should not set _all_ members, should be individual staff members
 export const staffMembersCreate = (staffMembers: StaffMembersLocalState) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(staffMembersCreate(staffMembers));
     dispatch(staffMembersCreateStart(staffMembers));
-    return authenticatedFetch('/staff/members', () => dispatch(invalidUser()), {
+    return authenticatedFetch('/staff/members', () => dispatch(invalidUser([thisDispatchable])), {
       body: JSON.stringify(staffMembers),
       headers: {
         ['content-type']: 'application/json',

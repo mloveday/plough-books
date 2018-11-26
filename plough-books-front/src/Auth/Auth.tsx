@@ -5,10 +5,10 @@ import {connect} from "react-redux";
 import '../App/App.css';
 import {AppState} from "../redux";
 import {
-bootstrapFromLocalStorage,
-clearAuthentication,
-fetchCurrentUser,
-handleAuthenticationResponse
+  bootstrapFromLocalStorage,
+  clearAuthentication,
+  fetchCurrentUser,
+  handleAuthenticationResponse
 } from './State/AuthActions';
 import {AuthState} from './State/AuthState';
 import {getResponseFromLocalStorage} from './State/AuthStorage';
@@ -28,16 +28,16 @@ const mapStateToProps = (state: AppState, ownProps: AuthOwnProps): AuthStateProp
 
 interface AuthDispatchProps {
   bootstrapAuth: () => void;
-  fetchCurrentUser: () => void;
-  handleAuthResponse: (response: any) => void;
+  fetchCurrentUser: (onLoginDispatch: Array<() => void>) => void;
+  handleAuthResponse: (response: any, onLoginDispatch: Array<() => void>) => void;
   signOut: () => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: AuthOwnProps): AuthDispatchProps => {
   return {
     bootstrapAuth: () => dispatch(bootstrapFromLocalStorage()),
-    fetchCurrentUser: () => dispatch(fetchCurrentUser()),
-    handleAuthResponse: (response) => dispatch(handleAuthenticationResponse(response)),
+    fetchCurrentUser: (onLoginDispatch: Array<() => void>) => dispatch(fetchCurrentUser(onLoginDispatch)),
+    handleAuthResponse: (response, onLoginDispatch) => dispatch(handleAuthenticationResponse(response, onLoginDispatch)),
     signOut: () => dispatch(clearAuthentication()),
   };
 };
@@ -49,12 +49,6 @@ class AuthComponent extends React.Component<AuthProps, {}> {
     if (this.props.authState.isSignedInAndWaitingAuthorisation()) {
       return (
         <div className="App-nav-anchor">Loading user...</div>
-      )
-    }
-
-    if (this.props.authState.isSignedInAndUnauthorised()) {
-      return (
-        <button className="App-nav-anchor" onClick={() => this.props.signOut()}>Logout</button>
       )
     }
 
@@ -84,7 +78,7 @@ class AuthComponent extends React.Component<AuthProps, {}> {
   }
 
   public responseGoogle(response: any) {
-    this.props.handleAuthResponse(response);
+    this.props.handleAuthResponse(response, this.props.authState.onLoginDispatch);
   }
 
   private maintainAuthState() {
@@ -93,7 +87,7 @@ class AuthComponent extends React.Component<AuthProps, {}> {
       return;
     }
     if (this.props.authState.isSignedInAndWaitingAuthorisation()) {
-      this.props.fetchCurrentUser();
+      this.props.fetchCurrentUser(this.props.authState.onLoginDispatch);
       return;
     }
   }

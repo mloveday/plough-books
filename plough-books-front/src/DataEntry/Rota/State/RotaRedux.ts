@@ -30,8 +30,9 @@ export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
 
 export const rotaFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(rotaFetch(date));
     dispatch(rotaFetchStart(date));
-    return authenticatedFetch(`/rota/${date.format(DateFormats.API)}`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/rota/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(rotaFetchSuccess({date, response: d})))
       .catch(e => dispatch(rotaFetchError(e)))
       ;
@@ -40,8 +41,9 @@ export const rotaFetch = (date: moment.Moment) => {
 
 export const rotaCreate = (rota: RotaEntity) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(rotaCreate(rota));
     dispatch(rotaCreateStart(rota));
-    return authenticatedFetch('/rota', () => dispatch(invalidUser()), {
+    return authenticatedFetch('/rota', () => dispatch(invalidUser([thisDispatchable])), {
       body: JSON.stringify(rota),
       headers: {
         ['content-type']: 'application/json',

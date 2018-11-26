@@ -27,8 +27,9 @@ export const staffRolesCreateError = createAction(STAFF_ROLES_CREATE_ERROR);
 
 export const staffRolesFetch = () => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(staffRolesFetch());
     dispatch(staffRolesFetchStart());
-    return authenticatedFetch(`/staff/roles`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/staff/roles`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(staffRolesFetchSuccess(d)))
       .catch(e => dispatch(staffRolesFetchError(e)))
       ;
@@ -38,8 +39,9 @@ export const staffRolesFetch = () => {
 // TODO this should not set _all_ members, should be individual staff members
 export const staffRolesCreate = (staffRoles: StaffRolesLocalState) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(staffRolesCreate(staffRoles));
     dispatch(staffRolesCreateStart(staffRoles));
-    return authenticatedFetch('/staff/roles', () => dispatch(invalidUser()), {
+    return authenticatedFetch('/staff/roles', () => dispatch(invalidUser([thisDispatchable])), {
       body: JSON.stringify(staffRoles),
       headers: {
         ['content-type']: 'application/json',

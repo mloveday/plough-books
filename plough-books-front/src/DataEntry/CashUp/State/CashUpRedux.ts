@@ -29,8 +29,9 @@ export const cashUpCreateError = createAction(CASH_UP_CREATE_ERROR);
 
 export const cashUpFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(cashUpFetch(date));
     dispatch(cashUpFetchStart(date));
-    return authenticatedFetch(`/cash-up/${date.format(DateFormats.API)}`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/cash-up/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(cashUpFetchSuccess(d)))
       .catch(e => dispatch(cashUpFetchError(e)))
       ;
@@ -39,8 +40,9 @@ export const cashUpFetch = (date: moment.Moment) => {
 
 export const cashUpCreate = (cashUp: CashUpLocalState) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(cashUpCreate(cashUp));
     dispatch(cashUpCreateStart(cashUp));
-    return authenticatedFetch('/cash-up', () => dispatch(invalidUser()), {
+    return authenticatedFetch('/cash-up', () => dispatch(invalidUser([thisDispatchable])), {
       body: JSON.stringify(cashUp),
       headers: {
         ['content-type']: 'application/json',

@@ -27,8 +27,9 @@ export const constantsCreateError = createAction(CONSTANTS_CREATE_ERROR);
 
 export const constantsFetch = () => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(constantsFetch());
     dispatch(constantsFetchStart());
-    return authenticatedFetch(`/constants`, () => dispatch(invalidUser()))
+    return authenticatedFetch(`/constants`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(constantsFetchSuccess(d)))
       .catch(e => dispatch(constantsFetchError(e)))
       ;
@@ -37,8 +38,9 @@ export const constantsFetch = () => {
 
 export const constantsCreate = (constants: ConstantsLocalState) => {
   return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(constantsCreate(constants));
     dispatch(constantsCreateStart(constants));
-    return authenticatedFetch('/constants', () => dispatch(invalidUser()), {
+    return authenticatedFetch('/constants', () => dispatch(invalidUser([thisDispatchable])), {
       body: JSON.stringify(constants),
       headers: {
         ['content-type']: 'application/json',

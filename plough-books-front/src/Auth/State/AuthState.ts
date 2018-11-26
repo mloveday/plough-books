@@ -3,31 +3,37 @@ import {User} from "../Model/User";
 
 export class AuthState {
   public static cleared(): AuthState {
-    return new AuthState(false, true, undefined, undefined);
+    return new AuthState(false, true, [], undefined, undefined);
   }
 
   public readonly auth?: AuthenticatedUserResponse;
   public readonly currentUser?: User;
+  public readonly onLoginDispatch: Array<() => void> = [];
   private readonly initialised: boolean;
   private readonly valid: boolean;
 
-  constructor(initialised: boolean, valid: boolean, auth?: AuthenticatedUserResponse, user?: User) {
+  constructor(initialised: boolean, valid: boolean, onLoginDispatch: Array<() => void>, auth?: AuthenticatedUserResponse, user?: User) {
     this.initialised = initialised;
     this.auth = auth;
     this.currentUser = user;
     this.valid = valid;
+    this.onLoginDispatch = onLoginDispatch;
   }
 
   public withAuthentication(auth: AuthenticatedUserResponse): AuthState {
-    return new AuthState(true, this.valid, auth, undefined);
+    return new AuthState(true, this.valid, this.onLoginDispatch, auth, undefined);
   }
 
   public withUser(user: User): AuthState {
-      return new AuthState(true, true, this.auth ? this.auth.clone() : undefined, user);
+      return new AuthState(true, true, this.onLoginDispatch, this.auth ? this.auth.clone() : undefined, user);
   }
 
-  public withUnauthorisedUser(): AuthState {
-    return new AuthState(true, false, this.auth ? this.auth.clone() : undefined, undefined);
+  public withUnauthorisedUser(onLoginDispatch: Array<() => void>): AuthState {
+    return new AuthState(true, false, onLoginDispatch, this.auth ? this.auth.clone() : undefined, undefined);
+  }
+
+  public withNoDispatchables(): AuthState {
+    return new AuthState(this.initialised, this.valid, [], this.auth, this.currentUser);
   }
 
   public isSignedIn(): boolean {
