@@ -3,11 +3,11 @@ import {ExternalState} from "../../../State/ExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
 export class StaffMembersExternalState extends ExternalState {
-  public readonly rotaExternalState: StaffMembersLocalState | undefined;
+  public readonly externalState: StaffMembersLocalState;
   public readonly id: number = 0;
 
-  constructor(state: FetchStatus, rotaExternalState?: StaffMembersLocalState) {
+  constructor(state: FetchStatus, externalState?: StaffMembersLocalState) {
     super(state);
-    this.rotaExternalState = rotaExternalState;
+    this.externalState = externalState ? externalState : StaffMembersLocalState.default();
   }
 }

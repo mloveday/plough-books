@@ -56,7 +56,7 @@ export const staffMembersCreate = (staffMember: StaffMember) => {
 
 export const staffMembersInternalReducers = handleActions<StaffMembersLocalState, any>({
   [STAFF_MEMBERS_DATA_ENTRY]: (state, action) => {
-    return state.with(action.payload);
+    return state.with(action.payload.members, action.payload.editingMemberId);
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
     return StaffMembersLocalState.default().with(action.payload);
@@ -77,7 +77,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return new StaffMembersExternalState(FetchStatus.ERROR);
   },
   [STAFF_MEMBERS_CREATE_START]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.STARTED, StaffMembersLocalState.default().with(action.payload));
+    return new StaffMembersExternalState(FetchStatus.STARTED, state.externalState);
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
     return new StaffMembersExternalState(FetchStatus.OK , StaffMembersLocalState.default().with(action.payload));
