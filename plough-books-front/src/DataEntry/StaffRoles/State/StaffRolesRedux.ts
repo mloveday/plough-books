@@ -2,6 +2,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {StaffRole} from "../../Rota/State/StaffRole";
 import {StaffRolesExternalState} from "./StaffRolesExternalState";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
@@ -21,7 +22,7 @@ export const staffRolesFetchStart = createAction(STAFF_ROLES_FETCH_START);
 export const staffRolesFetchSuccess = createAction<StaffRolesExternalState>(STAFF_ROLES_FETCH_SUCCESS);
 export const staffRolesFetchError = createAction(STAFF_ROLES_FETCH_ERROR);
 
-export const staffRolesCreateStart = createAction<StaffRolesLocalState>(STAFF_ROLES_CREATE_START);
+export const staffRolesCreateStart = createAction<StaffRole>(STAFF_ROLES_CREATE_START);
 export const staffRolesCreateSuccess = createAction<StaffRolesExternalState>(STAFF_ROLES_CREATE_SUCCESS);
 export const staffRolesCreateError = createAction(STAFF_ROLES_CREATE_ERROR);
 
@@ -36,13 +37,12 @@ export const staffRolesFetch = () => {
   }
 };
 
-// TODO this should not set _all_ members, should be individual staff members
-export const staffRolesCreate = (staffRoles: StaffRolesLocalState) => {
+export const staffRolesCreate = (staffRole: StaffRole) => {
   return (dispatch: any) => {
-    const thisDispatchable = () => dispatch(staffRolesCreate(staffRoles));
-    dispatch(staffRolesCreateStart(staffRoles));
+    const thisDispatchable = () => dispatch(staffRolesCreate(staffRole));
+    dispatch(staffRolesCreateStart(staffRole));
     return authenticatedFetch('/staff/roles', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(staffRoles),
+      body: JSON.stringify(staffRole),
       headers: {
         ['content-type']: 'application/json',
       },
@@ -77,7 +77,7 @@ export const staffRolesExternalReducers = handleActions<StaffRolesExternalState,
     return new StaffRolesExternalState(FetchStatus.ERROR);
   },
   [STAFF_ROLES_CREATE_START]: (state, action) => {
-    return new StaffRolesExternalState(FetchStatus.STARTED, StaffRolesLocalState.default().with(action.payload));
+    return new StaffRolesExternalState(FetchStatus.STARTED, StaffRolesLocalState.default().with([action.payload]));
   },
   [STAFF_ROLES_CREATE_SUCCESS]: (state, action) => {
     return new StaffRolesExternalState(FetchStatus.OK, StaffRolesLocalState.default().with(action.payload));
