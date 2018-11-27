@@ -28,7 +28,8 @@ class StaffController {
                     $role = $roleParsingService->getNewStaffRoleEntity($request->request->all());
                 }
                 $persistenceService->persist($role);
-                return new JsonResponse($role->serialise());
+                $staffRoles = $staffRoleRepository->findAll();
+                return new JsonResponse(array_map(function (StaffRole $role) { return $role->serialise(); }, $staffRoles));
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
@@ -47,7 +48,8 @@ class StaffController {
                     $staffMember = $staffMemberParsingService->getNewStaffMemberEntity($request->request->all());
                 }
                 $persistenceService->persist($staffMember);
-                return new JsonResponse($staffMember->serialise());
+                $staffMembers = $staffMemberRepository->findAll();
+                return new JsonResponse(array_map(function (StaffMember $staffMember) { return $staffMember->serialise(); }, $staffMembers));
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }

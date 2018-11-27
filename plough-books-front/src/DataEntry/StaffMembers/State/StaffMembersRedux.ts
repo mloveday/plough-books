@@ -2,6 +2,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {StaffMember} from "../../Rota/State/StaffMember";
 import {StaffMembersExternalState} from "./StaffMembersExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
@@ -21,7 +22,7 @@ export const staffMembersFetchStart = createAction(STAFF_MEMBERS_FETCH_START);
 export const staffMembersFetchSuccess = createAction<StaffMembersExternalState>(STAFF_MEMBERS_FETCH_SUCCESS);
 export const staffMembersFetchError = createAction(STAFF_MEMBERS_FETCH_ERROR);
 
-export const staffMembersCreateStart = createAction<StaffMembersLocalState>(STAFF_MEMBERS_CREATE_START);
+export const staffMembersCreateStart = createAction<StaffMember>(STAFF_MEMBERS_CREATE_START);
 export const staffMembersCreateSuccess = createAction<StaffMembersExternalState>(STAFF_MEMBERS_CREATE_SUCCESS);
 export const staffMembersCreateError = createAction(STAFF_MEMBERS_CREATE_ERROR);
 
@@ -36,13 +37,12 @@ export const staffMembersFetch = () => {
   }
 };
 
-// TODO this should not set _all_ members, should be individual staff members
-export const staffMembersCreate = (staffMembers: StaffMembersLocalState) => {
+export const staffMembersCreate = (staffMember: StaffMember) => {
   return (dispatch: any) => {
-    const thisDispatchable = () => dispatch(staffMembersCreate(staffMembers));
-    dispatch(staffMembersCreateStart(staffMembers));
+    const thisDispatchable = () => dispatch(staffMembersCreate(staffMember));
+    dispatch(staffMembersCreateStart(staffMember));
     return authenticatedFetch('/staff/members', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(staffMembers),
+      body: JSON.stringify(staffMember),
       headers: {
         ['content-type']: 'application/json',
       },
