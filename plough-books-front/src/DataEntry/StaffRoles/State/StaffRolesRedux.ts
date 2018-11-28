@@ -56,7 +56,7 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
 
 export const staffRolesInternalReducers = handleActions<StaffRolesLocalState, any>({
   [STAFF_ROLES_DATA_ENTRY]: (state, action) => {
-    return state.with(action.payload);
+    return state.with(action.payload.roles, action.payload.editingRoleId);
   },
   [STAFF_ROLES_FETCH_SUCCESS]: (state, action) => {
     return StaffRolesLocalState.default().with(action.payload);

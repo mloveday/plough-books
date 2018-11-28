@@ -72,7 +72,8 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
               {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
             </div>
-          );})}
+          );
+        })}
       </div>
     )
   }

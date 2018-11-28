@@ -44,8 +44,8 @@ class StaffRoleParsingService {
     private function updateStaffRoleEntity(array $staffRole, StaffRole $entity) {
         return $entity->setRole($staffRole['role'])
             ->setStatus($staffRole['status'])
-            ->setType('type')
-            ->setOrderInRota('orderInRota')
+            ->setType($staffRole['type'])
+            ->setOrderInRota((int) $staffRole['orderInRota'])
             ;
     }
 }
