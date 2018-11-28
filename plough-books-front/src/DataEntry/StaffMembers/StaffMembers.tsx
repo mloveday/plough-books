@@ -56,24 +56,23 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
   public render() {
     return (
       <div>
-        {this.props.staffMembersExternalState.externalState &&
-          this.props.staffMembersLocalState.members.map((member, key) => {
-            const isEditingMember = member.id === this.props.staffMembersLocalState.editingMemberId;
-            return (
-              <div key={key}>
-                <input disabled={!isEditingMember} value={member.name} onChange={ev => this.updateStaffMember(member.with({'name' : ev.target.value}))} />
-                <input disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} />
-                <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
-                <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.roles.find(v => v.id.toString() === ev.target.value)}))}>
-                  {this.props.staffRolesExternalState.externalState.roles.map((role, roleKey) => (
-                      <option key={roleKey} value={role.id}>{role.role}</option>
-                    ))}
-                </select>
-                {!isEditingMember && !this.props.staffMembersLocalState.isEditing() && <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
-                {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
-                {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
-              </div>
-            );})}
+        {this.props.staffMembersLocalState.members.map((member, key) => {
+          const isEditingMember = member.id === this.props.staffMembersLocalState.editingMemberId;
+          return (
+            <div key={key}>
+              <input disabled={!isEditingMember} value={member.name} onChange={ev => this.updateStaffMember(member.with({'name' : ev.target.value}))} />
+              <input disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} />
+              <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
+              <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.roles.find(v => v.id.toString() === ev.target.value)}))}>
+                {this.props.staffRolesExternalState.externalState.roles.map((role, roleKey) => (
+                    <option key={roleKey} value={role.id}>{role.role}</option>
+                  ))}
+              </select>
+              {!isEditingMember && !this.props.staffMembersLocalState.isEditing() && <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
+              {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
+              {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+            </div>
+          );})}
       </div>
     )
   }
