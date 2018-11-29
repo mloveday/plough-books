@@ -10,6 +10,7 @@ export class Routes {
   public static readonly STAFF_MEMBERS = "/staff/members";
   public static readonly STAFF_ROLES = "/staff/roles";
   public static readonly USERS = "/admin/users";
+  public static readonly WEEKLY_PLANNING = "/weekly-planning";
 
   public static cashUpUrl(date: moment.Moment) {
     return `${this.CASH_UP}/${date.format("Y-MM-DD")}`;
@@ -41,5 +42,13 @@ export class Routes {
 
   public static weeklyOverviewRoute() {
     return `${this.WEEKLY_OVERVIEW}/:year/:weekNumber`;
+  }
+
+  public static weeklyPlanningUrl(date: moment.Moment) {
+    return `${this.WEEKLY_PLANNING}/${accountingYear(date)}/${accountingWeek(date)}`;
+  }
+
+  public static weeklyPlanningRoute() {
+    return `${this.WEEKLY_PLANNING}/:year/:weekNumber`;
   }
 }
