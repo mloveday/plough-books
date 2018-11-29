@@ -7,10 +7,20 @@ export class StaffMembersLocalState {
 
   private static NOT_EDITING_ID = -1;
 
-  public readonly members: StaffMember[] = [];
   public readonly editingMemberId: number = StaffMembersLocalState.NOT_EDITING_ID;
+  public readonly isCreatingMember: boolean = false;
+  public readonly members: StaffMember[] = [];
+  public readonly newMember: StaffMember;
+
+  public withNewMember(member: StaffMember) {
+    return this.with({
+      isCreatingMember: true,
+      members: this.members.map(m => m.with({})),
+      newMember: member,
+    });
+  }
   
-  public with(obj: any[], editingMemberId: number = StaffMembersLocalState.NOT_EDITING_ID) {
+  public withMembers(obj: any[], editingMemberId: number = StaffMembersLocalState.NOT_EDITING_ID) {
     const newStaffMembers = new Map<number, StaffMember>();
     obj.forEach(v => {
       newStaffMembers.set(v.id, StaffMember.default().with(v))
@@ -28,6 +38,14 @@ export class StaffMembersLocalState {
         editingMemberId,
         members: Array.from(staffMembers.values()).sort((a: StaffMember, b: StaffMember) => a.name > b.name ? 1 : -1)
       }
+    );
+  }
+
+  public with(obj: any) {
+    return Object.assign(
+      new StaffMembersLocalState(),
+      this,
+      obj,
     );
   }
 
