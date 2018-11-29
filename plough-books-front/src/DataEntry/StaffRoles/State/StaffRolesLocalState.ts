@@ -7,8 +7,18 @@ export class StaffRolesLocalState {
 
   private static NOT_EDITING_ID = -1;
 
-  public readonly roles: StaffRole[] = [];
   public readonly editingRoleId: number = StaffRolesLocalState.NOT_EDITING_ID;
+  public readonly isCreatingRole: boolean = false;
+  public readonly newRole: StaffRole;
+  public readonly roles: StaffRole[] = [];
+
+  public withNewRole(role: StaffRole) {
+    return this.getWith({
+      isCreatingRole: true,
+      newRole: role,
+      roles: this.roles.map(r => r.with({})),
+    })
+  }
 
   public with(obj: any[], editingRoleId: number = StaffRolesLocalState.NOT_EDITING_ID) {
 
@@ -22,9 +32,7 @@ export class StaffRolesLocalState {
       staffRoles.set(v.id, staffRole ? staffRole : v.with({}));
     });
     newStaffRoles.forEach((v,k) => staffRoles.set(k, v));
-    return Object.assign(
-      new StaffRolesLocalState(),
-      this,
+    return this.getWith(
       {
         editingRoleId,
         roles: Array.from(staffRoles.values()).sort((a: StaffRole, b: StaffRole) => a.role > b.role ? 1 : -1)
@@ -34,5 +42,13 @@ export class StaffRolesLocalState {
 
   public isEditing() {
     return this.editingRoleId !== StaffRolesLocalState.NOT_EDITING_ID;
+  }
+
+  public getWith(obj: any) {
+    return Object.assign(
+      new StaffRolesLocalState(),
+      this,
+      obj
+    );
   }
 }
