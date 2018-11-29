@@ -3,9 +3,9 @@ import {ExternalState} from "../../../State/ExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
 
 export class ConstantsExternalState extends ExternalState {
-  public readonly externalState: ConstantsLocalState | undefined;
+  public readonly externalState: ConstantsLocalState;
 
-  constructor(state: FetchStatus, constantsLocalState?: ConstantsLocalState) {
+  constructor(state: FetchStatus, constantsLocalState: ConstantsLocalState = ConstantsLocalState.default()) {
     super(state);
     this.externalState = constantsLocalState;
   }
