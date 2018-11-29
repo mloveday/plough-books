@@ -13,14 +13,14 @@ export class StaffRolesLocalState {
   public readonly roles: StaffRole[] = [];
 
   public withNewRole(role: StaffRole) {
-    return this.getWith({
+    return this.with({
       isCreatingRole: true,
       newRole: role,
       roles: this.roles.map(r => r.with({})),
     })
   }
 
-  public with(obj: any[], editingRoleId: number = StaffRolesLocalState.NOT_EDITING_ID) {
+  public withRoles(obj: any[], editingRoleId: number = StaffRolesLocalState.NOT_EDITING_ID) {
 
     const newStaffRoles = new Map<number, StaffRole>();
     obj.forEach(v => {
@@ -32,7 +32,7 @@ export class StaffRolesLocalState {
       staffRoles.set(v.id, staffRole ? staffRole : v.with({}));
     });
     newStaffRoles.forEach((v,k) => staffRoles.set(k, v));
-    return this.getWith(
+    return this.with(
       {
         editingRoleId,
         roles: Array.from(staffRoles.values()).sort((a: StaffRole, b: StaffRole) => a.role > b.role ? 1 : -1)
@@ -44,7 +44,7 @@ export class StaffRolesLocalState {
     return this.editingRoleId !== StaffRolesLocalState.NOT_EDITING_ID;
   }
 
-  public getWith(obj: any) {
+  public with(obj: any) {
     return Object.assign(
       new StaffRolesLocalState(),
       this,

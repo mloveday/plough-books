@@ -98,11 +98,11 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
   }
 
   private updateStaffRole(staffRole: StaffRole) {
-    this.props.updateStaffRole(this.props.staffRolesLocalState.with([staffRole], staffRole.id));
+    this.props.updateStaffRole(this.props.staffRolesLocalState.withRoles([staffRole], staffRole.id));
   }
 
   private cancelEdit() {
-    this.props.updateStaffRole(this.props.staffRolesLocalState.with(this.props.staffRolesExternalState.externalState.roles));
+    this.props.updateStaffRole(this.props.staffRolesLocalState.withRoles(this.props.staffRolesExternalState.externalState.roles));
   }
 
   private saveStaffRole(staffRole: StaffRole) {
