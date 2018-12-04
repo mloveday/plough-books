@@ -13,6 +13,14 @@ class PersistenceService
         $this->entityManager = $entityManager;
     }
 
+    public function persistAll(array $entities)
+    {
+        foreach ($entities as $entity) {
+            $this->entityManager->persist($entity);
+        }
+        $this->entityManager->flush();
+    }
+
     public function persist($entity)
     {
         $this->entityManager->persist($entity);

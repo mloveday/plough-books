@@ -13,6 +13,10 @@ rota:
   path: /rota
   controller: App\Controller\RotaController::rotaAction
   methods: [POST]
+weekly-planning:
+  path: /weekly-planning
+  controller: App\Controller\RotaController::weeklyPlanningAction
+  methods: [POST]
 rota-date:
   path: /rota/{dateString}
   controller: App\Controller\RotaController::rotaDateAction

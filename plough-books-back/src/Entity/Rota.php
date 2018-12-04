@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\Parsing\RotaParsingService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -189,14 +190,14 @@ class Rota
 
     public function serialise() {
         return (object) [
-            'id' => $this->getId(),
-            'date' => $this->getDate()->format('Y-m-d'),
-            'forecastRevenue' => $this->getForecastRevenue(),
-            'targetLabourRate' => $this->getTargetLabourRate(),
-            'constants' => $this->getConstants()->serialise(),
-            'status' => $this->getStatus(),
-            'plannedShifts' => array_map(function(PlannedShift $plannedShift) { return $plannedShift->serialise();}, $this->getPlannedShifts()->toArray()),
-            'actualShifts' => array_map(function(ActualShift $actualShift) { return $actualShift->serialise();}, $this->getActualShifts()->toArray()),
+            RotaParsingService::PARAM__ID => $this->getId(),
+            RotaParsingService::PARAM__DATE => $this->getDate()->format('Y-m-d'),
+            RotaParsingService::PARAM__FORECAST_REVENUE => $this->getForecastRevenue(),
+            RotaParsingService::PARAM__TARGET_LABOUR_RATE => $this->getTargetLabourRate(),
+            RotaParsingService::PARAM__CONSTANTS => $this->getConstants()->serialise(),
+            RotaParsingService::PARAM__STATUS => $this->getStatus(),
+            RotaParsingService::PARAM__PLANNED_SHIFTS => array_map(function(PlannedShift $plannedShift) { return $plannedShift->serialise();}, $this->getPlannedShifts()->toArray()),
+            RotaParsingService::PARAM__ACTUAL_SHIFTS => array_map(function(ActualShift $actualShift) { return $actualShift->serialise();}, $this->getActualShifts()->toArray()),
         ];
     }
 }

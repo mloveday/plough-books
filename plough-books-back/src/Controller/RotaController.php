@@ -17,14 +17,40 @@ class RotaController {
     public function rotaAction(Request $request, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
         switch($request->getMethod()) {
             case 'POST':
-                $rotaParsingService->validateRequestFields($request->request->all());
-                if ($request->request->has('id')) {
-                    $rota = $rotaParsingService->getUpdatedRotaEntity($request);
+                $requestBody = $request->request->all();
+                if ($request->request->has(RotaParsingService::PARAM__ID)) {
+                    $rota = $rotaParsingService->getUpdatedRotaEntity($requestBody, RotaParsingService::UPDATE_SHIFTS_AND_STATUS);
                 } else {
-                    $rota = $rotaParsingService->getNewRotaEntity($request);
+                    $rota = $rotaParsingService->getNewRotaEntity($requestBody);
                 }
                 $persistenceService->persist($rota);
                 return new JsonResponse([$rota->serialise()]);
+            default:
+                throw new BadRequestHttpException("Method not allowed");
+        }
+    }
+
+    public function weeklyPlanningAction(Request $request, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
+        switch($request->getMethod()) {
+            case 'POST':
+                $errors = [];
+                $rotas = [];
+                foreach ($request->request->all() as $rotaRequest) {
+                    try {
+                        if (array_key_exists(RotaParsingService::PARAM__ID, $rotaRequest)) {
+                            $rotas[] = $rotaParsingService->getUpdatedRotaEntity($rotaRequest, RotaParsingService::UPDATE_CONSTANTS_AND_NON_NESTED);
+                        } else {
+                            $rotas[] = $rotaParsingService->getNewRotaEntity($rotaRequest);
+                        }
+                    } catch (BadRequestHttpException $e) {
+                        $errors[] = $e;
+                    }
+                }
+                if (count($errors) > 0) {
+                    throw new BadRequestHttpException(json_encode(array_map(function (BadRequestHttpException $e) { return $e->getMessage(); }, $errors)));
+                }
+                $persistenceService->persistAll($rotas);
+                return new JsonResponse(array_map(function (Rota $rota) { return $rota->serialise(); }, $rotas));
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
