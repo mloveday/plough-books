@@ -6,7 +6,6 @@ import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
-import {validateCash} from "../../Util/Validation";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
 import {ActualShift} from "../Rota/State/ActualShift";
@@ -112,18 +111,8 @@ class SignInComponent extends React.Component<SignInProps, {}> {
               <option value='deleted'>Deleted</option>
             </select>
           </div>
-          <div className="rota-stat">
-            Constants:
-            <select value={this.getRota().constants.id} onChange={ev => this.constantsUpdate(Number(ev.target.value))}>
-              {this.props.constantsExternalState.externalState && this.props.constantsExternalState.externalState.constants.map((constants, key) => (
-                <option key={key} value={constants.id}>{constants.date.format(DateFormats.API)}</option>
-              ))}
-            </select>
-          </div>
-          <div className="rota-stat">
-            Forecast revenue: <input disabled={editingDisabled} type="number" step={0.01} value={this.getRota().forecastRevenue} className="rota-forecast"
-                                     onChange={ev => this.formUpdate({forecastRevenue: validateCash(ev.target.value, this.getRota().forecastRevenue)})} />
-          </div>
+          <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>
+          <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>
           <div className="rota-stat">Total wage cost: £{this.getRota().getTotalLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type).toFixed(2)}</div>
           <div className="rota-stat">Labour rate: {(this.getRota().getLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
@@ -220,14 +209,6 @@ class SignInComponent extends React.Component<SignInProps, {}> {
     this.props.updateRotaLocalState(
       [this.getRota().with(obj)]
     );
-  }
-
-  private constantsUpdate(id: number) {
-    if (this.props.constantsExternalState.externalState) {
-      this.formUpdate({
-        constants: this.props.constantsExternalState.externalState.constants.find((constants) => constants.id === id)
-      });
-    }
   }
 
   private newShiftHandler(member: StaffMember) {

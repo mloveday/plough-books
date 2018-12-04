@@ -6,7 +6,6 @@ import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
-import {validateCash} from "../../Util/Validation";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
 import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
@@ -16,6 +15,7 @@ import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalSta
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.css';
+import {Constants} from "./State/Constants";
 import {PlannedShift} from "./State/PlannedShift";
 import {RotaEntity} from "./State/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
@@ -113,18 +113,8 @@ class RotaComponent extends React.Component<RotaProps, {}> {
               <option value='deleted'>Deleted</option>
             </select>
             </div>
-          <div className="rota-stat">
-            Constants:
-            <select value={this.getRota().constants.id} onChange={ev => this.constantsUpdate(Number(ev.target.value))}>
-              {this.props.constantsExternalState.externalState && this.props.constantsExternalState.externalState.constants.map((constants, key) => (
-                <option key={key} value={constants.id}>{constants.date.format(DateFormats.API)}</option>
-                ))}
-            </select>
-          </div>
-          <div className="rota-stat">
-            Forecast revenue: <input disabled={editingDisabled} type="number" step={0.01} value={this.getRota().forecastRevenue} className="rota-forecast"
-                                     onChange={ev => this.formUpdate({forecastRevenue: validateCash(ev.target.value, this.getRota().forecastRevenue)})} />
-          </div>
+          <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>
+          <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>
           <div className="rota-stat">Total wage cost: £{this.getRota().getTotalLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type).toFixed(2)}</div>
           <div className="rota-stat">Labour rate: {(this.getRota().getLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
@@ -223,14 +213,6 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     );
   }
 
-  private constantsUpdate(id: number) {
-    if (this.props.constantsExternalState.externalState) {
-      this.formUpdate({
-        constants: this.props.constantsExternalState.externalState.constants.find((constants) => constants.id === id)
-      });
-    }
-  }
-
   private newShiftHandler(member: StaffMember) {
     const time = moment(this.props.match.params.date).startOf('day');
     this.addPlannedShift(PlannedShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17)}));
@@ -322,7 +304,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
-      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.constants.slice(0,1)[0]});
+      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.constants.length > 0 ? this.props.constantsExternalState.externalState.constants.slice(0,1)[0] : Constants.default()});
     }
   }
 }
