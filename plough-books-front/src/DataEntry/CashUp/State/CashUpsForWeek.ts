@@ -28,7 +28,7 @@ export class CashUpsForWeek {
     if (obj !== undefined) {
       obj.forEach(v => {
         const date = moment(v.date);
-        newCashUps.set(date.format(DateFormats.API), CashUpEntity.default(date).with(v))
+        newCashUps.set(date.format(DateFormats.API), CashUpEntity.fromBackend(v))
       });
     }
     const cashUps = new Map<string, CashUpEntity>();
@@ -41,5 +41,9 @@ export class CashUpsForWeek {
       new CashUpsForWeek(),
       {cashUps}
       );
+  }
+
+  public getTotalRevenue(): number {
+    return Array.from(this.cashUps.values()).reduce((prev, curr) => prev + curr.getTotalRevenue(), 0)
   }
 }

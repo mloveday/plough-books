@@ -155,4 +155,8 @@ export class CashUpEntity {
       obj
     );
   }
+
+  public getTotalRevenue(): number {
+    return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0);
+  }
 }

@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class CashUpController {
 
-    public function cashUpAction(Request $request, CashUpParsingService $cashUpParsingService, PersistenceService $cashUpPersistenceService) {
+    public function cashUpAction(Request $request, CashUpParsingService $cashUpParsingService, PersistenceService $cashUpPersistenceService, CashUpRepository $cashUpRepository) {
         switch($request->getMethod()) {
             case 'POST':
                 $cashUpParsingService->validateRequestFields($request->request->all());
@@ -24,7 +24,12 @@ class CashUpController {
                     $cashUpEntity = $cashUpParsingService->getNewCashUpEntity($request);
                 }
                 $cashUpPersistenceService->persist($cashUpEntity);
-                return new JsonResponse($cashUpEntity->serialise());
+
+                $cashUps = $cashUpRepository->getWeekByDate($cashUpEntity->getDate()); // TODO determine why the date on the new entity is consistently incorrect (here only)
+                if (is_null($cashUps)) {
+                    return new JsonResponse((object) ['date' => $cashUpEntity->getDate()->format('Y-m-d')]);
+                }
+                return new JsonResponse(array_map(function(CashUp $cashUp) {return $cashUp->serialise();}, $cashUps->toArray()));
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }

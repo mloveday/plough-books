@@ -45,4 +45,8 @@ export class Denominations {
   public clone(): Denominations {
     return this.with({});
   }
+  
+  public totalCashTaken(): number {
+    return this.fiftyPounds + this.twentyPounds + this.tenPounds + this.fivePounds + this.pounds + this.fiftyPence + this.twentyPence + this.tenPence + this.fivePence
+  }
 }

@@ -42,4 +42,8 @@ export class TillDenominations extends Denominations {
   public clone(): TillDenominations {
     return this.with({});
   }
+
+  public totalTaken(): number {
+    return this.visa + this.amex + this.totalCashTaken();
+  }
 }
