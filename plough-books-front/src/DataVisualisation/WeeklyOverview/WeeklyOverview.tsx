@@ -85,14 +85,20 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
   public render() {
     const startOfThisWeek = this.getStartOfWeek();
     const totalForecastRevenue = this.props.rotaLocalStates.getTotalForecastRevenue();
+    const totalActualRevenue = this.props.cashUpExternalState.cashUpsForWeek.getTotalRevenue();
 
-    const totalVatAdjustedForecastRevenue = this.props.rotaLocalStates.getTotalVatAdjustedForecastRevenue();
-
-    const totalForecastBarLabour = this.props.rotaLocalStates.getTotalBarLabour(totalForecastRevenue);
-    const totalForecastKitchenLabour = this.props.rotaLocalStates.getTotalKitchenLabour(totalForecastRevenue);
+    const totalForecastBarLabour = this.props.rotaLocalStates.getTotalPredictedBarLabour(totalForecastRevenue);
+    const totalForecastKitchenLabour = this.props.rotaLocalStates.getTotalPredictedKitchenLabour(totalForecastRevenue);
     const totalForecastLabour = totalForecastBarLabour + totalForecastKitchenLabour;
 
     const overviews = this.getDailyOverviews();
+
+    const totalActualBarLabour = this.getTotalActualBarLabour(overviews, totalActualRevenue);
+    const totalActualKitchenLabour = this.getTotalActualKitchenLabour(overviews, totalActualRevenue);
+    const totalActualLabour = totalActualBarLabour + totalActualKitchenLabour;
+
+    const totalVatAdjustedActualRevenue = overviews.reduce((prev, curr) => prev + curr.getVatAdjustedRevenue(), 0);
+    const totalVatAdjustedForecastRevenue = this.props.rotaLocalStates.getTotalVatAdjustedForecastRevenue();
 
     return (
       <div className="weekly-overview">
@@ -104,11 +110,12 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
         <div className="overview-stats">
           <div className="overview-stat">Total costs: £{totalForecastLabour.toFixed(2)}</div>
           <div className="overview-stat">Total forecast revenue: £{totalForecastRevenue.toFixed(2)}</div>
-          <div className="overview-stat">Total revenue: £{this.props.cashUpExternalState.cashUpsForWeek.getTotalRevenue().toFixed(2)}</div>
+          <div className="overview-stat">Total revenue: £{totalActualRevenue.toFixed(2)}</div>
         </div>
         <div className="overview-stats">
-          <div className="overview-stat">Combined labour rate: {(100*totalForecastLabour/totalVatAdjustedForecastRevenue).toFixed(2)}%</div>
-          <div className="overview-stat">Target labour rate: {(100*this.props.rotaLocalStates.getTargetLabourForWeek()).toFixed(2)}%</div>
+          <div className="overview-stat">Combined forecast labour rate: {(100*totalForecastLabour/totalVatAdjustedForecastRevenue).toFixed(2)}%</div>
+          <div className="overview-stat">Target forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek()).toFixed(2)}%</div>
+          <div className="overview-stat">Combined actual labour rate: {(100*totalActualLabour/totalVatAdjustedActualRevenue).toFixed(2)}%</div>
         </div>
         <div className="overview-rota-group">
           <div className="overview-day">
@@ -117,10 +124,15 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
             <div className="overview-stat">Constants from date</div>
             <div className="overview-stat">Forecast revenue</div>
             <div className="overview-stat">Actual revenue</div>
-            <div className="overview-stat">Total bar wage cost</div>
-            <div className="overview-stat">Bar labour rate</div>
-            <div className="overview-stat">Total kitchen wage cost</div>
-            <div className="overview-stat">Kitchen labour rate</div>
+            <div className="overview-stat">Predicted Bar wage cost</div>
+            <div className="overview-stat">Predicted Kitchen wage cost</div>
+            <div className="overview-stat">Actual Bar wage cost</div>
+            <div className="overview-stat">Actual Kitchen wage cost</div>
+            <div className="overview-stat">Target labour rate</div>
+            <div className="overview-stat">Predicted Bar labour rate</div>
+            <div className="overview-stat">Actual Bar labour rate</div>
+            <div className="overview-stat">Predicted Kitchen labour rate</div>
+            <div className="overview-stat">Actual Kitchen labour rate</div>
           </div>
           {overviews.map((overview, key) => (
             <div className={`overview-day ${overview.date.format('ddd').toLowerCase()}`} key={key}>
@@ -129,10 +141,15 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
               <div className="overview-stat">{overview.rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
               <div className="overview-stat">£{overview.rota.forecastRevenue.toFixed(2)}</div>
               <div className="overview-stat">£{overview.cashUp.getTotalRevenue().toFixed(2)}</div>
-              <div className="overview-stat">£{overview.rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
-              <div className="overview-stat">{(overview.rota.getLabourRate(totalForecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}% (aiming for &lt; {(overview.rota.targetLabourRate * 100).toFixed(2)}%)</div>
-              <div className="overview-stat">£{overview.rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
-              <div className="overview-stat">{(overview.rota.getLabourRate(totalForecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}% (aiming for &lt; {(overview.rota.targetLabourRate * 100).toFixed(2)}%)</div>
+              <div className="overview-stat">£{overview.rota.getTotalPredictedLabourCost(totalForecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
+              <div className="overview-stat">£{overview.rota.getTotalPredictedLabourCost(totalForecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+              <div className="overview-stat">£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), totalActualRevenue, WorkTypes.BAR).toFixed(2)}</div>
+              <div className="overview-stat">£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), totalActualRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+              <div className="overview-stat">{(overview.rota.targetLabourRate * 100).toFixed(2)}%</div>
+              <div className="overview-stat">{(overview.rota.getPredictedLabourRate(totalForecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
+              <div className="overview-stat">{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), totalActualRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
+              <div className="overview-stat">{(overview.rota.getPredictedLabourRate(totalForecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
+              <div className="overview-stat">{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), totalActualRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
             </div>
           ))}
         </div>
@@ -142,6 +159,14 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           <div>Fill in blank days</div>
         </div>
       </div>)
+  }
+
+  private getTotalActualBarLabour(overviews: DailyOverview[], totalActualRevenue: number): number {
+    return overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), totalActualRevenue, WorkTypes.BAR) + prev, 0);
+  }
+
+  private getTotalActualKitchenLabour(overviews: DailyOverview[], totalActualRevenue: number): number {
+    return overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), totalActualRevenue, WorkTypes.KITCHEN) + prev, 0);
   }
 
   private getStartOfWeek() {

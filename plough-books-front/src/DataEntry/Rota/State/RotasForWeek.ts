@@ -55,17 +55,17 @@ export class RotasForWeek {
       .reduce((prev, curr) => prev + CashManipulation.calculateVatAdjustedRevenue(curr.forecastRevenue, curr.constants.vatMultiplier), 0);
   }
 
-  public getTotalBarLabour(totalForecastBarRevenue: number): number {
+  public getTotalPredictedBarLabour(totalForecastBarRevenue: number): number {
     return Array.from(this.rotas.values())
-      .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastBarRevenue, WorkTypes.BAR) + prev, 0);
+      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastBarRevenue, WorkTypes.BAR) + prev, 0);
   }
 
-  public getTotalKitchenLabour(totalForecastKitchenRevenue: number): number {
+  public getTotalPredictedKitchenLabour(totalForecastKitchenRevenue: number): number {
     return Array.from(this.rotas.values())
-      .reduce((prev, curr) => curr.getTotalLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN) + prev, 0);
+      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN) + prev, 0);
   }
 
-  public getTargetLabourForWeek() {
+  public getTargetLabourRateForWeek() {
     return Array.from(this.rotas.values()).reduce((prev, curr) => prev + curr.targetLabourRate*curr.forecastRevenue, 0) / this.getTotalForecastRevenue();
   }
 }

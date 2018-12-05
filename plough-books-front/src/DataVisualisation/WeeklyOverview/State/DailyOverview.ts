@@ -12,4 +12,8 @@ export class DailyOverview {
     this.rota = rota;
     this.date = date;
   }
+
+  public getVatAdjustedRevenue() {
+    return this.cashUp.getTotalRevenue() / this.rota.constants.vatMultiplier;
+  }
 }

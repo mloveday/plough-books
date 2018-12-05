@@ -79,19 +79,34 @@ export class RotaEntity {
     return CashManipulation.calculateVatAdjustedRevenue(this.forecastRevenue, this.constants.vatMultiplier);
   }
 
-  public getLabourRate(weeklyForecastRevenue: number, type: string): number {
+  public getPredictedLabourRate(weeklyForecastRevenue: number, type: string): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalLabourCost(weeklyForecastRevenue, type),
+      this.getTotalPredictedLabourCost(weeklyForecastRevenue, type),
       this.getProportionOfForecastRevenue(type),
       this.constants.vatMultiplier
     );
   }
 
-  public getTotalLabourCost(weeklyForecastRevenue: number, type: string): number {
+  public getTotalPredictedLabourCost(weeklyForecastRevenue: number, type: string): number {
     const rawCost = this.plannedShifts
       .filter(s => s.type === type)
       .reduce<number>((a, b) => a + b.getRawCost(), 0);
     return CashManipulation.calculateTotalLabourCost(rawCost, this.forecastRevenue, weeklyForecastRevenue, type, this.constants);
+  }
+
+  public getActualLabourRate(revenueToday: number, weeklyRevenue: number, type: string): number {
+    return CashManipulation.calculateLabourRate(
+      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, type),
+      weeklyRevenue*CashManipulation.getProportionOfRevenue(type, this.constants),
+      this.constants.vatMultiplier
+    );
+  }
+
+  public getTotalActualLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
+    const rawCost = this.actualShifts
+      .filter(s => s.type === type)
+      .reduce<number>((a, b) => a + b.getRawCost(), 0);
+    return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
   }
 
   private getProportionOfForecastRevenue(type: string) {
