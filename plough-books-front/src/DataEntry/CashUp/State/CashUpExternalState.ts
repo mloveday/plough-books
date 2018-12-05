@@ -1,12 +1,19 @@
+import * as moment from "moment";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {ExternalState} from "../../../State/ExternalState";
-import {CashUpLocalState} from "./CashUpLocalState";
+import {DateFormats} from "../../../Util/DateFormats";
+import {CashUpsForWeek} from "./CashUpsForWeek";
 
 export class CashUpExternalState extends ExternalState {
-    public readonly cashUpExternalState: CashUpLocalState|undefined;
+    public readonly cashUpsForWeek: CashUpsForWeek;
 
-    constructor(state: FetchStatus, cashUpExternalState?: CashUpLocalState) {
+    constructor(state: FetchStatus, cashUpsForWeek: CashUpsForWeek = CashUpsForWeek.default()) {
         super(state);
-        this.cashUpExternalState = cashUpExternalState;
+        this.cashUpsForWeek = cashUpsForWeek;
     }
+
+    public shouldLoadForDate(date: moment.Moment) {
+    return this.isEmpty()
+      || (this.isLoaded() && !this.cashUpsForWeek.cashUps.has(date.format(DateFormats.API)));
+  }
 }

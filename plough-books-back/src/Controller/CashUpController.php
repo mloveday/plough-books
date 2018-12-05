@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CashUp;
 use App\Repository\CashUpRepository;
 use App\Service\Parsing\CashUpParsingService;
 use App\Service\PersistenceService;
@@ -33,10 +34,10 @@ class CashUpController {
         if (!DateUtils::dateIsValid($dateString)) {
             throw new BadRequestHttpException("Invalid date string: '${dateString}'");
         }
-        $cashUp = $cashUpRepository->getByDate(new DateTime($dateString));
-        if (is_null($cashUp)) {
+        $cashUps = $cashUpRepository->getWeekByDate(new DateTime($dateString));
+        if (is_null($cashUps)) {
             return new JsonResponse((object) ['date' => $dateString]);
         }
-        return new JsonResponse($cashUp->serialise());
+        return new JsonResponse(array_map(function(CashUp $cashUp) {return $cashUp->serialise();}, $cashUps->toArray()));
     }
 }

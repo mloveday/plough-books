@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {CashUpExternalState} from "../../DataEntry/CashUp/State/CashUpExternalState";
 import {ConstantsExternalState} from "../../DataEntry/Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../../DataEntry/Constants/State/ConstantsRedux";
 import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
@@ -27,6 +28,7 @@ interface WeeklyOverviewOwnProps {
 }
 
 interface WeeklyOverviewStateProps {
+  cashUpExternalState: CashUpExternalState;
   constantsExternalState: ConstantsExternalState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotasForWeek;
@@ -38,6 +40,7 @@ interface WeeklyOverviewStateProps {
 
 const mapStateToProps = (state: AppState, ownProps: WeeklyOverviewOwnProps): WeeklyOverviewStateProps => {
   return {
+    cashUpExternalState: state.cashUpExternalState,
     constantsExternalState: state.constantsExternalState,
     rotaExternalState: state.rotaExternalState,
     rotaLocalStates: state.rotaLocalStates,

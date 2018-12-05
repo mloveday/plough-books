@@ -8,9 +8,10 @@ import {Routes} from "../../Routing/Routes";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.css';
 import {SafeFloatDenom} from "./SafeFloatDenom";
+import {CashUpEntity} from "./State/CashUpEntity";
 import {CashUpExternalState} from "./State/CashUpExternalState";
-import {CashUpLocalState} from "./State/CashUpLocalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
+import {CashUpsForWeek} from "./State/CashUpsForWeek";
 import {Receipt} from "./State/Receipt";
 import {TillInputGroup} from "./TillInputGroup";
 
@@ -22,27 +23,27 @@ interface CashUpOwnProps {
 
 interface CashUpLocalStateProps {
   cashUpExternalState: CashUpExternalState;
-  cashUpLocalState: CashUpLocalState;
+  cashUpsForWeek: CashUpsForWeek;
 }
 
 const mapStateToProps = (state: AppState, ownProps: CashUpOwnProps): CashUpLocalStateProps => {
   return {
     cashUpExternalState: state.cashUpExternalState,
-    cashUpLocalState: state.cashUpLocalState,
+    cashUpsForWeek: state.cashUpLocalStates,
   }
 };
 
 interface CashUpDispatchProps {
   fetchCashUpForDate: (date: moment.Moment) => void;
-  updateBackEnd: (state: CashUpLocalState) => void;
-  updateCashUpLocalState: (state: CashUpLocalState) => void;
+  updateBackEnd: (state: CashUpEntity) => void;
+  updateCashUpLocalState: (state: CashUpEntity[]) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: CashUpOwnProps): CashUpDispatchProps => {
   return {
     fetchCashUpForDate: (date: moment.Moment) => dispatch(cashUpFetch(date)),
-    updateBackEnd: (state: CashUpLocalState) => dispatch(cashUpCreate(state)),
-    updateCashUpLocalState: (state: CashUpLocalState) => dispatch(cashUpDataEntry(state)),
+    updateBackEnd: (state: CashUpEntity) => dispatch(cashUpCreate(state)),
+    updateCashUpLocalState: (state: CashUpEntity[]) => dispatch(cashUpDataEntry(state)),
   }
 };
 
@@ -69,13 +70,13 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="label-and-input mod">
               <label htmlFor="mod">MOD</label>
               <input id="mod" type="text"
-                     value={this.props.cashUpLocalState.mod}
+                     value={this.getCashUp().mod}
                      onChange={ev => this.formUpdate({mod: ev.target.value})}/>
             </div>
             <div className="label-and-input daily_notes">
               <label htmlFor="daily_notes">Daily notes</label>
               <textarea id="daily_notes"
-                        value={this.props.cashUpLocalState.dailyNotes}
+                        value={this.getCashUp().dailyNotes}
                         onChange={ev => this.formUpdate({dailyNotes: ev.target.value})}/>
             </div>
           </div>
@@ -94,65 +95,65 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <h3 className="group-title till_float_title">Till float</h3>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Till float'}
                             groupIdentifier={'till_float_tills'} tillProperty={'float'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label amex_label">AMEX</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'amex'}
                             groupIdentifier={'amex_tills'} tillProperty={'amex'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label visa_label">VISA</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'visa'}
                             groupIdentifier={'visa_tills'} tillProperty={'visa'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label charge_deposit_label">Charge & deposit</h4>
             <div className="label-and-input charge_to_ac">
               <label htmlFor="charge_to_ac">Charge to account</label>
               <input id="charge_to_ac" type="number"
-                     value={this.props.cashUpLocalState.chargeToAccount}
-                     onChange={ev => this.formUpdate({chargeToAccount: validateCash(ev.target.value, this.props.cashUpLocalState.chargeToAccount)})}/>
+                     value={this.getCashUp().chargeToAccount}
+                     onChange={ev => this.formUpdate({chargeToAccount: validateCash(ev.target.value, this.getCashUp().chargeToAccount)})}/>
             </div>
             <div className="label-and-input deposit_redeemed">
               <label htmlFor="deposit_redeemed">Deposit redeemed</label>
               <input id="deposit_redeemed" type="number"
-                     value={this.props.cashUpLocalState.depositRedeemed}
-                     onChange={ev => this.formUpdate({depositRedeemed: validateCash(ev.target.value, this.props.cashUpLocalState.depositRedeemed)})}/>
+                     value={this.getCashUp().depositRedeemed}
+                     onChange={ev => this.formUpdate({depositRedeemed: validateCash(ev.target.value, this.getCashUp().depositRedeemed)})}/>
             </div>
             <h4 className="group-label fifty_label">£50</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£50'}
                             groupIdentifier={'fifty_tills'} tillProperty={'fiftyPounds'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label twenty_label">£20</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£20'}
                             groupIdentifier={'twenty_tills'} tillProperty={'twentyPounds'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label ten_label">£10</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£10'} groupIdentifier={'ten_tills'}
-                            tillProperty={'tenPounds'} tills={this.props.cashUpLocalState.tills}/>
+                            tillProperty={'tenPounds'} tills={this.getCashUp().tills}/>
             <h4 className="group-label five_label">£5</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£5'} groupIdentifier={'five_tills'}
-                            tillProperty={'fivePounds'} tills={this.props.cashUpLocalState.tills}/>
+                            tillProperty={'fivePounds'} tills={this.getCashUp().tills}/>
             <h4 className="group-label pounds_label">£1 &amp; £2</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£1 & £2'}
                             groupIdentifier={'pounds_tills'} tillProperty={'pounds'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label fifty_p_label">50p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'50p'}
                             groupIdentifier={'fifty_p_tills'} tillProperty={'fiftyPence'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label twenty_p_label">20p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'20p'}
                             groupIdentifier={'twenty_p_tills'} tillProperty={'twentyPence'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label ten_p_label">10p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'10p'}
                             groupIdentifier={'ten_p_tills'} tillProperty={'tenPence'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label five_p_label">5p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'5p'}
                             groupIdentifier={'five_p_tills'} tillProperty={'fivePence'}
-                            tills={this.props.cashUpLocalState.tills}/>
+                            tills={this.getCashUp().tills}/>
             <h4 className="group-label z_label">Z</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'} groupIdentifier={'z_tills'}
-                            tillProperty={'zRead'} tills={this.props.cashUpLocalState.tills}/>
+                            tillProperty={'zRead'} tills={this.getCashUp().tills}/>
           </div>
 
           <div className="form-group">
@@ -160,82 +161,82 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="label-and-input comps_wet">
               <label htmlFor="comps_wet">Wet Comps</label>
               <input id="comps_wet" type="number"
-                     value={this.props.cashUpLocalState.compsWet}
-                     onChange={ev => this.formUpdate({compsWet: validateCash(ev.target.value, this.props.cashUpLocalState.compsWet)})}/>
+                     value={this.getCashUp().compsWet}
+                     onChange={ev => this.formUpdate({compsWet: validateCash(ev.target.value, this.getCashUp().compsWet)})}/>
             </div>
             <div className="label-and-input d_staff_dry">
               <label htmlFor="d_staff_dry">Discount staff dry</label>
               <input id="d_staff_dry" type="number"
-                     value={this.props.cashUpLocalState.dStaffDry}
-                     onChange={ev => this.formUpdate({dStaffDry: validateCash(ev.target.value, this.props.cashUpLocalState.dStaffDry)})}/>
+                     value={this.getCashUp().dStaffDry}
+                     onChange={ev => this.formUpdate({dStaffDry: validateCash(ev.target.value, this.getCashUp().dStaffDry)})}/>
             </div>
             <div className="label-and-input d_customers_wet">
               <label htmlFor="d_customers_wet">Discount customers wet</label>
               <input id="d_customers_wet" type="number"
-                     value={this.props.cashUpLocalState.dCustomersWet}
-                     onChange={ev => this.formUpdate({dCustomersWet: validateCash(ev.target.value, this.props.cashUpLocalState.dCustomersWet)})}/>
+                     value={this.getCashUp().dCustomersWet}
+                     onChange={ev => this.formUpdate({dCustomersWet: validateCash(ev.target.value, this.getCashUp().dCustomersWet)})}/>
             </div>
             <div className="label-and-input d_customers_dry">
               <label htmlFor="d_customers_dry">Discount customers dry</label>
               <input id="d_customers_dry" type="number"
-                     value={this.props.cashUpLocalState.dCustomersDry}
-                     onChange={ev => this.formUpdate({dCustomersDry: validateCash(ev.target.value, this.props.cashUpLocalState.dCustomersDry)})}/>
+                     value={this.getCashUp().dCustomersDry}
+                     onChange={ev => this.formUpdate({dCustomersDry: validateCash(ev.target.value, this.getCashUp().dCustomersDry)})}/>
             </div>
             <div className="label-and-input d_customers_coffee">
               <label htmlFor="d_customers_coffee">Discount customer coffee</label>
               <input id="d_customers_coffee" type="number"
-                     value={this.props.cashUpLocalState.dCustomersCoffee}
-                     onChange={ev => this.formUpdate({dCustomersCoffee: validateCash(ev.target.value, this.props.cashUpLocalState.dCustomersCoffee)})}/>
+                     value={this.getCashUp().dCustomersCoffee}
+                     onChange={ev => this.formUpdate({dCustomersCoffee: validateCash(ev.target.value, this.getCashUp().dCustomersCoffee)})}/>
             </div>
             <div className="label-and-input fwt_wet">
               <label htmlFor="fwt_wet">FWT wet</label>
               <input id="fwt_wet" type="number"
-                     value={this.props.cashUpLocalState.fwtWet}
-                     onChange={ev => this.formUpdate({fwtWet: validateCash(ev.target.value, this.props.cashUpLocalState.fwtWet)})}/>
+                     value={this.getCashUp().fwtWet}
+                     onChange={ev => this.formUpdate({fwtWet: validateCash(ev.target.value, this.getCashUp().fwtWet)})}/>
             </div>
             <div className="label-and-input como_in_drawer">
               <label htmlFor="como_in_drawer">COMO in drawer</label>
               <input id="como_in_drawer" type="number"
-                     value={this.props.cashUpLocalState.comoInDrawer}
-                     onChange={ev => this.formUpdate({comoInDrawer: validateCash(ev.target.value, this.props.cashUpLocalState.comoInDrawer)})}/>
+                     value={this.getCashUp().comoInDrawer}
+                     onChange={ev => this.formUpdate({comoInDrawer: validateCash(ev.target.value, this.getCashUp().comoInDrawer)})}/>
             </div>
             <h3 className="group-title credit_card_label">Credit card totals</h3>
             <div className="label-and-input amex_tots">
               <label htmlFor="amex_tots">AMEX total</label>
               <input id="amex_tots" type="number"
-                     value={this.props.cashUpLocalState.amexTots}
-                     onChange={ev => this.formUpdate({amexTots: validateCash(ev.target.value, this.props.cashUpLocalState.amexTots)})}/>
+                     value={this.getCashUp().amexTots}
+                     onChange={ev => this.formUpdate({amexTots: validateCash(ev.target.value, this.getCashUp().amexTots)})}/>
             </div>
             <div className="label-and-input visa_mc_tots">
               <label htmlFor="visa_mc_tots">VISA/MC total</label>
               <input id="visa_mc_tots" type="number"
-                     value={this.props.cashUpLocalState.visaMcTots}
-                     onChange={ev => this.formUpdate({visaMcTots: validateCash(ev.target.value, this.props.cashUpLocalState.visaMcTots)})}/>
+                     value={this.getCashUp().visaMcTots}
+                     onChange={ev => this.formUpdate({visaMcTots: validateCash(ev.target.value, this.getCashUp().visaMcTots)})}/>
             </div>
           </div>
 
           <div className="form-group">
             <h3 className="group-title receipts_label">Cash Receipts</h3>
             <button className='receipt_add_button' type='button' onClick={ev => {
-              this.props.cashUpLocalState.receipts.push(Receipt.default());
-              this.formUpdate({receipts: this.props.cashUpLocalState.receipts});
+              this.getCashUp().receipts.push(Receipt.default());
+              this.formUpdate({receipts: this.getCashUp().receipts});
             }}>+
             </button>
-            {this.props.cashUpLocalState.receipts.map((receipt, index) => this.receiptInput(index))}
+            {this.getCashUp().receipts.map((receipt, index) => this.receiptInput(index))}
           </div>
 
           <div className="form-group">
             <div className="label-and-input spend_staff_pts">
               <label htmlFor="spend_staff_points">Spend & staff points</label>
               <input id="spend_staff_points" type="number"
-                     value={this.props.cashUpLocalState.spendStaffPts}
-                     onChange={ev => this.formUpdate({spendStaffPts: validateCash(ev.target.value, this.props.cashUpLocalState.spendStaffPts)})}/>
+                     value={this.getCashUp().spendStaffPts}
+                     onChange={ev => this.formUpdate({spendStaffPts: validateCash(ev.target.value, this.getCashUp().spendStaffPts)})}/>
             </div>
             <div className="label-and-input como_disc_asset">
               <label htmlFor="como_disc_asset">COMO Discount asset</label>
               <input id="como_disc_asset" type="number"
-                     value={this.props.cashUpLocalState.comoDiscAsset}
-                     onChange={ev => this.formUpdate({comoDiscAsset: validateCash(ev.target.value, this.props.cashUpLocalState.comoDiscAsset)})}/>
+                     value={this.getCashUp().comoDiscAsset}
+                     onChange={ev => this.formUpdate({comoDiscAsset: validateCash(ev.target.value, this.getCashUp().comoDiscAsset)})}/>
             </div>
           </div>
 
@@ -244,26 +245,26 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="label-and-input take_dry">
               <label htmlFor="take_dry">Dry</label>
               <input id="take_dry" type="number"
-                     value={this.props.cashUpLocalState.takeDry}
-                     onChange={ev => this.formUpdate({takeDry: validateCash(ev.target.value, this.props.cashUpLocalState.takeDry)})}/>
+                     value={this.getCashUp().takeDry}
+                     onChange={ev => this.formUpdate({takeDry: validateCash(ev.target.value, this.getCashUp().takeDry)})}/>
             </div>
             <div className="label-and-input take_coffee">
               <label htmlFor="take_coffee">Coffee</label>
               <input id="take_coffee" type="number"
-                     value={this.props.cashUpLocalState.takeCoffee}
-                     onChange={ev => this.formUpdate({takeCoffee: validateCash(ev.target.value, this.props.cashUpLocalState.takeCoffee)})}/>
+                     value={this.getCashUp().takeCoffee}
+                     onChange={ev => this.formUpdate({takeCoffee: validateCash(ev.target.value, this.getCashUp().takeCoffee)})}/>
             </div>
             <div className="label-and-input take_gift_card">
               <label htmlFor="take_gift_card">Gift card</label>
               <input id="take_gift_card" type="number"
-                     value={this.props.cashUpLocalState.takeGiftCard}
-                     onChange={ev => this.formUpdate({takeGiftCard: validateCash(ev.target.value, this.props.cashUpLocalState.takeGiftCard)})}/>
+                     value={this.getCashUp().takeGiftCard}
+                     onChange={ev => this.formUpdate({takeGiftCard: validateCash(ev.target.value, this.getCashUp().takeGiftCard)})}/>
             </div>
             <div className="label-and-input take_deposit_paid">
               <label htmlFor="take_deposit_paid">Deposit paid</label>
               <input id="take_deposit_paid" type="number"
-                     value={this.props.cashUpLocalState.takeDepositPaid}
-                     onChange={ev => this.formUpdate({takeDepositPaid: validateCash(ev.target.value, this.props.cashUpLocalState.takeDepositPaid)})}/>
+                     value={this.getCashUp().takeDepositPaid}
+                     onChange={ev => this.formUpdate({takeDepositPaid: validateCash(ev.target.value, this.getCashUp().takeDepositPaid)})}/>
             </div>
           </div>
 
@@ -272,31 +273,31 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="label-and-input paid_out_amnt">
               <label htmlFor="paid_out_amnt">Paid out</label>
               <input id="paid_out_amnt" type="number"
-                     value={this.props.cashUpLocalState.paidOutAmnt}
-                     onChange={ev => this.formUpdate({paidOutAmnt: validateCash(ev.target.value, this.props.cashUpLocalState.paidOutAmnt)})}/>
+                     value={this.getCashUp().paidOutAmnt}
+                     onChange={ev => this.formUpdate({paidOutAmnt: validateCash(ev.target.value, this.getCashUp().paidOutAmnt)})}/>
             </div>
             <div className="label-and-input paid_out_to">
               <label htmlFor="paid_out_to">Paid out to</label>
               <input id="paid_out_to" type="text"
-                     value={this.props.cashUpLocalState.paidOutTo}
+                     value={this.getCashUp().paidOutTo}
                      onChange={ev => this.formUpdate({paidOutTo: ev.target.value})}/>
             </div>
             <div className="label-and-input banked">
               <label htmlFor="banked">Banked</label>
               <input id="banked" type="number"
-                     value={this.props.cashUpLocalState.banked}
-                     onChange={ev => this.formUpdate({banked: validateCash(ev.target.value, this.props.cashUpLocalState.banked)})}/>
+                     value={this.getCashUp().banked}
+                     onChange={ev => this.formUpdate({banked: validateCash(ev.target.value, this.getCashUp().banked)})}/>
             </div>
             <div className="label-and-input cash_advantage_bag">
               <label htmlFor="cash_advantage_bag">Cash advantage bag</label>
               <input id="cash_advantage_bag" type="number"
-                     value={this.props.cashUpLocalState.cashAdvantageBag}
-                     onChange={ev => this.formUpdate({cashAdvantageBag: this.props.cashUpLocalState.cashAdvantageBag})}/>
+                     value={this.getCashUp().cashAdvantageBag}
+                     onChange={ev => this.formUpdate({cashAdvantageBag: this.getCashUp().cashAdvantageBag})}/>
             </div>
             <div className="label-and-input cash_advantage_bag_seen_by">
               <label htmlFor="cash_advantage_bag_seen_by">Seen by</label>
               <input id="cash_advantage_bag_seen_by" type="text"
-                     value={this.props.cashUpLocalState.cashAdvantageBagSeenBy}
+                     value={this.getCashUp().cashAdvantageBagSeenBy}
                      onChange={ev => this.formUpdate({cashAdvantageBagSeenBy: ev.target.value})}/>
             </div>
           </div>
@@ -304,13 +305,13 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           <div className="form-group">
             <h3 className="group-title safe_float_label">Safe float denom</h3>
             <SafeFloatDenom cashUpPropName='sfdAm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="AM"
-                            safeFloatObj={this.props.cashUpLocalState.sfdAm}/>
+                            safeFloatObj={this.getCashUp().sfdAm}/>
             <SafeFloatDenom cashUpPropName='sfdPm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="PM"
-                            safeFloatObj={this.props.cashUpLocalState.sfdPm}/>
+                            safeFloatObj={this.getCashUp().sfdPm}/>
             <div className="label-and-input safe_float_notes">
               <label htmlFor="sfd_notes">Notes</label>
               <input id="sfd_notes" type="text"
-                     value={this.props.cashUpLocalState.sfdNotes}
+                     value={this.getCashUp().sfdNotes}
                      onChange={ev => this.formUpdate({sfdNotes: ev.target.value})}/>
             </div>
           </div>
@@ -320,25 +321,25 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="label-and-input pub_secured_by">
               <label htmlFor="pub_secured_by">Pub secured by</label>
               <input id="pub_secured_by" type="text"
-                     value={this.props.cashUpLocalState.pubSecuredBy}
+                     value={this.getCashUp().pubSecuredBy}
                      onChange={ev => this.formUpdate({pubSecuredBy: ev.target.value})}/>
             </div>
             <div className="label-and-input bar_closed_by">
               <label htmlFor="bar_closed_by">Bar closed by</label>
               <input id="bar_closed_by" type="text"
-                     value={this.props.cashUpLocalState.barClosedBy}
+                     value={this.getCashUp().barClosedBy}
                      onChange={ev => this.formUpdate({barClosedBy: ev.target.value})}/>
             </div>
             <div className="label-and-input floor_closed_by">
               <label htmlFor="floor_closed_by">Floor closed by</label>
               <input id="floor_closed_by" type="text"
-                     value={this.props.cashUpLocalState.floorClosedBy}
+                     value={this.getCashUp().floorClosedBy}
                      onChange={ev => this.formUpdate({floorClosedBy: ev.target.value})}/>
             </div>
             <div className="label-and-input next_door_by">
               <label htmlFor="next_door_by">Next door by</label>
               <input id="next_door_by" type="text"
-                     value={this.props.cashUpLocalState.nextDoorBy}
+                     value={this.getCashUp().nextDoorBy}
                      onChange={ev => this.formUpdate({nextDoorBy: ev.target.value})}/>
             </div>
           </div>
@@ -349,17 +350,22 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     )
   }
 
+  private getCashUp(): CashUpEntity {
+    const localState = this.props.cashUpsForWeek.cashUps.get(this.props.match.params.date);
+    return localState === undefined ? CashUpEntity.default(moment(this.props.match.params.date)) : localState;
+  }
+
   private maintainStateWithUrl() {
     const paramDate = moment(this.props.match.params.date);
     if (this.props.cashUpExternalState.isEmpty()
-      || (this.props.cashUpExternalState.cashUpExternalState && this.props.cashUpExternalState.isLoaded() && !this.props.cashUpExternalState.cashUpExternalState.date.isSame(paramDate))
+      || (this.props.cashUpExternalState.cashUpsForWeek && this.props.cashUpExternalState.isLoaded() && this.props.cashUpExternalState.shouldLoadForDate(paramDate))
     ) {
       this.props.fetchCashUpForDate(paramDate);
     }
   }
 
   private updateBackEnd() {
-    this.props.updateBackEnd(this.props.cashUpLocalState);
+    this.props.updateBackEnd(this.getCashUp());
   }
 
   private receiptInput(index: number) {
@@ -368,14 +374,14 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
         <div className="label-and-input receipt_desc">
           <label htmlFor="receipt_desc_01">Description</label>
           <input id="receipt_desc_01" type="text"
-                 value={this.props.cashUpLocalState.receipts[index].description}
-                 onChange={ev => this.updateReceipt(index, this.props.cashUpLocalState.receipts[index].with({description: ev.target.value}))}/>
+                 value={this.getCashUp().receipts[index].description}
+                 onChange={ev => this.updateReceipt(index, this.getCashUp().receipts[index].with({description: ev.target.value}))}/>
         </div>
         <div className="label-and-input receipt_amnt">
           <label htmlFor="receipt_amnt_01">Amount</label>
           <input id="receipt_amnt_01" type="number"
-                 value={this.props.cashUpLocalState.receipts[index].amount}
-                 onChange={ev => this.updateReceipt(index, this.props.cashUpLocalState.receipts[index].with({amount: validateCash(ev.target.value, this.props.cashUpLocalState.receipts[index].amount)}))}/>
+                 value={this.getCashUp().receipts[index].amount}
+                 onChange={ev => this.updateReceipt(index, this.getCashUp().receipts[index].with({amount: validateCash(ev.target.value, this.getCashUp().receipts[index].amount)}))}/>
         </div>
       </div>
     )
@@ -383,16 +389,14 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   private formUpdate(obj: {}) {
     this.props.updateCashUpLocalState(
-      this.props.cashUpLocalState.with(obj)
+      [this.getCashUp().with(obj)]
     );
   }
 
   private updateReceipt(index: number, receipt: Receipt) {
-    const clonedReceipts = this.props.cashUpLocalState.receipts.map(till => till.clone());
+    const clonedReceipts = this.getCashUp().receipts.map(till => till.clone());
     clonedReceipts[index] = receipt;
-    this.props.updateCashUpLocalState(
-      this.props.cashUpLocalState.with({receipts: clonedReceipts})
-    );
+    this.formUpdate({receipts: clonedReceipts});
   }
 }
 

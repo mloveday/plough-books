@@ -3,9 +3,9 @@ import {Receipt} from "./Receipt";
 import {SafeFloatDenominations} from "./SafeFloatDenominations";
 import {TillDenominations} from "./TillDenominations";
 
-export class CashUpLocalState {
-  public static default(date: moment.Moment): CashUpLocalState {
-    return new CashUpLocalState(
+export class CashUpEntity {
+  public static default(date: moment.Moment): CashUpEntity {
+    return new CashUpEntity(
       moment(date),
       '',
       '',
@@ -51,7 +51,7 @@ export class CashUpLocalState {
     );
   }
 
-  public static fromBackend(obj: any): CashUpLocalState {
+  public static fromBackend(obj: any): CashUpEntity {
     obj.date = moment(obj.date);
     if (obj.hasOwnProperty('tills')) {
       obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
@@ -62,7 +62,7 @@ export class CashUpLocalState {
     }
     obj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
     obj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
-    return CashUpLocalState.default(obj.date).with(obj);
+    return CashUpEntity.default(obj.date).with(obj);
   }
 
   public readonly id?: number;
@@ -149,9 +149,9 @@ export class CashUpLocalState {
     this.nextDoorBy = nextDoorBy;
   }
 
-  public with(obj: any): CashUpLocalState {
+  public with(obj: any): CashUpEntity {
     return Object.assign(
-      new CashUpLocalState(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, this.id),
+      new CashUpEntity(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, this.id),
       obj
     );
   }

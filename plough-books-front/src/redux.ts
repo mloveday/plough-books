@@ -1,8 +1,8 @@
 import {authReducer} from "./Auth/State/AuthReducer";
 import {AuthState} from "./Auth/State/AuthState";
 import {CashUpExternalState} from "./DataEntry/CashUp/State/CashUpExternalState";
-import {CashUpLocalState} from "./DataEntry/CashUp/State/CashUpLocalState";
 import {cashUpExternalReducers, cashUpInternalReducers} from "./DataEntry/CashUp/State/CashUpRedux";
+import {CashUpsForWeek} from "./DataEntry/CashUp/State/CashUpsForWeek";
 import {ConstantsExternalState} from "./DataEntry/Constants/State/ConstantsExternalState";
 import {ConstantsLocalState} from "./DataEntry/Constants/State/ConstantsLocalState";
 import {constantsExternalReducers, constantsInternalReducers} from "./DataEntry/Constants/State/ConstantsRedux";
@@ -22,7 +22,7 @@ import {staffRolesExternalReducers, staffRolesInternalReducers} from "./DataEntr
 export interface AppState {
   authState: AuthState;
   cashUpExternalState: CashUpExternalState;
-  cashUpLocalState: CashUpLocalState;
+  cashUpLocalStates: CashUpsForWeek;
   constantsExternalState: ConstantsExternalState;
   constantsLocalState: ConstantsLocalState;
   rotaExternalState: RotaExternalState;
@@ -36,7 +36,7 @@ export interface AppState {
 export const reducers = {
   authState: authReducer,
   cashUpExternalState: cashUpExternalReducers,
-  cashUpLocalState: cashUpInternalReducers,
+  cashUpLocalStates: cashUpInternalReducers,
   constantsExternalState: constantsExternalReducers,
   constantsLocalState: constantsInternalReducers,
   rotaExternalState: rotaExternalReducers,
