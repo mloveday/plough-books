@@ -30,11 +30,11 @@ class RotaController {
         }
     }
 
-    public function weeklyPlanningAction(Request $request, RotaParsingService $rotaParsingService, PersistenceService $persistenceService) {
+    public function weeklyPlanningAction(Request $request, RotaParsingService $rotaParsingService, PersistenceService $persistenceService, RotaRepository $rotaRepository) {
         switch($request->getMethod()) {
             case 'POST':
                 $errors = [];
-                $rotas = [];
+                $rotas = []; /** @var Rota[] $rotas */
                 foreach ($request->request->all() as $rotaRequest) {
                     try {
                         if (array_key_exists(RotaParsingService::PARAM__ID, $rotaRequest)) {
@@ -50,7 +50,9 @@ class RotaController {
                     throw new BadRequestHttpException(json_encode(array_map(function (BadRequestHttpException $e) { return $e->getMessage(); }, $errors)));
                 }
                 $persistenceService->persistAll($rotas);
-                return new JsonResponse(array_map(function (Rota $rota) { return $rota->serialise(); }, $rotas));
+
+                $rotas = $rotaRepository->getWeekByDate($rotas[0]->getDate());
+                return new JsonResponse(array_map(function (Rota $rota) { return $rota->serialise(); }, $rotas->toArray()));
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }
