@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {CashManipulation} from "../../../Util/CashManipulation";
+import {DateFormats} from "../../../Util/DateFormats";
 import {ActualShift} from "./ActualShift";
 import {Constants} from "./Constants";
 import {PlannedShift} from "./PlannedShift";
@@ -27,7 +28,7 @@ export class RotaEntity {
   public readonly actualShifts: ActualShift[];
 
   constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: string, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
-    this.date = date;
+    this.date = moment(date);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
     this.constants = constants;
@@ -36,7 +37,8 @@ export class RotaEntity {
     this.actualShifts = actualShifts;
   }
   
-  public with(obj: any): RotaEntity {
+  public with(o: any): RotaEntity {
+    const obj = Object.assign({}, o);
     obj.date = obj.date ? moment(obj.date) : this.date.clone();
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
@@ -59,6 +61,17 @@ export class RotaEntity {
       ),
       {id: this.id},
       obj
+    );
+  }
+
+  public forApi() {
+    return Object.assign(
+      this,
+      {
+        actualShifts: this.actualShifts.map(actualShift => actualShift.forApi()),
+        date: this.date.format(DateFormats.API),
+        plannedShifts: this.plannedShifts.map(plannedShift => plannedShift.forApi()),
+      }
     );
   }
 

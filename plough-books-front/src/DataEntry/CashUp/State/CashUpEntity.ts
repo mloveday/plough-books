@@ -157,6 +157,6 @@ export class CashUpEntity {
   }
 
   public getTotalRevenue(): number {
-    return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0);
+    return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0) + this.receipts.reduce((prev, curr) => prev + curr.amount, 0);
   }
 }

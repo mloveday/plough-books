@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
+import {DateFormats} from "../../../Util/DateFormats";
 import {StaffMember} from "./StaffMember";
 
 export class ActualShift {
@@ -43,7 +44,8 @@ export class ActualShift {
     return (time.isSameOrAfter(this.startTime) && time.isBefore(this.endTime));
   }
   
-  public with(obj: any) {
+  public with(o: any) {
+    const obj = Object.assign({}, o);
     obj.staffMember = obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember;
     obj.startTime = obj.startTime ? moment(obj.startTime) : this.startTime.clone();
     obj.endTime = obj.endTime ? moment(obj.endTime) : this.endTime.clone();
@@ -66,5 +68,15 @@ export class ActualShift {
 
   public clone() {
     return this.with({});
+  }
+
+  public forApi() {
+    return Object.assign(
+      this,
+      {
+        endTime: this.endTime.format(DateFormats.TIME_LEADING_ZERO),
+        startTime: this.startTime.format(DateFormats.TIME_LEADING_ZERO),
+      }
+    )
   }
 }

@@ -5,9 +5,9 @@ import {DateFormats} from "../../../Util/DateFormats";
 import {RotasForWeek} from "./RotasForWeek";
 
 export class RotaExternalState extends ExternalState {
-    public readonly rotasForWeek: RotasForWeek|undefined;
+    public readonly rotasForWeek: RotasForWeek;
 
-    constructor(state: FetchStatus, rotasForWeek?: RotasForWeek) {
+    constructor(state: FetchStatus, rotasForWeek: RotasForWeek = RotasForWeek.default()) {
         super(state);
         this.rotasForWeek = rotasForWeek;
     }

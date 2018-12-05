@@ -3,7 +3,8 @@
   "rules": {
     "jsx-no-lambda": false,
     "no-empty-interface": false,
-    "interface-name": false
+    "interface-name": false,
+    "object-literal-sort-keys": false
   },
   "linterOptions": {
     "exclude": [

@@ -19,6 +19,7 @@ import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
+import {DailyOverview} from "./State/DailyOverview";
 import './WeeklyOverview.css';
 
 interface WeeklyOverviewOwnProps {
@@ -91,6 +92,8 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
     const totalForecastKitchenLabour = this.props.rotaLocalStates.getTotalKitchenLabour(totalForecastRevenue);
     const totalForecastLabour = totalForecastBarLabour + totalForecastKitchenLabour;
 
+    const overviews = this.getDailyOverviews();
+
     return (
       <div className="weekly-overview">
         <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({startOfThisWeek.format(DateFormats.READABLE_WITH_YEAR)})</h1>
@@ -100,7 +103,8 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
         </div>
         <div className="overview-stats">
           <div className="overview-stat">Total costs: £{totalForecastLabour.toFixed(2)}</div>
-          <div className="overview-stat">Total revenue: £{totalForecastRevenue.toFixed(2)}</div>
+          <div className="overview-stat">Total forecast revenue: £{totalForecastRevenue.toFixed(2)}</div>
+          <div className="overview-stat">Total revenue: £{this.props.cashUpExternalState.cashUpsForWeek.getTotalRevenue().toFixed(2)}</div>
         </div>
         <div className="overview-stats">
           <div className="overview-stat">Combined labour rate: {(100*totalForecastLabour/totalVatAdjustedForecastRevenue).toFixed(2)}%</div>
@@ -112,33 +116,23 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
             <div className="overview-stat">Status</div>
             <div className="overview-stat">Constants from date</div>
             <div className="overview-stat">Forecast revenue</div>
+            <div className="overview-stat">Actual revenue</div>
             <div className="overview-stat">Total bar wage cost</div>
             <div className="overview-stat">Bar labour rate</div>
             <div className="overview-stat">Total kitchen wage cost</div>
             <div className="overview-stat">Kitchen labour rate</div>
           </div>
-          {Array.from(this.props.rotaLocalStates.rotas.values()).map((rota, key) => (
-            <div className={`overview-day ${rota.date.format('ddd').toLowerCase()}`} key={key}>
-              <div className="overview-stat">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
-              <div className="overview-stat">{rota.status}</div>
-              <div className="overview-stat">{rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
-              <div className="overview-stat">£{rota.forecastRevenue}</div>
-              <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
-              <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
-              <div className="overview-stat">£{rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
-              <div className="overview-stat">{(rota.getLabourRate(totalForecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}% (aiming for &lt; {(rota.targetLabourRate * 100).toFixed(2)}%)</div>
-            </div>
-          ))}
-          {Array.from(this.props.cashUpExternalState.cashUpsForWeek.cashUps.values()).map((cashUp, key) => (
-            <div className={`overview-cash-up ${cashUp.date.format('ddd').toLowerCase()}`} key={key}>
-              <div className="overview-stat">{cashUp.date.format(DateFormats.READABLE_NO_YEAR)}</div>
-              <div className="overview-stat"/>
-              <div className="overview-stat"/>
-              <div className="overview-stat">£{cashUp.getTotalRevenue()}</div>
-              <div className="overview-stat"/>
-              <div className="overview-stat"/>
-              <div className="overview-stat"/>
-              <div className="overview-stat"/>
+          {overviews.map((overview, key) => (
+            <div className={`overview-day ${overview.date.format('ddd').toLowerCase()}`} key={key}>
+              <div className="overview-stat">{overview.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+              <div className="overview-stat">{overview.rota.status}</div>
+              <div className="overview-stat">{overview.rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
+              <div className="overview-stat">£{overview.rota.forecastRevenue.toFixed(2)}</div>
+              <div className="overview-stat">£{overview.cashUp.getTotalRevenue().toFixed(2)}</div>
+              <div className="overview-stat">£{overview.rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
+              <div className="overview-stat">{(overview.rota.getLabourRate(totalForecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}% (aiming for &lt; {(overview.rota.targetLabourRate * 100).toFixed(2)}%)</div>
+              <div className="overview-stat">£{overview.rota.getTotalLabourCost(totalForecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+              <div className="overview-stat">{(overview.rota.getLabourRate(totalForecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}% (aiming for &lt; {(overview.rota.targetLabourRate * 100).toFixed(2)}%)</div>
             </div>
           ))}
         </div>
@@ -152,6 +146,32 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
 
   private getStartOfWeek() {
     return startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber))
+  }
+
+  private getDailyOverviews(): DailyOverview[] {
+    const date = this.getStartOfWeek();
+    const days = [
+      date.clone().add(0, 'days'),
+      date.clone().add(1, 'days'),
+      date.clone().add(2, 'days'),
+      date.clone().add(3, 'days'),
+      date.clone().add(4, 'days'),
+      date.clone().add(5, 'days'),
+      date.clone().add(6, 'days'),
+    ];
+    const overviews: DailyOverview[] = [];
+    days.forEach(day => {
+      const cashUp = this.props.cashUpExternalState.cashUpsForWeek.cashUps.get(day.format(DateFormats.API));
+      const rota = this.props.rotaExternalState.rotasForWeek.rotas.get(day.format(DateFormats.API));
+      if (cashUp && rota) {
+        overviews.push(new DailyOverview(
+          cashUp,
+          rota,
+          day
+        ))
+      }
+    });
+    return overviews;
   }
 
   private maintainStateWithUrl() {
