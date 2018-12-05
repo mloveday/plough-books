@@ -19,17 +19,20 @@ class PersistenceService
             $this->entityManager->persist($entity);
         }
         $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 
     public function persist($entity)
     {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 
     public function delete($entity)
     {
         $this->entityManager->remove($entity);
         $this->entityManager->flush();
+        $this->entityManager->clear();
     }
 }

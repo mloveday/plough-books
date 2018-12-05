@@ -25,7 +25,7 @@ class CashUpController {
                 }
                 $cashUpPersistenceService->persist($cashUpEntity);
 
-                $cashUps = $cashUpRepository->getWeekByDate($cashUpEntity->getDate()); // TODO determine why the date on the new entity is consistently incorrect (here only)
+                $cashUps = $cashUpRepository->getWeekByDate($cashUpEntity->getDate());
                 if (is_null($cashUps)) {
                     return new JsonResponse((object) ['date' => $cashUpEntity->getDate()->format('Y-m-d')]);
                 }
