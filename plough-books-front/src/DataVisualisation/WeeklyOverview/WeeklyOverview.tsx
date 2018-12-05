@@ -3,6 +3,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
 import {CashUpExternalState} from "../../DataEntry/CashUp/State/CashUpExternalState";
+import {cashUpFetch} from "../../DataEntry/CashUp/State/CashUpRedux";
 import {ConstantsExternalState} from "../../DataEntry/Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../../DataEntry/Constants/State/ConstantsRedux";
 import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
@@ -52,14 +53,16 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyOverviewOwnProps): Wee
 };
 
 interface WeeklyOverviewDispatchProps {
-  fetchConstants: () => void;
-  fetchRotaForDate: (date: moment.Moment) => void;
-  fetchStaffMembers: () => void;
-  fetchStaffRoles: () => void;
+  fetchCashUps: (date: moment.Moment) => void,
+  fetchConstants: () => void,
+  fetchRotaForDate: (date: moment.Moment) => void,
+  fetchStaffMembers: () => void,
+  fetchStaffRoles: () => void,
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: WeeklyOverviewOwnProps): WeeklyOverviewDispatchProps => {
   return {
+    fetchCashUps: date => dispatch(cashUpFetch(date)),
     fetchConstants: () => dispatch(constantsFetch()),
     fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
@@ -156,6 +159,9 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
       this.props.fetchRotaForDate(moment(paramDate));
       return;
+    }
+    if (this.props.cashUpExternalState.shouldLoadForDate(paramDate)) {
+      this.props.fetchCashUps(paramDate);
     }
   }
 }
