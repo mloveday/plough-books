@@ -19,6 +19,7 @@ import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
+import {ConstantsWithHover} from "../Constants/ConstantsWithHover";
 import {DailyOverviews} from "./State/DailyOverviews";
 import './WeeklyOverview.css';
 
@@ -117,7 +118,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           ))}
           <div className="overview-stat-title">Constants from date</div>
           {dailyOverviews.overviews.map((overview, key) => (
-            <div className="overview-stat" key={key}>{overview.rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
+            <ConstantsWithHover constants={overview.rota.constants} key={key} />
           ))}
           <div className="overview-stat-title">Notes</div>
           {dailyOverviews.overviews.map((overview, key) => (

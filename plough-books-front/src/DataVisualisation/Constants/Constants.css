@@ -1,0 +1,18 @@
+.constants-identifier {
+
+}
+
+.constants-hover {
+    pointer-events: none;
+    position: fixed;
+    opacity: 0;
+    transition: opacity 100ms;
+    background: white;
+    border: 1px solid lightgrey;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.constants-identifier:hover + .constants-hover {
+    opacity: 1;
+}

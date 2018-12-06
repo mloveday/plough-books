@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {ConstantsWithHover} from "../../DataVisualisation/Constants/ConstantsWithHover";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
@@ -79,11 +80,13 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
               <div className="planning-rota-item">{rota.date.format(DateFormats.READABLE_NO_YEAR)} ({rota.status})</div>
               <input className="planning-rota-item" type='number' value={rota.forecastRevenue} onChange={ev => this.updateRota(rota.with({forecastRevenue: validateCash(ev.target.value, rota.forecastRevenue)}))} />
               <input className="planning-rota-item" type='number' value={rota.targetLabourRate * 100} onChange={ev => this.updateRota(rota.with({targetLabourRate: validateCash(ev.target.value, rota.targetLabourRate) / 100}))} />
+              <ConstantsWithHover constants={rota.constants}>
               <select className="planning-rota-item" value={rota.constants.id} onChange={ev => this.updateRota(rota.with({constants: this.props.constantsExternalState.externalState.constants.find(constants => constants.id === Number(ev.target.value))}))}>
                 {this.props.constantsExternalState.externalState.constants.map((constants, cKey) => (
                   <option key={cKey} value={constants.id}>{constants.date.format(DateFormats.READABLE_WITH_YEAR)}</option>
                 ))}
               </select>
+              </ConstantsWithHover>
             </div>
           ))}
         </div>
