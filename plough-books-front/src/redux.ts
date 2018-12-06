@@ -18,6 +18,9 @@ import {
 import {StaffRolesExternalState} from "./DataEntry/StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./DataEntry/StaffRoles/State/StaffRolesLocalState";
 import {staffRolesExternalReducers, staffRolesInternalReducers} from "./DataEntry/StaffRoles/State/StaffRolesRedux";
+import {UsersExternalState} from "./DataEntry/User/State/UsersExternalState";
+import {UsersLocalState} from "./DataEntry/User/State/UsersLocalState";
+import {usersExternalReducers, usersInternalReducers} from "./DataEntry/User/State/UsersRedux";
 
 export interface AppState {
   authState: AuthState;
@@ -31,6 +34,8 @@ export interface AppState {
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
   staffRolesLocalState: StaffRolesLocalState;
+  usersExternalState: UsersExternalState;
+  usersLocalState: UsersLocalState;
 }
 
 export const reducers = {
@@ -45,4 +50,6 @@ export const reducers = {
   staffMembersLocalState: staffMembersInternalReducers,
   staffRolesExternalState: staffRolesExternalReducers,
   staffRolesLocalState: staffRolesInternalReducers,
+  usersExternalState: usersExternalReducers,
+  usersLocalState: usersInternalReducers,
 };

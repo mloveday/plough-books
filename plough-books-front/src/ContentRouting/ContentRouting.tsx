@@ -8,6 +8,7 @@ import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
 import {StaffMembers} from "../DataEntry/StaffMembers/StaffMembers";
 import {StaffRoles} from "../DataEntry/StaffRoles/StaffRoles";
+import {Users} from "../DataEntry/User/Users";
 import {WeeklyPlanning} from "../DataEntry/WeeklyPlanning/WeeklyPlanning";
 import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {WorkTypes} from "../Enum/WorkTypes";
@@ -51,6 +52,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.weeklyPlanningRoute()} component={WeeklyPlanning}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
+            <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <Redirect to={Routes.weeklyPlanningUrl(moment())} exact={false} path={Routes.WEEKLY_PLANNING} />
             <Redirect to={Routes.weeklyOverviewUrl(moment())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
             <Redirect to={Routes.cashUpUrl(moment())} exact={false} path={Routes.CASH_UP} />
