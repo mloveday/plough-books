@@ -1,7 +1,15 @@
-.overlay-warning {
-    margin: 16px;
+.App-overlay {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
-.overlay-button {
-    padding: 8px 16px;
+.overlay-warning {
+    margin: 16px;
+    grid-column: 2;
+}
+
+.overlay-buttons {
+    grid-column: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }

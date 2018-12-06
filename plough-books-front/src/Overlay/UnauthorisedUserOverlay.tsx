@@ -42,8 +42,10 @@ class UnauthorisedUserOverlayComponent extends React.Component<UnauthorisedUserO
     return (
       <div className="App-overlay">
         <div className="overlay-warning">You are not authorised to access this dashboard.</div>
-        <Auth/>
-        <button className="overlay-button" onClick={() => this.props.signOut()}>Logout</button>
+        <div className="overlay-buttons">
+          <Auth/>
+          <button className="App-nav-anchor" onClick={() => this.props.signOut()}>Logout</button>
+        </div>
       </div>
     )
   }
