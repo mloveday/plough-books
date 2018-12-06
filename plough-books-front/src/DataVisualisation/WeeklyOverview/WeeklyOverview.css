@@ -11,35 +11,10 @@
 .overview-rota-group {
     grid-column-end: span 4;
     display: grid;
-    grid-template-areas: '. mon tue wed thu fri sat sun';
     grid-template-columns: repeat(8, 1fr);
     grid-gap: 8px;
 }
 
-.overview-day.mon {
-    grid-area: mon;
-}
-
-.overview-day.tue {
-    grid-area: tue;
-}
-
-.overview-day.wed {
-    grid-area: wed;
-}
-
-.overview-day.thu {
-    grid-area: thu;
-}
-
-.overview-day.fri {
-    grid-area: fri;
-}
-
-.overview-day.sat {
-    grid-area: sat;
-}
-
-.overview-day.sun {
-    grid-area: sun;
+.overview-stat-title {
+    grid-column: 1;
 }

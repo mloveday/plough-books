@@ -102,40 +102,62 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           <div className="overview-stat">Combined actual labour rate: {(100*dailyOverviews.getCombinedActualLabourRate()).toFixed(2)}%</div>
         </div>
         <div className="overview-rota-group">
-          <div className="overview-day">
-            <div className="overview-stat">Date</div>
-            <div className="overview-stat">Status</div>
-            <div className="overview-stat">Constants from date</div>
-            <div className="overview-stat">Forecast revenue</div>
-            <div className="overview-stat">Actual revenue</div>
-            <div className="overview-stat">Predicted Bar wage cost</div>
-            <div className="overview-stat">Predicted Kitchen wage cost</div>
-            <div className="overview-stat">Actual Bar wage cost</div>
-            <div className="overview-stat">Actual Kitchen wage cost</div>
-            <div className="overview-stat">Target labour rate</div>
-            <div className="overview-stat">Predicted Bar labour rate</div>
-            <div className="overview-stat">Actual Bar labour rate</div>
-            <div className="overview-stat">Predicted Kitchen labour rate</div>
-            <div className="overview-stat">Actual Kitchen labour rate</div>
-          </div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div className={`overview-day ${overview.date.format('ddd').toLowerCase()}`} key={key}>
-              <div className="overview-stat">{overview.date.format(DateFormats.READABLE_NO_YEAR)}</div>
-              <div className="overview-stat">{overview.rota.status}</div>
-              <div className="overview-stat">{overview.rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
-              <div className="overview-stat">£{overview.rota.forecastRevenue.toFixed(2)}</div>
-              <div className="overview-stat">£{overview.cashUp.getTotalRevenue().toFixed(2)}</div>
-              <div className="overview-stat">£{overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
-              <div className="overview-stat">£{overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
-              <div className="overview-stat">£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR).toFixed(2)}</div>
-              <div className="overview-stat">£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
-              <div className="overview-stat">{(overview.rota.targetLabourRate * 100).toFixed(2)}%</div>
-              <div className="overview-stat">{(overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
-              <div className="overview-stat">{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
-              <div className="overview-stat">{(overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
-              <div className="overview-stat">{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
-            </div>
+            <div className="overview-stat-title">Date</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+            ))}
+            <div className="overview-stat-title">Status</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{overview.rota.status}</div>
+            ))}
+            <div className="overview-stat-title">Constants from date</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{overview.rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
+            ))}
+            <div className="overview-stat-title">Forecast revenue</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>£{overview.rota.forecastRevenue.toFixed(2)}</div>
+            ))}
+            <div className="overview-stat-title">Actual revenue</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>£{overview.cashUp.getTotalRevenue().toFixed(2)}</div>
+            ))}
+            <div className="overview-stat-title">Predicted Bar wage cost</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>£{overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
+            ))}
+            <div className="overview-stat-title">Predicted Kitchen wage cost</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>£{overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+            ))}
+            <div className="overview-stat-title">Actual Bar wage cost</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR).toFixed(2)}</div>
+            ))}
+            <div className="overview-stat-title">Actual Kitchen wage cost</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+            ))}
+            <div className="overview-stat-title">Target labour rate</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{(overview.rota.targetLabourRate * 100).toFixed(2)}%</div>
           ))}
+            <div className="overview-stat-title">Predicted Bar labour rate</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{(overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
+            ))}
+            <div className="overview-stat-title">Actual Bar labour rate</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
+            ))}
+            <div className="overview-stat-title">Predicted Kitchen labour rate</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{(overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
+            ))}
+            <div className="overview-stat-title">Actual Kitchen labour rate</div>
+            {dailyOverviews.overviews.map((overview, key) => (
+              <div className="overview-stat" key={key}>{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
+            ))}
         </div>
         <div className="temp-todo">
           <h2>TODO</h2>
