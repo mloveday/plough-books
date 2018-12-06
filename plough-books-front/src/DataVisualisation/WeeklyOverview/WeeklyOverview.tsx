@@ -119,6 +119,10 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           {dailyOverviews.overviews.map((overview, key) => (
             <div className="overview-stat" key={key}>{overview.rota.constants.date.format(DateFormats.DMY_SLASHES)}</div>
           ))}
+          <div className="overview-stat-title">Notes</div>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <div className="overview-stat notes" key={key}>{overview.cashUp.dailyNotes.toUpperCase()}</div>
+          ))}
         </div>
         <div className="overview-rota-group">
           <div className="overview-stat-title">Forecast revenue</div>
@@ -169,11 +173,6 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           {dailyOverviews.overviews.map((overview, key) => (
             <div className="overview-stat" key={key}>{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
           ))}
-        </div>
-        <div className="temp-todo">
-          <h2>TODO</h2>
-          <div>Display stats for whole week</div>
-          <div>Fill in blank days</div>
         </div>
       </div>)
   }

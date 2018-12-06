@@ -21,3 +21,7 @@
 .overview-stat-title {
     grid-column: 1;
 }
+
+.overview-stat.notes {
+    font-size: 13px;
+}
