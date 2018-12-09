@@ -25,7 +25,6 @@
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/event-dispatcher" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/yaml" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/http-foundation" />
-      <path value="$PROJECT_DIR$/plough-books-back/vendor/nelmio/cors-bundle" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/zendframework/zend-eventmanager" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/zendframework/zend-code" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/ocramius/proxy-manager" />
@@ -61,6 +60,11 @@
       <path value="$PROJECT_DIR$/plough-books-back/vendor/phpseclib/phpseclib" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/webpack-encore-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/twig-bundle" />
+      <path value="$PROJECT_DIR$/plough-books-back/vendor/twig/twig" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />

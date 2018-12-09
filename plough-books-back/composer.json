@@ -7,11 +7,12 @@
         "ext-iconv": "*",
         "ext-json": "^1.6",
         "google/apiclient": "v2.2.2",
-        "nelmio/cors-bundle": "^1.5",
         "symfony/console": "*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
         "symfony/orm-pack": "^1.0",
+        "symfony/twig-bundle": "*",
+        "symfony/webpack-encore-bundle": "^1.0",
         "symfony/yaml": "*"
     },
     "require-dev": {
