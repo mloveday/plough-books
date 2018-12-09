@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Redirect, Switch} from "react-router";
+import {Redirect, Route, Switch} from "react-router";
 import {AuthState} from "../Auth/State/AuthState";
 import {CashUp} from "../DataEntry/CashUp/CashUp";
 import {Rota} from "../DataEntry/Rota/Rota";
@@ -14,6 +14,7 @@ import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview
 import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
+import {PageNotFound} from "./PageNotFound";
 import {RouteWithAuth} from "./RouteWithAuth";
 
 interface ContentRoutingOwnProps {
@@ -58,6 +59,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <Redirect to={Routes.cashUpUrl(moment())} exact={false} path={Routes.CASH_UP} />
             <Redirect to={Routes.rotaUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />
             <Redirect to={Routes.signInUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.SIGN_IN_SHEET} />
+            <Route component={PageNotFound}/>
           </Switch>
         }
       </div>
