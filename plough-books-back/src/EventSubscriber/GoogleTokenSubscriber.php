@@ -23,6 +23,9 @@ class GoogleTokenSubscriber implements EventSubscriberInterface
 
     public function onKernelController(FilterControllerEvent $event)
     {
+        if (strpos($event->getRequest()->getPathInfo(), '/api') !== 0) {
+            return;
+        }
         if (in_array($event->getRequest()->getPathInfo(), self::NO_AUTH_ENDPOINTS) || stripos($event->getRequest()->getPathInfo(), '/_profiler') === 0) {
             return;
         }

@@ -1,56 +1,58 @@
-index:
-  path: /
-  controller: App\Controller\IndexController::indexAction
 cash-up:
-  path: /cash-up
+  path: /api/cash-up
   controller: App\Controller\CashUpController::cashUpAction
   methods: [POST]
 cash-up-date:
-  path: /cash-up/{dateString}
+  path: /api/cash-up/{dateString}
   controller: App\Controller\CashUpController::cashUpDateAction
   methods: [GET]
 rota:
-  path: /rota
+  path: /api/rota
   controller: App\Controller\RotaController::rotaAction
   methods: [POST]
 weekly-planning:
-  path: /weekly-planning
+  path: /api/weekly-planning
   controller: App\Controller\RotaController::weeklyPlanningAction
   methods: [POST]
 rota-date:
-  path: /rota/{dateString}
+  path: /api/rota/{dateString}
   controller: App\Controller\RotaController::rotaDateAction
   methods: [GET]
 users:
-  path: /users
+  path: /api/users
   controller: App\Controller\UserController::usersAction
   methods: [GET]
 user:
-  path: /users/user
+  path: /api/users/user
   controller: App\Controller\UserController::userAction
   methods: [GET, POST]
 role:
-  path: /users/role
+  path: /api/users/role
   controller: App\Controller\UserRoleController::roleAction
   methods: [POST]
 roles:
-  path: /users/roles
+  path: /api/users/roles
   controller: App\Controller\UserRoleController::rolesAction
   methods: [GET]
 domain:
-  path: /users/domain
+  path: /api/users/domain
   controller: App\Controller\UserDomainController::domainAction
   methods: [POST]
 domains:
-  path: /users/domains
+  path: /api/users/domains
   controller: App\Controller\UserDomainController::domainsAction
   methods: [GET]
 staff-roles:
-  path: /staff/roles
+  path: /api/staff/roles
   controller: App\Controller\StaffController::staffRolesAction
 staff-members:
-  path: /staff/members
+  path: /api/staff/members
   controller: App\Controller\StaffController::staffMembersAction
 constants:
-  path: /constants
+  path: /api/constants
   controller: App\Controller\ConstantsController::constantsAction
+index:
+  path: /{foo}
+  controller: App\Controller\IndexController::indexAction
+  requirements:
+    foo: .*
