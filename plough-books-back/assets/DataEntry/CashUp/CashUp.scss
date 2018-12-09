@@ -1,81 +1,81 @@
 .form-wrapper {
-    margin: 16px 64px;
+  margin: 16px 64px;
 }
 
 .form-group {
-    display: grid;
-    grid-gap: 8px;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 0 0 16px 0;
+  display: grid;
+  grid-gap: 8px;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 0 16px 0;
 }
 
 .per-till {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-gap: 2px;
-    grid-column: 2 / span 3;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 2px;
+  grid-column: 2 / span 3;
 }
 
 .till-labels {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-gap: 2px;
-    grid-column: 2 / span 3;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 2px;
+  grid-column: 2 / span 3;
 }
 
 .per-till label {
-    display: none;
+  display: none;
 }
 
 .label-and-input {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .label-and-input label {
-    width: 150px;
+  width: 150px;
 }
 
 .label-and-input input {
-    flex: 1;
+  flex: 1;
 }
 
 .label-and-input textarea {
-    flex: 1;
+  flex: 1;
 }
 
 .group-title {
-    margin: 0;
-    grid-column: 1 / span 4;
+  margin: 0;
+  grid-column: 1 / span 4;
+
+  &.receipts_label {
+    grid-column: 1 / span 2;
+  }
 }
 
 .group-label {
-    margin: 0;
-    grid-column: 1;
+  margin: 0;
+  grid-column: 1;
 }
 
 .daily_notes {
-    grid-column-end: span 2;
+  grid-column-end: span 2;
 }
 
 .till_float_title {
-    grid-column: 1;
+  grid-column: 1;
 }
 
 .till_float_tills {
-    grid-column: 2 / span 3;
-}
-
-.group-title.receipts_label {
-    grid-column: 1 / span 2;
+  grid-column: 2 / span 3;
 }
 
 .receipt_add_button {
-    grid-column: 3 / span 2;
+  grid-column: 3 / span 2;
 }
 
 .receipt {
-    border: 1px solid lightgrey;
-    padding: 4px;
-    background: lightgoldenrodyellow;
+  border: 1px solid lightgrey;
+  padding: 4px;
+  background: lightgoldenrodyellow;
 }

@@ -1,13 +1,9 @@
 .user-entity {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-}
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 
-.user-entity.title {
+  &.title {
     margin: 0 0 16px 0;
     font-weight: bold;
-}
-
-.user-value {
-
+  }
 }
