@@ -9,7 +9,6 @@ import thunk from 'redux-thunk';
 import {App} from './App/App';
 import './index.scss';
 import {reducers} from "./redux";
-import registerServiceWorker from './registerServiceWorker';
 
 const store = createStore(
   combineReducers(reducers),
@@ -25,4 +24,3 @@ ReactDOM.render(
     </Provider>,
   document.getElementById('root') as HTMLElement
 );
-registerServiceWorker();
