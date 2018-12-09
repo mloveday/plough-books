@@ -14,7 +14,7 @@ import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
-import './Rota.css';
+import './Rota.scss';
 import {Constants} from "./State/Constants";
 import {PlannedShift} from "./State/PlannedShift";
 import {RotaEntity} from "./State/RotaEntity";

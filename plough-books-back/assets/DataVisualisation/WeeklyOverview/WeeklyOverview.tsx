@@ -21,7 +21,7 @@ import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {ConstantsWithHover} from "../Constants/ConstantsWithHover";
 import {DailyOverviews} from "./State/DailyOverviews";
-import './WeeklyOverview.css';
+import './WeeklyOverview.scss';
 
 interface WeeklyOverviewOwnProps {
   match: match<{

@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {AppState} from "../redux";
 import {DateFormats} from "../Util/DateFormats";
 import {accountingWeek, accountingYearString} from "../Util/DateUtils";
-import './DatePicker.css';
+import './DatePicker.scss';
 
 interface DatePickerOwnProps {
   dateParam: string;

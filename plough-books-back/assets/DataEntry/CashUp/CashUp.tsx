@@ -6,7 +6,7 @@ import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {validateCash} from "../../Util/Validation";
-import './CashUp.css';
+import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
 import {CashUpEntity} from "./State/CashUpEntity";
 import {CashUpExternalState} from "./State/CashUpExternalState";

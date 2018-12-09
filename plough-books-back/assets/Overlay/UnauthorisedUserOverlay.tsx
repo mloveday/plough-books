@@ -4,7 +4,7 @@ import {Auth} from "../Auth/Auth";
 import {clearAuthentication} from "../Auth/State/AuthActions";
 import {AuthState} from "../Auth/State/AuthState";
 import {AppState} from "../redux";
-import "./Overlay.css";
+import "./Overlay.scss";
 
 interface UnauthorisedUserOverlayOwnProps {
 }

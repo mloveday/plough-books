@@ -4,7 +4,7 @@ import {ContentRouting} from "../ContentRouting/ContentRouting";
 import {Header} from "../Header/Header";
 import {Nav} from "../Nav/Nav";
 import {UnauthorisedUserOverlay} from "../Overlay/UnauthorisedUserOverlay";
-import './App.css';
+import './App.scss';
 
 export class App extends React.Component {
   public render() {

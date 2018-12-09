@@ -4,7 +4,7 @@ import {AppState} from "../../redux";
 import {UsersExternalState} from "./State/UsersExternalState";
 import {UsersLocalState} from "./State/UsersLocalState";
 import {usersFetch} from "./State/UsersRedux";
-import './Users.css';
+import './Users.scss';
 
 interface UsersOwnProps {
 }

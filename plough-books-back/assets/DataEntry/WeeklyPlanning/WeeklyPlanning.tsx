@@ -14,7 +14,7 @@ import {RotaEntity} from "../Rota/State/RotaEntity";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
 import {rotaDataEntry, rotaFetch, weeklyRotasCreate} from "../Rota/State/RotaRedux";
 import {RotasForWeek} from "../Rota/State/RotasForWeek";
-import './WeeklyPlanning.css';
+import './WeeklyPlanning.scss';
 
 interface WeeklyPlanningOwnProps {
   match: match<{

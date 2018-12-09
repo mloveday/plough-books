@@ -2,7 +2,7 @@ import * as log from "loglevel";
 import * as React from "react";
 import GoogleLogin from 'react-google-login';
 import {connect} from "react-redux";
-import '../App/App.css';
+import '../App/App.scss';
 import {AppState} from "../redux";
 import {
   bootstrapFromLocalStorage,
