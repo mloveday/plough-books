@@ -3,7 +3,9 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
 import {ConstantsWithHover} from "../../DataVisualisation/Constants/ConstantsWithHover";
+import {WeekPicker} from "../../Nav/WeekPicker";
 import {AppState} from "../../redux";
+import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {validateCash} from "../../Util/Validation";
@@ -66,7 +68,10 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
 
   public render() {
     return (
-      <div>
+      <div className="weekly-planning-data-entry">
+        <WeekPicker week={parseInt(this.props.match.params.weekNumber, 10)}
+                    year={parseInt(this.props.match.params.year, 10)}
+                    urlFromDate={date => Routes.weeklyPlanningUrl(date)}/>
         <h2>Weekly planning</h2>
         <div className="planning-form">
           <div className="planning-rota">

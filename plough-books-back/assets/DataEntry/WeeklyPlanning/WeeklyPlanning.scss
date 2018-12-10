@@ -1,14 +1,18 @@
-.planning-form {
-  width: 50%;
-  margin: auto;
-}
+.weekly-planning-data-entry {
 
-.planning-rota {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-}
+  .planning-form {
+    width: 50%;
+    margin: auto;
+  }
 
-.planning-rota-item {
-  align-self: center;
-  justify-self: center;
+  .planning-rota {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .planning-rota-item {
+    align-self: center;
+    justify-self: center;
+  }
+
 }
