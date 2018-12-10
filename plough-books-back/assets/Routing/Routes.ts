@@ -10,6 +10,7 @@ export class Routes {
   public static readonly STAFF_MEMBERS = "/staff/members";
   public static readonly STAFF_ROLES = "/staff/roles";
   public static readonly USERS = "/admin/users";
+  public static readonly ROLES = "/admin/roles";
   public static readonly WEEKLY_PLANNING = "/weekly-planning";
   public static readonly DATE_FINDER = [Routes.dateRoutes(), Routes.weekRoutes(), Routes.INDEX];
 

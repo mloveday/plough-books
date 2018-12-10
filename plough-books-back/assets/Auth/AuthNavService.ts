@@ -13,6 +13,7 @@ export const routeAllowed = (route: string, user: User): boolean => {
     case Routes.STAFF_ROLES:
       return true;
     case Routes.USERS:
+    case Routes.ROLES:
       return user.role.managesUsers;
     default:
       return false;
