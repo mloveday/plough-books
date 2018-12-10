@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class UserController {
 
-    public function userAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserParsingService $userParsingService, PersistenceService $persistenceService) {
+    public function userAction(Request $request, RequestValidator $requestValidator, UserLoginVerificationService $userLoginVerificationService, UserParsingService $userParsingService, PersistenceService $persistenceService, UserRepository $userRepository) {
         $authenticatedUser = $userLoginVerificationService->getAuthenticatedUserFromToken($request->query->get('token'));
         if ($request->getMethod() === 'GET') {
             return new JsonResponse($authenticatedUser->serialiseAll());
@@ -32,7 +32,10 @@ class UserController {
                     $user = $userParsingService->getNewUserEntity($request);
                 }
                 $persistenceService->persist($user);
-                return new JsonResponse($user->serialiseAll());
+                $users = $userRepository->findAll();
+                return new JsonResponse(array_map(function (User $user) {
+                    return $user->serialiseAll();
+                }, $users));
             case 'DELETE':
                 $requestValidator->validateRequestFields($request->request->all(), ['id']);
                 $user = $userParsingService->getUserEntityForDeletion($request);

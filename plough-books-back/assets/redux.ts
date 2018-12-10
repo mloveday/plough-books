@@ -6,6 +6,9 @@ import {CashUpsForWeek} from "./DataEntry/CashUp/State/CashUpsForWeek";
 import {ConstantsExternalState} from "./DataEntry/Constants/State/ConstantsExternalState";
 import {ConstantsLocalState} from "./DataEntry/Constants/State/ConstantsLocalState";
 import {constantsExternalReducers, constantsInternalReducers} from "./DataEntry/Constants/State/ConstantsRedux";
+import {RolesExternalState} from "./DataEntry/Role/State/RolesExternalState";
+import {RolesLocalState} from "./DataEntry/Role/State/RolesLocalState";
+import {rolesExternalReducers, rolesInternalReducers} from "./DataEntry/Role/State/RolesRedux";
 import {RotaExternalState} from "./DataEntry/Rota/State/RotaExternalState";
 import {rotaExternalReducers, rotaInternalReducers} from "./DataEntry/Rota/State/RotaRedux";
 import {RotasForWeek} from "./DataEntry/Rota/State/RotasForWeek";
@@ -36,6 +39,8 @@ export interface AppState {
   staffRolesLocalState: StaffRolesLocalState;
   usersExternalState: UsersExternalState;
   usersLocalState: UsersLocalState;
+  rolesExternalState: RolesExternalState;
+  rolesLocalState: RolesLocalState;
 }
 
 export const reducers = {
@@ -52,4 +57,6 @@ export const reducers = {
   staffRolesLocalState: staffRolesInternalReducers,
   usersExternalState: usersExternalReducers,
   usersLocalState: usersInternalReducers,
+  rolesExternalState: rolesExternalReducers,
+  rolesLocalState: rolesInternalReducers,
 };
