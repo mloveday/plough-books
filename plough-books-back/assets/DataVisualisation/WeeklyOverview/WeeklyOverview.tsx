@@ -16,7 +16,9 @@ import {StaffRolesExternalState} from "../../DataEntry/StaffRoles/State/StaffRol
 import {StaffRolesLocalState} from "../../DataEntry/StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../../DataEntry/StaffRoles/State/StaffRolesRedux";
 import {WorkTypes} from "../../Enum/WorkTypes";
+import {WeekPicker} from "../../Nav/WeekPicker";
 import {AppState} from "../../redux";
+import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {ConstantsWithHover} from "../Constants/ConstantsWithHover";
@@ -87,6 +89,9 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
     const dailyOverviews = new DailyOverviews(this.getStartOfWeek(), this.props.rotaExternalState.rotasForWeek, this.props.cashUpExternalState.cashUpsForWeek);
     return (
       <div className="weekly-overview">
+        <WeekPicker week={parseInt(this.props.match.params.weekNumber, 10)}
+                    year={parseInt(this.props.match.params.year, 10)}
+                    urlFromDate={date => Routes.weeklyOverviewUrl(date)}/>
         <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({dailyOverviews.startOfWeek.format(DateFormats.READABLE_WITH_YEAR)})</h1>
         <div className="overview-stats">
           <div className="overview-stat">Forecast Bar costs: £{dailyOverviews.forecastBarLabour.toFixed(2)}</div>
