@@ -1,15 +1,21 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, match} from "react-router-dom";
 import {Auth} from "../Auth/Auth";
 import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
+import {startOfWeek} from "../Util/DateUtils";
 
 interface NavOwnProps {
+  match: match<{
+    weekNumber?: string,
+    year?: string,
+    date?: string,
+  }>;
 }
 
 interface NavStateProps {
@@ -33,17 +39,23 @@ type NavProps = NavOwnProps & NavStateProps & NavDispatchProps;
 
 class NavComponent extends React.Component<NavProps, {}> {
   public render() {
+    let date = moment();
+    if (this.props.match.params.date) {
+      date = moment(this.props.match.params.date);
+    } else if (this.props.match.params.weekNumber && this.props.match.params.year) {
+      date = startOfWeek(parseInt(this.props.match.params.year, 10), parseInt(this.props.match.params.weekNumber, 10))
+    }
     return (
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className="App-nav-item"><Auth /></li>
-          {this.routeItem(Routes.cashUpUrl(moment()), "Cash up", Routes.CASH_UP)}
-          {this.routeItem(Routes.WEEKLY_PLANNING, "Weekly planning")}
-          {this.routeItem(Routes.rotaUrl(moment(), WorkTypes.BAR), "Bar Rota", Routes.ROTA)}
-          {this.routeItem(Routes.rotaUrl(moment(), WorkTypes.KITCHEN), "Kitchen Rota", Routes.ROTA)}
-          {this.routeItem(Routes.signInUrl(moment(), WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
-          {this.routeItem(Routes.signInUrl(moment(), WorkTypes.KITCHEN), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
-          {this.routeItem(Routes.WEEKLY_OVERVIEW, "Weekly overview")}
+          {this.routeItem(Routes.cashUpUrl(date), "Cash up", Routes.CASH_UP)}
+          {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", Routes.WEEKLY_PLANNING)}
+          {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", Routes.ROTA)}
+          {this.routeItem(Routes.rotaUrl(date, WorkTypes.KITCHEN), "Kitchen Rota", Routes.ROTA)}
+          {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.signInUrl(date, WorkTypes.KITCHEN), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.weeklyOverviewUrl(date), "Weekly overview", Routes.WEEKLY_OVERVIEW)}
           {this.routeItem(Routes.STAFF_MEMBERS, "Staff")}
           {this.routeItem(Routes.STAFF_ROLES, "Staff roles")}
           {this.routeItem(Routes.USERS, "Users")}

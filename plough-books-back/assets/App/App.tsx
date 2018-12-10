@@ -6,13 +6,13 @@ import {Nav} from "../Nav/Nav";
 import {UnauthorisedUserOverlay} from "../Overlay/UnauthorisedUserOverlay";
 import './App.scss';
 
-export class App extends React.Component {
+export class App extends React.Component<{ match: any }> {
   public render() {
     return (
       <div className="App">
         <UnauthorisedUserOverlay/>
         <Header/>
-        <Nav/>
+        <Nav match={this.props.match}/>
         <Route path="/" component={ContentRouting}/>
       </div>
     );

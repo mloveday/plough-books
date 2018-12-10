@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import {App} from './App/App';
 import './index.scss';
 import {reducers} from "./redux";
+import {Routes} from "./Routing/Routes";
 
 const store = createStore(
   combineReducers(reducers),
@@ -19,7 +20,7 @@ const browserHistory = createBrowserHistory();
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
-            <Route path="/" component={App}/>
+          <Route path={Routes.DATE_FINDER} exact={false} component={App}/>
         </Router>
     </Provider>,
   document.getElementById('root') as HTMLElement
