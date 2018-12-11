@@ -193,12 +193,6 @@ class RotaComponent extends React.Component<RotaProps, {}> {
               }
             )}
         </div>
-        <div className="temp-todo">
-          <h2>TODO</h2>
-          <div>Save all changes for week</div>
-          <div>Do not override changes made to other days when saving one day</div>
-          <div>Weekly overview</div>
-        </div>
       </div>)
   }
   

@@ -100,11 +100,6 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
           <div>Forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek()).toFixed(2)}%</div>
         </div>
         <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
-        <div>
-          <h3>TODO</h3>
-          <div>Styling</div>
-          <div>Date selector</div>
-        </div>
       </div>
     )
   }
