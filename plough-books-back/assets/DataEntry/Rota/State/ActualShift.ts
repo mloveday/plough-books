@@ -71,7 +71,7 @@ export class ActualShift {
   }
 
   public getRawCost() {
-    return Math.max(this.staffMember.currentHourlyRate * ((this.endTime.diff(this.startTime, "minutes") / 60) - this.totalBreaks), 0)
+    return Math.max(this.hourlyRate * ((this.endTime.diff(this.startTime, "minutes") / 60) - this.totalBreaks), 0)
   }
 
   public forApi() {
