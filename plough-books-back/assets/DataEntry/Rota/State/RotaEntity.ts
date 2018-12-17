@@ -97,7 +97,7 @@ export class RotaEntity {
   public getActualLabourRate(revenueToday: number, weeklyRevenue: number, type: string): number {
     return CashManipulation.calculateLabourRate(
       this.getTotalActualLabourCost(revenueToday, weeklyRevenue, type),
-      weeklyRevenue*CashManipulation.getProportionOfRevenue(type, this.constants),
+      revenueToday*CashManipulation.getProportionOfRevenue(type, this.constants),
       this.constants.vatMultiplier
     );
   }
