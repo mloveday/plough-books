@@ -111,6 +111,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
               <option value='draft'>Draft</option>
               <option value='final'>Final</option>
               <option value='deleted'>Deleted</option>
+              <option value='imported'>Imported</option>
             </select>
             </div>
           <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>
