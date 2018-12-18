@@ -5,6 +5,7 @@ import {validateCash} from "../../Util/Validation";
 import {StaffMember} from "../Rota/State/StaffMember";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
+import "./StaffMembers.scss";
 import {StaffMembersExternalState} from "./State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "./State/StaffMembersLocalState";
 import {staffMembersCreate, staffMembersDataEntry, staffMembersFetch} from "./State/StaffMembersRedux";
@@ -57,11 +58,17 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     const isCreatingNewMember = this.props.staffMembersLocalState.isCreatingMember;
     const newMember = this.props.staffMembersLocalState.newMember;
     return (
-      <div>
+      <div className="staff-members-data-entry">
+        <div className="staff-member-entity title">
+          <div>Name</div>
+          <div>Status</div>
+          <div>Current hourly rate</div>
+          <div>Role</div>
+        </div>
         {this.props.staffMembersLocalState.members.map((member, key) => {
           const isEditingMember = !isCreatingNewMember && member.id === this.props.staffMembersLocalState.editingMemberId;
           return (
-            <div key={key}>
+            <div className="staff-member-entity" key={key}>
               <input disabled={!isEditingMember} value={member.name} onChange={ev => this.updateStaffMember(member.with({'name' : ev.target.value}))} />
               <input disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} />
               <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
@@ -77,7 +84,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
             </div>
           );
         })}
-        <div>
+        <div className="staff-member-entity">
           {isCreatingNewMember && <input value={newMember.name} onChange={ev => this.newStaffMember(newMember.with({'name': ev.target.value}))}/>}
           {isCreatingNewMember && <input value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status': ev.target.value}))}/>}
           {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
