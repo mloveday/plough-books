@@ -93,7 +93,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     for (let i=0; i<numberOfTimePeriods; i++) {
       timePeriods.push(startTime.clone().add(i*30, 'minutes'));
     }
-    const unusedMembers = this.props.staffMembersLocalState.members
+    const unusedMembers = this.props.staffMembersLocalState.entities
       .filter(
       (member: StaffMember) => this.getRota().plannedShifts.filter(
         shift => shift.staffMember.id === member.id

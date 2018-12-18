@@ -1,6 +1,7 @@
+import {EditableEntity} from "../../../State/EditableEntity";
 import {StaffRole} from "./StaffRole";
 
-export class StaffMember {
+export class StaffMember extends EditableEntity {
 
   public static default() {
     return new StaffMember(
@@ -18,6 +19,7 @@ export class StaffMember {
   public readonly status: string;
 
   constructor(name: string, currentHourlyRate: number, role: StaffRole, status: string) {
+    super();
     this.name = name;
     this.currentHourlyRate = currentHourlyRate;
     this.role = role;
@@ -36,5 +38,9 @@ export class StaffMember {
       {id: this.id},
       obj,
     );
+  }
+
+  public get entityId() {
+    return this.id;
   }
 }

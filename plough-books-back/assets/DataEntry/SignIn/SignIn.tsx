@@ -91,7 +91,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
     for (let i=0; i<numberOfTimePeriods; i++) {
       timePeriods.push(startTime.clone().add(i*30, 'minutes'));
     }
-    const unusedMembers = this.props.staffMembersLocalState.members
+    const unusedMembers = this.props.staffMembersLocalState.entities
       .filter(
         (member: StaffMember) => this.getRota().actualShifts.filter(
           shift => shift.staffMember.id === member.id

@@ -64,10 +64,10 @@ export const staffMembersInternalReducers = handleActions<StaffMembersLocalState
     return state.with(action.payload);
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
-    return StaffMembersLocalState.default().withMembers(action.payload);
+    return StaffMembersLocalState.default().withEntities(action.payload);
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
-    return StaffMembersLocalState.default().withMembers(action.payload);
+    return StaffMembersLocalState.default().withEntities(action.payload);
   }
 }, StaffMembersLocalState.default());
 
@@ -76,7 +76,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return new StaffMembersExternalState(FetchStatus.STARTED);
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.OK, StaffMembersLocalState.default().withMembers(action.payload));
+    return new StaffMembersExternalState(FetchStatus.OK, StaffMembersLocalState.default().withEntities(action.payload));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action) => {
     return new StaffMembersExternalState(FetchStatus.ERROR);
@@ -85,7 +85,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return new StaffMembersExternalState(FetchStatus.STARTED, state.externalState);
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.OK , StaffMembersLocalState.default().withMembers(action.payload));
+    return new StaffMembersExternalState(FetchStatus.OK , StaffMembersLocalState.default().withEntities(action.payload));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action) => {
     return new StaffMembersExternalState(FetchStatus.ERROR);

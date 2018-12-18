@@ -66,9 +66,9 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
   }
   
   public render() {
-    const isCreatingNewMember = this.props.staffMembersLocalState.isCreatingMember;
-    const newMember = this.props.staffMembersLocalState.newMember;
-    const filteredMembers = this.props.staffMembersLocalState.members
+    const isCreatingNewMember = this.props.staffMembersLocalState.isCreatingEntity;
+    const newMember = this.props.staffMembersLocalState.newEntity;
+    const filteredMembers = this.props.staffMembersLocalState.entities
       .filter(member => !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status);
     const lastPageNumber = Math.max(1,Math.ceil(filteredMembers.length/this.props.staffMemberFilters.pageSize));
     return (
@@ -113,7 +113,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
         {filteredMembers
           .slice(this.props.staffMemberFilters.pageSize * (this.props.staffMemberFilters.pageNumber - 1), this.props.staffMemberFilters.pageSize * this.props.staffMemberFilters.pageNumber)
           .map((member, key) => {
-          const isEditingMember = !isCreatingNewMember && member.id === this.props.staffMembersLocalState.editingMemberId;
+          const isEditingMember = !isCreatingNewMember && member.id === this.props.staffMembersLocalState.editingEntityId;
           return (
             <div className="staff-member-entity" key={key}>
               <input disabled={!isEditingMember} value={member.name} onChange={ev => this.updateStaffMember(member.with({'name' : ev.target.value}))} />
@@ -159,15 +159,15 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
   }
   
   private newStaffMember(staffMember: StaffMember = StaffMember.default()) {
-    this.props.updateStaffMember(this.props.staffMembersLocalState.withNewMember(staffMember));
+    this.props.updateStaffMember(this.props.staffMembersLocalState.withNewEntity(staffMember));
   }
 
   private updateStaffMember(staffMember: StaffMember) {
-    this.props.updateStaffMember(this.props.staffMembersLocalState.withMembers([staffMember], staffMember.id));
+    this.props.updateStaffMember(this.props.staffMembersLocalState.withEntities([staffMember], staffMember.id));
   }
 
   private cancelEdit() {
-    this.props.updateStaffMember(this.props.staffMembersLocalState.withMembers(this.props.staffMembersExternalState.externalState.members));
+    this.props.updateStaffMember(this.props.staffMembersLocalState.withEntities(this.props.staffMembersExternalState.externalState.entities));
   }
 
   private saveStaffMember(staffMember: StaffMember) {
