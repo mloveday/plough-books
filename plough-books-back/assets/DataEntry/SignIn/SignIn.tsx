@@ -93,7 +93,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
     }
     const unusedMembers = this.props.staffMembersLocalState.entities
       .filter(
-        (member: StaffMember) => this.getRota().actualShifts.filter(
+        (member: StaffMember) => member.isActive() && this.getRota().actualShifts.filter(
           shift => shift.staffMember.id === member.id
         ).length === 0
       );
@@ -134,61 +134,67 @@ class SignInComponent extends React.Component<SignInProps, {}> {
           &&  this.props.staffMembersExternalState.isLoaded()
           && this.props.staffRolesLocalState.entities.filter(role => role.type === this.props.match.params.type)
             .map((role, roleKey) => {
-                return (
-                  <div className="rota-role-group" key={roleKey}>
-                    <div className="rota-role-header">{role.role}</div>
-                    {this.getRota().actualShifts
-                      .filter(actualShift => actualShift.staffMember.role.id === role.id && actualShift.type === this.props.match.params.type)
-                      .map((actualShift, shiftKey) => (
-                        <div className="rota-shift" key={shiftKey}>
-                          <div className="rota-staff-name">{actualShift.staffMember.name}</div>
-                          <div className="rota-remove-shift">
-                            {!editingDisabled && <button className="rota-remove-shift-button" type='button' onClick={() => this.removeActualShift(actualShift)}>x</button>}
+              const shifts = this.getRota().actualShifts
+                .filter(actualShift => actualShift.staffMember.role.id === role.id && actualShift.type === this.props.match.params.type);
+                if (shifts.length > 0 || !editingDisabled) {
+                  return (
+                    <div className="rota-role-group" key={roleKey}>
+                      <div className="rota-role-header">{role.role}</div>
+                      {shifts.map((actualShift, shiftKey) => (
+                          <div className="rota-shift" key={shiftKey}>
+                            <div className="rota-staff-name">{actualShift.staffMember.name}</div>
+                            <div className="rota-remove-shift">
+                              {!editingDisabled && <button className="rota-remove-shift-button" type='button'
+                                                           onClick={() => this.removeActualShift(actualShift)}>x</button>}
+                            </div>
+                            <div className="rota-start-time">
+                              {editingDisabled ? (
+                                <div>{actualShift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
+                              ) : (
+                                <input disabled={editingDisabled} type='time' step={1800} className="rota-time-input"
+                                       value={actualShift.startTimeInputValue}
+                                       onChange={ev => this.startTimeHandler(ev.target.value, actualShift)}
+                                />
+                              )}
+                            </div>
+                            <div className="rota-end-time">
+                              {editingDisabled ? (
+                                <div>{actualShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
+                              ) : (
+                                <input type='time' step={1800} className="rota-time-input"
+                                       value={actualShift.endTimeInputValue}
+                                       onChange={ev => this.endTimeHandler(ev.target.value, actualShift)}
+                                />
+                              )}
+                            </div>
+                            <div className="rota-breaks">{actualShift.totalBreaks * 60} mins</div>
+                            {timePeriods.map((timePeriod, periodKey) => (
+                              <div
+                                className={actualShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"}
+                                key={periodKey}/>
+                            ))}
                           </div>
-                          <div className="rota-start-time">
-                            {editingDisabled ? (
-                              <div>{actualShift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                            ) : (
-                              <input disabled={editingDisabled} type='time' step={1800} className="rota-time-input"
-                                     value={actualShift.startTimeInputValue}
-                                     onChange={ev => this.startTimeHandler(ev.target.value, actualShift)}
-                              />
-                            )}
+                        ))}
+                      <div className="rota-horizontal-spacer"/>
+                      {!editingDisabled && unusedMembers
+                        .filter(member => member.role.id === role.id)
+                        .map((member, shiftKey) => (
+                          <div className="rota-shift no-shift" key={shiftKey}>
+                            <div className="rota-staff-name">{member.name}</div>
+                            <div className="rota-remove-shift"/>
+                            <div className="rota-new-shift">
+                              <button onClick={() => this.newShiftHandler(member)} type="button">Add to rota</button>
+                            </div>
+                            <div className="rota-new-shift-spacer"/>
+                            <div className="rota-new-shift-spacer"/>
+                            {timePeriods.map((timePeriod, periodKey) => (
+                              <div className="rota-time" key={periodKey}/>
+                            ))}
                           </div>
-                          <div className="rota-end-time">
-                            {editingDisabled ? (
-                              <div>{actualShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                            ) : (
-                              <input type='time' step={1800} className="rota-time-input"
-                                     value={actualShift.endTimeInputValue}
-                                     onChange={ev => this.endTimeHandler(ev.target.value, actualShift)}
-                              />
-                            )}
-                          </div>
-                          <div className="rota-breaks">{actualShift.totalBreaks * 60} mins</div>
-                          {timePeriods.map((timePeriod, periodKey) => (
-                            <div className={actualShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
-                          ))}
-                        </div>
-                      ))}
-                    <div className="rota-horizontal-spacer" />
-                    {!editingDisabled && unusedMembers
-                      .filter(member => member.role.id === role.id)
-                      .map((member, shiftKey) => (
-                        <div className="rota-shift no-shift" key={shiftKey}>
-                          <div className="rota-staff-name">{member.name}</div>
-                          <div className="rota-remove-shift"/>
-                          <div className="rota-new-shift">
-                            <button onClick={() => this.newShiftHandler(member)} type="button">Add to rota</button>
-                          </div>
-                          <div className="rota-new-shift-spacer"/>
-                          <div className="rota-new-shift-spacer"/>
-                          {timePeriods.map((timePeriod, periodKey) => (
-                            <div className="rota-time" key={periodKey}/>
-                          ))}
-                        </div>
-                      ))}
-                  </div>);
+                        ))}
+                    </div>);
+                }
+                return null;
               }
             )}
         </div>

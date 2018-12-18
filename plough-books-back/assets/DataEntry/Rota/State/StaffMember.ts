@@ -1,3 +1,4 @@
+import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
 import {StaffRole} from "./StaffRole";
 
@@ -42,5 +43,9 @@ export class StaffMember extends EditableEntity {
 
   public get entityId() {
     return this.id;
+  }
+
+  public isActive() {
+    return this.status === StaffMemberStatus.ACTIVE;
   }
 }
