@@ -1,6 +1,7 @@
 import * as moment from "moment";
+import {EditableEntity} from "../../../State/EditableEntity";
 
-export class Constants {
+export class Constants extends EditableEntity {
 
   public static default() {
     return new Constants(
@@ -36,6 +37,7 @@ export class Constants {
   public readonly pensionLinearPercent: number;
 
   constructor(date: moment.Moment, fixedCosts: number, labourRate: number, vatMultiplier: number, barProportionOfRevenue: number, hoursPerShortBreak: number, shortBreakDuration: number, hoursPerLongBreak: number, longBreakDuration: number, ersThreshold: number, ersPercentAboveThreshold: number, holidayLinearPercent: number, pensionLinearPercent: number) {
+    super();
     this.date = date;
     this.fixedCosts = fixedCosts;
     this.labourRate = labourRate;
@@ -72,5 +74,9 @@ export class Constants {
       {id: this.id},
       obj
     );
+  }
+
+  public get entityId() {
+    return this.id;
   }
 }

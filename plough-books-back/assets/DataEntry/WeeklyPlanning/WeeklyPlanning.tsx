@@ -86,8 +86,8 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
               <input className="planning-rota-item" type='number' value={rota.forecastRevenue} onChange={ev => this.updateRota(rota.with({forecastRevenue: validateCash(ev.target.value, rota.forecastRevenue)}))} />
               <input className="planning-rota-item" type='number' value={rota.targetLabourRate * 100} onChange={ev => this.updateRota(rota.with({targetLabourRate: validateCash(ev.target.value, rota.targetLabourRate) / 100}))} />
               <ConstantsWithHover constants={rota.constants}>
-              <select className="planning-rota-item" value={rota.constants.id} onChange={ev => this.updateRota(rota.with({constants: this.props.constantsExternalState.externalState.constants.find(constants => constants.id === Number(ev.target.value))}))}>
-                {this.props.constantsExternalState.externalState.constants.map((constants, cKey) => (
+              <select className="planning-rota-item" value={rota.constants.id} onChange={ev => this.updateRota(rota.with({constants: this.props.constantsExternalState.externalState.entities.find(constants => constants.id === Number(ev.target.value))}))}>
+                {this.props.constantsExternalState.externalState.entities.map((constants, cKey) => (
                   <option key={cKey} value={constants.id}>{constants.date.format(DateFormats.READABLE_WITH_YEAR)}</option>
                 ))}
               </select>
@@ -125,7 +125,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded()) {
       Array.from(this.props.rotaLocalStates.rotas.values()).forEach(r => {
         if (!r.constants.id) {
-          this.updateRota(r.with({constants: this.props.constantsExternalState.externalState.constants.length > 0 ? this.props.constantsExternalState.externalState.constants.slice(0,1)[0] : Constants.default()}));
+          this.updateRota(r.with({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}));
           return;
         }
       });

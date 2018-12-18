@@ -289,7 +289,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
-      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.constants.slice(0,1)[0]});
+      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.entities.slice(0,1)[0]});
     }
   }
 }

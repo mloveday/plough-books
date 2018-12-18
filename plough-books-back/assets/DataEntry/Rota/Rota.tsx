@@ -299,7 +299,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
-      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.constants.length > 0 ? this.props.constantsExternalState.externalState.constants.slice(0,1)[0] : Constants.default()});
+      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()});
     }
   }
 }
