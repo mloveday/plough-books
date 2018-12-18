@@ -4,6 +4,7 @@ import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {getStaffRoleOrder} from "../../Util/SortingUtils";
 import {StaffRole} from "../Rota/State/StaffRole";
+import "./StaffRoles.scss";
 import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";
@@ -51,12 +52,18 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
   public render() {
     const isCreatingNewRole = this.props.staffRolesLocalState.isCreatingRole;
     return (
-      <div>
+      <div className="staff-roles-data-entry">
+        <div className="staff-role-entity">
+          <div>Role name</div>
+          <div>Status</div>
+          <div>Order in rota</div>
+          <div>Type</div>
+        </div>
         {this.props.staffRolesLocalState.roles.sort((a,b) => getStaffRoleOrder(a) < getStaffRoleOrder(b) ? -1 : 1)
           .map((role, key) => {
             const isEditingThisRole = !isCreatingNewRole && role.id === this.props.staffRolesLocalState.editingRoleId;
             return (
-              <div key={key}>
+              <div className="staff-role-entity" key={key}>
                 <input disabled={!isEditingThisRole} value={role.role} onChange={ev => this.updateStaffRole(role.with({'role': ev.target.value}))}/>
                 <input disabled={!isEditingThisRole} value={role.status} onChange={ev => this.updateStaffRole(role.with({'status': ev.target.value}))}/>
                 <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': ev.target.value}))}/>
@@ -72,7 +79,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
             )
           }
         )}
-        <div>
+        <div className="staff-role-entity">
           {isCreatingNewRole &&
           <input value={this.props.staffRolesLocalState.newRole.role}
                  onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newRole.with({'role': ev.target.value}))}/>
