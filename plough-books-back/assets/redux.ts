@@ -12,9 +12,11 @@ import {rolesExternalReducers, rolesInternalReducers} from "./DataEntry/Role/Sta
 import {RotaExternalState} from "./DataEntry/Rota/State/RotaExternalState";
 import {rotaExternalReducers, rotaInternalReducers} from "./DataEntry/Rota/State/RotaRedux";
 import {RotasForWeek} from "./DataEntry/Rota/State/RotasForWeek";
+import {StaffMemberFilters} from "./DataEntry/StaffMembers/State/StaffMemberFilters";
 import {StaffMembersExternalState} from "./DataEntry/StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "./DataEntry/StaffMembers/State/StaffMembersLocalState";
 import {
+  staffMemberFiltersReducer,
   staffMembersExternalReducers,
   staffMembersInternalReducers
 } from "./DataEntry/StaffMembers/State/StaffMembersRedux";
@@ -35,6 +37,7 @@ export interface AppState {
   rotaLocalStates: RotasForWeek;
   staffMembersExternalState: StaffMembersExternalState;
   staffMembersLocalState: StaffMembersLocalState;
+  staffMemberFilters: StaffMemberFilters;
   staffRolesExternalState: StaffRolesExternalState;
   staffRolesLocalState: StaffRolesLocalState;
   usersExternalState: UsersExternalState;
@@ -53,6 +56,7 @@ export const reducers = {
   rotaLocalStates: rotaInternalReducers,
   staffMembersExternalState: staffMembersExternalReducers,
   staffMembersLocalState: staffMembersInternalReducers,
+  staffMemberFilters: staffMemberFiltersReducer,
   staffRolesExternalState: staffRolesExternalReducers,
   staffRolesLocalState: staffRolesInternalReducers,
   usersExternalState: usersExternalReducers,

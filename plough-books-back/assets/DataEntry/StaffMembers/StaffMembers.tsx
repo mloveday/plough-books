@@ -7,9 +7,15 @@ import {StaffMember} from "../Rota/State/StaffMember";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import "./StaffMembers.scss";
+import {StaffMemberFilters} from "./State/StaffMemberFilters";
 import {StaffMembersExternalState} from "./State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "./State/StaffMembersLocalState";
-import {staffMembersCreate, staffMembersDataEntry, staffMembersFetch} from "./State/StaffMembersRedux";
+import {
+  staffMembersCreate,
+  staffMembersDataEntry,
+  staffMembersFetch,
+  staffMembersFilter
+} from "./State/StaffMembersRedux";
 
 interface StaffMembersOwnProps {
 }
@@ -17,6 +23,7 @@ interface StaffMembersOwnProps {
 interface StaffMembersStateProps {
   staffMembersExternalState: StaffMembersExternalState;
   staffMembersLocalState: StaffMembersLocalState;
+  staffMemberFilters: StaffMemberFilters;
   staffRolesExternalState: StaffRolesExternalState;
 }
 
@@ -24,6 +31,7 @@ const mapStateToProps = (state: AppState, ownProps: StaffMembersOwnProps): Staff
   return {
     staffMembersExternalState: state.staffMembersExternalState,
     staffMembersLocalState: state.staffMembersLocalState,
+    staffMemberFilters: state.staffMemberFilters,
     staffRolesExternalState: state.staffRolesExternalState,
   }
 };
@@ -31,6 +39,7 @@ const mapStateToProps = (state: AppState, ownProps: StaffMembersOwnProps): Staff
 interface StaffMembersDispatchProps {
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
+  setFilters: (filters: StaffMemberFilters) => void;
   saveStaffMember: (staffMember: StaffMember) => void;
   updateStaffMember: (staffMembersLocalState: StaffMembersLocalState) => void;
 }
@@ -39,6 +48,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: StaffMembersOwnProps): Staf
   return {
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
+    setFilters: filters => dispatch(staffMembersFilter(filters)),
     saveStaffMember: (staffMember: StaffMember) => dispatch(staffMembersCreate(staffMember)),
     updateStaffMember: (staffMembersLocalState: StaffMembersLocalState) => dispatch(staffMembersDataEntry(staffMembersLocalState)),
   };
@@ -60,13 +70,26 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     const newMember = this.props.staffMembersLocalState.newMember;
     return (
       <div className="staff-members-data-entry">
+        <div className="staff-members-filters">
+          <div>
+            <div>Status</div>
+            <input type="checkbox" checked={this.props.staffMemberFilters.statusFiltered} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({statusFiltered: ev.target.checked}))} />
+            <select value={this.props.staffMemberFilters.status} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({status: ev.target.value}))}>
+              <option>{StaffMemberStatus.ACTIVE}</option>
+              <option>{StaffMemberStatus.INACTIVE}</option>
+              <option>{StaffMemberStatus.IMPORTED}</option>
+            </select>
+          </div>
+        </div>
         <div className="staff-member-entity title">
           <div>Name</div>
           <div>Status</div>
           <div>Current hourly rate</div>
           <div>Role</div>
         </div>
-        {this.props.staffMembersLocalState.members.map((member, key) => {
+        {this.props.staffMembersLocalState.members
+          .filter(member => !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status)
+          .map((member, key) => {
           const isEditingMember = !isCreatingNewMember && member.id === this.props.staffMembersLocalState.editingMemberId;
           return (
             <div className="staff-member-entity" key={key}>

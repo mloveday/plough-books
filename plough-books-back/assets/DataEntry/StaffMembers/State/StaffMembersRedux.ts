@@ -3,6 +3,7 @@ import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {StaffMember} from "../../Rota/State/StaffMember";
+import {StaffMemberFilters} from "./StaffMemberFilters";
 import {StaffMembersExternalState} from "./StaffMembersExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
@@ -16,6 +17,8 @@ const STAFF_MEMBERS_CREATE_START = 'STAFF_MEMBERS_CREATE_START';
 const STAFF_MEMBERS_CREATE_SUCCESS = 'STAFF_MEMBERS_CREATE_SUCCESS';
 const STAFF_MEMBERS_CREATE_ERROR = 'STAFF_MEMBERS_CREATE_ERROR';
 
+const STAFF_MEMBERS_FILTER = 'STAFF_MEMBERS_FILTER';
+
 export const staffMembersDataEntry = createAction<StaffMembersLocalState>(STAFF_MEMBERS_DATA_ENTRY);
 
 export const staffMembersFetchStart = createAction(STAFF_MEMBERS_FETCH_START);
@@ -25,6 +28,8 @@ export const staffMembersFetchError = createAction(STAFF_MEMBERS_FETCH_ERROR);
 export const staffMembersCreateStart = createAction<StaffMember>(STAFF_MEMBERS_CREATE_START);
 export const staffMembersCreateSuccess = createAction<StaffMembersExternalState>(STAFF_MEMBERS_CREATE_SUCCESS);
 export const staffMembersCreateError = createAction(STAFF_MEMBERS_CREATE_ERROR);
+
+export const staffMembersFilter = createAction<StaffMemberFilters>(STAFF_MEMBERS_FILTER);
 
 export const staffMembersFetch = () => {
   return (dispatch: any) => {
@@ -87,3 +92,9 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
   },
 
   }, new StaffMembersExternalState(FetchStatus.EMPTY, StaffMembersLocalState.default()));
+
+export const staffMemberFiltersReducer = handleActions<StaffMemberFilters, any>({
+  [STAFF_MEMBERS_FILTER]: (state, action) => {
+    return state.with(action.payload);
+  }
+}, new StaffMemberFilters());
