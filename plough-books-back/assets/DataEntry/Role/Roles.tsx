@@ -48,16 +48,16 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   public render() {
-    const isCreatingNewRole = this.props.rolesLocalState.isCreatingRole;
-    const newRole = this.props.rolesLocalState.newRole;
+    const isCreatingNewRole = this.props.rolesLocalState.isCreatingEntity;
+    const newRole = this.props.rolesLocalState.newEntity;
     return (
       <div className="roles-data-entry">
         <div className="role-entity title">
           <div className="role-value">Role</div>
           <div className="role-value">Manages users</div>
         </div>
-        {this.props.rolesLocalState.roles.map((role, key) => {
-          const editing = role.roleId === this.props.rolesLocalState.editingRoleId;
+        {this.props.rolesLocalState.entities.map((role, key) => {
+          const editing = this.props.rolesLocalState.isEditing();
           return (
             <div className="role-entity" key={key}>
               <input disabled={!editing} className="role-value" value={role.role}
@@ -89,15 +89,15 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private newRole() {
-    this.props.updateRoles(this.props.rolesLocalState.withNewRole(Role.default()));
+    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(Role.default()));
   }
 
   private dataEntryNewRole(role: Role) {
-    this.props.updateRoles(this.props.rolesLocalState.withNewRole(role));
+    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(role));
   }
 
   private editRole(role: Role) {
-    this.props.updateRoles(this.props.rolesLocalState.withRoles([], role.roleId));
+    this.props.updateRoles(this.props.rolesLocalState.withEntities([], role.entityId));
   }
 
   private cancelEdit() {
@@ -105,7 +105,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private dataEntry(role: Role) {
-    this.props.updateRoles(this.props.rolesLocalState.withRoles([role], role.roleId));
+    this.props.updateRoles(this.props.rolesLocalState.withEntities([role], role.entityId));
   }
 
   private maintainState() {

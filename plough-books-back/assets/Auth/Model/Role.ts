@@ -1,4 +1,6 @@
-export class Role {
+import {EditableEntity} from "../../State/EditableEntity";
+
+export class Role extends EditableEntity {
 
   public static default() {
     return new Role('', false, undefined);
@@ -13,13 +15,10 @@ export class Role {
   private readonly id?: number;
 
   constructor(role: string, managesUsers: boolean, id?: number) {
+    super();
     this.id = id;
     this.role = role;
     this.managesUsers = managesUsers;
-  }
-
-  get roleId(): number {
-    return this.id ? this.id : -1;
   }
 
   public clone() {
@@ -28,5 +27,9 @@ export class Role {
 
   public with(obj: any) {
     return Object.assign(Role.default(), this, obj);
+  }
+
+  public get entityId() {
+    return this.id ? this.id : -1;
   }
 }

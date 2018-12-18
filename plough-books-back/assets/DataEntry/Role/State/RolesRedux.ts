@@ -59,10 +59,10 @@ export const rolesInternalReducers = handleActions<RolesLocalState, any>({
     return state.with(action.payload);
   },
   [ROLES_FETCH_SUCCESS]: (state, action) => {
-    return RolesLocalState.default().withRoles(action.payload);
+    return RolesLocalState.default().withEntities(action.payload);
   },
   [ROLES_CREATE_SUCCESS]: (state, action) => {
-    return RolesLocalState.default().withRoles(action.payload);
+    return RolesLocalState.default().withEntities(action.payload);
   }
 }, RolesLocalState.default());
 
@@ -71,7 +71,7 @@ export const rolesExternalReducers = handleActions<RolesExternalState, any>({
     return new RolesExternalState(FetchStatus.STARTED);
   },
   [ROLES_FETCH_SUCCESS]: (state, action) => {
-    return new RolesExternalState(FetchStatus.OK, RolesLocalState.default().withRoles(action.payload));
+    return new RolesExternalState(FetchStatus.OK, RolesLocalState.default().withEntities(action.payload));
   },
   [ROLES_FETCH_ERROR]: (state, action) => {
     return new RolesExternalState(FetchStatus.ERROR);
@@ -80,7 +80,7 @@ export const rolesExternalReducers = handleActions<RolesExternalState, any>({
     return new RolesExternalState(FetchStatus.STARTED, state.externalState);
   },
   [ROLES_CREATE_SUCCESS]: (state, action) => {
-    return new RolesExternalState(FetchStatus.OK, RolesLocalState.default().withRoles(action.payload));
+    return new RolesExternalState(FetchStatus.OK, RolesLocalState.default().withEntities(action.payload));
   },
   [ROLES_CREATE_ERROR]: (state, action) => {
     return new RolesExternalState(FetchStatus.ERROR);

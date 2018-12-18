@@ -78,10 +78,10 @@ class UsersComponent extends React.Component<UsersProps, {}> {
                    onChange={ev => this.dataEntry(user.with({blacklisted: ev.target.checked}))}
                    checked={user.blacklisted} className="user-value"/>
             <select disabled={!editing}
-                    onChange={ev => this.dataEntry(user.with({role: {id: parseInt(ev.target.value)}}))}
-                    className="user-value" value={user.role.roleId}>
-              {this.props.rolesExternalState.externalState.roles.map((role, roleKey) => (
-                <option key={roleKey} value={role.roleId}>{role.role}</option>
+                    onChange={ev => this.dataEntry(user.with({role: {id: parseInt(ev.target.value, 10)}}))}
+                    className="user-value" value={user.role.entityId}>
+              {this.props.rolesExternalState.externalState.entities.map((role, roleKey) => (
+                <option key={roleKey} value={role.entityId}>{role.role}</option>
               ))}
             </select>
             <input disabled={true} type="checkbox" checked={user.role.managesUsers} className="user-value"/>
@@ -102,10 +102,10 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             <input type="checkbox"
                    onChange={ev => this.dataEntryNewUser(newUser.with({blacklisted: ev.target.checked}))}
                    checked={newUser.blacklisted} className="user-value"/>
-            <select onChange={ev => this.dataEntryNewUser(newUser.with({role: {id: parseInt(ev.target.value)}}))}
-                    className="user-value" value={newUser.role.roleId}>
-              {this.props.rolesExternalState.externalState.roles.map((role, roleKey) => (
-                <option key={roleKey} value={role.roleId}>{role.role}</option>
+            <select onChange={ev => this.dataEntryNewUser(newUser.with({role: {id: parseInt(ev.target.value, 10)}}))}
+                    className="user-value" value={newUser.role.entityId}>
+              {this.props.rolesExternalState.externalState.entities.map((role, roleKey) => (
+                <option key={roleKey} value={role.entityId}>{role.role}</option>
               ))}
             </select>
             <input disabled={true} type="checkbox" checked={newUser.role.managesUsers} className="user-value"/>
