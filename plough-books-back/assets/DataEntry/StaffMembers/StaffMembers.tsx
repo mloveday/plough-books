@@ -75,9 +75,18 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
             <div>Status</div>
             <input type="checkbox" checked={this.props.staffMemberFilters.statusFiltered} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({statusFiltered: ev.target.checked}))} />
             <select value={this.props.staffMemberFilters.status} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({status: ev.target.value}))}>
-              <option>{StaffMemberStatus.ACTIVE}</option>
-              <option>{StaffMemberStatus.INACTIVE}</option>
-              <option>{StaffMemberStatus.IMPORTED}</option>
+              <option value={StaffMemberStatus.ACTIVE}>{StaffMemberStatus.ACTIVE}</option>
+              <option value={StaffMemberStatus.INACTIVE}>{StaffMemberStatus.INACTIVE}</option>
+              <option value={StaffMemberStatus.IMPORTED}>{StaffMemberStatus.IMPORTED}</option>
+            </select>
+          </div>
+          <div>
+            <div>Page</div>
+            <input type="number" step={1} value={this.props.staffMemberFilters.pageNumber} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({pageNumber: parseInt(ev.target.value, 10)}))} />
+            <select value={this.props.staffMemberFilters.pageSize} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({pageSize: parseInt(ev.target.value, 10)}))}>
+              <option value={20}>20</option>
+              <option value={100}>100</option>
+              <option value={200}>200</option>
             </select>
           </div>
         </div>
@@ -89,6 +98,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
         </div>
         {this.props.staffMembersLocalState.members
           .filter(member => !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status)
+          .slice(this.props.staffMemberFilters.pageSize * (this.props.staffMemberFilters.pageNumber - 1), this.props.staffMemberFilters.pageSize * this.props.staffMemberFilters.pageNumber)
           .map((member, key) => {
           const isEditingMember = !isCreatingNewMember && member.id === this.props.staffMembersLocalState.editingMemberId;
           return (
