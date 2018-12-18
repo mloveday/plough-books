@@ -51,7 +51,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
   }
 
   public render() {
-    const isCreatingNewRole = this.props.staffRolesLocalState.isCreatingRole;
+    const isCreatingNewRole = this.props.staffRolesLocalState.isCreatingEntity;
     return (
       <div className="staff-roles-data-entry">
         <div className="staff-role-entity">
@@ -60,9 +60,9 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
           <div>Order in rota</div>
           <div>Type</div>
         </div>
-        {this.props.staffRolesLocalState.roles.sort((a,b) => getStaffRoleOrder(a) < getStaffRoleOrder(b) ? -1 : 1)
+        {this.props.staffRolesLocalState.entities.sort((a,b) => getStaffRoleOrder(a) < getStaffRoleOrder(b) ? -1 : 1)
           .map((role, key) => {
-            const isEditingThisRole = !isCreatingNewRole && role.id === this.props.staffRolesLocalState.editingRoleId;
+            const isEditingThisRole = !isCreatingNewRole && role.id === this.props.staffRolesLocalState.editingEntityId;
             return (
               <div className="staff-role-entity" key={key}>
                 <input disabled={!isEditingThisRole} value={role.role} onChange={ev => this.updateStaffRole(role.with({'role': ev.target.value}))}/>
@@ -88,20 +88,20 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
         )}
         <div className="staff-role-entity">
           {isCreatingNewRole &&
-          <input value={this.props.staffRolesLocalState.newRole.role}
-                 onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newRole.with({'role': ev.target.value}))}/>
+          <input value={this.props.staffRolesLocalState.newEntity.role}
+                 onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'role': ev.target.value}))}/>
           }
-          {isCreatingNewRole && <input value={this.props.staffRolesLocalState.newRole.status} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newRole.with({'status': ev.target.value}))}/>}
-          {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newRole.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newRole.with({'orderInRota': ev.target.value}))}/>}
+          {isCreatingNewRole && <input value={this.props.staffRolesLocalState.newEntity.status} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'status': ev.target.value}))}/>}
+          {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newEntity.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'orderInRota': ev.target.value}))}/>}
           {isCreatingNewRole &&
-            <select value={this.props.staffRolesLocalState.newRole.type} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newRole.with({type: ev.target.value}))}>
+            <select value={this.props.staffRolesLocalState.newEntity.type} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({type: ev.target.value}))}>
             <option value={WorkTypes.BAR}>Bar</option>
             <option value={WorkTypes.KITCHEN}>Kitchen</option>
           </select>}
           <div className="staff-role-edit-buttons">
             {!isCreatingNewRole && !this.props.staffRolesLocalState.isEditing() &&
             <button type='button' onClick={() => this.newStaffRole()}>New</button>}
-            {isCreatingNewRole && <button type='button' onClick={() => this.saveStaffRole(this.props.staffRolesLocalState.newRole)}>Save</button>}
+            {isCreatingNewRole && <button type='button' onClick={() => this.saveStaffRole(this.props.staffRolesLocalState.newEntity)}>Save</button>}
             {isCreatingNewRole && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
           </div>
         </div>
@@ -110,15 +110,15 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
   }
 
   private newStaffRole(staffRole: StaffRole = StaffRole.default()) {
-    this.props.updateStaffRole(this.props.staffRolesLocalState.withNewRole(staffRole));
+    this.props.updateStaffRole(this.props.staffRolesLocalState.withNewEntity(staffRole));
   }
 
   private updateStaffRole(staffRole: StaffRole) {
-    this.props.updateStaffRole(this.props.staffRolesLocalState.withRoles([staffRole], staffRole.id));
+    this.props.updateStaffRole(this.props.staffRolesLocalState.withEntities([staffRole], staffRole.id));
   }
 
   private cancelEdit() {
-    this.props.updateStaffRole(this.props.staffRolesLocalState.withRoles(this.props.staffRolesExternalState.externalState.roles));
+    this.props.updateStaffRole(this.props.staffRolesLocalState.withEntities(this.props.staffRolesExternalState.externalState.entities));
   }
 
   private saveStaffRole(staffRole: StaffRole) {

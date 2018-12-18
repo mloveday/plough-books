@@ -134,7 +134,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           {     this.props.staffRolesExternalState.isLoaded()
             &&  this.getRota()
             &&  this.props.staffMembersExternalState.isLoaded()
-            && this.props.staffRolesLocalState.roles.filter(role => role.type === this.props.match.params.type)
+            && this.props.staffRolesLocalState.entities.filter(role => role.type === this.props.match.params.type)
               .map((role, roleKey) => {
               return (
                 <div className="rota-role-group" key={roleKey}>

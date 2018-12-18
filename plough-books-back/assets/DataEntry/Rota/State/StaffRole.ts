@@ -1,6 +1,7 @@
 import {WorkTypes} from "../../../Enum/WorkTypes";
+import {EditableEntity} from "../../../State/EditableEntity";
 
-export class StaffRole {
+export class StaffRole extends EditableEntity {
 
   public static default() {
     return new StaffRole(
@@ -18,6 +19,7 @@ export class StaffRole {
   public readonly type: string;
 
   constructor(role: string, orderInRota: number, status: string, type: string) {
+    super();
     this.role = role;
     this.orderInRota = orderInRota;
     this.status = status;
@@ -35,5 +37,9 @@ export class StaffRole {
       {id: this.id},
       obj,
     );
+  }
+
+  public get entityId(): number {
+    return this.id;
   }
 }

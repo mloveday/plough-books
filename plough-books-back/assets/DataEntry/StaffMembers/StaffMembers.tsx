@@ -123,8 +123,8 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
                 <option value={StaffMemberStatus.IMPORTED}>(imported)</option>
               </select>
               <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
-              <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.roles.find(v => v.id.toString() === ev.target.value)}))}>
-                {this.props.staffRolesExternalState.externalState.roles.map((role, roleKey) => (
+              <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
+                {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
                     <option key={roleKey} value={role.id}>{role.role}</option>
                   ))}
               </select>
@@ -142,8 +142,8 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           {isCreatingNewMember && <input value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status': ev.target.value}))}/>}
           {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
           {isCreatingNewMember &&
-          <select value={newMember.role.id} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.roles.find(v => v.id.toString() === ev.target.value)}))}>
-            {this.props.staffRolesExternalState.externalState.roles.map((role, roleKey) => (
+          <select value={newMember.role.id} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
+            {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
               <option key={roleKey} value={role.id}>{role.role}</option>
             ))}
           </select>}
