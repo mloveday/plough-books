@@ -68,26 +68,40 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
   public render() {
     const isCreatingNewMember = this.props.staffMembersLocalState.isCreatingMember;
     const newMember = this.props.staffMembersLocalState.newMember;
+    const filteredMembers = this.props.staffMembersLocalState.members
+      .filter(member => !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status);
+    const lastPageNumber = Math.max(1,Math.ceil(filteredMembers.length/this.props.staffMemberFilters.pageSize));
     return (
       <div className="staff-members-data-entry">
         <div className="staff-members-filters">
-          <div>
-            <div>Status</div>
-            <input type="checkbox" checked={this.props.staffMemberFilters.statusFiltered} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({statusFiltered: ev.target.checked}))} />
-            <select value={this.props.staffMemberFilters.status} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({status: ev.target.value}))}>
-              <option value={StaffMemberStatus.ACTIVE}>{StaffMemberStatus.ACTIVE}</option>
-              <option value={StaffMemberStatus.INACTIVE}>{StaffMemberStatus.INACTIVE}</option>
-              <option value={StaffMemberStatus.IMPORTED}>{StaffMemberStatus.IMPORTED}</option>
-            </select>
+          <div className="staff-members-filter">
+            <div className="filter-group">
+              <label>Page {this.props.staffMemberFilters.pageNumber}/{lastPageNumber}</label>
+              <input type="number" step={1} min={1} max={lastPageNumber} value={this.props.staffMemberFilters.pageNumber} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({pageNumber: parseInt(ev.target.value, 10)}))} />
+            </div>
+            <div className="filter-group">
+              <label>Page size</label>
+              <select value={this.props.staffMemberFilters.pageSize} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({pageSize: parseInt(ev.target.value, 10), pageNumber: this.pageNumberForNewPageSize(parseInt(ev.target.value, 10))}))}>
+                <option value={25}>25</option>
+                <option value={50}>50</option>
+                <option value={100}>100</option>
+              </select>
+            </div>
           </div>
-          <div>
-            <div>Page</div>
-            <input type="number" step={1} value={this.props.staffMemberFilters.pageNumber} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({pageNumber: parseInt(ev.target.value, 10)}))} />
-            <select value={this.props.staffMemberFilters.pageSize} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({pageSize: parseInt(ev.target.value, 10)}))}>
-              <option value={20}>20</option>
-              <option value={100}>100</option>
-              <option value={200}>200</option>
-            </select>
+          <div className="filter-spacer"/>
+          <div className="staff-members-filter">
+            <div className="filter-group">
+              <label>Filter by status?</label>
+              <input type="checkbox" checked={this.props.staffMemberFilters.statusFiltered} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({statusFiltered: ev.target.checked}))} />
+            </div>
+            <div className="filter-group">
+              <label>Status</label>
+              <select value={this.props.staffMemberFilters.status} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({status: ev.target.value}))}>
+                <option value={StaffMemberStatus.ACTIVE}>{StaffMemberStatus.ACTIVE}</option>
+                <option value={StaffMemberStatus.INACTIVE}>{StaffMemberStatus.INACTIVE}</option>
+                <option value={StaffMemberStatus.IMPORTED}>{StaffMemberStatus.IMPORTED}</option>
+              </select>
+            </div>
           </div>
         </div>
         <div className="staff-member-entity title">
@@ -96,8 +110,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           <div>Current hourly rate</div>
           <div>Role</div>
         </div>
-        {this.props.staffMembersLocalState.members
-          .filter(member => !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status)
+        {filteredMembers
           .slice(this.props.staffMemberFilters.pageSize * (this.props.staffMemberFilters.pageNumber - 1), this.props.staffMemberFilters.pageSize * this.props.staffMemberFilters.pageNumber)
           .map((member, key) => {
           const isEditingMember = !isCreatingNewMember && member.id === this.props.staffMembersLocalState.editingMemberId;
@@ -159,6 +172,10 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
 
   private saveStaffMember(staffMember: StaffMember) {
     this.props.saveStaffMember(staffMember);
+  }
+
+  private pageNumberForNewPageSize(pageSize: number) {
+    return Math.ceil(((this.props.staffMemberFilters.pageNumber-1)*this.props.staffMemberFilters.pageSize+1)/pageSize);
   }
 
   private maintainStateWithUrl() {
