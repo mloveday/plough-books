@@ -11,6 +11,7 @@ export const routeAllowed = (route: string, user: User): boolean => {
     case Routes.WEEKLY_PLANNING:
     case Routes.STAFF_MEMBERS:
     case Routes.STAFF_ROLES:
+    case Routes.CONSTANTS:
       return true;
     case Routes.USERS:
     case Routes.ROLES:

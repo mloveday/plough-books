@@ -58,6 +58,7 @@ class NavComponent extends React.Component<NavProps, {}> {
           {this.routeItem(Routes.weeklyOverviewUrl(date), "Weekly overview", Routes.WEEKLY_OVERVIEW)}
           {this.routeItem(Routes.STAFF_MEMBERS, "Staff")}
           {this.routeItem(Routes.STAFF_ROLES, "Staff roles")}
+          {this.routeItem(Routes.CONSTANTS, "Constants")}
           {this.routeItem(Routes.USERS, "Users")}
           {this.routeItem(Routes.ROLES, "User Roles")}
         </ul>

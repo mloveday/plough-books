@@ -25,7 +25,9 @@ class ConstantsController {
                     $constants = $constantsParsingService->getNewConstantsEntity($request->request->all());
                 }
                 $persistenceService->persist($constants);
-                return new JsonResponse($constants->serialise());
+
+                $allConstants = $constantsRepository->findAll();
+                return new JsonResponse(array_map(function (Constants $constants) { return $constants->serialise(); }, $allConstants));
             default:
                 throw new BadRequestHttpException("Method not allowed");
         }

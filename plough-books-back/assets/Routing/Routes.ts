@@ -9,6 +9,7 @@ export class Routes {
   public static readonly WEEKLY_OVERVIEW = "/weekly-overview";
   public static readonly STAFF_MEMBERS = "/staff/members";
   public static readonly STAFF_ROLES = "/staff/roles";
+  public static readonly CONSTANTS = "/constants";
   public static readonly USERS = "/admin/users";
   public static readonly ROLES = "/admin/roles";
   public static readonly WEEKLY_PLANNING = "/weekly-planning";

@@ -29,7 +29,7 @@ export class AuthState {
   }
 
   public withUnauthorisedUser(onLoginDispatch: Array<() => void>): AuthState {
-    return new AuthState(true, false, onLoginDispatch, this.auth ? this.auth.clone() : undefined, undefined);
+    return new AuthState(true, false, this.onLoginDispatch.concat(onLoginDispatch), this.auth ? this.auth.clone() : undefined, undefined);
   }
 
   public withNoDispatchables(): AuthState {

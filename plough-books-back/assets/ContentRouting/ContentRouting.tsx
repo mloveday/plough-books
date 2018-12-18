@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router";
 import {AuthState} from "../Auth/State/AuthState";
 import {CashUp} from "../DataEntry/CashUp/CashUp";
+import {ConstantsDataEntry} from "../DataEntry/Constants/Constants";
 import {Roles} from "../DataEntry/Role/Roles";
 import {Rota} from "../DataEntry/Rota/Rota";
 import {SignIn} from "../DataEntry/SignIn/SignIn";
@@ -54,6 +55,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.weeklyPlanningRoute()} component={WeeklyPlanning}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
+            <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
               <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>
             <Redirect to={Routes.weeklyPlanningUrl(moment())} exact={false} path={Routes.WEEKLY_PLANNING} />
