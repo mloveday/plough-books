@@ -1,6 +1,7 @@
+import {EditableEntity} from "../../State/EditableEntity";
 import {Role} from "./Role";
 
-export class User {
+export class User extends EditableEntity {
 
   public static default() {
     return new User('', false, false, Role.default(), undefined);
@@ -17,6 +18,7 @@ export class User {
   private readonly id?: number;
 
   constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: Role, id?: number) {
+    super();
     this.id = id;
     this.email = email;
     this.whitelisted = whitelisted;
@@ -24,15 +26,11 @@ export class User {
     this.role = role;
   }
 
-  get userId(): number {
-    return this.id ? this.id : -1;
-  }
-
-  public clone() {
-    return new User(this.email, this.whitelisted, this.blacklisted, this.role, this.id);
-  }
-
   public with(obj: any) {
     return Object.assign(User.default(), this, obj);
+  }
+
+  public get entityId(): number {
+    return this.id ? this.id : -1;
   }
 }

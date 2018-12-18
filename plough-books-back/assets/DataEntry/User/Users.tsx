@@ -54,8 +54,8 @@ class UsersComponent extends React.Component<UsersProps, {}> {
   }
 
   public render() {
-    const isCreatingNewUser = this.props.usersLocalState.isCreatingUser;
-    const newUser = this.props.usersLocalState.newUser;
+    const isCreatingNewUser = this.props.usersLocalState.isCreatingEntity;
+    const newUser = this.props.usersLocalState.newEntity;
     return (
       <div className="users-data-entry">
         <div className="user-entity title">
@@ -65,8 +65,8 @@ class UsersComponent extends React.Component<UsersProps, {}> {
           <div className="user-value">Role</div>
           <div className="user-value">Manages users</div>
         </div>
-        {this.props.usersLocalState.users.map((user, key) => {
-          const editing = user.userId === this.props.usersLocalState.editingUserId;
+        {this.props.usersLocalState.entities.map((user, key) => {
+          const editing = user.entityId === this.props.usersLocalState.editingEntityId;
           return (
           <div className="user-entity" key={key}>
             <input disabled={!editing} className="user-value" value={user.email}
@@ -121,15 +121,15 @@ class UsersComponent extends React.Component<UsersProps, {}> {
   }
 
   private newUser() {
-    this.props.updateUsers(this.props.usersLocalState.withNewUser(User.default()));
+    this.props.updateUsers(this.props.usersLocalState.withNewEntity(User.default()));
   }
 
   private dataEntryNewUser(user: User) {
-    this.props.updateUsers(this.props.usersLocalState.withNewUser(user));
+    this.props.updateUsers(this.props.usersLocalState.withNewEntity(user));
   }
 
   private editUser(user: User) {
-    this.props.updateUsers(this.props.usersLocalState.withUsers([], user.userId));
+    this.props.updateUsers(this.props.usersLocalState.withEntities([], user.entityId));
   }
 
   private cancelEdit() {
@@ -137,7 +137,7 @@ class UsersComponent extends React.Component<UsersProps, {}> {
   }
 
   private dataEntry(user: User) {
-    this.props.updateUsers(this.props.usersLocalState.withUsers([user], user.userId));
+    this.props.updateUsers(this.props.usersLocalState.withEntities([user], user.entityId));
   }
 
   private maintainState() {
