@@ -1,5 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
 import {AppState} from "../../redux";
 import {validateCash} from "../../Util/Validation";
 import {StaffMember} from "../Rota/State/StaffMember";
@@ -70,17 +71,23 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           return (
             <div className="staff-member-entity" key={key}>
               <input disabled={!isEditingMember} value={member.name} onChange={ev => this.updateStaffMember(member.with({'name' : ev.target.value}))} />
-              <input disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} />
+              <select disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} >
+                <option value={StaffMemberStatus.ACTIVE}>Active</option>
+                <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
+                <option value={StaffMemberStatus.IMPORTED}>(imported)</option>
+              </select>
               <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
               <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.roles.find(v => v.id.toString() === ev.target.value)}))}>
                 {this.props.staffRolesExternalState.externalState.roles.map((role, roleKey) => (
                     <option key={roleKey} value={role.id}>{role.role}</option>
                   ))}
               </select>
-              {!isCreatingNewMember && !isEditingMember && !this.props.staffMembersLocalState.isEditing() &&
-              <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
-              {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
-              {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+              <div className="staff-member-edit-buttons">
+                {!isCreatingNewMember && !isEditingMember && !this.props.staffMembersLocalState.isEditing() &&
+                <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
+                {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
+                {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+              </div>
             </div>
           );
         })}
@@ -94,10 +101,12 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               <option key={roleKey} value={role.id}>{role.role}</option>
             ))}
           </select>}
-          {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() &&
-          <button type='button' onClick={() => this.newStaffMember()}>New</button>}
-          {isCreatingNewMember && <button type='button' onClick={() => this.saveStaffMember(newMember)}>Save</button>}
-          {isCreatingNewMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+          <div className="staff-member-edit-buttons">
+            {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() &&
+            <button type='button' onClick={() => this.newStaffMember()}>New</button>}
+            {isCreatingNewMember && <button type='button' onClick={() => this.saveStaffMember(newMember)}>Save</button>}
+            {isCreatingNewMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+          </div>
         </div>
       </div>
     )
