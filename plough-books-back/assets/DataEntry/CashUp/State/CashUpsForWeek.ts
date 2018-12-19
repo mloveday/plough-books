@@ -43,7 +43,27 @@ export class CashUpsForWeek {
       );
   }
 
-  public getTotalRevenue(): number {
-    return Array.from(this.cashUps.values()).reduce((prev, curr) => prev + curr.getTotalRevenue(), 0)
+  public getTotalRevenue(currentDate: moment.Moment): number {
+    return this.getCashUpsForWeek(currentDate).reduce((prev, curr) => prev + curr.getTotalRevenue(), 0)
+  }
+
+  private getCashUpsForWeek(currentDate: moment.Moment): CashUpEntity[] {
+    const startOfWeek = currentDate.clone().startOf('isoWeek');
+    const dates = [
+      startOfWeek.clone().add(0, 'days'),
+      startOfWeek.clone().add(1, 'days'),
+      startOfWeek.clone().add(2, 'days'),
+      startOfWeek.clone().add(3, 'days'),
+      startOfWeek.clone().add(4, 'days'),
+      startOfWeek.clone().add(5, 'days'),
+      startOfWeek.clone().add(6, 'days'),
+    ];
+    return dates.map( date => {
+      const cashUp = this.cashUps.get(date.format(DateFormats.API));
+      if (cashUp === undefined || cashUp === null) {
+        return CashUpEntity.default(date)
+      }
+      return cashUp;
+    });
   }
 }

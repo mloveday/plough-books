@@ -61,31 +61,31 @@ export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
     return state.with(action.payload);
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return CashUpsForWeek.defaultForWeek(action.payload.date).with(action.payload.response);
+    return state.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload.date).cashUps.values())).with(action.payload.response);
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return CashUpsForWeek.defaultForWeek(action.payload.date).with(action.payload.response);
+    return state.with(action.payload.response);
   }
 }, CashUpsForWeek.default());
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.STARTED);
+    return new CashUpExternalState(FetchStatus.STARTED, state.cashUpsForWeek.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload).cashUps.values())));
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.OK, CashUpsForWeek.defaultForWeek(action.payload.date).with(action.payload.response));
+    return new CashUpExternalState(FetchStatus.OK, state.cashUpsForWeek.with(action.payload.response));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.ERROR);
+    return new CashUpExternalState(FetchStatus.ERROR, state.cashUpsForWeek);
   },
   [CASH_UP_CREATE_START]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.STARTED, CashUpsForWeek.defaultForWeek(action.payload.date).with(action.payload.response));
+    return new CashUpExternalState(FetchStatus.STARTED, state.cashUpsForWeek.with(action.payload.response));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.OK, CashUpsForWeek.defaultForWeek(action.payload.date).with(action.payload.response));
+    return new CashUpExternalState(FetchStatus.OK, state.cashUpsForWeek.with(action.payload.response));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.ERROR);
+    return new CashUpExternalState(FetchStatus.ERROR, state.cashUpsForWeek);
   },
 
   }, new CashUpExternalState(FetchStatus.EMPTY, CashUpsForWeek.default()));

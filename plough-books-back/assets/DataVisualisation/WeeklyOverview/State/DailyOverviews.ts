@@ -20,7 +20,7 @@ export class DailyOverviews {
   constructor(startOfWeek: moment.Moment, rotas: RotasForWeek, cashUps: CashUpsForWeek) {
     this.startOfWeek = startOfWeek;
     this.overviews = this.getDailyOverviews(rotas, cashUps);
-    this.actualRevenue = cashUps.getTotalRevenue();
+    this.actualRevenue = cashUps.getTotalRevenue(startOfWeek);
     this.forecastRevenue = rotas.getTotalForecastRevenue();
     this.forecastBarLabour = rotas.getTotalPredictedBarLabour(this.forecastRevenue);
     this.forecastKitchenLabour = rotas.getTotalPredictedKitchenLabour(this.forecastRevenue);
