@@ -112,10 +112,6 @@ class SignInComponent extends React.Component<SignInProps, {}> {
               <option value='imported'>Imported</option>
             </select>
           </div>
-          <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>
-          <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>
-          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type).toFixed(2)}</div>
-          <div className="rota-stat">Labour rate: {(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
         </div>
         <div className="rota-grid">
@@ -214,7 +210,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
 
   private newShiftHandler(member: StaffMember) {
     const time = moment(this.props.match.params.date).startOf('day');
-    this.addActualShift(ActualShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17)}));
+    this.addActualShift(ActualShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
   }
 
   private startTimeHandler(value: string, actualShift: ActualShift) {

@@ -216,7 +216,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
 
   private newShiftHandler(member: StaffMember) {
     const time = moment(this.props.match.params.date).startOf('day');
-    this.addPlannedShift(PlannedShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17)}));
+    this.addPlannedShift(PlannedShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
   }
 
   private startTimeHandler(value: string, plannedShift: PlannedShift) {
