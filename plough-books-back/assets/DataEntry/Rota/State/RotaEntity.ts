@@ -6,6 +6,8 @@ import {Constants} from "./Constants";
 import {PlannedShift} from "./PlannedShift";
 
 export class RotaEntity {
+
+  public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
   public static default() {
     return new RotaEntity(
       moment(),
@@ -49,6 +51,9 @@ export class RotaEntity {
       ? obj.actualShifts.map((actualShift: any) => ActualShift.default().with(actualShift))
       : this.actualShifts.map(actualShift => actualShift.with({})))
       .sort((a: ActualShift, b: ActualShift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    if (!obj.targetLabourRate && this.targetLabourRate === 0) {
+      obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[obj.date.isoWeekday()-1];
+    }
     return Object.assign(
       new RotaEntity(
         this.date,
