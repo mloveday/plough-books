@@ -7,8 +7,8 @@
   border: 1px solid lightgrey;
   padding: 4px;
   border-radius: 4px;
+}
 
-  &:hover + .constants-hover {
-    opacity: 1;
-  }
+.constants-identifier:hover + .constants-hover {
+  opacity: 1;
 }
