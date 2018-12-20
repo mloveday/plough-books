@@ -108,7 +108,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
           <div className="overview-stat">Total actual revenue: £{dailyOverviews.actualRevenue.toFixed(2)}</div>
         </div>
         <div className="overview-stats">
-          <div className="overview-stat">Target forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek()).toFixed(2)}%</div>
+          <div className="overview-stat">Target forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek(this.getStartOfWeek())).toFixed(2)}%</div>
           <div className="overview-stat">Combined forecast labour rate: {(100*dailyOverviews.getCombinedForecastLabourRate()).toFixed(2)}%</div>
           <div className="overview-stat">Combined actual labour rate: {(100*dailyOverviews.getCombinedActualLabourRate()).toFixed(2)}%</div>
         </div>

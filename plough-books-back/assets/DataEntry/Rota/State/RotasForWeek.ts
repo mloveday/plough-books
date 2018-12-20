@@ -23,7 +23,19 @@ export class RotasForWeek {
     return RotasForWeek.default().with(dates);
   }
 
-  public readonly rotas: Map<string, RotaEntity> = new Map<string, RotaEntity>();
+  private readonly rotas: Map<string, RotaEntity> = new Map<string, RotaEntity>();
+
+  public hasRotaForDate(date: moment.Moment) {
+    return this.rotas.has(date.format(DateFormats.API));
+  }
+
+  public getRotaForDate(date: moment.Moment) {
+    return this.rotas.get(date.format(DateFormats.API));
+  }
+
+  public populateForWeek(date: moment.Moment, obj: any[]) {
+    return this.with(Array.from(RotasForWeek.defaultForWeek(moment(date)).rotas.values())).with(obj);
+  }
 
   public with(o: any[]|undefined): RotasForWeek {
     const obj = o ? o.map(d => Object.assign({date: moment(d.date)}, d)) : undefined;
@@ -45,27 +57,48 @@ export class RotasForWeek {
       );
   }
 
-  public getTotalForecastRevenue(): number {
-    return Array.from(this.rotas.values())
+  public getTotalForecastRevenue(date: moment.Moment): number {
+    return this.getRotasForWeek(date)
       .reduce((prev, curr) => prev + curr.forecastRevenue, 0);
   }
 
-  public getTotalVatAdjustedForecastRevenue(): number {
-    return Array.from(this.rotas.values())
+  public getTotalVatAdjustedForecastRevenue(date: moment.Moment): number {
+    return this.getRotasForWeek(date)
       .reduce((prev, curr) => prev + CashManipulation.calculateVatAdjustedRevenue(curr.forecastRevenue, curr.constants.vatMultiplier), 0);
   }
 
-  public getTotalPredictedBarLabour(totalForecastBarRevenue: number): number {
-    return Array.from(this.rotas.values())
+  public getTotalPredictedBarLabour(date: moment.Moment, totalForecastBarRevenue: number): number {
+    return this.getRotasForWeek(date)
       .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastBarRevenue, WorkTypes.BAR) + prev, 0);
   }
 
-  public getTotalPredictedKitchenLabour(totalForecastKitchenRevenue: number): number {
-    return Array.from(this.rotas.values())
+  public getTotalPredictedKitchenLabour(date: moment.Moment, totalForecastKitchenRevenue: number): number {
+    return this.getRotasForWeek(date)
       .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN) + prev, 0);
   }
 
-  public getTargetLabourRateForWeek() {
-    return Array.from(this.rotas.values()).reduce((prev, curr) => prev + curr.targetLabourRate*curr.forecastRevenue, 0) / this.getTotalForecastRevenue();
+  public getTargetLabourRateForWeek(date: moment.Moment) {
+    return this.getRotasForWeek(date)
+      .reduce((prev, curr) => prev + curr.targetLabourRate*curr.forecastRevenue, 0) / this.getTotalForecastRevenue(date);
+  }
+
+  public getRotasForWeek(currentDate: moment.Moment): RotaEntity[] {
+    const startOfWeek = currentDate.clone().startOf('isoWeek');
+    const dates = [
+      startOfWeek.clone().add(0, 'days'),
+      startOfWeek.clone().add(1, 'days'),
+      startOfWeek.clone().add(2, 'days'),
+      startOfWeek.clone().add(3, 'days'),
+      startOfWeek.clone().add(4, 'days'),
+      startOfWeek.clone().add(5, 'days'),
+      startOfWeek.clone().add(6, 'days'),
+    ];
+    return dates.map( date => {
+      const rota = this.rotas.get(date.format(DateFormats.API));
+      if (rota === undefined || rota === null) {
+        return RotaEntity.default()
+      }
+      return rota;
+    });
   }
 }

@@ -81,8 +81,8 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
   }
 };
 
-const handleRotaPayload = (payload: {date: moment.Moment, response: any}): RotasForWeek => {
-  return RotasForWeek.defaultForWeek(moment(payload.date)).with(payload.response);
+const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: any}): RotasForWeek => {
+  return state.populateForWeek(moment(payload.date), payload.response);
 };
 
 export const rotaInternalReducers = handleActions<RotasForWeek, any>({
@@ -90,16 +90,16 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
     return state.with(action.payload);
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
-    return handleRotaPayload(action.payload);
+    return handleRotaPayload(state, action.payload);
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return handleRotaPayload(action.payload);
+    return handleRotaPayload(state, action.payload);
   },
   [WEEKLY_ROTAS_CREATE_START]: (state: RotasForWeek, action) => {
-    return handleRotaPayload(action.payload);
+    return handleRotaPayload(state, action.payload);
   },
   [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action) => {
-    return handleRotaPayload(action.payload);
+    return handleRotaPayload(state, action.payload);
   },
 }, RotasForWeek.default());
 
@@ -108,25 +108,25 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return new RotaExternalState(FetchStatus.STARTED);
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
-    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(action.payload));
+    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [ROTA_FETCH_ERROR]: (state, action) => {
     return new RotaExternalState(FetchStatus.ERROR);
   },
   [ROTA_CREATE_START]: (state, action) => {
-    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(action.payload));
+    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(action.payload));
+    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [ROTA_CREATE_ERROR]: (state, action) => {
     return new RotaExternalState(FetchStatus.ERROR);
   },
   [WEEKLY_ROTAS_CREATE_START]: (state, action) => {
-    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(action.payload));
+    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action) => {
-    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(action.payload));
+    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [WEEKLY_ROTAS_CREATE_ERROR]: (state, action) => {
     return new RotaExternalState(FetchStatus.ERROR);

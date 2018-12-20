@@ -86,6 +86,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   public render() {
+    const today = moment(this.props.match.params.date);
     const startTime = moment(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
     const endTime = moment(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
     const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
@@ -116,8 +117,8 @@ class RotaComponent extends React.Component<RotaProps, {}> {
             </div>
           <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>
           <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>
-          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type).toFixed(2)}</div>
-          <div className="rota-stat">Labour rate: {(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
+          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type).toFixed(2)}</div>
+          <div className="rota-stat">Labour rate: {(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
         </div>
         <div className="rota-grid">
@@ -204,7 +205,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
   
   private getRota(): RotaEntity {
-    const localState = this.props.rotaLocalStates.rotas.get(this.props.match.params.date);
+    const localState = this.props.rotaLocalStates.getRotaForDate(moment(this.props.match.params.date));
     return localState === undefined ? RotaEntity.default() : localState;
   }
 

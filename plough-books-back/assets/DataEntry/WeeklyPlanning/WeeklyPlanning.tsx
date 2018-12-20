@@ -67,6 +67,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
   }
 
   public render() {
+    const startOfTheWeek = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
     return (
       <div className="weekly-planning-data-entry">
         <WeekPicker week={parseInt(this.props.match.params.weekNumber, 10)}
@@ -80,7 +81,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
             <div className="planning-rota-item">Labour (%)</div>
             <div className="planning-rota-item">Constants</div>
           </div>
-          {Array.from(this.props.rotaLocalStates.rotas.values()).map((rota, rotaKey) => (
+          {this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek).map((rota, rotaKey) => (
             <div className="planning-rota" key={rotaKey}>
               <div className="planning-rota-item">{rota.date.format(DateFormats.READABLE_NO_YEAR)} ({rota.status})</div>
               <input className="planning-rota-item" type='number' value={rota.forecastRevenue} onChange={ev => this.updateRota(rota.with({forecastRevenue: validateCash(ev.target.value, rota.forecastRevenue)}))} />
@@ -96,8 +97,8 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
           ))}
         </div>
         <div>
-          <div>Forecast revenue: £{this.props.rotaLocalStates.getTotalForecastRevenue()}</div>
-          <div>Forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek()).toFixed(2)}%</div>
+          <div>Forecast revenue: £{this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek)}</div>
+          <div>Forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek)).toFixed(2)}%</div>
         </div>
         <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
       </div>
@@ -105,11 +106,12 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
   }
 
   private saveRotas() {
-    this.props.weeklyOverviewCreate(Array.from(this.props.rotaLocalStates.rotas.values()));
+    const startOfTheWeek = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
+    this.props.weeklyOverviewCreate(this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek));
   }
 
   private updateRota(updatedRota: RotaEntity) {
-    this.props.updateRotas(Array.from(this.props.rotaLocalStates.rotas.values()).map(rota => rota.id === updatedRota.id ? updatedRota : rota.with({})));
+    this.props.updateRotas([updatedRota]);
   }
 
   private maintainState() {
@@ -123,7 +125,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded()) {
-      Array.from(this.props.rotaLocalStates.rotas.values()).forEach(r => {
+      this.props.rotaLocalStates.getRotasForWeek(date).forEach(r => {
         if (!r.constants.id) {
           this.updateRota(r.with({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}));
           return;

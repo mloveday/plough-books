@@ -21,13 +21,13 @@ export class DailyOverviews {
     this.startOfWeek = startOfWeek;
     this.overviews = this.getDailyOverviews(rotas, cashUps);
     this.actualRevenue = cashUps.getTotalRevenue(startOfWeek);
-    this.forecastRevenue = rotas.getTotalForecastRevenue();
-    this.forecastBarLabour = rotas.getTotalPredictedBarLabour(this.forecastRevenue);
-    this.forecastKitchenLabour = rotas.getTotalPredictedKitchenLabour(this.forecastRevenue);
+    this.forecastRevenue = rotas.getTotalForecastRevenue(startOfWeek);
+    this.forecastBarLabour = rotas.getTotalPredictedBarLabour(startOfWeek, this.forecastRevenue);
+    this.forecastKitchenLabour = rotas.getTotalPredictedKitchenLabour(startOfWeek, this.forecastRevenue);
     this.actualBarLabour = this.getTotalActualBarLabour();
     this.actualKitchenLabour = this.getTotalActualKitchenLabour();
     this.vatAdjustedActualRevenue = this.overviews.reduce((prev, curr) => prev + curr.getVatAdjustedRevenue(), 0);
-    this.vatAdjustedForecastRevenue = rotas.getTotalVatAdjustedForecastRevenue();
+    this.vatAdjustedForecastRevenue = rotas.getTotalVatAdjustedForecastRevenue(startOfWeek);
   }
 
   public getForecastLabour() {
@@ -60,7 +60,7 @@ export class DailyOverviews {
     const overviews: DailyOverview[] = [];
     days.forEach(day => {
       const cashUp = cashUps.cashUps.get(day.format(DateFormats.API));
-      const rota = rotas.rotas.get(day.format(DateFormats.API));
+      const rota = rotas.getRotaForDate(day);
       if (cashUp && rota) {
         overviews.push(new DailyOverview(
           cashUp,

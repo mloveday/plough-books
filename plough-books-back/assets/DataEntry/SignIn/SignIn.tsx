@@ -198,7 +198,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private getRota(): RotaEntity {
-    const localState = this.props.rotaLocalStates.rotas.get(this.props.match.params.date);
+    const localState = this.props.rotaLocalStates.getRotaForDate(moment(this.props.match.params.date));
     return localState === undefined ? RotaEntity.default() : localState;
   }
 
