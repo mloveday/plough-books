@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {DateFormats} from "./DateFormats";
 
 function getStartOfAccountingYear(date: moment.Moment): moment.Moment {
   return date.clone().month(4).date(1).startOf('isoWeek');
@@ -29,4 +30,8 @@ export const startOfWeek = (year: number, weekNumber: number): moment.Moment => 
 export const accountingYearString = (date: moment.Moment): string => {
   const accountingYearNumber = accountingYear(date);
   return `${accountingYearNumber}-${accountingYearNumber+1}`;
+};
+
+export const rotaKey = (date: moment.Moment) => {
+  return date.clone().startOf('isoWeek').format(DateFormats.API);
 };

@@ -70,22 +70,22 @@ export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.STARTED, state.cashUpsForWeek.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload).cashUps.values())));
+    return state.with(state.cashUpsForWeek.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload).cashUps.values())), state.updatedState(FetchStatus.STARTED));
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.OK, state.cashUpsForWeek.with(action.payload.response));
+    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.ERROR, state.cashUpsForWeek);
+    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR));
   },
   [CASH_UP_CREATE_START]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.STARTED, state.cashUpsForWeek.with(action.payload.response));
+    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.STARTED));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.OK, state.cashUpsForWeek.with(action.payload.response));
+    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
-    return new CashUpExternalState(FetchStatus.ERROR, state.cashUpsForWeek);
+    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR));
   },
 
-  }, new CashUpExternalState(FetchStatus.EMPTY, CashUpsForWeek.default()));
+  }, new CashUpExternalState());

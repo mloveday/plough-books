@@ -68,22 +68,22 @@ export const constantsInternalReducers = handleActions<ConstantsLocalState, any>
 
 export const constantsExternalReducers = handleActions<ConstantsExternalState, any>({
   [CONSTANTS_FETCH_START]: (state, action) => {
-    return new ConstantsExternalState(FetchStatus.STARTED);
+    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [CONSTANTS_FETCH_SUCCESS]: (state, action) => {
-    return new ConstantsExternalState(FetchStatus.OK, ConstantsLocalState.default().withEntities(action.payload));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [CONSTANTS_FETCH_ERROR]: (state, action) => {
-    return new ConstantsExternalState(FetchStatus.ERROR);
+    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [CONSTANTS_CREATE_START]: (state, action) => {
-    return new ConstantsExternalState(FetchStatus.STARTED, ConstantsLocalState.default().withEntities([action.payload]));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.STARTED));
   },
   [CONSTANTS_CREATE_SUCCESS]: (state, action) => {
-    return new ConstantsExternalState(FetchStatus.OK, ConstantsLocalState.default().withEntities(action.payload));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [CONSTANTS_CREATE_ERROR]: (state, action) => {
-    return new ConstantsExternalState(FetchStatus.ERROR);
+    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
-  }, new ConstantsExternalState(FetchStatus.EMPTY, ConstantsLocalState.default()));
+  }, new ConstantsExternalState());

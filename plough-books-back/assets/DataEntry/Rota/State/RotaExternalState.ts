@@ -1,18 +1,25 @@
 import * as moment from "moment";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {ExternalState} from "../../../State/ExternalState";
+import {rotaKey} from "../../../Util/DateUtils";
 import {RotasForWeek} from "./RotasForWeek";
 
 export class RotaExternalState extends ExternalState {
-    public readonly rotasForWeek: RotasForWeek;
+    public readonly rotasForWeek: RotasForWeek = RotasForWeek.default();
 
-    constructor(state: FetchStatus, rotasForWeek: RotasForWeek = RotasForWeek.default(), fetchKeys: string[]) {
-        super(state, fetchKeys);
-        this.rotasForWeek = rotasForWeek;
+    public with(entities: RotasForWeek, states: Map<string, FetchStatus>) {
+        return Object.assign(
+          new RotaExternalState(),
+          this,
+          {
+              rotasForWeek: entities,
+              states
+          }
+        );
     }
 
     public shouldLoadForDate(date: moment.Moment) {
       return this.isEmpty()
-        || (this.rotasForWeek && this.isLoaded() && !this.rotasForWeek.hasRotaForDate(date));
+        || (this.rotasForWeek && !this.states.has(rotaKey(date)) && !this.rotasForWeek.hasRotaForDate(date));
     }
 }

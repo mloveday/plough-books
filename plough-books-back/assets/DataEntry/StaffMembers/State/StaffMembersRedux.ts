@@ -73,25 +73,25 @@ export const staffMembersInternalReducers = handleActions<StaffMembersLocalState
 
 export const staffMembersExternalReducers = handleActions<StaffMembersExternalState, any>({
   [STAFF_MEMBERS_FETCH_START]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.STARTED);
+    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.OK, StaffMembersLocalState.default().withEntities(action.payload));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.ERROR);
+    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [STAFF_MEMBERS_CREATE_START]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.STARTED, state.externalState);
+    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.OK , StaffMembersLocalState.default().withEntities(action.payload));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action) => {
-    return new StaffMembersExternalState(FetchStatus.ERROR);
+    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
-  }, new StaffMembersExternalState(FetchStatus.EMPTY, StaffMembersLocalState.default()));
+  }, new StaffMembersExternalState());
 
 export const staffMemberFiltersReducer = handleActions<StaffMemberFilters, any>({
   [STAFF_MEMBERS_FILTER]: (state, action) => {

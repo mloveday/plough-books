@@ -68,22 +68,22 @@ export const usersInternalReducers = handleActions<UsersLocalState, any>({
 
 export const usersExternalReducers = handleActions<UsersExternalState, any>({
   [USERS_FETCH_START]: (state, action) => {
-    return new UsersExternalState(FetchStatus.STARTED);
+    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [USERS_FETCH_SUCCESS]: (state, action) => {
-    return new UsersExternalState(FetchStatus.OK, UsersLocalState.default().withEntities(action.payload));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [USERS_FETCH_ERROR]: (state, action) => {
-    return new UsersExternalState(FetchStatus.ERROR);
+    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [USERS_CREATE_START]: (state, action) => {
-    return new UsersExternalState(FetchStatus.STARTED, state.externalState);
+    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [USERS_CREATE_SUCCESS]: (state, action) => {
-    return new UsersExternalState(FetchStatus.OK , UsersLocalState.default().withEntities(action.payload));
+    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [USERS_CREATE_ERROR]: (state, action) => {
-    return new UsersExternalState(FetchStatus.ERROR);
+    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
-  }, new UsersExternalState(FetchStatus.EMPTY, UsersLocalState.default()));
+  }, new UsersExternalState());

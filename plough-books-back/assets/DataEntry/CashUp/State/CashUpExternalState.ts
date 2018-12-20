@@ -5,11 +5,17 @@ import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpsForWeek} from "./CashUpsForWeek";
 
 export class CashUpExternalState extends ExternalState {
-    public readonly cashUpsForWeek: CashUpsForWeek;
+    public readonly cashUpsForWeek: CashUpsForWeek = CashUpsForWeek.default();
 
-    constructor(state: FetchStatus, cashUpsForWeek: CashUpsForWeek = CashUpsForWeek.default()) {
-        super(state);
-        this.cashUpsForWeek = cashUpsForWeek;
+    public with(entities: CashUpsForWeek, states: Map<string, FetchStatus>) {
+        return Object.assign(
+          new CashUpExternalState(),
+          this,
+          {
+              cashUpsForWeek: entities,
+              states
+          }
+        );
     }
 
     public shouldLoadForDate(date: moment.Moment) {

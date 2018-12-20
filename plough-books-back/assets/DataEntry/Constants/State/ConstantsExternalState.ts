@@ -3,10 +3,16 @@ import {ExternalState} from "../../../State/ExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
 
 export class ConstantsExternalState extends ExternalState {
-  public readonly externalState: ConstantsLocalState;
+  public readonly externalState: ConstantsLocalState = ConstantsLocalState.default();
 
-  constructor(state: FetchStatus, constantsLocalState: ConstantsLocalState = ConstantsLocalState.default()) {
-    super(state);
-    this.externalState = constantsLocalState;
+  public with(entities: ConstantsLocalState, states: Map<string, FetchStatus>) {
+    return Object.assign(
+      new ConstantsExternalState(),
+      this,
+      {
+        externalState: entities,
+        states
+      }
+    );
   }
 }

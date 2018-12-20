@@ -3,11 +3,16 @@ import {ExternalState} from "../../../State/ExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
 export class StaffMembersExternalState extends ExternalState {
-  public readonly externalState: StaffMembersLocalState;
-  public readonly id: number = 0;
+  public readonly externalState: StaffMembersLocalState = StaffMembersLocalState.default();
 
-  constructor(state: FetchStatus, externalState?: StaffMembersLocalState) {
-    super(state);
-    this.externalState = externalState ? externalState : StaffMembersLocalState.default();
+  public with(entities: StaffMembersLocalState, states: Map<string, FetchStatus>) {
+    return Object.assign(
+      new StaffMembersExternalState(),
+      this,
+      {
+        externalState: entities,
+        states
+      }
+    );
   }
 }
