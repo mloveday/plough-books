@@ -32,6 +32,6 @@ export const accountingYearString = (date: moment.Moment): string => {
   return `${accountingYearNumber}-${accountingYearNumber+1}`;
 };
 
-export const rotaKey = (date: moment.Moment) => {
+export const weeksDataKey = (date: moment.Moment) => {
   return date.clone().startOf('isoWeek').format(DateFormats.API);
 };

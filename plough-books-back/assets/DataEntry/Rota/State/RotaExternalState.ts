@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {ExternalState} from "../../../State/ExternalState";
-import {rotaKey} from "../../../Util/DateUtils";
+import {weeksDataKey} from "../../../Util/DateUtils";
 import {RotasForWeek} from "./RotasForWeek";
 
 export class RotaExternalState extends ExternalState {
@@ -20,6 +20,6 @@ export class RotaExternalState extends ExternalState {
 
     public shouldLoadForDate(date: moment.Moment) {
       return this.isEmpty()
-        || (this.rotasForWeek && !this.states.has(rotaKey(date)) && !this.rotasForWeek.hasRotaForDate(date));
+        || (this.rotasForWeek && !this.states.has(weeksDataKey(date)) && !this.rotasForWeek.hasRotaForDate(date));
     }
 }

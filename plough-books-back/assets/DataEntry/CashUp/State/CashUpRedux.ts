@@ -4,6 +4,7 @@ import {authenticatedFetch} from "../../../Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DateFormats} from "../../../Util/DateFormats";
+import {weeksDataKey} from "../../../Util/DateUtils";
 import {CashUpEntity} from "./CashUpEntity";
 import {CashUpExternalState} from "./CashUpExternalState";
 import {CashUpsForWeek} from "./CashUpsForWeek";
@@ -27,6 +28,17 @@ export const cashUpFetchError = createAction(CASH_UP_FETCH_ERROR);
 export const cashUpCreateStart = createAction<CashUpEntity>(CASH_UP_CREATE_START);
 export const cashUpCreateSuccess = createAction<{date: moment.Moment, response: CashUpExternalState}>(CASH_UP_CREATE_SUCCESS);
 export const cashUpCreateError = createAction(CASH_UP_CREATE_ERROR);
+
+export const cashUpFetchWithPrevious = (date: moment.Moment) => {
+  return (dispatch: any) => {
+    dispatch(cashUpFetch(date.clone().subtract(1, "year")));
+    dispatch(cashUpFetch(moment().subtract(4, "weeks")));
+    dispatch(cashUpFetch(moment().subtract(3, "weeks")));
+    dispatch(cashUpFetch(moment().subtract(2, "weeks")));
+    dispatch(cashUpFetch(moment().subtract(1, "weeks")));
+    dispatch(cashUpFetch(date));
+  }
+};
 
 export const cashUpFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
@@ -70,22 +82,22 @@ export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload).cashUps.values())), state.updatedState(FetchStatus.STARTED));
+    return state.with(state.cashUpsForWeek.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload).cashUps.values())), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK));
+    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
-    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR));
+    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
   },
   [CASH_UP_CREATE_START]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.STARTED));
+    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK));
+    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
-    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR));
+    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
   },
 
   }, new CashUpExternalState());

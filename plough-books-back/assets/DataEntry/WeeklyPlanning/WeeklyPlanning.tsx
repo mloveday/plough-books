@@ -9,6 +9,8 @@ import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {validateCash} from "../../Util/Validation";
+import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
+import {cashUpFetchWithPrevious} from "../CashUp/State/CashUpRedux";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
 import {Constants} from "../Rota/State/Constants";
@@ -28,6 +30,7 @@ interface WeeklyPlanningOwnProps {
 interface WeeklyPlanningStateProps {
   constantsExternalState: ConstantsExternalState,
   rotaExternalState: RotaExternalState,
+  cashUpExternalState: CashUpExternalState,
   rotaLocalStates: RotasForWeek,
 }
 
@@ -35,6 +38,7 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyPlanningOwnProps): Wee
   return {
     constantsExternalState: state.constantsExternalState,
     rotaExternalState: state.rotaExternalState,
+    cashUpExternalState: state.cashUpExternalState,
     rotaLocalStates: state.rotaLocalStates,
   }
 };
@@ -42,6 +46,7 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyPlanningOwnProps): Wee
 interface WeeklyPlanningDispatchProps {
   fetchConstants: () => void,
   fetchRotas: (date: moment.Moment) => void,
+  fetchCashUps: (date: moment.Moment) => void,
   updateRotas: (rotas: RotaEntity[]) => void,
   weeklyOverviewCreate: (rotas: RotaEntity[]) => void,
 }
@@ -50,6 +55,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: WeeklyPlanningOwnProps): We
   return {
     fetchConstants: () => dispatch(constantsFetch()),
     fetchRotas: date => dispatch(rotaFetchWithPrevious(date)),
+    fetchCashUps: date => dispatch(cashUpFetchWithPrevious(date)),
     updateRotas: rotas => dispatch(rotaDataEntry(rotas)),
     weeklyOverviewCreate: rotas  => dispatch(weeklyRotasCreate(rotas)),
   };
@@ -144,6 +150,10 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
     const date = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
     if (this.props.rotaExternalState.shouldLoadForDate(date)) {
       this.props.fetchRotas(date);
+      return;
+    }
+    if (this.props.cashUpExternalState.shouldLoadForDate(date)) {
+      this.props.fetchCashUps(date);
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded()) {
