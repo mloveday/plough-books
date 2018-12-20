@@ -95,6 +95,11 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
               </ConstantsWithHover>
             </div>
           ))}
+          <div>
+            <div>Forecast revenue: £{this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek)}</div>
+            <div>Forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek)).toFixed(2)}%</div>
+          </div>
+          <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
           <div>Last year</div>
           {this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek.clone().subtract(1, "year")).map((rota, rotaKey) => (
             <div className="planning-rota" key={rotaKey}>
@@ -118,11 +123,6 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
             </div>
           ))}
         </div>
-        <div>
-          <div>Forecast revenue: £{this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek)}</div>
-          <div>Forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek)).toFixed(2)}%</div>
-        </div>
-        <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
       </div>
     )
   }
