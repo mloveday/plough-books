@@ -105,13 +105,13 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
 
 export const rotaExternalReducers = handleActions<RotaExternalState, any>({
   [ROTA_FETCH_START]: (state, action) => {
-    return new RotaExternalState(FetchStatus.STARTED);
+    return new RotaExternalState(FetchStatus.STARTED, state.rotasForWeek);
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
     return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [ROTA_FETCH_ERROR]: (state, action) => {
-    return new RotaExternalState(FetchStatus.ERROR);
+    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek);
   },
   [ROTA_CREATE_START]: (state, action) => {
     return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload));
@@ -120,7 +120,7 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [ROTA_CREATE_ERROR]: (state, action) => {
-    return new RotaExternalState(FetchStatus.ERROR);
+    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek);
   },
   [WEEKLY_ROTAS_CREATE_START]: (state, action) => {
     return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload));
@@ -129,7 +129,7 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
   },
   [WEEKLY_ROTAS_CREATE_ERROR]: (state, action) => {
-    return new RotaExternalState(FetchStatus.ERROR);
+    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek);
   },
 
   }, new RotaExternalState(FetchStatus.EMPTY, RotasForWeek.default()));
