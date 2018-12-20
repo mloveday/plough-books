@@ -36,6 +36,17 @@ export const weeklyRotasCreateStart = createAction<{date: moment.Moment, respons
 export const weeklyRotasCreateSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(WEEKLY_ROTAS_CREATE_SUCCESS);
 export const weeklyRotasCreateError = createAction(WEEKLY_ROTAS_CREATE_ERROR);
 
+export const rotaFetchWithPrevious = (date: moment.Moment) => {
+  return (dispatch: any) => {
+    dispatch(rotaFetch(date.clone().subtract(1, "year")));
+    dispatch(rotaFetch(moment().subtract(4, "weeks")));
+    dispatch(rotaFetch(moment().subtract(3, "weeks")));
+    dispatch(rotaFetch(moment().subtract(2, "weeks")));
+    dispatch(rotaFetch(moment().subtract(1, "weeks")));
+    dispatch(rotaFetch(date));
+  }
+};
+
 export const rotaFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(rotaFetch(date));
@@ -105,31 +116,31 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
 
 export const rotaExternalReducers = handleActions<RotaExternalState, any>({
   [ROTA_FETCH_START]: (state, action) => {
-    return new RotaExternalState(FetchStatus.STARTED, state.rotasForWeek);
+    return new RotaExternalState(FetchStatus.STARTED, state.rotasForWeek, state.getFetchKeys(FetchStatus.STARTED, action.payload.format(DateFormats.API)));
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
-    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
+    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload), state.getFetchKeys(FetchStatus.OK, action.payload.date.format(DateFormats.API)));
   },
   [ROTA_FETCH_ERROR]: (state, action) => {
-    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek);
+    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek, state.getFetchKeys(FetchStatus.ERROR, ''));
   },
   [ROTA_CREATE_START]: (state, action) => {
-    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload));
+    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload), state.getFetchKeys(FetchStatus.STARTED, action.payload.format(DateFormats.API)));
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
+    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload), state.getFetchKeys(FetchStatus.OK, action.payload.format(DateFormats.API)));
   },
   [ROTA_CREATE_ERROR]: (state, action) => {
-    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek);
+    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek, state.getFetchKeys(FetchStatus.ERROR, ''));
   },
   [WEEKLY_ROTAS_CREATE_START]: (state, action) => {
-    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload));
+    return new RotaExternalState(FetchStatus.STARTED, handleRotaPayload(state.rotasForWeek, action.payload), state.getFetchKeys(FetchStatus.STARTED, action.payload.format(DateFormats.API)));
   },
   [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action) => {
-    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload));
+    return new RotaExternalState(FetchStatus.OK, handleRotaPayload(state.rotasForWeek, action.payload), state.getFetchKeys(FetchStatus.OK, action.payload.format(DateFormats.API)));
   },
   [WEEKLY_ROTAS_CREATE_ERROR]: (state, action) => {
-    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek);
+    return new RotaExternalState(FetchStatus.ERROR, state.rotasForWeek, state.getFetchKeys(FetchStatus.ERROR, ''));
   },
 
-  }, new RotaExternalState(FetchStatus.EMPTY, RotasForWeek.default()));
+  }, new RotaExternalState(FetchStatus.EMPTY, RotasForWeek.default(), []));

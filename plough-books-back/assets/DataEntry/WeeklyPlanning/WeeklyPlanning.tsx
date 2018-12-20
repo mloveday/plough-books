@@ -14,7 +14,7 @@ import {constantsFetch} from "../Constants/State/ConstantsRedux";
 import {Constants} from "../Rota/State/Constants";
 import {RotaEntity} from "../Rota/State/RotaEntity";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
-import {rotaDataEntry, rotaFetch, weeklyRotasCreate} from "../Rota/State/RotaRedux";
+import {rotaDataEntry, rotaFetchWithPrevious, weeklyRotasCreate} from "../Rota/State/RotaRedux";
 import {RotasForWeek} from "../Rota/State/RotasForWeek";
 import './WeeklyPlanning.scss';
 
@@ -49,7 +49,7 @@ interface WeeklyPlanningDispatchProps {
 const mapDispatchToProps = (dispatch: any, ownProps: WeeklyPlanningOwnProps): WeeklyPlanningDispatchProps => {
   return {
     fetchConstants: () => dispatch(constantsFetch()),
-    fetchRotas: date => dispatch(rotaFetch(date)),
+    fetchRotas: date => dispatch(rotaFetchWithPrevious(date)),
     updateRotas: rotas => dispatch(rotaDataEntry(rotas)),
     weeklyOverviewCreate: rotas  => dispatch(weeklyRotasCreate(rotas)),
   };
@@ -93,6 +93,28 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
                 ))}
               </select>
               </ConstantsWithHover>
+            </div>
+          ))}
+          <div>Last year</div>
+          {this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek.clone().subtract(1, "year")).map((rota, rotaKey) => (
+            <div className="planning-rota" key={rotaKey}>
+              <div className="planning-rota-item">{rota.date.format(DateFormats.READABLE_NO_YEAR)} ({rota.status})</div>
+              <div className="planning-rota-item">{rota.forecastRevenue}</div>
+              <div className="planning-rota-item">{rota.targetLabourRate * 100}</div>
+              <ConstantsWithHover constants={rota.constants} />
+            </div>
+          ))}
+          {[1,2,3,4].map(weeksAgo =>(
+            <div key={weeksAgo}>
+              <div>{weeksAgo} {weeksAgo === 1 ? 'Week' : 'Weeks'} Ago</div>
+              {this.props.rotaLocalStates.getRotasForWeek(moment().subtract(weeksAgo, "week")).map((rota, rotaKey) => (
+                <div className="planning-rota" key={rotaKey}>
+                <div className="planning-rota-item">{rota.date.format(DateFormats.READABLE_NO_YEAR)} ({rota.status})</div>
+                <div className="planning-rota-item">{rota.forecastRevenue}</div>
+                <div className="planning-rota-item">{rota.targetLabourRate * 100}</div>
+                <ConstantsWithHover constants={rota.constants} />
+                </div>
+                ))}
             </div>
           ))}
         </div>
