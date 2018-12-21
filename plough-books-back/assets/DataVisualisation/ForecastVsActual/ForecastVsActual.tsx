@@ -1,4 +1,3 @@
-import * as log from 'loglevel';
 import * as React from "react";
 import "./ForecastVsActual.scss";
 
@@ -16,12 +15,13 @@ export class ForecastVsActual extends React.Component<ForecastVsActualOwnProps, 
     const compare = this.props.compareFn(this.props.forecast, this.props.actual);
     const classModifier = (compare === -1 ? "bad" : (compare === 1 ? "good" : "neutral"));
     const showLabel = this.props.showLabel === undefined ? true : this.props.showLabel;
-    log.error(showLabel);
+    const forecast = isNaN(this.props.forecast) ? "-" : this.props.formatFn(this.props.forecast);
+    const actual = isNaN(this.props.actual) ? "-" : this.props.formatFn(this.props.actual);
     return (
       <div className="forecast-vs-actual">
         {showLabel && <div className="label">{this.props.label}</div> }
-        <div className={`actual ${classModifier}`}>{this.props.formatFn(this.props.actual)}</div>
-        <div className={`forecast ${classModifier}`}>{`(${this.props.formatFn(this.props.forecast)})`}</div>
+        <div className={`actual ${classModifier}`}>{actual}</div>
+        <div className={`forecast ${classModifier}`}>{`(${forecast})`}</div>
       </div>
     )
   }
