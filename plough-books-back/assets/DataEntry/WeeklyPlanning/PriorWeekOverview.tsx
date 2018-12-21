@@ -1,12 +1,16 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
+import {CostRateCompare} from "../../DataVisualisation/ForecastVsActual/CostRateCompare";
+import {CostsCompare} from "../../DataVisualisation/ForecastVsActual/CostsCompare";
+import {RevenueCompare} from "../../DataVisualisation/ForecastVsActual/RevenueCompare";
 import {DailyOverviews} from "../../DataVisualisation/WeeklyOverview/State/DailyOverviews";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
+import "./PriorWeekOverview.scss";
 
 interface PriorWeekOverviewOwnProps {
   dayInPriorWeek: moment.Moment;
@@ -42,27 +46,22 @@ class PriorWeekOverviewComponent extends React.Component<PriorWeekOverviewProps,
     const startOfPriorWeek = this.props.dayInPriorWeek.clone().startOf('isoWeek');
     const dailyOverviews = new DailyOverviews(startOfPriorWeek, this.props.rotaExternalState.rotasForWeek, this.props.cashUpExternalState.cashUpsForWeek);
     return (
-      <div key={startOfPriorWeek.format(DateFormats.API)}>
-        <div>{this.props.title}</div>
+      <div className="prior-week-overview" key={startOfPriorWeek.format(DateFormats.API)}>
+        <div className="prior-week-title">{this.props.title}</div>
         <div className="weekly-overview">
           <div className="overview-stats">
-            <div className="overview-stat">Forecast Bar costs: £{dailyOverviews.forecastBarLabour.toFixed(2)}</div>
-            <div className="overview-stat">Actual Bar costs: £{dailyOverviews.actualBarLabour.toFixed(2)}</div>
-            <div className="overview-stat">Forecast Kitchen costs: £{dailyOverviews.forecastKitchenLabour.toFixed(2)}</div>
-            <div className="overview-stat">Actual Kitchen costs: £{dailyOverviews.actualKitchenLabour.toFixed(2)}</div>
+            <div className="overview-stat"><CostsCompare label="Bar costs" forecast={dailyOverviews.forecastBarLabour} actual={dailyOverviews.actualBarLabour} /></div>
+            <div className="overview-stat"><CostsCompare label="Kitchen costs" forecast={dailyOverviews.forecastKitchenLabour} actual={dailyOverviews.actualKitchenLabour} /></div>
           </div>
           <div className="overview-stats">
-            <div className="overview-stat">Forecast combined costs: £{dailyOverviews.getForecastLabour().toFixed(2)}</div>
-            <div className="overview-stat">Actual combined costs: £{dailyOverviews.getForecastLabour().toFixed(2)}</div>
+            <div className="overview-stat"><CostsCompare label="Combined Labour" forecast={dailyOverviews.getForecastLabour()} actual={dailyOverviews.getActualLabour()} /></div>
           </div>
           <div className="overview-stats">
-            <div className="overview-stat">Total forecast revenue: £{dailyOverviews.forecastRevenue.toFixed(2)}</div>
-            <div className="overview-stat">Total actual revenue: £{dailyOverviews.actualRevenue.toFixed(2)}</div>
+            <div className="overview-stat"><RevenueCompare label="Revenue" forecast={dailyOverviews.forecastRevenue} actual={dailyOverviews.actualRevenue} /></div>
           </div>
           <div className="overview-stats">
             <div className="overview-stat">Target forecast labour rate: {(100*this.props.rotaExternalState.rotasForWeek.getTargetLabourRateForWeek(startOfPriorWeek)).toFixed(2)}%</div>
-            <div className="overview-stat">Combined forecast labour rate: {(100*dailyOverviews.getCombinedForecastLabourRate()).toFixed(2)}%</div>
-            <div className="overview-stat">Combined actual labour rate: {(100*dailyOverviews.getCombinedActualLabourRate()).toFixed(2)}%</div>
+            <div className="overview-stat"><CostRateCompare label="Combined labour" forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedActualLabourRate()} /></div>
           </div>
           <div className="overview-rota-group">
             <div className="overview-stat-title">Date</div>
@@ -75,53 +74,47 @@ class PriorWeekOverviewComponent extends React.Component<PriorWeekOverviewProps,
             ))}
           </div>
           <div className="overview-rota-group">
-            <div className="overview-stat-title">Forecast revenue</div>
+            <div className="overview-stat-title">Revenue</div>
             {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>£{overview.rota.forecastRevenue.toFixed(2)}</div>
-            ))}
-            <div className="overview-stat-title">Actual revenue</div>
-            {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>£{overview.cashUp.getTotalRevenue().toFixed(2)}</div>
+              <div className="overview-stat">
+                <RevenueCompare key={key} label="Revenue" showLabel={false} forecast={overview.rota.forecastRevenue} actual={overview.cashUp.getTotalRevenue()} />
+              </div>
             ))}
           </div>
           <div className="overview-rota-group">
-            <div className="overview-stat-title">Predicted Bar wage cost</div>
+            <div className="overview-stat-title">Bar labour cost</div>
             {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>£{overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR).toFixed(2)}</div>
+              <div className="overview-stat">
+                <CostsCompare key={key} label="Bar labour cost" showLabel={false}
+                                forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR)}
+                                actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR)} />
+              </div>
             ))}
-            <div className="overview-stat-title">Actual Bar wage cost</div>
+            <div className="overview-stat-title">Kitchen labour cost</div>
             {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR).toFixed(2)}</div>
-            ))}
-            <div className="overview-stat-title">Predicted Kitchen wage cost</div>
-            {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>£{overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
-            ))}
-            <div className="overview-stat-title">Actual Kitchen wage cost</div>
-            {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>£{overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN).toFixed(2)}</div>
+              <div className="overview-stat">
+                <CostsCompare key={key} label="Kitchen labour cost" showLabel={false}
+                              forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
+                              actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN)} />
+              </div>
             ))}
           </div>
           <div className="overview-rota-group">
-            <div className="overview-stat-title">Target labour rate</div>
+            <div className="overview-stat-title">Bar labour rate</div>
             {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>{(overview.rota.targetLabourRate * 100).toFixed(2)}%</div>
+              <div className="overview-stat">
+                <CostRateCompare key={key} label="Bar labour rate" showLabel={false}
+                                 forecast={overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.BAR)}
+                                 actual={overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR)} />
+              </div>
             ))}
-            <div className="overview-stat-title">Predicted Bar labour rate</div>
+            <div className="overview-stat-title">Kitchen labour rate</div>
             {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>{(overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
-            ))}
-            <div className="overview-stat-title">Actual Bar labour rate</div>
-            {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR) * 100).toFixed(2)}%</div>
-            ))}
-            <div className="overview-stat-title">Predicted Kitchen labour rate</div>
-            {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>{(overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
-            ))}
-            <div className="overview-stat-title">Actual Kitchen labour rate</div>
-            {dailyOverviews.overviews.map((overview, key) => (
-              <div className="overview-stat" key={key}>{(overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN) * 100).toFixed(2)}%</div>
+              <div className="overview-stat">
+                <CostRateCompare key={key} label="Kitchen labour rate" showLabel={false}
+                                 forecast={overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
+                                 actual={overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN)} />
+              </div>
             ))}
           </div>
         </div>

@@ -1,0 +1,27 @@
+.forecast-vs-actual {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  .label {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  .actual {
+    font-weight: bold;
+  }
+  .forecast {
+    font-size: 0.9em;
+  }
+  .actual, .forecast {
+    &.bad {
+      color: darkred;
+    }
+    &.good {
+      color: darkgreen;
+    }
+    grid-column: 1 / span 2;
+  }
+  .label ~ .actual, .label ~ .forecast {
+    grid-column: 2;
+  }
+}
