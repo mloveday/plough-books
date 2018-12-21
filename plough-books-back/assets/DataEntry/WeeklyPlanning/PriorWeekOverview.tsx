@@ -45,8 +45,16 @@ class PriorWeekOverviewComponent extends React.Component<PriorWeekOverviewProps,
     }
     const startOfPriorWeek = this.props.dayInPriorWeek.clone().startOf('isoWeek');
     const dailyOverviews = new DailyOverviews(startOfPriorWeek, this.props.rotaExternalState.rotasForWeek, this.props.cashUpExternalState.cashUpsForWeek);
+    if (dailyOverviews.overviews.length === 0) {
+      return (
+        <div className="prior-week-overview">
+          <div className="prior-week-title">{this.props.title}</div>
+          <div className="weekly-overview">No data for this week</div>
+        </div>
+      )
+    }
     return (
-      <div className="prior-week-overview" key={startOfPriorWeek.format(DateFormats.API)}>
+      <div className="prior-week-overview">
         <div className="prior-week-title">{this.props.title}</div>
         <div className="weekly-overview">
           <div className="overview-stats">
