@@ -8,6 +8,7 @@ import {DailyOverviews} from "../../DataVisualisation/WeeklyOverview/State/Daily
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
+import {Formatting} from "../../Util/Formatting";
 import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
 import "./PriorWeekOverview.scss";
@@ -68,7 +69,7 @@ class PriorWeekOverviewComponent extends React.Component<PriorWeekOverviewProps,
             <div className="overview-stat"><RevenueCompare label="Revenue" forecast={dailyOverviews.forecastRevenue} actual={dailyOverviews.actualRevenue} /></div>
           </div>
           <div className="overview-stats">
-            <div className="overview-stat">Target forecast labour rate: {(100*this.props.rotaExternalState.rotasForWeek.getTargetLabourRateForWeek(startOfPriorWeek)).toFixed(2)}%</div>
+            <div className="overview-stat">Target forecast labour rate: {Formatting.formatPercent(this.props.rotaExternalState.rotasForWeek.getTargetLabourRateForWeek(startOfPriorWeek))}</div>
             <div className="overview-stat"><CostRateCompare label="Combined labour" forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedActualLabourRate()} /></div>
           </div>
           <div className="overview-rota-group">

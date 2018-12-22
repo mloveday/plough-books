@@ -8,6 +8,7 @@ import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
+import {Formatting} from "../../Util/Formatting";
 import {validateCash} from "../../Util/Validation";
 import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
 import {cashUpFetchWithPrevious} from "../CashUp/State/CashUpRedux";
@@ -103,8 +104,8 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
             </div>
           ))}
           <div>
-            <div>Forecast revenue: £{this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek)}</div>
-            <div>Forecast labour rate: {(100*this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek)).toFixed(2)}%</div>
+            <div>Forecast revenue: {Formatting.formatCash(this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek))}</div>
+            <div>Forecast labour rate: {Formatting.formatPercent(this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek))}</div>
           </div>
           <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
           <PriorWeekOverview dayInPriorWeek={startOfTheWeek.clone().subtract(1, "year")} title={`Last year`} />

@@ -1,4 +1,5 @@
 import * as React from "react";
+import {Formatting} from "../../Util/Formatting";
 import {ComparisonFunctions} from "./ComparisonFunctions";
 import {ForecastVsActual} from "./ForecastVsActual";
 
@@ -17,7 +18,7 @@ export class RevenueCompare extends React.Component<ForecastVsActualOwnProps, {}
                         forecast={this.props.forecast}
                         actual={this.props.actual}
                         compareFn={ComparisonFunctions.biggerBetter}
-                        formatFn={v => `£${v.toFixed(2)}`} />
+                        formatFn={v => Formatting.formatCash(v)} />
     )
   }
 }

@@ -6,6 +6,7 @@ import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
+import {Formatting} from "../../Util/Formatting";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
 import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
@@ -117,8 +118,8 @@ class RotaComponent extends React.Component<RotaProps, {}> {
             </div>
           <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>
           <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>
-          <div className="rota-stat">Total wage cost: £{this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type).toFixed(2)}</div>
-          <div className="rota-stat">Labour rate: {(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type) * 100).toFixed(2)}% (aiming for &lt; {(this.getRota().targetLabourRate * 100).toFixed(2)}%)</div>
+          <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))}</div>
+          <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))} (aiming for &lt; {Formatting.formatPercent(this.getRota().targetLabourRate)})</div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
         </div>
         <div className="rota-grid">
