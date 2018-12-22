@@ -15,17 +15,16 @@ import {staffMembersFetch} from "../../DataEntry/StaffMembers/State/StaffMembers
 import {StaffRolesExternalState} from "../../DataEntry/StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../../DataEntry/StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../../DataEntry/StaffRoles/State/StaffRolesRedux";
-import {WorkTypes} from "../../Enum/WorkTypes";
 import {WeekPicker} from "../../Nav/WeekPicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
-import {ConstantsWithHover} from "../Constants/ConstantsWithHover";
-import {CostRateCompare} from "../ForecastVsActual/CostRateCompare";
-import {CostsCompare} from "../ForecastVsActual/CostsCompare";
-import {RevenueCompare} from "../ForecastVsActual/RevenueCompare";
+import {LabourCostOverview} from "./LabourCostOverview";
+import {LabourRateOverview} from "./LabourRateOverview";
+import {RevenueOverview} from "./RevenueOverview";
 import {DailyOverviews} from "./State/DailyOverviews";
+import {SummaryOverview} from "./SummaryOverview";
 import './WeeklyOverview.scss';
 
 interface WeeklyOverviewOwnProps {
@@ -96,82 +95,10 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
                     year={parseInt(this.props.match.params.year, 10)}
                     urlFromDate={date => Routes.weeklyOverviewUrl(date)}/>
         <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({dailyOverviews.startOfWeek.format(DateFormats.READABLE_WITH_YEAR)})</h1>
-        <div className="overview-rota-group">
-          <div className="overview-stat-title">Date</div>
-          <div className="overview-stat">Week totals</div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</div>
-          ))}
-          <div className="overview-stat-title">Status</div>
-          <div className="overview-stat"/>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div className="overview-stat" key={key}>{overview.rota.status}</div>
-          ))}
-          <div className="overview-stat-title">Constants from date</div>
-          <div className="overview-stat"/>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <ConstantsWithHover constants={overview.rota.constants} key={key} />
-          ))}
-          <div className="overview-stat-title">Notes</div>
-          <div className="overview-stat"/>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div className="overview-stat notes" key={key}>{overview.cashUp.dailyNotes.toUpperCase()}</div>
-          ))}
-        </div>
-        <div className="overview-rota-group">
-          <div className="overview-stat-title">Revenue</div>
-          <div className="overview-stat"><RevenueCompare label="Revenue" showLabel={false} forecast={dailyOverviews.forecastRevenue} actual={dailyOverviews.actualRevenue} /></div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div key={key} className="overview-stat">
-              <RevenueCompare label="Revenue" showLabel={false} forecast={overview.rota.forecastRevenue} actual={overview.cashUp.getTotalRevenue()} />
-            </div>
-          ))}
-        </div>
-        <div className="overview-rota-group">
-          <div className="overview-stat-title">Bar wage cost</div>
-          <div className="overview-stat"><CostsCompare label="Bar costs" showLabel={false} forecast={dailyOverviews.forecastBarLabour} actual={dailyOverviews.actualBarLabour} /></div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <CostsCompare key={key} label="Bar labour cost" showLabel={false}
-                          forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR)}
-                          actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR)} />
-          ))}
-          <div className="overview-stat-title">Kitchen wage cost</div>
-          <div className="overview-stat"><CostsCompare label="Kitchen costs" showLabel={false} forecast={dailyOverviews.forecastKitchenLabour} actual={dailyOverviews.actualKitchenLabour} /></div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <CostsCompare key={key} label="Kitchen labour cost" showLabel={false}
-                          forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
-                          actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN)} />
-          ))}
-        </div>
-        <div className="overview-rota-group">
-          <div className="overview-stat-title">Labour rate</div>
-          <div className="overview-stat"><CostRateCompare label="Combined labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedActualLabourRate()} /></div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div className="overview-stat" key={key}>
-              <CostRateCompare label="Bar labour rate" showLabel={false}
-                               forecast={overview.rota.targetLabourRate}
-                               actual={overview.rota.getCombinedActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue)} />
-              </div>
-          ))}
-          <div className="overview-stat-title">Bar labour rate</div>
-          <div className="overview-stat"><CostRateCompare label="Bar labour rate" showLabel={false} forecast={dailyOverviews.getForecastBarLabourRate()} actual={dailyOverviews.getActualBarLabourRate()} /></div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div key={key} className="overview-stat">
-              <CostRateCompare label="Bar labour rate" showLabel={false}
-                               forecast={overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.BAR)}
-                               actual={overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR)} />
-            </div>
-          ))}
-          <div className="overview-stat-title">Kitchen labour rate</div>
-          <div className="overview-stat"><CostRateCompare label="Kitchen labour rate" showLabel={false} forecast={dailyOverviews.getForecastKitchenLabourRate()} actual={dailyOverviews.getActualKitchenLabourRate()} /></div>
-          {dailyOverviews.overviews.map((overview, key) => (
-            <div key={key} className="overview-stat">
-              <CostRateCompare label="Kitchen labour rate" showLabel={false}
-                               forecast={overview.rota.getPredictedLabourRate(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
-                               actual={overview.rota.getActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN)} />
-            </div>
-          ))}
-        </div>
+        <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
+        <RevenueOverview dailyOverviews={dailyOverviews} />
+        <LabourCostOverview dailyOverviews={dailyOverviews} />
+        <LabourRateOverview dailyOverviews={dailyOverviews} />
       </div>)
   }
 
