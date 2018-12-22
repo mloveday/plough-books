@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
 import {ActualShift} from "./ActualShift";
@@ -103,6 +104,14 @@ export class RotaEntity {
     return CashManipulation.calculateLabourRate(
       this.getTotalActualLabourCost(revenueToday, weeklyRevenue, type),
       revenueToday*CashManipulation.getProportionOfRevenue(type, this.constants),
+      this.constants.vatMultiplier
+    );
+  }
+
+  public getCombinedActualLabourRate(revenueToday: number, weeklyRevenue: number): number {
+    return CashManipulation.calculateLabourRate(
+      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR) + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN),
+      revenueToday,
       this.constants.vatMultiplier
     );
   }

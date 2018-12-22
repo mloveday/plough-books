@@ -46,6 +46,22 @@ export class DailyOverviews {
     return this.getActualLabour()/this.vatAdjustedActualRevenue;
   }
 
+  public getForecastBarLabourRate() {
+    return this.forecastBarLabour/this.vatAdjustedForecastRevenue;
+  }
+
+  public getActualBarLabourRate() {
+    return this.actualBarLabour/this.vatAdjustedActualRevenue;
+  }
+
+  public getForecastKitchenLabourRate() {
+    return this.forecastKitchenLabour/this.vatAdjustedForecastRevenue;
+  }
+
+  public getActualKitchenLabourRate() {
+    return this.actualKitchenLabour/this.vatAdjustedActualRevenue;
+  }
+
   private getDailyOverviews(rotas: RotasForWeek, cashUps: CashUpsForWeek): DailyOverview[] {
     const date = this.startOfWeek;
     const days = [
