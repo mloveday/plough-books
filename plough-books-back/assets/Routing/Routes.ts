@@ -13,6 +13,7 @@ export class Routes {
   public static readonly USERS = "/admin/users";
   public static readonly ROLES = "/admin/roles";
   public static readonly WEEKLY_PLANNING = "/weekly-planning";
+  public static readonly WEEKLY_ROTA = "/weekly-rota";
   public static readonly DATE_FINDER = [Routes.dateRoutes(), Routes.weekRoutes(), Routes.INDEX];
 
   public static cashUpUrl(date: moment.Moment) {
@@ -47,6 +48,14 @@ export class Routes {
     return `${this.WEEKLY_OVERVIEW}/:year/:weekNumber`;
   }
 
+  public static weeklyRotaUrl(date: moment.Moment) {
+    return `${this.WEEKLY_ROTA}/${accountingYear(date)}/${accountingWeek(date)}`;
+  }
+
+  public static weeklyRotaRoute() {
+    return `${this.WEEKLY_ROTA}/:year/:weekNumber`;
+  }
+
   public static weeklyPlanningUrl(date: moment.Moment) {
     return `${this.WEEKLY_PLANNING}/${accountingYear(date)}/${accountingWeek(date)}`;
   }
@@ -60,6 +69,6 @@ export class Routes {
   }
 
   private static weekRoutes() {
-    return `:route(${this.WEEKLY_OVERVIEW}|${this.WEEKLY_PLANNING})/:year/:weekNumber`;
+    return `:route(${this.WEEKLY_OVERVIEW}|${this.WEEKLY_PLANNING}|${this.WEEKLY_ROTA})/:year/:weekNumber`;
   }
 }

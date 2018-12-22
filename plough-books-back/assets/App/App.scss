@@ -1,3 +1,11 @@
+html {
+  font-size: 10px;
+}
+
+* {
+  font-size: 1.6rem;
+}
+
 .App {
   text-align: center;
 }
@@ -8,10 +16,13 @@
   padding: 16px;
   color: white;
   display: flex;
+  @media print {
+    display:none;
+  }
 }
 
 .App-title {
-  font-size: 24px;
+  font-size: 2.4rem;
   padding: 0;
   margin: 0;
   flex: 1;
@@ -19,7 +30,7 @@
 
 .App-hero-image {
   width: 32px;
-  margin-right: 16px;
+  margin-right: 1.6rem;
 }
 
 .App-hero-image img {
@@ -33,6 +44,9 @@
   display: flex;
   flex-direction: row;
   list-style-type: none;
+  @media print {
+    display:none;
+  }
 }
 
 .App-nav-item {
@@ -43,7 +57,7 @@
 }
 
 .App-nav-anchor {
-  font-size: 14px;
+  font-size: 1.4rem;
   border: 0;
   outline: none;
   text-decoration: none;
