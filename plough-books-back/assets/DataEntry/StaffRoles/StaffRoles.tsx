@@ -66,11 +66,11 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
             return (
               <div className="staff-role-entity" key={key}>
                 <input disabled={!isEditingThisRole} value={role.role} onChange={ev => this.updateStaffRole(role.with({'role': ev.target.value}))}/>
-                <select disabled={!isEditingThisRole} value={role.status} onChange={ev => this.updateStaffRole(role.with({'status': ev.target.value}))}>
+                {role.status === StaffRoleStatus.IMPORTED && <div>{role.status}</div>}
+                {role.status !== StaffRoleStatus.IMPORTED && <select disabled={!isEditingThisRole} value={role.status} onChange={ev => this.updateStaffRole(role.with({'status': ev.target.value}))}>
                   <option value={StaffRoleStatus.ACTIVE}>Active</option>
                   <option value={StaffRoleStatus.INACTIVE}>Inactive</option>
-                  <option value={StaffRoleStatus.IMPORTED}>(imported)</option>
-                </select>
+                </select>}
                 <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': ev.target.value}))}/>
                 <select disabled={!isEditingThisRole} value={role.type} onChange={ev => this.updateStaffRole(role.with({type: ev.target.value}))}>
                     <option value='bar'>Bar</option>
@@ -91,7 +91,11 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
           <input value={this.props.staffRolesLocalState.newEntity.role}
                  onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'role': ev.target.value}))}/>
           }
-          {isCreatingNewRole && <input value={this.props.staffRolesLocalState.newEntity.status} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'status': ev.target.value}))}/>}
+          {isCreatingNewRole &&
+          <select value={this.props.staffRolesLocalState.newEntity.status} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'status': ev.target.value}))}>
+              <option value={StaffRoleStatus.ACTIVE}>Active</option>
+              <option value={StaffRoleStatus.INACTIVE}>Inactive</option>
+          </select>}
           {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newEntity.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'orderInRota': ev.target.value}))}/>}
           {isCreatingNewRole &&
             <select value={this.props.staffRolesLocalState.newEntity.type} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({type: ev.target.value}))}>
