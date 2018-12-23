@@ -117,11 +117,11 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           return (
             <div className="staff-member-entity" key={key}>
               <input disabled={!isEditingMember} value={member.name} onChange={ev => this.updateStaffMember(member.with({'name' : ev.target.value}))} />
-              <select disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} >
+              {member.status === StaffMemberStatus.IMPORTED && <div>{StaffMemberStatus.IMPORTED}</div>}
+              {member.status !== StaffMemberStatus.IMPORTED && <select disabled={!isEditingMember} value={member.status} onChange={ev => this.updateStaffMember(member.with({'status' : ev.target.value}))} >
                 <option value={StaffMemberStatus.ACTIVE}>Active</option>
                 <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
-                <option value={StaffMemberStatus.IMPORTED}>(imported)</option>
-              </select>
+              </select>}
               <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
               <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
                 {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
@@ -130,7 +130,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               </select>
               <div className="staff-member-edit-buttons">
                 {!isCreatingNewMember && !isEditingMember && !this.props.staffMembersLocalState.isEditing() &&
-                <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
+                    <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
                 {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
                 {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
               </div>
@@ -139,7 +139,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
         })}
         <div className="staff-member-entity">
           {isCreatingNewMember && <input value={newMember.name} onChange={ev => this.newStaffMember(newMember.with({'name': ev.target.value}))}/>}
-          {isCreatingNewMember && <select value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status': ev.target.value}))}>
+          {isCreatingNewMember && <select value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status' : ev.target.value}))} >
               <option value={StaffMemberStatus.ACTIVE}>Active</option>
               <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
           </select>}
