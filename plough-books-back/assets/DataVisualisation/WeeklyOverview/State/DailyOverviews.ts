@@ -1,5 +1,7 @@
 import * as moment from 'moment';
 import {CashUpsForWeek} from "../../../DataEntry/CashUp/State/CashUpsForWeek";
+import {PlaceholderCashUp} from "../../../DataEntry/CashUp/State/PlaceholderCashUp";
+import {RotaEntity} from "../../../DataEntry/Rota/State/RotaEntity";
 import {RotasForWeek} from "../../../DataEntry/Rota/State/RotasForWeek";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DateFormats} from "../../../Util/DateFormats";
@@ -9,6 +11,7 @@ export class DailyOverviews {
   public readonly overviews: DailyOverview[];
   public readonly startOfWeek: moment.Moment;
   public readonly actualRevenue: number;
+  public readonly runningRevenueForecast: number;
   public readonly vatAdjustedActualRevenue: number;
   public readonly forecastRevenue: number;
   public readonly vatAdjustedForecastRevenue: number;
@@ -21,6 +24,7 @@ export class DailyOverviews {
     this.startOfWeek = startOfWeek;
     this.overviews = this.getDailyOverviews(rotas, cashUps);
     this.actualRevenue = cashUps.getTotalRevenue(startOfWeek);
+    this.runningRevenueForecast = this.overviews.reduce((prev, curr) => prev + curr.getTotalRevenueOrForecast(), 0);
     this.forecastRevenue = rotas.getTotalForecastRevenue(startOfWeek);
     this.forecastBarLabour = rotas.getTotalPredictedBarLabour(startOfWeek, this.forecastRevenue);
     this.forecastKitchenLabour = rotas.getTotalPredictedKitchenLabour(startOfWeek, this.forecastRevenue);
@@ -77,12 +81,25 @@ export class DailyOverviews {
     days.forEach(day => {
       const cashUp = cashUps.cashUps.get(day.format(DateFormats.API));
       const rota = rotas.getRotaForDate(day);
-      if (cashUp && rota) {
+      if (cashUp && !cashUp.isDefault && rota) {
         overviews.push(new DailyOverview(
           cashUp,
           rota,
           day
-        ))
+        ));
+      } else if (cashUp && cashUp.isDefault && rota) {
+        // TODO work out how best to handle this - default rota/cashUp? extend with isvalid methods? interface for each and implement new class for a missing rota/cashUp?
+        overviews.push(new DailyOverview(
+          PlaceholderCashUp.default(day),
+          rota,
+          day
+        ));
+      } else {
+        overviews.push(new DailyOverview(
+          PlaceholderCashUp.default(day),
+          RotaEntity.default().with({date: day}),
+          day
+        ));
       }
     });
     return overviews;

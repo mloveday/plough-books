@@ -5,54 +5,20 @@ import {TillDenominations} from "./TillDenominations";
 
 export class CashUpEntity {
   public static default(date: moment.Moment): CashUpEntity {
-    return new CashUpEntity(
-      moment(date),
-      '',
-      '',
-      [
-        TillDenominations.default(),
-        TillDenominations.default(),
-        TillDenominations.default(),
-        TillDenominations.default(),
-        TillDenominations.default(),
-        TillDenominations.default(),
-        TillDenominations.default(),
-      ],
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      [],
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      '',
-      0,
-      '',
-      '',
-      SafeFloatDenominations.default(),
-      SafeFloatDenominations.default(),
-      '',
-      '',
-      '',
-      '',
-      '',
-    );
+    return new CashUpEntity(moment(date), '', '', [
+      TillDenominations.default(),
+      TillDenominations.default(),
+      TillDenominations.default(),
+      TillDenominations.default(),
+      TillDenominations.default(),
+      TillDenominations.default(),
+      TillDenominations.default(),
+    ], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, [], 0, 0, 0, 0, 0, 0, 0, '', 0, '', '', SafeFloatDenominations.default(), SafeFloatDenominations.default(), '', '', '', '', '', true, undefined);
   }
 
   public static fromBackend(obj: any): CashUpEntity {
     obj.date = moment(obj.date);
+    obj.isDefault = false;
     if (obj.hasOwnProperty('tills')) {
       obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
         .filter((value: TillDenominations, index: number) => index < 7);
@@ -66,6 +32,7 @@ export class CashUpEntity {
   }
 
   public readonly id?: number;
+  public readonly isDefault: boolean;
   public readonly date: moment.Moment;
 
   public readonly mod: string;
@@ -111,7 +78,7 @@ export class CashUpEntity {
   public readonly floorClosedBy: string;
   public readonly nextDoorBy: string;
 
-  constructor(date: moment.Moment, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: string, banked: number, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, id?: number) {
+  constructor(date: moment.Moment, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: string, banked: number, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, isDefault: boolean, id?: number) {
     this.id = id;
     this.date = date;
     this.mod = mod;
@@ -147,13 +114,18 @@ export class CashUpEntity {
     this.barClosedBy = barClosedBy;
     this.floorClosedBy = floorClosedBy;
     this.nextDoorBy = nextDoorBy;
+    this.isDefault = isDefault;
   }
 
   public with(obj: any): CashUpEntity {
     return Object.assign(
-      new CashUpEntity(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, this.id),
+      new CashUpEntity(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, true, this.id),
       obj
     );
+  }
+
+  public isValid() {
+    return true;
   }
 
   public getTotalRevenue(): number {

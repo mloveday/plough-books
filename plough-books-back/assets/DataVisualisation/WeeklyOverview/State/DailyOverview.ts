@@ -16,4 +16,8 @@ export class DailyOverview {
   public getVatAdjustedRevenue() {
     return this.cashUp.getTotalRevenue() / this.rota.constants.vatMultiplier;
   }
+
+  public getTotalRevenueOrForecast() {
+    return this.cashUp.isValid() ? this.cashUp.getTotalRevenue() : this.rota.forecastRevenue;
+  }
 }
