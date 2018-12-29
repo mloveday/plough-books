@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {RotaStatus} from "../../Enum/RotaStatus";
 import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
@@ -101,7 +102,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
         shift => shift.staffMember.id === member.id
       ).length === 0
     );
-    const editingDisabled = this.getRota().status !== 'draft';
+    const editingDisabled = !this.getRota().canEditRota();
     return (
       <div>
         <h1 className="rota-title">{this.props.match.params.type} Rota {this.getRota().date.format(DateFormats.READABLE_WITH_YEAR)}</h1>
@@ -110,10 +111,11 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           <div className="rota-stat">
             Status:
             <select value={this.getRota().status} onChange={ev => this.formUpdate({status: ev.target.value})}>
-              <option value='draft'>Draft</option>
-              <option value='final'>Final</option>
-              <option value='deleted'>Deleted</option>
-              <option value='imported'>Imported</option>
+              <option value={RotaStatus.NEW}>New</option>
+              <option value={RotaStatus.DRAFT}>Draft</option>
+              <option value={RotaStatus.ROTA_COMPLETE}>Rota Complete</option>
+              <option value={RotaStatus.SIGN_IN_COMPLETE}>Sign In Complete</option>
+              <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
             </div>
           <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>

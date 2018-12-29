@@ -91,7 +91,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
           </div>
           {this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek).map((rota, rotaKey) => (
             <div className="planning-rota" key={rotaKey}>
-              <div className="planning-rota-item">{rota.date.format(DateFormats.READABLE_NO_YEAR)} ({rota.status})</div>
+              <div className="planning-rota-item">{rota.date.format(DateFormats.READABLE_NO_YEAR)} ({rota.getReadableStatus()})</div>
               <input className="planning-rota-item" type='number' value={rota.forecastRevenue} onChange={ev => this.updateRota(rota.with({forecastRevenue: validateCash(ev.target.value, rota.forecastRevenue)}))} />
               <input className="planning-rota-item" type='number' value={rota.targetLabourRate * 100} onChange={ev => this.updateRota(rota.with({targetLabourRate: validateCash(ev.target.value, rota.targetLabourRate) / 100}))} />
               <ConstantsWithHover constants={rota.constants}>

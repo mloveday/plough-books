@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {RotaStatus} from "../../../Enum/RotaStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
@@ -15,7 +16,7 @@ export class RotaEntity {
       0,
       0,
       Constants.default(),
-      'draft',
+      RotaStatus.NEW,
       [],
       [],
     );
@@ -26,11 +27,11 @@ export class RotaEntity {
   public readonly forecastRevenue: number;
   public readonly targetLabourRate: number;
   public readonly constants: Constants;
-  public readonly status: string;
+  public readonly status: RotaStatus;
   public readonly plannedShifts: PlannedShift[];
   public readonly actualShifts: ActualShift[];
 
-  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: string, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
+  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
     this.date = moment(date);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
@@ -121,6 +122,25 @@ export class RotaEntity {
       .filter(s => s.type === type)
       .reduce<number>((a, b) => a + b.getRawCost(), 0);
     return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
+  }
+
+  public canEditRota() {
+    return this.status === RotaStatus.DRAFT || this.status === RotaStatus.NEW;
+  }
+
+  public canEditSignIn() {
+    return this.status === RotaStatus.ROTA_COMPLETE;
+  }
+
+  public getReadableStatus() {
+    switch (this.status) {
+      case RotaStatus.NEW: return 'New';
+      case RotaStatus.DRAFT: return 'Draft';
+      case RotaStatus.ROTA_COMPLETE: return 'Rota Complete';
+      case RotaStatus.SIGN_IN_COMPLETE: return 'Sign In Complete';
+      case RotaStatus.IMPORTED: return 'Imported';
+    }
+    return '-';
   }
 
   private getProportionOfForecastRevenue(type: string) {

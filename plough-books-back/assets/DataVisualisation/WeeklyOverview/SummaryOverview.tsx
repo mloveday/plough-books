@@ -43,7 +43,7 @@ class SummaryOverviewComponent extends React.Component<SummaryOverviewProps, {}>
         {this.props.options.status && <div className="overview-stat-title">Status</div>}
         {this.props.options.status && <div className="overview-stat"/>}
         {this.props.options.status && dailyOverviews.overviews.map((overview, key) => (
-          <div className="overview-stat" key={key}>{overview.rota.status}</div>
+          <div className="overview-stat" key={key}>{overview.rota.getReadableStatus()}</div>
         ))}
         {this.props.options.constants && <div className="overview-stat-title">Constants from date</div>}
         {this.props.options.constants && <div className="overview-stat"/>}
