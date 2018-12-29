@@ -98,7 +98,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
           shift => shift.staffMember.id === member.id
         ).length === 0
       );
-    const editingDisabled = this.getRota().canEditSignIn();
+    const editingDisabled = !this.getRota().canEditSignIn();
     return (
       <div>
         <h1 className="rota-title">{this.props.match.params.type} Sign-in {this.getRota().date.format(DateFormats.READABLE_WITH_YEAR)}</h1>
@@ -114,6 +114,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
           </div>
+          <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}>Auto-populate</button></div>
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
         </div>
         <div className="rota-grid">
@@ -254,6 +255,11 @@ class SignInComponent extends React.Component<SignInProps, {}> {
       return this.getRota().constants.shortBreakDuration;
     }
     return 0;
+  }
+
+  private autoPopulateShifts() {
+    const clonedActualShifts = this.getRota().plannedShifts.map(shift => ActualShift.default().with(shift));
+    this.formUpdate({actualShifts: clonedActualShifts});
   }
 
   private addActualShift(actualShift: ActualShift) {

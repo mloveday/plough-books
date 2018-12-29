@@ -38,7 +38,7 @@ export class RotasForWeek {
   }
 
   public with(o: any[]|undefined): RotasForWeek {
-    const obj = o ? o.map(d => Object.assign({date: moment(d.date)}, d)) : undefined;
+    const obj = o ? o.map(d => Object.assign({}, d, {date: moment(d.date)})) : undefined;
     const newRotas = new Map<string, RotaEntity>();
     if (obj !== undefined) {
       obj.forEach(v => {

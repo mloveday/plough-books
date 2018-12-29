@@ -70,7 +70,7 @@ export const rotaCreate = (rota: RotaEntity) => {
       },
       method: 'POST',
     })
-      .then(d => dispatch(rotaCreateSuccess({date: rota.date, response: d})))
+      .then(d => dispatch(rotaCreateSuccess({date: moment(rota.date), response: d})))
       .catch(e => dispatch(rotaCreateError(e)))
       ;
   }
@@ -104,6 +104,9 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
   [ROTA_FETCH_SUCCESS]: (state, action) => {
     return handleRotaPayload(state, action.payload);
   },
+  [ROTA_CREATE_START]: (state, action) => {
+    return handleRotaPayload(state, {date: moment(action.payload.date), response: [action.payload]});
+  },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
     return handleRotaPayload(state, action.payload);
   },
@@ -117,22 +120,22 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
 
 export const rotaExternalReducers = handleActions<RotaExternalState, any>({
   [ROTA_FETCH_START]: (state, action) => {
-    return state.with(state.rotasForWeek, state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
+    return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [ROTA_FETCH_ERROR]: (state, action) => {
-    return state.with(state.rotasForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
+    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
   },
   [ROTA_CREATE_START]: (state, action) => {
-    return state.with(state.rotasForWeek, state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
+    return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [ROTA_CREATE_ERROR]: (state, action) => {
-    return state.with(state.rotasForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
+    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
   },
   [WEEKLY_ROTAS_CREATE_START]: (state, action) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
@@ -141,7 +144,7 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [WEEKLY_ROTAS_CREATE_ERROR]: (state, action) => {
-    return state.with(state.rotasForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
+    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
   },
 
   }, new RotaExternalState());
