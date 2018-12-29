@@ -160,17 +160,12 @@ class SignInComponent extends React.Component<SignInProps, {}> {
                               {editingDisabled ? (
                                 <div>{actualShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
                               ) : (
-                                <input type='time' step={1800} className="rota-time-input"
-                                       value={actualShift.endTimeInputValue}
-                                       onChange={ev => this.endTimeHandler(ev.target.value, actualShift)}
-                                />
+                                <input type='time' step={1800} className="rota-time-input" value={actualShift.endTimeInputValue} onChange={ev => this.endTimeHandler(ev.target.value, actualShift)}/>
                               )}
                             </div>
-                            <div className="rota-breaks">{actualShift.totalBreaks * 60} mins</div>
+                            <input className="rota-breaks" value={(actualShift.totalBreaks*60).toFixed(0)} onChange={ev => this.updateActualShift(actualShift.with({totalBreaks: parseInt(ev.target.value, 10)/60}))}/>
                             {timePeriods.map((timePeriod, periodKey) => (
-                              <div
-                                className={actualShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"}
-                                key={periodKey}/>
+                              <div className={actualShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
                             ))}
                           </div>
                         ))}
@@ -258,7 +253,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private autoPopulateShifts() {
-    const clonedActualShifts = this.getRota().plannedShifts.map(shift => ActualShift.default().with(shift));
+    const clonedActualShifts = this.getRota().plannedShifts.map(shift => ActualShift.fromPlannedShift(shift));
     this.formUpdate({actualShifts: clonedActualShifts});
   }
 

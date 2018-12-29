@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DateFormats} from "../../../Util/DateFormats";
+import {PlannedShift} from "./PlannedShift";
 import {StaffMember} from "./StaffMember";
 
 export class ActualShift {
@@ -14,6 +15,18 @@ export class ActualShift {
       moment(),
       0,
       WorkTypes.BAR,
+    );
+  }
+
+  public static fromPlannedShift(shift: PlannedShift) {
+    return new ActualShift(
+      shift.staffMember,
+      shift.status,
+      shift.hourlyRate,
+      shift.startTime,
+      shift.endTime,
+      shift.totalBreaks,
+      shift.type,
     );
   }
 
