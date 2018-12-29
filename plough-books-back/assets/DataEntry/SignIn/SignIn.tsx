@@ -134,7 +134,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
           && this.props.staffRolesLocalState.entities.filter(role => role.type === this.props.match.params.type)
             .map((role, roleKey) => {
               const shifts = this.getRota().actualShifts
-                .filter(actualShift => actualShift.staffMember.role.id === role.id && actualShift.type === this.props.match.params.type);
+                .filter(actualShift => actualShift.staffRole.id === role.id && actualShift.type === this.props.match.params.type);
                 if (shifts.length > 0 || !editingDisabled) {
                   return (
                     <div className="rota-role-group" key={roleKey}>
@@ -208,7 +208,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
 
   private newShiftHandler(member: StaffMember) {
     const time = moment(this.props.match.params.date).startOf('day');
-    this.addActualShift(ActualShift.default().with({type: this.props.match.params.type, staffMember: member, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
+    this.addActualShift(ActualShift.default().with({type: this.props.match.params.type, staffMember: member, staffRole: member.role, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
   }
 
   private startTimeHandler(value: string, actualShift: ActualShift) {

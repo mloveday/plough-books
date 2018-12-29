@@ -3,35 +3,21 @@ import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DateFormats} from "../../../Util/DateFormats";
 import {PlannedShift} from "./PlannedShift";
 import {StaffMember} from "./StaffMember";
+import {StaffRole} from "./StaffRole";
 
 export class ActualShift {
 
   public static default() {
-    return new ActualShift(
-      StaffMember.default(),
-      'inactive',
-      0,
-      moment(),
-      moment(),
-      0,
-      WorkTypes.BAR,
-    );
+    return new ActualShift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment(), moment(), 0, WorkTypes.BAR);
   }
 
   public static fromPlannedShift(shift: PlannedShift) {
-    return new ActualShift(
-      shift.staffMember,
-      shift.status,
-      shift.hourlyRate,
-      shift.startTime,
-      shift.endTime,
-      shift.totalBreaks,
-      shift.type,
-    );
+    return new ActualShift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.startTime, shift.endTime, shift.totalBreaks, shift.type);
   }
 
   public readonly id: number;
   public readonly staffMember: StaffMember;
+  public readonly staffRole: StaffRole;
   public readonly status: string;
   public readonly hourlyRate: number;
   public readonly startTime: moment.Moment;
@@ -41,8 +27,9 @@ export class ActualShift {
   public readonly endTimeInputValue: string;
   public readonly type: string;
 
-  constructor(staffMember: StaffMember, status: string, hourlyRate: number, startTime: moment.Moment, endTime: moment.Moment, totalBreaks: number, type: string) {
+  constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, startTime: moment.Moment, endTime: moment.Moment, totalBreaks: number, type: string) {
     this.staffMember = staffMember;
+    this.staffRole = staffRole;
     this.status = status;
     this.hourlyRate = hourlyRate;
     this.startTime = startTime;
@@ -60,20 +47,13 @@ export class ActualShift {
   public with(o: any) {
     const obj = Object.assign({}, o);
     obj.staffMember = obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember;
+    obj.staffRole = obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole;
     obj.startTime = obj.startTime ? moment(obj.startTime) : this.startTime.clone();
     obj.endTime = obj.endTime ? moment(obj.endTime) : this.endTime.clone();
     obj.startTimeInputValue = obj.startTime.format('HH:mm');
     obj.endTimeInputValue = obj.endTime.format('HH:mm');
     return Object.assign(
-      new ActualShift(
-        this.staffMember,
-        this.status,
-        this.hourlyRate,
-        this.startTime,
-        this.endTime,
-        this.totalBreaks,
-        this.type,
-      ),
+      new ActualShift(this.staffMember, this.staffMember.role, this.status, this.hourlyRate, this.startTime, this.endTime, this.totalBreaks, this.type),
       {id: this.id},
       obj,
     );

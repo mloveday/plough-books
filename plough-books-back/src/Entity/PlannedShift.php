@@ -27,6 +27,12 @@ class PlannedShift
     private $staff_member;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\StaffRole", inversedBy="actualShifts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $staff_role;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $start_time;
@@ -140,10 +146,23 @@ class PlannedShift
         return $this;
     }
 
+    public function getStaffRole(): ?StaffRole
+    {
+        return $this->staff_role;
+    }
+
+    public function setStaffRole(?StaffRole $staff_role): self
+    {
+        $this->staff_role = $staff_role;
+
+        return $this;
+    }
+
     public function serialise() {
         return (object) [
             'id' => $this->getId(),
             'staffMember' => $this->getStaffMember()->serialise(),
+            'staffRole' => $this->getStaffRole()->serialise(),
             'hourlyRate' => $this->getHourlyRate(),
             'startTime' => $this->getStartTime()->format('Y-m-d H:i'),
             'endTime' => $this->getEndTime()->format('Y-m-d H:i'),

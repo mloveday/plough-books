@@ -2,23 +2,17 @@ import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DateFormats} from "../../../Util/DateFormats";
 import {StaffMember} from "./StaffMember";
+import {StaffRole} from "./StaffRole";
 
 export class PlannedShift {
 
   public static default() {
-    return new PlannedShift(
-      StaffMember.default(),
-      'inactive',
-      0,
-      moment(),
-      moment(),
-      0,
-      WorkTypes.BAR,
-    );
+    return new PlannedShift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment(), moment(), 0, WorkTypes.BAR);
   }
 
   public readonly id: number;
   public readonly staffMember: StaffMember;
+  public readonly staffRole: StaffRole;
   public readonly status: string;
   public readonly hourlyRate: number;
   public readonly startTime: moment.Moment;
@@ -28,8 +22,9 @@ export class PlannedShift {
   public readonly endTimeInputValue: string;
   public readonly type: string;
 
-  constructor(staffMember: StaffMember, status: string, hourlyRate: number, startTime: moment.Moment, endTime: moment.Moment, totalBreaks: number, type: string) {
+  constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, startTime: moment.Moment, endTime: moment.Moment, totalBreaks: number, type: string) {
     this.staffMember = staffMember;
+    this.staffRole = staffRole;
     this.status = status;
     this.hourlyRate = hourlyRate;
     this.startTime = startTime;
@@ -47,20 +42,13 @@ export class PlannedShift {
   public with(o: any) {
     const obj = Object.assign({}, o);
     obj.staffMember = obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember;
+    obj.staffRole = obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole;
     obj.startTime = obj.startTime ? moment(obj.startTime) : this.startTime.clone();
     obj.endTime = obj.endTime ? moment(obj.endTime) : this.endTime.clone();
     obj.startTimeInputValue = obj.startTime.format('HH:mm');
     obj.endTimeInputValue = obj.endTime.format('HH:mm');
     return Object.assign(
-      new PlannedShift(
-        this.staffMember,
-        this.status,
-        this.hourlyRate,
-        this.startTime,
-        this.endTime,
-        this.totalBreaks,
-        this.type,
-      ),
+      new PlannedShift(this.staffMember, this.staffRole, this.status, this.hourlyRate, this.startTime, this.endTime, this.totalBreaks, this.type),
       {id: this.id},
       obj,
     );

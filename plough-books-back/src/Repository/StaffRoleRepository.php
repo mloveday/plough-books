@@ -18,4 +18,8 @@ class StaffRoleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, StaffRole::class);
     }
+
+    public function getById($id) {
+        return $this->findOneBy(['id' => $id]);
+    }
 }
