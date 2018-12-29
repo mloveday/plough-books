@@ -139,7 +139,10 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
         })}
         <div className="staff-member-entity">
           {isCreatingNewMember && <input value={newMember.name} onChange={ev => this.newStaffMember(newMember.with({'name': ev.target.value}))}/>}
-          {isCreatingNewMember && <input value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status': ev.target.value}))}/>}
+          {isCreatingNewMember && <select value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status': ev.target.value}))}>
+              <option value={StaffMemberStatus.ACTIVE}>Active</option>
+              <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
+          </select>}
           {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
           {isCreatingNewMember &&
           <select value={newMember.role.id} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
