@@ -41,7 +41,7 @@ class Rota
     private $constants;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, columnDefinition="enum('imported', 'new', 'draft', 'rota_complete', 'sign_in_complete')")
      */
     private $status;
 

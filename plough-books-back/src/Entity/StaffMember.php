@@ -40,7 +40,7 @@ class StaffMember
     private $plannedShifts;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, columnDefinition="enum('imported', 'active', 'inactive')")
      */
     private $status;
 

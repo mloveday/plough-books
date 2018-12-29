@@ -1,5 +1,5 @@
 export enum StaffRoleStatus {
-  IMPORTED = 'import',
+  IMPORTED = 'imported',
   INACTIVE = 'inactive',
   ACTIVE = 'active',
 }

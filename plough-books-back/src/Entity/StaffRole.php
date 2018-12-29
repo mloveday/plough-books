@@ -34,7 +34,7 @@ class StaffRole
     private $staffMembers;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, columnDefinition="enum('imported', 'active', 'inactive')")
      */
     private $status;
 

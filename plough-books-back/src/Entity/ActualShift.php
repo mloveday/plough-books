@@ -48,7 +48,7 @@ class ActualShift
     private $total_breaks;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, columnDefinition="enum('bar', 'kitchen')")
      */
     private $type;
 
