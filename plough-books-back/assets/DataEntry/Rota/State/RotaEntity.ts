@@ -124,6 +124,21 @@ export class RotaEntity {
     return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
   }
 
+  public getCombinedRunningLabourRate(revenueToday: number, weeklyRevenue: number): number {
+    return CashManipulation.calculateLabourRate(
+      this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR) + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN),
+      revenueToday,
+      this.constants.vatMultiplier
+    );
+  }
+
+  public getTotalRunningLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
+    const rawCost = (this.actualShifts.length > 0 ? this.actualShifts : this.plannedShifts)
+      .filter(s => s.type === type)
+      .reduce<number>((a, b) => a + b.getRawCost(), 0);
+    return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
+  }
+
   public canEditRota() {
     return this.status === RotaStatus.DRAFT || this.status === RotaStatus.NEW;
   }
