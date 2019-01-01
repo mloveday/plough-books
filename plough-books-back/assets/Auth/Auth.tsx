@@ -46,21 +46,22 @@ type AuthProps = AuthOwnProps & AuthStateProps & AuthDispatchProps;
 
 class AuthComponent extends React.Component<AuthProps, {}> {
   public render() {
+    const cssClass = 'Auth-button';
     if (this.props.authState.isSignedInAndWaitingAuthorisation()) {
       return (
-        <div className="App-nav-anchor">Loading user...</div>
+        <div className={cssClass}>Loading user...</div>
       )
     }
 
     if (this.props.authState.isSignedInAndAuthorised()) {
       return (
-        <button className="App-nav-anchor" onClick={() => this.props.signOut()}>Logout</button>
+        <button className={cssClass} onClick={() => this.props.signOut()}>Logout</button>
       )
     }
 
     return (
       <GoogleLogin
-        className="App-nav-anchor"
+        className={cssClass}
         clientId="491973077715-1oqkalirg0v7gmdrehuv605nf3sju2si.apps.googleusercontent.com"
         buttonText="Login"
         onSuccess={response => this.responseGoogle(response)}

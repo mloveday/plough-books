@@ -13,33 +13,6 @@ html {
   grid-template-rows: auto auto auto 1fr;
 }
 
-.App-header {
-  background-color: #222;
-  height: 32px;
-  padding: 16px;
-  color: white;
-  display: flex;
-  @media print {
-    display:none;
-  }
-}
-
-.App-title {
-  font-size: 2.4rem;
-  padding: 0;
-  margin: 0;
-  flex: 1;
-}
-
-.App-hero-image {
-  width: 32px;
-  margin-right: 1.6rem;
-}
-
-.App-hero-image img {
-  height: 100%;
-}
-
 .App-nav-list {
   height: 40px;
   padding: 1px;

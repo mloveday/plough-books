@@ -1,7 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {Auth} from "../Auth/Auth";
 import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
 import {WorkTypes} from "../Enum/WorkTypes";
@@ -39,7 +38,6 @@ class NavComponent extends React.Component<NavProps, {}> {
     return (
       <nav className="App-nav">
         <ul className="App-nav-list">
-          <li className="App-nav-item"><Auth /></li>
           {this.routeItem(Routes.cashUpUrl(date), "Cash up", Routes.CASH_UP)}
           {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", Routes.WEEKLY_PLANNING)}
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", Routes.ROTA)}

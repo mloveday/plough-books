@@ -29,7 +29,7 @@ class HeroImageComponent extends React.Component<HeroImageProps, {}> {
   public render() {
     if (this.props.authState.auth) {
       return (
-        <div className="App-hero-image"><img src={this.props.authState.auth.profileObj.imageUrl}/></div>
+        <div className="hero-image"><img src={this.props.authState.auth.profileObj.imageUrl}/></div>
       )
     }
     return <div>...</div>
