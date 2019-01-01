@@ -11,11 +11,6 @@
   list-style-type: none;
 }
 
-.week-link {
-  color: #222222;
-  text-decoration: none;
-}
-
 .week-list-item {
   flex: 1;
   padding: 0 1px;
@@ -24,11 +19,26 @@
   align-items: center;
   justify-content: center;
 
+  .week-link {
+    color: #222222;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
   &.selected {
     background: #222222;
-
     .week-link {
       color: #ffffff;
+      &:hover {
+        background-color: #222222;
+      }
     }
   }
 }
