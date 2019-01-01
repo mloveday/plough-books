@@ -1,81 +1,133 @@
-.form-wrapper {
-  margin: 16px 64px;
-}
-
-.form-group {
+.cash-up {
   display: grid;
-  grid-gap: 8px;
-  grid-template-columns: repeat(4, 1fr);
-  margin: 0 0 16px 0;
-}
+  grid-template-areas: 'date-picker date-picker date-picker' 'prev form next';
+  grid-template-columns: 60px auto 60px;
+  grid-template-rows: auto 1fr;
+  height: 100%;
 
-.per-till {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-gap: 2px;
-  grid-column: 2 / span 3;
-}
-
-.till-labels {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-gap: 2px;
-  grid-column: 2 / span 3;
-}
-
-.per-till label {
-  display: none;
-}
-
-.label-and-input {
-  display: flex;
-  flex-direction: row;
-}
-
-.label-and-input label {
-  width: 150px;
-}
-
-.label-and-input input {
-  flex: 1;
-}
-
-.label-and-input textarea {
-  flex: 1;
-}
-
-.group-title {
-  margin: 0;
-  grid-column: 1 / span 4;
-
-  &.receipts_label {
-    grid-column: 1 / span 2;
+  .prev-button {
+    grid-area: prev;
   }
-}
+  .next-button {
+    grid-area: next;
+  }
 
-.group-label {
-  margin: 0;
-  grid-column: 1;
-}
+  .form-wrapper {
+    margin: 16px 64px;
+    grid-area: form;
+  }
 
-.daily_notes {
-  grid-column-end: span 2;
-}
+  .form-group {
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 0 16px 0;
+  }
 
-.till_float_title {
-  grid-column: 1;
-}
+  .per-till {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 2px;
+    grid-column: 2 / span 3;
+  }
 
-.till_float_tills {
-  grid-column: 2 / span 3;
-}
+  .till-labels {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 2px;
+    grid-column: 2 / span 3;
+  }
 
-.receipt_add_button {
-  grid-column: 3 / span 2;
-}
+  .per-till label {
+    display: none;
+  }
 
-.receipt {
-  border: 1px solid lightgrey;
-  padding: 4px;
-  background: lightgoldenrodyellow;
+  .label-and-input {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .label-and-input label {
+    width: 150px;
+  }
+
+  .label-and-input input {
+    flex: 1;
+  }
+
+  .label-and-input textarea {
+    flex: 1;
+  }
+
+  .group-title {
+    margin: 0;
+    grid-column: 1 / span 4;
+
+    &.receipts_label {
+      grid-column: 1 / span 2;
+    }
+  }
+
+  .group-label {
+    margin: 0;
+    grid-column: 1;
+  }
+
+  .daily_notes {
+    grid-column-end: span 2;
+  }
+
+  .till_float_title {
+    grid-column: 1;
+  }
+
+  .till_float_tills {
+    grid-column: 2 / span 3;
+  }
+
+  .receipt_add_button {
+    grid-column: 3 / span 2;
+  }
+
+  .receipt {
+    border: 1px solid lightgrey;
+    padding: 4px;
+    background: lightgoldenrodyellow;
+  }
+
+  .cash-up-link-list {
+    height: 40px;
+    padding: 1px;
+    margin: 0 0 16px 0;
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+  }
+
+  .cash-up-link-item {
+    flex: 1;
+    padding: 0 1px;
+    margin: 0;
+    display: flex;
+  }
+
+  .cash-up-link-button {
+    font-size: 1.4rem;
+    border: 0;
+    outline: none;
+    text-decoration: none;
+    flex: 1;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover, &.selected {
+      background-color: #fff;
+      color: darkslategrey;
+    }
+  }
 }

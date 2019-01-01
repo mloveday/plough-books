@@ -5,7 +5,7 @@ export class SectionPosition {
   public readonly previous: CashUpSection;
   public readonly next: CashUpSection;
 
-  constructor(section: CashUpSection, previous: CashUpSection, next: CashUpSection) {
+  constructor(section: CashUpSection, next: CashUpSection, previous: CashUpSection) {
     this.section = section;
     this.previous = previous;
     this.next = next;

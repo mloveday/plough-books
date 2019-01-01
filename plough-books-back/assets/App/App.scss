@@ -8,6 +8,9 @@ html {
 
 .App {
   text-align: center;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
 }
 
 .App-header {

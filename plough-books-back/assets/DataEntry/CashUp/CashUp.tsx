@@ -80,12 +80,13 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   public render() {
     const sectionShown = this.props.uiState.cashUpSection;
-    const sectionPosition = this.getSectionPosition();
+    const currentSectionPosition = this.getSectionPosition();
     return (
-      <div>
+      <div className='cash-up'>
         <DatePicker dateParam={this.props.match.params.date}
                     urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date)}/>
 
+        <button className='prev-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.previous))}>&lt;</button>
         <form className="form-wrapper">
           <div className="form-group">
             <h3 className="group-title summary_title">Summary</h3>
@@ -101,9 +102,16 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                         value={this.getCashUp().dailyNotes}
                         onChange={ev => this.formUpdate({dailyNotes: ev.target.value})}/>
             </div>
+            <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}>Save</button>
           </div>
+          <ul className='cash-up-link-list'>
+            {Array.from(this.sectionOrder.values()).map((sectionPosition, key) => (
+              <li className='cash-up-link-item' key={key}>
+                <button className={`cash-up-link-button${sectionPosition.section === currentSectionPosition.section ? ' selected' : ''}`} type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.section))}>{sectionPosition.section}</button>
+              </li>
+            ))}
+          </ul>
 
-          <button type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.previous))}>Previous</button>
           {sectionShown === CashUpSection.TILLS && <div className="form-group">
             <div className="till-labels">
               <div className="till-label">1</div>
@@ -369,10 +377,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      onChange={ev => this.formUpdate({nextDoorBy: ev.target.value})}/>
             </div>
           </div>}
-          <button type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.next))}>Next</button>
 
-          <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}>Save</button>
         </form>
+        <button className='next-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.next))}>&gt;</button>
       </div>
     )
   }
