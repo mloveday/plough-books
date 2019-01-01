@@ -36,13 +36,37 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #222;
-    color: #fff;
     box-sizing: border-box;
     cursor: pointer;
+    background: #222;
+    &.planning {
+      //background: #2e0d09;
+      color: #f0c2bd;
+    }
+    &.recording {
+      //background: #2e2609;
+      color: #f0e5bd;
+    }
+    &.reviewing {
+      //background: #0d0a20;
+      color: #8c87a6;
+    }
+    &.admin {
+      //background: #07220d;
+      color: #8fb597;
+    }
+
+    .link-icon {
+      font-size: 1.6rem;
+      color: #dddddd;
+      margin-right: 4px;
+    }
     &:hover {
       background-color: #fff;
       color: darkslategrey;
+      .link-icon {
+        color: #888888;
+      }
     }
   }
 }

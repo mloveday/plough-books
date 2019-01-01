@@ -8,6 +8,8 @@ import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
 import {UiState} from "../State/UiState";
 import './Nav.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 interface NavOwnProps {
 }
@@ -42,45 +44,45 @@ class NavComponent extends React.Component<NavProps, {}> {
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", Routes.WEEKLY_PLANNING)}
+          {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", 'planning', 'calendar-week', Routes.WEEKLY_PLANNING)}
           </li>
           <li className={routeCssDouble}>
-          {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", Routes.ROTA)}
-          {this.routeItem(Routes.rotaUrl(date, WorkTypes.KITCHEN), "Kitchen Rota", Routes.ROTA)}
+          {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", 'planning', 'calendar-day', Routes.ROTA)}
+          {this.routeItem(Routes.rotaUrl(date, WorkTypes.KITCHEN), "Kitchen Rota", 'planning', 'calendar-day', Routes.ROTA)}
           </li>
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", Routes.WEEKLY_ROTA)}
+          {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", 'planning', 'print', Routes.WEEKLY_ROTA)}
           </li>
           <li className={routeCssSingle}>
-            {this.routeItem(Routes.cashUpUrl(date), "Cash up", Routes.CASH_UP)}
+            {this.routeItem(Routes.cashUpUrl(date), "Cash up", 'recording', 'cash-register', Routes.CASH_UP)}
           </li>
           <li className={routeCssDouble}>
-          {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
-          {this.routeItem(Routes.signInUrl(date, WorkTypes.KITCHEN), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.signInUrl(date, WorkTypes.KITCHEN), "Sign-in kitchen", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
           </li>
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.weeklyOverviewUrl(date), "Weekly overview", Routes.WEEKLY_OVERVIEW)}
+          {this.routeItem(Routes.weeklyOverviewUrl(date), "Weekly overview", 'reviewing', 'calendar-alt', Routes.WEEKLY_OVERVIEW)}
           </li>
           <li className={routeCssDouble}>
-          {this.routeItem(Routes.STAFF_MEMBERS, "Staff")}
-          {this.routeItem(Routes.STAFF_ROLES, "Staff roles")}
+          {this.routeItem(Routes.STAFF_MEMBERS, "Staff", 'admin', 'users')}
+          {this.routeItem(Routes.STAFF_ROLES, "Staff roles", 'admin', 'users-cog')}
           </li>
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.CONSTANTS, "Constants")}
+          {this.routeItem(Routes.CONSTANTS, "Constants", 'admin', 'cogs')}
           </li>
           <li className={routeCssDouble}>
-          {this.routeItem(Routes.USERS, "Users")}
-          {this.routeItem(Routes.ROLES, "User Roles")}
+          {this.routeItem(Routes.USERS, "Users", 'admin', 'user-tie')}
+          {this.routeItem(Routes.ROLES, "User Roles", 'admin', 'user-tag')}
           </li>
         </ul>
       </nav>
     )
   }
 
-  private routeItem(route: string, text: string, baseRoute?: string): JSX.Element|null {
+  private routeItem(route: string, text: string, groupCss: string, icon: IconProp, baseRoute?: string): JSX.Element|null {
     if (this.isRouteAllowed(baseRoute ? baseRoute : route)) {
       return (
-          <Link className="App-nav-anchor" to={route}>{text}</Link>
+          <Link className={`App-nav-anchor ${groupCss}`} to={route}><FontAwesomeIcon icon={icon} className={`link-icon`} /> {text}</Link>
       );
     }
     return null;
