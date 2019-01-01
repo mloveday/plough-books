@@ -6,6 +6,7 @@ import './Header.scss';
 import {HeroImage} from "./HeroImage";
 import {Link} from "react-router-dom";
 import {Status} from "./Status";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 interface HeaderOwnProps {
 }
@@ -32,7 +33,7 @@ class HeaderComponent extends React.Component<HeaderProps, {}> {
       <header className="Header">
         <HeroImage/>
         <Auth />
-        <Link to={'/'} className={'home-link'}><h1 className="main-title">Plough Books</h1></Link>
+        <Link to={'/'} className={'home-link'}><h1 className="main-title"><img className={`title-icon`} src={require('../images/plough-icon.png')} />Plough Books <FontAwesomeIcon className={`title-icon`} icon="book-dead" /></h1></Link>
         <Status />
       </header>
     )
