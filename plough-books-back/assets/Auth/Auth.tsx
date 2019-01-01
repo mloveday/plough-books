@@ -12,6 +12,7 @@ import {
 } from './State/AuthActions';
 import {AuthState} from './State/AuthState';
 import {getResponseFromLocalStorage} from './State/AuthStorage';
+import './Auth.scss';
 
 interface AuthOwnProps {
 }
