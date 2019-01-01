@@ -1,7 +1,7 @@
 import {FetchStatus} from "../Enum/FetchStatus";
 
 export abstract class ExternalState {
-  protected readonly states: Map<string, FetchStatus> = new Map();
+  public readonly states: Map<string, FetchStatus> = new Map();
 
   public updatedState(state: FetchStatus, key: string = 'default') {
     return new Map(this.states.set(key, state));

@@ -3,13 +3,14 @@
   height: 32px;
   padding: 16px;
   color: white;
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px 70px auto 200px;
+
   @media print {
     display:none;
   }
 
   .home-link {
-    flex: 1;
     color: white;
     text-decoration: none;
   }
@@ -21,7 +22,7 @@
   }
 
   .hero-image {
-    width: 32px;
+    height: 32px;
     margin-right: 1.6rem;
     img {
       height: 100%;

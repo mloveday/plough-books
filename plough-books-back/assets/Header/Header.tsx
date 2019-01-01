@@ -5,6 +5,7 @@ import {AppState} from "../redux";
 import './Header.scss';
 import {HeroImage} from "./HeroImage";
 import {Link} from "react-router-dom";
+import {Status} from "./Status";
 
 interface HeaderOwnProps {
 }
@@ -32,6 +33,7 @@ class HeaderComponent extends React.Component<HeaderProps, {}> {
         <HeroImage/>
         <Auth />
         <Link to={'/'} className={'home-link'}><h1 className="main-title">Plough Books</h1></Link>
+        <Status />
       </header>
     )
   }

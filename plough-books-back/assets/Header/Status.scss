@@ -1,0 +1,26 @@
+.status-bar {
+  font-size: 1rem;
+  cursor: pointer;
+  overflow: hidden;
+
+  .all-statuses {
+    display: none;
+  }
+  &:hover .all-statuses {
+    display: grid;
+    grid-auto-flow: row;
+    position: absolute;
+    z-index: 1000;
+    background: white;
+    color: black;
+    padding: 8px;
+    border-radius: 8px;
+    width: 200px;
+    right: 8px;
+    top: 40px;
+    pointer-events: none;
+  }
+  .status {
+    font-size: 1rem;
+  }
+}
