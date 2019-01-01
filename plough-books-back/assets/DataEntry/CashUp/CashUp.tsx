@@ -16,6 +16,8 @@ import {CashUpsForWeek} from "./State/CashUpsForWeek";
 import {Receipt} from "./State/Receipt";
 import {TillInputGroup} from "./TillInputGroup";
 import {uiUpdate} from "../../State/UiRedux";
+import {CashUpSection} from "../../Enum/CashUpSection";
+import {SectionPosition} from "./State/SectionPosition";
 
 interface CashUpOwnProps {
   match: match<{
@@ -56,6 +58,18 @@ const mapDispatchToProps = (dispatch: any, ownProps: CashUpOwnProps): CashUpDisp
 type CashUpProps = CashUpOwnProps & CashUpLocalStateProps & CashUpDispatchProps;
 
 class CashUpComponent extends React.Component<CashUpProps, {}> {
+  private sectionOrder = new Map([
+    [CashUpSection.TILLS, new SectionPosition(CashUpSection.TILLS, CashUpSection.DISCOUNTS, CashUpSection.SUMMARY)],
+    [CashUpSection.DISCOUNTS, new SectionPosition(CashUpSection.DISCOUNTS, CashUpSection.CARDS, CashUpSection.TILLS)],
+    [CashUpSection.CARDS, new SectionPosition(CashUpSection.CARDS, CashUpSection.RECEIPTS, CashUpSection.DISCOUNTS)],
+    [CashUpSection.RECEIPTS, new SectionPosition(CashUpSection.RECEIPTS, CashUpSection.SPEND_STAFF_PTS_COMO, CashUpSection.CARDS)],
+    [CashUpSection.SPEND_STAFF_PTS_COMO, new SectionPosition(CashUpSection.SPEND_STAFF_PTS_COMO, CashUpSection.NETT_TAKES, CashUpSection.RECEIPTS)],
+    [CashUpSection.NETT_TAKES, new SectionPosition(CashUpSection.NETT_TAKES, CashUpSection.BANKING, CashUpSection.SPEND_STAFF_PTS_COMO)],
+    [CashUpSection.BANKING, new SectionPosition(CashUpSection.BANKING, CashUpSection.SAFE_FLOAT, CashUpSection.NETT_TAKES)],
+    [CashUpSection.SAFE_FLOAT, new SectionPosition(CashUpSection.SAFE_FLOAT, CashUpSection.SUMMARY, CashUpSection.BANKING)],
+    [CashUpSection.SUMMARY, new SectionPosition(CashUpSection.SUMMARY, CashUpSection.TILLS, CashUpSection.SAFE_FLOAT)],
+  ]);
+
   public componentDidMount() {
     this.maintainStateWithUrl();
   }
@@ -65,6 +79,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   public render() {
+    const sectionShown = this.props.uiState.cashUpSection;
+    const sectionPosition = this.getSectionPosition();
     return (
       <div>
         <DatePicker dateParam={this.props.match.params.date}
@@ -87,7 +103,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             </div>
           </div>
 
-          <div className="form-group">
+          <button type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.previous))}>Previous</button>
+          {sectionShown === CashUpSection.TILLS && <div className="form-group">
             <div className="till-labels">
               <div className="till-label">1</div>
               <div className="till-label">2</div>
@@ -160,9 +177,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <h4 className="group-label z_label">Z</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'} groupIdentifier={'z_tills'}
                             tillProperty={'zRead'} tills={this.getCashUp().tills}/>
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.DISCOUNTS && <div className="form-group">
             <h3 className="group-title discounts_label">Discounts</h3>
             <div className="label-and-input comps_wet">
               <label htmlFor="comps_wet">Wet Comps</label>
@@ -206,6 +223,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().comoInDrawer}
                      onChange={ev => this.formUpdate({comoInDrawer: validateCash(ev.target.value, this.getCashUp().comoInDrawer)})}/>
             </div>
+          </div>}
+
+          {sectionShown === CashUpSection.CARDS && <div className="form-group">
             <h3 className="group-title credit_card_label">Credit card totals</h3>
             <div className="label-and-input amex_tots">
               <label htmlFor="amex_tots">AMEX total</label>
@@ -219,9 +239,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().visaMcTots}
                      onChange={ev => this.formUpdate({visaMcTots: validateCash(ev.target.value, this.getCashUp().visaMcTots)})}/>
             </div>
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.RECEIPTS && <div className="form-group">
             <h3 className="group-title receipts_label">Cash Receipts</h3>
             <button className='receipt_add_button' type='button' onClick={ev => {
               this.getCashUp().receipts.push(Receipt.default());
@@ -229,9 +249,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             }}>+
             </button>
             {this.getCashUp().receipts.map((receipt, index) => this.receiptInput(index))}
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <div className="form-group">
             <div className="label-and-input spend_staff_pts">
               <label htmlFor="spend_staff_points">Spend & staff points</label>
               <input id="spend_staff_points" type="number"
@@ -244,9 +264,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().comoDiscAsset}
                      onChange={ev => this.formUpdate({comoDiscAsset: validateCash(ev.target.value, this.getCashUp().comoDiscAsset)})}/>
             </div>
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.NETT_TAKES && <div className="form-group">
             <h3 className="group-title nett_takes_label">Nett takes</h3>
             <div className="label-and-input take_dry">
               <label htmlFor="take_dry">Dry</label>
@@ -272,9 +292,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().takeDepositPaid}
                      onChange={ev => this.formUpdate({takeDepositPaid: validateCash(ev.target.value, this.getCashUp().takeDepositPaid)})}/>
             </div>
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.BANKING && <div className="form-group">
             <h3 className="group-title banking_label">Banking</h3>
             <div className="label-and-input paid_out_amnt">
               <label htmlFor="paid_out_amnt">Paid out</label>
@@ -306,9 +326,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().cashAdvantageBagSeenBy}
                      onChange={ev => this.formUpdate({cashAdvantageBagSeenBy: ev.target.value})}/>
             </div>
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.SAFE_FLOAT && <div className="form-group">
             <h3 className="group-title safe_float_label">Safe float denom</h3>
             <SafeFloatDenom cashUpPropName='sfdAm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="AM"
                             safeFloatObj={this.getCashUp().sfdAm}/>
@@ -320,9 +340,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().sfdNotes}
                      onChange={ev => this.formUpdate({sfdNotes: ev.target.value})}/>
             </div>
-          </div>
+          </div>}
 
-          <div className="form-group">
+          {sectionShown === CashUpSection.SUMMARY && <div className="form-group">
             <h3 className="group-title summary_label">Summary</h3>
             <div className="label-and-input pub_secured_by">
               <label htmlFor="pub_secured_by">Pub secured by</label>
@@ -348,7 +368,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().nextDoorBy}
                      onChange={ev => this.formUpdate({nextDoorBy: ev.target.value})}/>
             </div>
-          </div>
+          </div>}
+          <button type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.next))}>Next</button>
 
           <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}>Save</button>
         </form>
@@ -408,6 +429,14 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     const clonedReceipts = this.getCashUp().receipts.map(till => till.clone());
     clonedReceipts[index] = receipt;
     this.formUpdate({receipts: clonedReceipts});
+  }
+
+  private getSectionPosition(): SectionPosition {
+    if (this.sectionOrder.has(this.props.uiState.cashUpSection)) {
+      // @ts-ignore
+      return this.sectionOrder.get(this.props.uiState.cashUpSection);
+    }
+    return new SectionPosition(CashUpSection.TILLS, CashUpSection.SUMMARY, CashUpSection.DISCOUNTS);
   }
 }
 
