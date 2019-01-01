@@ -27,6 +27,10 @@
     color: #fff;
     box-sizing: border-box;
     cursor: pointer;
+    &:hover {
+      background-color: #fff;
+      color: darkslategrey;
+    }
   }
 }
 
