@@ -42,9 +42,6 @@ class NavComponent extends React.Component<NavProps, {}> {
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.cashUpUrl(date), "Cash up", Routes.CASH_UP)}
-          </li>
-          <li className={routeCssSingle}>
           {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", Routes.WEEKLY_PLANNING)}
           </li>
           <li className={routeCssDouble}>
@@ -53,6 +50,9 @@ class NavComponent extends React.Component<NavProps, {}> {
           </li>
           <li className={routeCssSingle}>
           {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", Routes.WEEKLY_ROTA)}
+          </li>
+          <li className={routeCssSingle}>
+            {this.routeItem(Routes.cashUpUrl(date), "Cash up", Routes.CASH_UP)}
           </li>
           <li className={routeCssDouble}>
           {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
