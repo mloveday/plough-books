@@ -19,6 +19,7 @@ import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
 import {PageNotFound} from "./PageNotFound";
 import {RouteWithAuth} from "./RouteWithAuth";
+import {LandingPage} from "../Nav/LandingPage";
 
 interface ContentRoutingOwnProps {
 }
@@ -66,6 +67,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <Redirect to={Routes.cashUpUrl(moment.utc())} exact={false} path={Routes.CASH_UP} />
             <Redirect to={Routes.rotaUrl(moment.utc(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />
             <Redirect to={Routes.signInUrl(moment.utc(), WorkTypes.BAR)} exact={false} path={Routes.SIGN_IN_SHEET} />
+            <Route exact={true} path={'/'} component={LandingPage}/>
             <Route component={PageNotFound}/>
           </Switch>
         }
