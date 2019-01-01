@@ -6,6 +6,7 @@ import {AppState} from "../redux";
 import {DateFormats} from "../Util/DateFormats";
 import {accountingWeek, accountingYear, startOfWeek} from "../Util/DateUtils";
 import './WeekPicker.scss';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface WeekPickerOwnProps {
   week: number;
@@ -48,7 +49,7 @@ class WeekPickerComponent extends React.Component<WeekPickerProps, {}> {
         <h3 className="week-number">{this.props.year} Week {this.props.week}</h3>
         <ul className="week-list">
           <li className="week-list-item"><Link
-            to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'month'))}>&lt;</Link></li>
+            to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'month'))}><FontAwesomeIcon icon="chevron-left" /></Link></li>
           {otherWeeks.map((date, index) => {
             return <li key={index}
                        className={"week-list-item" + (date.isSame(selectedDate, 'week') ? " selected" : "")}>
@@ -58,7 +59,7 @@ class WeekPickerComponent extends React.Component<WeekPickerProps, {}> {
             </li>
           })}
           <li className="week-list-item"><Link
-            to={this.props.urlFromDate(selectedDate.clone().add(1, 'month'))}>&gt;</Link></li>
+            to={this.props.urlFromDate(selectedDate.clone().add(1, 'month'))}><FontAwesomeIcon icon="chevron-right" /></Link></li>
         </ul>
       </div>
     )

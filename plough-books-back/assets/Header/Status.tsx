@@ -11,6 +11,7 @@ import {StaffMembersExternalState} from "../DataEntry/StaffMembers/State/StaffMe
 import {StatusItem} from "./State/StatusItem";
 import {FetchStatus} from "../Enum/FetchStatus";
 import './Status.scss';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface StatusOwnProps {
 }
@@ -53,9 +54,19 @@ class StatusComponent extends React.Component<StatusProps, {}> {
     const pendingStatuses = statusItems.filter(s => s.status === FetchStatus.STARTED);
     return (
       <div className={'status-bar'}>
-        {errorStatuses.length + pendingStatuses.length === 0 && `Everything's fine` || `Working on it...`}
+        <div className={`summary`}>
+          {errorStatuses.length !== 0 && `Something's wrong`}
+          {errorStatuses.length === 0 && pendingStatuses.length === 0 && ` Everything's fine` || ` Working on it...`}
+        </div>
+        <div className={`icon`}>
+          {errorStatuses.length === 0 && pendingStatuses.length === 0 && <FontAwesomeIcon icon="thumbs-up" />}
+          {errorStatuses.length === 0 && pendingStatuses.length !== 0 && <FontAwesomeIcon icon="wine-glass" className='fa-spin' /> }
+          {errorStatuses.length !== 0 && <FontAwesomeIcon icon="skull-crossbones" />}
+        </div>
+        <div className={`status-list`}>
         {errorStatuses.map((statusItem, key) => this.renderStatus(statusItem, key))}
         {pendingStatuses.map((statusItem, key) => this.renderStatus(statusItem, key))}
+        </div>
         <div className={'all-statuses'}>
           {statusItems.map((statusItem, key) => this.renderStatus(statusItem, key))}
         </div>

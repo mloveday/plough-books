@@ -26,6 +26,7 @@ import {RotasForWeek} from "./State/RotasForWeek";
 import {StaffMember} from "./State/StaffMember";
 import {UiState} from "../../State/UiState";
 import {uiUpdate} from "../../State/UiRedux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface RotaOwnProps {
   match: match<{
@@ -128,7 +129,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>
           <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))}</div>
           <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))} (aiming for &lt; {Formatting.formatPercent(this.getRota().targetLabourRate)})</div>
-          <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
+          <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}><FontAwesomeIcon icon="save" /> Save</button></div>
         </div>
         <div className="rota-grid">
           <div className="rota-times">
@@ -157,7 +158,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
                           <div className="rota-staff-name">{plannedShift.staffMember.name}</div>
                           <div className="rota-remove-shift">
                             {!editingDisabled && <button className="rota-remove-shift-button" type='button'
-                                                         onClick={() => this.removePlannedShift(plannedShift)}>x</button>}
+                                                         onClick={() => this.removePlannedShift(plannedShift)}><FontAwesomeIcon icon="trash" /></button>}
                           </div>
                           <div className="rota-start-time">
                             {editingDisabled ? (
@@ -195,7 +196,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
                             <div className="rota-staff-name">{member.name}</div>
                             <div className="rota-remove-shift"/>
                             <div className="rota-new-shift">
-                              <button onClick={() => this.newShiftHandler(member)} type="button">Add to rota</button>
+                              <button onClick={() => this.newShiftHandler(member)} type="button"><FontAwesomeIcon icon="plus-circle" /> </button>
                             </div>
                             <div className="rota-new-shift-spacer"/>
                             <div className="rota-new-shift-spacer"/>

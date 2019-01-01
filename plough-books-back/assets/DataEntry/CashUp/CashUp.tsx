@@ -18,6 +18,7 @@ import {TillInputGroup} from "./TillInputGroup";
 import {uiUpdate} from "../../State/UiRedux";
 import {CashUpSection} from "../../Enum/CashUpSection";
 import {SectionPosition} from "./State/SectionPosition";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface CashUpOwnProps {
   match: match<{
@@ -86,7 +87,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
         <DatePicker dateParam={this.props.match.params.date}
                     urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date)}/>
 
-        <button className='prev-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.previous))}>&lt;</button>
+        <button className='prev-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.previous))}><FontAwesomeIcon icon="chevron-left" /></button>
         <form className="form-wrapper">
           <div className="form-group">
             <h3 className="group-title summary_title">Summary</h3>
@@ -102,7 +103,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                         value={this.getCashUp().dailyNotes}
                         onChange={ev => this.formUpdate({dailyNotes: ev.target.value})}/>
             </div>
-            <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}>Save</button>
+            <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}><FontAwesomeIcon icon="save" /> Save</button>
           </div>
           <ul className='cash-up-link-list'>
             {Array.from(this.sectionOrder.values()).map((sectionPosition, key) => (
@@ -379,7 +380,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           </div>}
 
         </form>
-        <button className='next-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.next))}>&gt;</button>
+        <button className='next-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.next))}><FontAwesomeIcon icon="chevron-right" /></button>
       </div>
     )
   }

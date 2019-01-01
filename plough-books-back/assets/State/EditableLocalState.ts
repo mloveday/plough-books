@@ -38,6 +38,7 @@ export abstract class EditableLocalState<T extends EditableEntity> {
     newEntities.forEach((v,k) => entities.set(k, v));
     return this.with(
       {
+        isCreatingEntity: false,
         editingEntityId,
         entities: Array.from(entities.values()).sort(this.compareFn)
       }

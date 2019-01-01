@@ -9,6 +9,7 @@ import "./StaffRoles.scss";
 import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface StaffRolesOwnProps {
 }
@@ -78,9 +79,9 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
                 </select>
                 <div className="staff-role-edit-buttons">
                   {!isCreatingNewRole && !isEditingThisRole && !this.props.staffRolesLocalState.isEditing() &&
-                  <button type='button' onClick={() => this.updateStaffRole(role)}>Edit</button>}
-                  {isEditingThisRole && <button type='button' onClick={() => this.saveStaffRole(role)}>Save</button>}
-                  {isEditingThisRole && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+                  <button type='button' onClick={() => this.updateStaffRole(role)}><FontAwesomeIcon icon="edit" /> Edit</button>}
+                  {isEditingThisRole && <button type='button' onClick={() => this.saveStaffRole(role)}><FontAwesomeIcon icon="save" /> Save</button>}
+                  {isEditingThisRole && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
                 </div>
               </div>
             )
@@ -104,9 +105,9 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
           </select>}
           <div className="staff-role-edit-buttons">
             {!isCreatingNewRole && !this.props.staffRolesLocalState.isEditing() &&
-            <button type='button' onClick={() => this.newStaffRole()}>New</button>}
-            {isCreatingNewRole && <button type='button' onClick={() => this.saveStaffRole(this.props.staffRolesLocalState.newEntity)}>Save</button>}
-            {isCreatingNewRole && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+            <button type='button' onClick={() => this.newStaffRole()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
+            {isCreatingNewRole && <button type='button' onClick={() => this.saveStaffRole(this.props.staffRolesLocalState.newEntity)}><FontAwesomeIcon icon="save" /> Save</button>}
+            {isCreatingNewRole && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
           </div>
         </div>
       </div>
@@ -122,7 +123,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
   }
 
   private cancelEdit() {
-    this.props.updateStaffRole(this.props.staffRolesLocalState.withEntities(this.props.staffRolesExternalState.externalState.entities));
+    this.props.updateStaffRole(this.props.staffRolesLocalState.withEntities([]));
   }
 
   private saveStaffRole(staffRole: StaffRole) {

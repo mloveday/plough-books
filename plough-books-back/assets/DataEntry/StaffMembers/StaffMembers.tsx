@@ -16,6 +16,7 @@ import {
   staffMembersFetch,
   staffMembersFilter
 } from "./State/StaffMembersRedux";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 interface StaffMembersOwnProps {
 }
@@ -130,9 +131,9 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               </select>
               <div className="staff-member-edit-buttons">
                 {!isCreatingNewMember && !isEditingMember && !this.props.staffMembersLocalState.isEditing() &&
-                    <button type='button' onClick={() => this.updateStaffMember(member)}>Edit</button>}
-                {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}>Save</button>}
-                {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+                    <button type='button' onClick={() => this.updateStaffMember(member)}><FontAwesomeIcon icon="edit" /> Edit</button>}
+                {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}><FontAwesomeIcon icon="save" /> Save</button>}
+                {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
               </div>
             </div>
           );
@@ -140,21 +141,23 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
         <div className="staff-member-entity">
           {isCreatingNewMember && <input value={newMember.name} onChange={ev => this.newStaffMember(newMember.with({'name': ev.target.value}))}/>}
           {isCreatingNewMember && <select value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status' : ev.target.value}))} >
+              <option value={undefined}>Choose a status...</option>
               <option value={StaffMemberStatus.ACTIVE}>Active</option>
               <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
           </select>}
           {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
           {isCreatingNewMember &&
           <select value={newMember.role.id} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
+              <option value={undefined}>Choose a role...</option>
             {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
               <option key={roleKey} value={role.id}>{role.role}</option>
             ))}
           </select>}
           <div className="staff-member-edit-buttons">
             {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() &&
-            <button type='button' onClick={() => this.newStaffMember()}>New</button>}
-            {isCreatingNewMember && <button type='button' onClick={() => this.saveStaffMember(newMember)}>Save</button>}
-            {isCreatingNewMember && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+            <button type='button' onClick={() => this.newStaffMember()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
+            {isCreatingNewMember && <button type='button' onClick={() => this.saveStaffMember(newMember)}><FontAwesomeIcon icon="save"/> Save</button>}
+            {isCreatingNewMember && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
           </div>
         </div>
       </div>
@@ -170,7 +173,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
   }
 
   private cancelEdit() {
-    this.props.updateStaffMember(this.props.staffMembersLocalState.withEntities(this.props.staffMembersExternalState.externalState.entities));
+    this.props.updateStaffMember(this.props.staffMembersLocalState.withEntities([]));
   }
 
   private saveStaffMember(staffMember: StaffMember) {

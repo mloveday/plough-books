@@ -5,6 +5,7 @@ import {Header} from "../Header/Header";
 import {Nav} from "../Nav/Nav";
 import {UnauthorisedUserOverlay} from "../Overlay/UnauthorisedUserOverlay";
 import './App.scss';
+import './FontawesomeLibrary';
 
 export class App extends React.Component<{ match: any }> {
   public render() {

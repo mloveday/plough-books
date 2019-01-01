@@ -23,6 +23,7 @@ import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import {UiState} from "../../State/UiState";
 import {uiUpdate} from "../../State/UiRedux";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface SignInOwnProps {
   match: match<{
@@ -120,8 +121,8 @@ class SignInComponent extends React.Component<SignInProps, {}> {
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
           </div>
-          <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}>Auto-populate</button></div>
-          <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}>Save</button></div>
+          <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>
+          <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}><FontAwesomeIcon icon="save" /> Save</button></div>
         </div>
         <div className="rota-grid">
           <div className="rota-times">
@@ -150,7 +151,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
                             <div className="rota-staff-name">{actualShift.staffMember.name}</div>
                             <div className="rota-remove-shift">
                               {!editingDisabled && <button className="rota-remove-shift-button" type='button'
-                                                           onClick={() => this.removeActualShift(actualShift)}>x</button>}
+                                                           onClick={() => this.removeActualShift(actualShift)}><FontAwesomeIcon icon="trash" /> </button>}
                             </div>
                             <div className="rota-start-time">
                               {editingDisabled ? (
@@ -183,7 +184,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
                             <div className="rota-staff-name">{member.name}</div>
                             <div className="rota-remove-shift"/>
                             <div className="rota-new-shift">
-                              <button onClick={() => this.newShiftHandler(member)} type="button">Add to rota</button>
+                              <button onClick={() => this.newShiftHandler(member)} type="button"><FontAwesomeIcon icon="plus-circle" /> </button>
                             </div>
                             <div className="rota-new-shift-spacer"/>
                             <div className="rota-new-shift-spacer"/>

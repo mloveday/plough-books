@@ -8,6 +8,7 @@ import {UsersExternalState} from "./State/UsersExternalState";
 import {UsersLocalState} from "./State/UsersLocalState";
 import {usersCreate, usersDataEntry, usersFetch} from "./State/UsersRedux";
 import './Users.scss';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface UsersOwnProps {
 }
@@ -86,9 +87,9 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             </select>
             <input disabled={true} type="checkbox" checked={user.role.managesUsers} className="user-value"/>
             <div className="user-edit-buttons">
-              {!editing && <button type="button" onClick={() => this.editUser(user)}>Edit</button>}
-              {editing && <button type="button" onClick={() => this.cancelEdit()}>Cancel</button>}
-              {editing && <button type="button" onClick={() => this.props.saveUser(user)}>Save</button>}
+              {!editing && <button type="button" onClick={() => this.editUser(user)}><FontAwesomeIcon icon="edit" /> Edit</button>}
+              {editing && <button type="button" onClick={() => this.props.saveUser(user)}><FontAwesomeIcon icon="save" /> Save</button>}
+              {editing && <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
             </div>
           </div>
           )
@@ -110,12 +111,12 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             </select>
             <input disabled={true} type="checkbox" checked={newUser.role.managesUsers} className="user-value"/>
             <div className="user-edit-buttons">
-                <button type="button" onClick={() => this.cancelEdit()}>Cancel</button>
-                <button type="button" onClick={() => this.props.saveUser(newUser)}>Save</button>
+                <button type="button" onClick={() => this.props.saveUser(newUser)}><FontAwesomeIcon icon="save" /> Save</button>
+                <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>
             </div>
         </div>}
         {!isCreatingNewUser && !this.props.usersLocalState.isEditing() &&
-        <button type="button" onClick={() => this.newUser()}>New</button>}
+        <button type="button" onClick={() => this.newUser()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
       </div>
     )
   }
