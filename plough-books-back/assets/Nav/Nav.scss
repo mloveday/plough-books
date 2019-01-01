@@ -1,21 +1,29 @@
 .App-nav {
   .App-nav-list {
-    height: 40px;
+    height: 60px;
     padding: 1px;
     margin: 0;
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-gap: 1px;
+    grid-auto-flow: column;
     list-style-type: none;
     @media print {
       display: none;
     }
   }
 
-  .App-nav-item {
-    flex: 1;
-    padding: 0 1px;
-    margin: 0;
-    display: flex;
+  .single-link, .double-link {
+    display: grid;
+    grid-gap: 1px;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  .single-link {
+  }
+
+  .double-link {
+    grid-template-rows: 1fr 1fr;
   }
 
   .App-nav-anchor {
@@ -23,8 +31,8 @@
     border: 0;
     outline: none;
     text-decoration: none;
-    flex: 1;
-    height: 40px;
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

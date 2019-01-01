@@ -36,22 +36,42 @@ type NavProps = NavOwnProps & NavStateProps & NavDispatchProps;
 class NavComponent extends React.Component<NavProps, {}> {
   public render() {
     const date = this.props.uiState.currentDate;
+    const routeCssSingle = 'single-link';
+    const routeCssDouble = 'double-link';
     return (
       <nav className="App-nav">
         <ul className="App-nav-list">
+          <li className={routeCssSingle}>
           {this.routeItem(Routes.cashUpUrl(date), "Cash up", Routes.CASH_UP)}
+          </li>
+          <li className={routeCssSingle}>
           {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", Routes.WEEKLY_PLANNING)}
+          </li>
+          <li className={routeCssDouble}>
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", Routes.ROTA)}
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.KITCHEN), "Kitchen Rota", Routes.ROTA)}
+          </li>
+          <li className={routeCssSingle}>
+          {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", Routes.WEEKLY_ROTA)}
+          </li>
+          <li className={routeCssDouble}>
           {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.signInUrl(date, WorkTypes.KITCHEN), "Sign-in kitchen", Routes.SIGN_IN_SHEET)}
-          {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", Routes.WEEKLY_ROTA)}
+          </li>
+          <li className={routeCssSingle}>
           {this.routeItem(Routes.weeklyOverviewUrl(date), "Weekly overview", Routes.WEEKLY_OVERVIEW)}
+          </li>
+          <li className={routeCssDouble}>
           {this.routeItem(Routes.STAFF_MEMBERS, "Staff")}
           {this.routeItem(Routes.STAFF_ROLES, "Staff roles")}
+          </li>
+          <li className={routeCssSingle}>
           {this.routeItem(Routes.CONSTANTS, "Constants")}
+          </li>
+          <li className={routeCssDouble}>
           {this.routeItem(Routes.USERS, "Users")}
           {this.routeItem(Routes.ROLES, "User Roles")}
+          </li>
         </ul>
       </nav>
     )
@@ -59,7 +79,9 @@ class NavComponent extends React.Component<NavProps, {}> {
 
   private routeItem(route: string, text: string, baseRoute?: string): JSX.Element|null {
     if (this.isRouteAllowed(baseRoute ? baseRoute : route)) {
-      return (<li className="App-nav-item"><Link className="App-nav-anchor" to={route}>{text}</Link></li>);
+      return (
+          <Link className="App-nav-anchor" to={route}>{text}</Link>
+      );
     }
     return null;
   }
