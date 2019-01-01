@@ -32,10 +32,10 @@ export const cashUpCreateError = createAction(CASH_UP_CREATE_ERROR);
 export const cashUpFetchWithPrevious = (date: moment.Moment) => {
   return (dispatch: any) => {
     dispatch(cashUpFetch(date.clone().subtract(1, "year")));
-    dispatch(cashUpFetch(moment().subtract(4, "weeks")));
-    dispatch(cashUpFetch(moment().subtract(3, "weeks")));
-    dispatch(cashUpFetch(moment().subtract(2, "weeks")));
-    dispatch(cashUpFetch(moment().subtract(1, "weeks")));
+    dispatch(cashUpFetch(moment.utc().subtract(4, "weeks")));
+    dispatch(cashUpFetch(moment.utc().subtract(3, "weeks")));
+    dispatch(cashUpFetch(moment.utc().subtract(2, "weeks")));
+    dispatch(cashUpFetch(moment.utc().subtract(1, "weeks")));
     dispatch(cashUpFetch(date));
   }
 };

@@ -5,7 +5,7 @@ export class Constants extends EditableEntity {
 
   public static default() {
     return new Constants(
-      moment(),
+      moment.utc(),
       0,
       0,
       1,
@@ -54,7 +54,7 @@ export class Constants extends EditableEntity {
   }
 
   public with(obj: any) {
-    obj.date = obj.date ? moment(obj.date) : this.date.clone();
+    obj.date = obj.date ? moment.utc(obj.date) : this.date.clone();
     return Object.assign(
       new Constants(
         this.date,

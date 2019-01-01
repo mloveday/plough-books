@@ -31,7 +31,7 @@ type DatePickerProps = DatePickerOwnProps & DatePickerStateProps & DatePickerDis
 
 class DatePickerComponent extends React.Component<DatePickerProps, {}> {
   public render() {
-    const selectedDate = moment(this.props.dateParam);
+    const selectedDate = moment.utc(this.props.dateParam);
     const startOfWeek = selectedDate.clone().startOf('isoWeek');
     const daysOfTheWeek = [
       startOfWeek.clone(),

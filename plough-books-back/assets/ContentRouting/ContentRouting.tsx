@@ -60,12 +60,12 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>
-            <Redirect to={Routes.weeklyPlanningUrl(moment())} exact={false} path={Routes.WEEKLY_PLANNING} />
-            <Redirect to={Routes.weeklyRotaUrl(moment())} exact={false} path={Routes.WEEKLY_ROTA} />
-            <Redirect to={Routes.weeklyOverviewUrl(moment())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
-            <Redirect to={Routes.cashUpUrl(moment())} exact={false} path={Routes.CASH_UP} />
-            <Redirect to={Routes.rotaUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />
-            <Redirect to={Routes.signInUrl(moment(), WorkTypes.BAR)} exact={false} path={Routes.SIGN_IN_SHEET} />
+            <Redirect to={Routes.weeklyPlanningUrl(moment.utc())} exact={false} path={Routes.WEEKLY_PLANNING} />
+            <Redirect to={Routes.weeklyRotaUrl(moment.utc())} exact={false} path={Routes.WEEKLY_ROTA} />
+            <Redirect to={Routes.weeklyOverviewUrl(moment.utc())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
+            <Redirect to={Routes.cashUpUrl(moment.utc())} exact={false} path={Routes.CASH_UP} />
+            <Redirect to={Routes.rotaUrl(moment.utc(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />
+            <Redirect to={Routes.signInUrl(moment.utc(), WorkTypes.BAR)} exact={false} path={Routes.SIGN_IN_SHEET} />
             <Route component={PageNotFound}/>
           </Switch>
         }

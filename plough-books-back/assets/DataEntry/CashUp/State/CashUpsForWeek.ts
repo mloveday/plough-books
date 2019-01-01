@@ -27,7 +27,7 @@ export class CashUpsForWeek {
     const newCashUps = new Map<string, CashUpEntity>();
     if (obj !== undefined) {
       obj.forEach(v => {
-        const date = moment(v.date);
+        const date = moment.utc(v.date);
         newCashUps.set(date.format(DateFormats.API), CashUpEntity.fromBackend(v))
       });
     }

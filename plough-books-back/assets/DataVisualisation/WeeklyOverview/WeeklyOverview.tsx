@@ -26,6 +26,8 @@ import {RevenueOverview} from "./RevenueOverview";
 import {DailyOverviews} from "./State/DailyOverviews";
 import {SummaryOverview} from "./SummaryOverview";
 import './WeeklyOverview.scss';
+import {UiState} from "../../State/UiState";
+import {uiUpdate} from "../../State/UiRedux";
 
 interface WeeklyOverviewOwnProps {
   match: match<{
@@ -43,6 +45,7 @@ interface WeeklyOverviewStateProps {
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
   staffRolesLocalState: StaffRolesLocalState;
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: WeeklyOverviewOwnProps): WeeklyOverviewStateProps => {
@@ -55,6 +58,7 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyOverviewOwnProps): Wee
     staffMembersLocalState: state.staffMembersLocalState,
     staffRolesExternalState: state.staffRolesExternalState,
     staffRolesLocalState: state.staffRolesLocalState,
+    uiState: state.uiState,
   }
 };
 
@@ -64,6 +68,7 @@ interface WeeklyOverviewDispatchProps {
   fetchRotaForDate: (date: moment.Moment) => void,
   fetchStaffMembers: () => void,
   fetchStaffRoles: () => void,
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: WeeklyOverviewOwnProps): WeeklyOverviewDispatchProps => {
@@ -73,6 +78,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: WeeklyOverviewOwnProps): We
     fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
   };
 };
 
@@ -108,6 +114,10 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = this.getStartOfWeek();
+    if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
+      this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
+      return;
+    }
     if (this.props.staffRolesExternalState.isEmpty()) {
       this.props.fetchStaffRoles();
       return;
@@ -121,7 +131,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
-      this.props.fetchRotaForDate(moment(paramDate));
+      this.props.fetchRotaForDate(moment.utc(paramDate));
       return;
     }
     if (this.props.cashUpExternalState.shouldLoadForDate(paramDate)) {

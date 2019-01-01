@@ -7,7 +7,7 @@ import {StaffRole} from "./StaffRole";
 export class PlannedShift {
 
   public static default() {
-    return new PlannedShift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment(), moment(), 0, WorkTypes.BAR);
+    return new PlannedShift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment.utc(), moment.utc(), 0, WorkTypes.BAR);
   }
 
   public readonly id: number;
@@ -43,8 +43,8 @@ export class PlannedShift {
     const obj = Object.assign({}, o);
     obj.staffMember = obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember;
     obj.staffRole = obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole;
-    obj.startTime = obj.startTime ? moment(obj.startTime) : this.startTime.clone();
-    obj.endTime = obj.endTime ? moment(obj.endTime) : this.endTime.clone();
+    obj.startTime = obj.startTime ? moment.utc(obj.startTime) : this.startTime.clone();
+    obj.endTime = obj.endTime ? moment.utc(obj.endTime) : this.endTime.clone();
     obj.startTimeInputValue = obj.startTime.format('HH:mm');
     obj.endTimeInputValue = obj.endTime.format('HH:mm');
     return Object.assign(

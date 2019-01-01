@@ -21,6 +21,8 @@ import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
+import {UiState} from "../../State/UiState";
+import {uiUpdate} from "../../State/UiRedux";
 
 interface SignInOwnProps {
   match: match<{
@@ -37,6 +39,7 @@ interface SignInStateProps {
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
   staffRolesLocalState: StaffRolesLocalState;
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: SignInOwnProps): SignInStateProps => {
@@ -48,6 +51,7 @@ const mapStateToProps = (state: AppState, ownProps: SignInOwnProps): SignInState
     staffMembersLocalState: state.staffMembersLocalState,
     staffRolesExternalState: state.staffRolesExternalState,
     staffRolesLocalState: state.staffRolesLocalState,
+    uiState: state.uiState,
   }
 };
 
@@ -58,6 +62,7 @@ interface SignInDispatchProps {
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
   updateRotaLocalState: (state: RotaEntity[]) => void;
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: SignInOwnProps): SignInDispatchProps => {
@@ -68,6 +73,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: SignInOwnProps): SignInDisp
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
     updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
   };
 };
 
@@ -85,8 +91,8 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   public render() {
-    const startTime = moment(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
-    const endTime = moment(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const startTime = moment.utc(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const endTime = moment.utc(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
     const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
     const timePeriods: moment.Moment[] = [];
     for (let i=0; i<numberOfTimePeriods; i++) {
@@ -196,7 +202,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private getRota(): RotaEntity {
-    const localState = this.props.rotaLocalStates.getRotaForDate(moment(this.props.match.params.date));
+    const localState = this.props.rotaLocalStates.getRotaForDate(moment.utc(this.props.match.params.date));
     return localState === undefined ? RotaEntity.default() : localState;
   }
 
@@ -207,12 +213,12 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private newShiftHandler(member: StaffMember) {
-    const time = moment(this.props.match.params.date).startOf('day');
+    const time = moment.utc(this.props.match.params.date).startOf('day');
     this.addActualShift(ActualShift.default().with({type: this.props.match.params.type, staffMember: member, staffRole: member.role, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
   }
 
   private startTimeHandler(value: string, actualShift: ActualShift) {
-    const time = moment(`${actualShift.startTime.format(DateFormats.API)} ${value}`);
+    const time = moment.utc(`${actualShift.startTime.format(DateFormats.API)} ${value}`);
     if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
       time.add(1, 'days');
     }
@@ -227,7 +233,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private endTimeHandler(value: string, actualShift: ActualShift) {
-    const time = moment(`${actualShift.endTime.format(DateFormats.API)} ${value}`);
+    const time = moment.utc(`${actualShift.endTime.format(DateFormats.API)} ${value}`);
     if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
       time.add(1, 'days');
     }
@@ -276,7 +282,11 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private maintainStateWithUrl() {
-    const paramDate = moment(this.props.match.params.date);
+    const paramDate = moment.utc(this.props.match.params.date);
+    if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
+      this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
+      return;
+    }
     if (this.props.staffRolesExternalState.isEmpty()) {
       this.props.fetchStaffRoles();
       return;
@@ -290,7 +300,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
-      this.props.fetchRotaForDate(moment(paramDate));
+      this.props.fetchRotaForDate(moment.utc(paramDate));
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {

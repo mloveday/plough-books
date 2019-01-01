@@ -12,7 +12,7 @@ export class App extends React.Component<{ match: any }> {
       <div className="App">
         <UnauthorisedUserOverlay/>
         <Header/>
-        <Nav match={this.props.match}/>
+        <Nav />
         <Route path="/" component={ContentRouting}/>
       </div>
     );

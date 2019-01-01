@@ -24,6 +24,8 @@ import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
 import {StaffMember} from "./State/StaffMember";
+import {UiState} from "../../State/UiState";
+import {uiUpdate} from "../../State/UiRedux";
 
 interface RotaOwnProps {
   match: match<{
@@ -40,6 +42,7 @@ interface RotaStateProps {
   staffMembersLocalState: StaffMembersLocalState;
   staffRolesExternalState: StaffRolesExternalState;
   staffRolesLocalState: StaffRolesLocalState;
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProps => {
@@ -51,6 +54,7 @@ const mapStateToProps = (state: AppState, ownProps: RotaOwnProps): RotaStateProp
     staffMembersLocalState: state.staffMembersLocalState,
     staffRolesExternalState: state.staffRolesExternalState,
     staffRolesLocalState: state.staffRolesLocalState,
+    uiState: state.uiState,
   }
 };
 
@@ -61,6 +65,7 @@ interface RotaDispatchProps {
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
   updateRotaLocalState: (state: RotaEntity[]) => void;
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: RotaOwnProps): RotaDispatchProps => {
@@ -71,6 +76,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: RotaOwnProps): RotaDispatch
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
     updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
   };
 };
 
@@ -88,9 +94,9 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   public render() {
-    const today = moment(this.props.match.params.date);
-    const startTime = moment(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
-    const endTime = moment(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const today = moment.utc(this.props.match.params.date);
+    const startTime = moment.utc(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const endTime = moment.utc(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
     const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
     const timePeriods: moment.Moment[] = [];
     for (let i=0; i<numberOfTimePeriods; i++) {
@@ -208,7 +214,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
   
   private getRota(): RotaEntity {
-    const localState = this.props.rotaLocalStates.getRotaForDate(moment(this.props.match.params.date));
+    const localState = this.props.rotaLocalStates.getRotaForDate(moment.utc(this.props.match.params.date));
     return localState === undefined ? RotaEntity.default() : localState;
   }
 
@@ -219,12 +225,12 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   private newShiftHandler(member: StaffMember) {
-    const time = moment(this.props.match.params.date).startOf('day');
+    const time = moment.utc(this.props.match.params.date).startOf('day');
     this.addPlannedShift(PlannedShift.default().with({type: this.props.match.params.type, staffMember: member, staffRole: member.role, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
   }
 
   private startTimeHandler(value: string, plannedShift: PlannedShift) {
-    const time = moment(`${plannedShift.startTime.format(DateFormats.API)} ${value}`);
+    const time = moment.utc(`${plannedShift.startTime.format(DateFormats.API)} ${value}`);
     if (this.isBeforeRotaStarts(time)) {
       time.add(1, 'days');
     }
@@ -239,7 +245,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   private endTimeHandler(value: string, plannedShift: PlannedShift) {
-    const time = moment(`${plannedShift.endTime.format(DateFormats.API)} ${value}`);
+    const time = moment.utc(`${plannedShift.endTime.format(DateFormats.API)} ${value}`);
     if (this.isBeforeRotaStarts(time)) {
       time.add(1, 'days');
     }
@@ -291,7 +297,11 @@ class RotaComponent extends React.Component<RotaProps, {}> {
   }
 
   private maintainStateWithUrl() {
-    const paramDate = moment(this.props.match.params.date);
+    const paramDate = moment.utc(this.props.match.params.date);
+    if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
+      this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
+      return;
+    }
     if (this.props.staffRolesExternalState.isEmpty()) {
       this.props.fetchStaffRoles();
       return;
@@ -305,7 +315,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
-      this.props.fetchRotaForDate(moment(paramDate));
+      this.props.fetchRotaForDate(moment.utc(paramDate));
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {

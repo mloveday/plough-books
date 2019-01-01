@@ -12,7 +12,7 @@ export class RotaEntity {
   public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
   public static default() {
     return new RotaEntity(
-      moment(),
+      moment.utc(),
       0,
       0,
       Constants.default(),
@@ -32,7 +32,7 @@ export class RotaEntity {
   public readonly actualShifts: ActualShift[];
 
   constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
-    this.date = moment(date);
+    this.date = moment.utc(date);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
     this.constants = constants;
@@ -43,7 +43,7 @@ export class RotaEntity {
   
   public with(o: any): RotaEntity {
     const obj = Object.assign({}, o);
-    obj.date = obj.date ? moment(obj.date) : this.date.clone();
+    obj.date = obj.date ? moment.utc(obj.date) : this.date.clone();
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
       ? obj.plannedShifts.map((plannedShift: any) => PlannedShift.default().with(plannedShift))

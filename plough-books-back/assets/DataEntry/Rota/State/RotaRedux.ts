@@ -40,10 +40,10 @@ export const weeklyRotasCreateError = createAction(WEEKLY_ROTAS_CREATE_ERROR);
 export const rotaFetchWithPrevious = (date: moment.Moment) => {
   return (dispatch: any) => {
     dispatch(rotaFetch(date.clone().subtract(1, "year")));
-    dispatch(rotaFetch(moment().subtract(4, "weeks")));
-    dispatch(rotaFetch(moment().subtract(3, "weeks")));
-    dispatch(rotaFetch(moment().subtract(2, "weeks")));
-    dispatch(rotaFetch(moment().subtract(1, "weeks")));
+    dispatch(rotaFetch(moment.utc().subtract(4, "weeks")));
+    dispatch(rotaFetch(moment.utc().subtract(3, "weeks")));
+    dispatch(rotaFetch(moment.utc().subtract(2, "weeks")));
+    dispatch(rotaFetch(moment.utc().subtract(1, "weeks")));
     dispatch(rotaFetch(date));
   }
 };
@@ -70,7 +70,7 @@ export const rotaCreate = (rota: RotaEntity) => {
       },
       method: 'POST',
     })
-      .then(d => dispatch(rotaCreateSuccess({date: moment(rota.date), response: d})))
+      .then(d => dispatch(rotaCreateSuccess({date: moment.utc(rota.date), response: d})))
       .catch(e => dispatch(rotaCreateError(e)))
       ;
   }
@@ -94,7 +94,7 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
 };
 
 const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: any}): RotasForWeek => {
-  return state.populateForWeek(moment(payload.date), payload.response);
+  return state.populateForWeek(moment.utc(payload.date), payload.response);
 };
 
 export const rotaInternalReducers = handleActions<RotasForWeek, any>({
@@ -105,7 +105,7 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
     return handleRotaPayload(state, action.payload);
   },
   [ROTA_CREATE_START]: (state, action) => {
-    return handleRotaPayload(state, {date: moment(action.payload.date), response: [action.payload]});
+    return handleRotaPayload(state, {date: moment.utc(action.payload.date), response: [action.payload]});
   },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
     return handleRotaPayload(state, action.payload);

@@ -6,7 +6,7 @@ import {TillDenominations} from "./TillDenominations";
 export class PlaceholderCashUp extends CashUpEntity {
   public static default(date: moment.Moment): PlaceholderCashUp {
     return new PlaceholderCashUp(
-      moment(date),
+      moment.utc(date),
       '',
       'No cash up for today',
       [

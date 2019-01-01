@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {accountingWeek, accountingYear} from "../Util/DateUtils";
+import {DateFormats} from "../Util/DateFormats";
 
 export class Routes {
   public static readonly INDEX = "/";
@@ -14,10 +15,9 @@ export class Routes {
   public static readonly ROLES = "/admin/roles";
   public static readonly WEEKLY_PLANNING = "/weekly-planning";
   public static readonly WEEKLY_ROTA = "/weekly-rota";
-  public static readonly DATE_FINDER = [Routes.dateRoutes(), Routes.weekRoutes(), Routes.INDEX];
 
   public static cashUpUrl(date: moment.Moment) {
-    return `${this.CASH_UP}/${date.format("Y-MM-DD")}`;
+    return `${this.CASH_UP}/${date.format(DateFormats.API)}`;
   }
 
   public static cashUpRoute() {
@@ -25,7 +25,7 @@ export class Routes {
   }
 
   public static rotaUrl(date: moment.Moment, type: string) {
-    return `${this.ROTA}/${date.format("Y-MM-DD")}/${type}`;
+    return `${this.ROTA}/${date.format(DateFormats.API)}/${type}`;
   }
 
   public static rotaRoute() {
@@ -33,7 +33,7 @@ export class Routes {
   }
 
   public static signInUrl(date: moment.Moment, type: string) {
-    return `${this.SIGN_IN_SHEET}/${date.format("Y-MM-DD")}/${type}`;
+    return `${this.SIGN_IN_SHEET}/${date.format(DateFormats.API)}/${type}`;
   }
 
   public static signInRoute() {
@@ -62,13 +62,5 @@ export class Routes {
 
   public static weeklyPlanningRoute() {
     return `${this.WEEKLY_PLANNING}/:year/:weekNumber`;
-  }
-
-  private static dateRoutes() {
-    return `:route(${this.CASH_UP}|${this.ROTA}|${this.SIGN_IN_SHEET})/:date`;
-  }
-
-  private static weekRoutes() {
-    return `:route(${this.WEEKLY_OVERVIEW}|${this.WEEKLY_PLANNING}|${this.WEEKLY_ROTA})/:year/:weekNumber`;
   }
 }

@@ -21,6 +21,8 @@ import {rotaDataEntry, rotaFetchWithPrevious, weeklyRotasCreate} from "../Rota/S
 import {RotasForWeek} from "../Rota/State/RotasForWeek";
 import {PriorWeekOverview} from "./PriorWeekOverview";
 import './WeeklyPlanning.scss';
+import {UiState} from "../../State/UiState";
+import {uiUpdate} from "../../State/UiRedux";
 
 interface WeeklyPlanningOwnProps {
   match: match<{
@@ -34,6 +36,7 @@ interface WeeklyPlanningStateProps {
   rotaExternalState: RotaExternalState,
   cashUpExternalState: CashUpExternalState,
   rotaLocalStates: RotasForWeek,
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: WeeklyPlanningOwnProps): WeeklyPlanningStateProps => {
@@ -42,6 +45,7 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyPlanningOwnProps): Wee
     rotaExternalState: state.rotaExternalState,
     cashUpExternalState: state.cashUpExternalState,
     rotaLocalStates: state.rotaLocalStates,
+    uiState: state.uiState,
   }
 };
 
@@ -51,6 +55,7 @@ interface WeeklyPlanningDispatchProps {
   fetchCashUps: (date: moment.Moment) => void,
   updateRotas: (rotas: RotaEntity[]) => void,
   weeklyOverviewCreate: (rotas: RotaEntity[]) => void,
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: WeeklyPlanningOwnProps): WeeklyPlanningDispatchProps => {
@@ -60,6 +65,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: WeeklyPlanningOwnProps): We
     fetchCashUps: date => dispatch(cashUpFetchWithPrevious(date)),
     updateRotas: rotas => dispatch(rotaDataEntry(rotas)),
     weeklyOverviewCreate: rotas  => dispatch(weeklyRotasCreate(rotas)),
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
   };
 };
 
@@ -127,11 +133,15 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
   }
 
   private maintainState() {
+    const date = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
+    if (this.props.uiState.isCurrentDateSameAs(date)) {
+      this.props.updateUi(this.props.uiState.withCurrentDate(date));
+      return;
+    }
     if (this.props.constantsExternalState.isEmpty()) {
       this.props.fetchConstants();
       return;
     }
-    const date = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
     if (this.props.rotaExternalState.shouldLoadForDate(date)) {
       this.props.fetchRotas(date);
       return;

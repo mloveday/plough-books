@@ -4,23 +4,22 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Route, Router} from 'react-router';
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import logger from 'redux-logger';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import {App} from './App/App';
 import './index.scss';
 import {reducers} from "./redux";
-import {Routes} from "./Routing/Routes";
 
 const store = createStore(
   combineReducers(reducers),
-  applyMiddleware(thunk, logger)
+  composeWithDevTools(applyMiddleware(thunk))
 );
 const browserHistory = createBrowserHistory();
 
 ReactDOM.render(
     <Provider store={store}>
         <Router history={browserHistory}>
-          <Route path={Routes.DATE_FINDER} exact={false} component={App}/>
+          <Route component={App}/>
         </Router>
     </Provider>,
   document.getElementById('root') as HTMLElement

@@ -1,30 +1,26 @@
-import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Link, match} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {Auth} from "../Auth/Auth";
 import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
-import {startOfWeek} from "../Util/DateUtils";
+import {UiState} from "../State/UiState";
 
 interface NavOwnProps {
-  match: match<{
-    weekNumber?: string,
-    year?: string,
-    date?: string,
-  }>;
 }
 
 interface NavStateProps {
   authState: AuthState;
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: NavOwnProps): NavStateProps => {
   return {
     authState: state.authState,
+    uiState: state.uiState,
   }
 };
 
@@ -39,12 +35,7 @@ type NavProps = NavOwnProps & NavStateProps & NavDispatchProps;
 
 class NavComponent extends React.Component<NavProps, {}> {
   public render() {
-    let date = moment();
-    if (this.props.match.params.date) {
-      date = moment(this.props.match.params.date);
-    } else if (this.props.match.params.weekNumber && this.props.match.params.year) {
-      date = startOfWeek(parseInt(this.props.match.params.year, 10), parseInt(this.props.match.params.weekNumber, 10))
-    }
+    const date = this.props.uiState.currentDate;
     return (
       <nav className="App-nav">
         <ul className="App-nav-list">

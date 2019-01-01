@@ -10,7 +10,7 @@ export const accountingWeek = (date: moment.Moment): number => {
   if (date >= startOfYear) {
     return date.diff(startOfYear.startOf('isoWeek'), 'week') + 1;
   } else {
-    return date.diff(date.subtract(1, 'year').month(4).date(1).startOf('isoWeek'), 'week') + 1;
+    return date.diff(date.clone().subtract(1, 'year').month(4).date(1).startOf('isoWeek'), 'week') + 1;
   }
 };
 
@@ -24,7 +24,7 @@ export const accountingYear = (date: moment.Moment): number => {
 };
 
 export const startOfWeek = (year: number, weekNumber: number): moment.Moment => {
-  return getStartOfAccountingYear(moment().year(year)).add(weekNumber - 1, "weeks");
+  return getStartOfAccountingYear(moment.utc().year(year)).add(weekNumber - 1, "weeks");
 };
 
 export const accountingYearString = (date: moment.Moment): string => {

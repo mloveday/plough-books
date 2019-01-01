@@ -5,6 +5,7 @@ import {match} from "react-router";
 import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
 import {Routes} from "../../Routing/Routes";
+import {UiState} from "../../State/UiState";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
@@ -14,6 +15,7 @@ import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
 import {CashUpsForWeek} from "./State/CashUpsForWeek";
 import {Receipt} from "./State/Receipt";
 import {TillInputGroup} from "./TillInputGroup";
+import {uiUpdate} from "../../State/UiRedux";
 
 interface CashUpOwnProps {
   match: match<{
@@ -24,12 +26,14 @@ interface CashUpOwnProps {
 interface CashUpLocalStateProps {
   cashUpExternalState: CashUpExternalState;
   cashUpsForWeek: CashUpsForWeek;
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: CashUpOwnProps): CashUpLocalStateProps => {
   return {
     cashUpExternalState: state.cashUpExternalState,
     cashUpsForWeek: state.cashUpLocalStates,
+    uiState: state.uiState,
   }
 };
 
@@ -37,6 +41,7 @@ interface CashUpDispatchProps {
   fetchCashUpForDate: (date: moment.Moment) => void;
   updateBackEnd: (state: CashUpEntity) => void;
   updateCashUpLocalState: (state: CashUpEntity[]) => void;
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: CashUpOwnProps): CashUpDispatchProps => {
@@ -44,6 +49,7 @@ const mapDispatchToProps = (dispatch: any, ownProps: CashUpOwnProps): CashUpDisp
     fetchCashUpForDate: (date: moment.Moment) => dispatch(cashUpFetch(date)),
     updateBackEnd: (state: CashUpEntity) => dispatch(cashUpCreate(state)),
     updateCashUpLocalState: (state: CashUpEntity[]) => dispatch(cashUpDataEntry(state)),
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
   }
 };
 
@@ -352,15 +358,20 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   private getCashUp(): CashUpEntity {
     const localState = this.props.cashUpsForWeek.cashUps.get(this.props.match.params.date);
-    return localState === undefined ? CashUpEntity.default(moment(this.props.match.params.date)) : localState;
+    return localState === undefined ? CashUpEntity.default(moment.utc(this.props.match.params.date)) : localState;
   }
 
   private maintainStateWithUrl() {
-    const paramDate = moment(this.props.match.params.date);
+    const paramDate = moment.utc(this.props.match.params.date);
+    if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
+      this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
+      return;
+    }
     if (this.props.cashUpExternalState.isEmpty()
       || (this.props.cashUpExternalState.cashUpsForWeek && this.props.cashUpExternalState.isLoaded() && this.props.cashUpExternalState.shouldLoadForDate(paramDate))
     ) {
       this.props.fetchCashUpForDate(paramDate);
+      return;
     }
   }
 

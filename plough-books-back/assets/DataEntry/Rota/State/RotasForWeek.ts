@@ -10,7 +10,7 @@ export class RotasForWeek {
   }
 
   public static defaultForWeek(dayInWeek: moment.Moment) {
-    const startOfWeek = moment(dayInWeek).startOf('isoWeek');
+    const startOfWeek = moment.utc(dayInWeek).startOf('isoWeek');
     const dates = [
       {'date': startOfWeek.clone().add(0, 'days')},
       {'date': startOfWeek.clone().add(1, 'days')},
@@ -34,15 +34,15 @@ export class RotasForWeek {
   }
 
   public populateForWeek(date: moment.Moment, obj: any[]) {
-    return this.with(Array.from(RotasForWeek.defaultForWeek(moment(date)).rotas.values())).with(obj);
+    return this.with(Array.from(RotasForWeek.defaultForWeek(moment.utc(date)).rotas.values())).with(obj);
   }
 
   public with(o: any[]|undefined): RotasForWeek {
-    const obj = o ? o.map(d => Object.assign({}, d, {date: moment(d.date)})) : undefined;
+    const obj = o ? o.map(d => Object.assign({}, d, {date: moment.utc(d.date)})) : undefined;
     const newRotas = new Map<string, RotaEntity>();
     if (obj !== undefined) {
       obj.forEach(v => {
-        newRotas.set(moment(v.date).format(DateFormats.API), RotaEntity.default().with(v))
+        newRotas.set(moment.utc(v.date).format(DateFormats.API), RotaEntity.default().with(v))
       });
     }
     const rotas = new Map<string, RotaEntity>();

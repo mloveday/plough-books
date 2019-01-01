@@ -5,7 +5,7 @@ import {TillDenominations} from "./TillDenominations";
 
 export class CashUpEntity {
   public static default(date: moment.Moment): CashUpEntity {
-    return new CashUpEntity(moment(date), '', '', [
+    return new CashUpEntity(moment.utc(date), '', '', [
       TillDenominations.default(),
       TillDenominations.default(),
       TillDenominations.default(),
@@ -17,7 +17,7 @@ export class CashUpEntity {
   }
 
   public static fromBackend(obj: any): CashUpEntity {
-    obj.date = moment(obj.date);
+    obj.date = moment.utc(obj.date);
     obj.isDefault = false;
     if (obj.hasOwnProperty('tills')) {
       obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))

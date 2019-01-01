@@ -26,6 +26,8 @@ import {staffRolesExternalReducers, staffRolesInternalReducers} from "./DataEntr
 import {UsersExternalState} from "./DataEntry/User/State/UsersExternalState";
 import {UsersLocalState} from "./DataEntry/User/State/UsersLocalState";
 import {usersExternalReducers, usersInternalReducers} from "./DataEntry/User/State/UsersRedux";
+import {uiReducers} from "./State/UiRedux";
+import {UiState} from "./State/UiState";
 
 export interface AppState {
   authState: AuthState;
@@ -44,6 +46,7 @@ export interface AppState {
   usersLocalState: UsersLocalState;
   rolesExternalState: RolesExternalState;
   rolesLocalState: RolesLocalState;
+  uiState: UiState;
 }
 
 export const reducers = {
@@ -63,4 +66,5 @@ export const reducers = {
   usersLocalState: usersInternalReducers,
   rolesExternalState: rolesExternalReducers,
   rolesLocalState: rolesInternalReducers,
+  uiState: uiReducers,
 };

@@ -10,6 +10,8 @@ import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import "./WeeklyRota.scss";
+import {UiState} from "../../State/UiState";
+import {uiUpdate} from "../../State/UiRedux";
 
 interface WeeklyRotaOwnProps {
   match: match<{
@@ -20,21 +22,25 @@ interface WeeklyRotaOwnProps {
 
 interface WeeklyRotaStateProps {
   rotaExternalState: RotaExternalState;
+  uiState: UiState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: WeeklyRotaOwnProps): WeeklyRotaStateProps => {
   return {
     rotaExternalState: state.rotaExternalState,
+    uiState: state.uiState,
   }
 };
 
 interface WeeklyRotaDispatchProps {
   fetchRotaForDate: (date: moment.Moment) => void,
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: WeeklyRotaOwnProps): WeeklyRotaDispatchProps => {
   return {
     fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
   };
 };
 
@@ -137,8 +143,12 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
 
   private maintainStateWithUrl() {
     const paramDate = this.getStartOfWeek();
+    if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
+      this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
+      return;
+    }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
-      this.props.fetchRotaForDate(moment(paramDate));
+      this.props.fetchRotaForDate(moment.utc(paramDate));
       return;
     }
   }
