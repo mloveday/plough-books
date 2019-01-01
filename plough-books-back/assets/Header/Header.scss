@@ -7,11 +7,17 @@
   @media print {
     display:none;
   }
+
+  .home-link {
+    flex: 1;
+    color: white;
+    text-decoration: none;
+  }
+
   .main-title {
     font-size: 2.4rem;
     padding: 0;
     margin: 0;
-    flex: 1;
   }
 
   .hero-image {
