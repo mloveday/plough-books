@@ -7,6 +7,7 @@ import {WorkTypes} from "../Enum/WorkTypes";
 import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
 import {UiState} from "../State/UiState";
+import './Nav.scss';
 
 interface NavOwnProps {
 }

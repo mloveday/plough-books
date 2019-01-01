@@ -1,15 +1,35 @@
 .App-overlay {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-}
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 
-.overlay-warning {
+  .overlay-warning {
     margin: 16px;
     grid-column: 2;
-}
+  }
 
-.overlay-buttons {
+  .overlay-buttons {
     grid-column: 2;
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .App-nav-anchor, .Auth-button {
+    font-size: 1.4rem;
+    border: 0;
+    outline: none;
+    text-decoration: none;
+    flex: 1;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    color: #fff;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+}
+
+.App-overlay ~ * {
+  display: none;
 }
