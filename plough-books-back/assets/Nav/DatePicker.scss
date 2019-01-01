@@ -15,11 +15,6 @@
   list-style-type: none;
 }
 
-.date-link {
-  color: #222222;
-  text-decoration: none;
-}
-
 .date-list-item {
   flex: 1;
   padding: 0 1px;
@@ -28,11 +23,27 @@
   align-items: center;
   justify-content: center;
 
+  .date-link {
+    color: #222222;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
   &.selected {
     background: #222222;
 
     .date-link {
       color: #ffffff;
+      &:hover {
+        background-color: #222222;
+      }
     }
   }
 }
