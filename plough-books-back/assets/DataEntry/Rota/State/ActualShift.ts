@@ -67,12 +67,12 @@ export class ActualShift {
     return Math.max(this.hourlyRate * ((this.endTime.diff(this.startTime, "minutes") / 60) - this.totalBreaks), 0)
   }
 
-  public forApi() {
+  public forApi(rotaDate: moment.Moment) {
     return Object.assign(
       this,
       {
-        endTime: this.endTime.format(DateFormats.TIME_LEADING_ZERO),
-        startTime: this.startTime.format(DateFormats.TIME_LEADING_ZERO),
+        endTime: this.endTime.hour() < 6 ? `${rotaDate.clone().add(1, 'days').format(DateFormats.API)}T${this.endTime.format(DateFormats.TIME_LEADING_ZERO)}Z` : `${rotaDate.format(DateFormats.API)}T${this.endTime.format(DateFormats.TIME_LEADING_ZERO)}Z`,
+        startTime: `${rotaDate.format(DateFormats.API)}T${this.startTime.format(DateFormats.TIME_LEADING_ZERO)}Z`,
       }
     )
   }
