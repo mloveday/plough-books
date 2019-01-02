@@ -27,6 +27,7 @@ import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
 import {StaffMember} from "./State/StaffMember";
+import {StaffRole} from "./State/StaffRole";
 
 interface RotaOwnProps {
   match: match<{
@@ -109,6 +110,13 @@ class RotaComponent extends React.Component<RotaProps, {}> {
         shift => shift.staffMember.id === member.id
       ).length === 0
     );
+    const visibleRoles: StaffRole[] = [];
+    this.props.staffMembersLocalState.entities.forEach(member => {
+      if (member.role.type === this.props.match.params.type && member.isActive() && visibleRoles.find(role => member.role.entityId === role.entityId) === undefined) {
+        visibleRoles.push(member.role);
+      }
+    });
+    const sortedRoles = visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
     const editingDisabled = !this.getRota().canEditRota();
     return (
       <div>
@@ -145,10 +153,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           {     this.props.staffRolesExternalState.isLoaded()
             &&  this.getRota()
             &&  this.props.staffMembersExternalState.isLoaded()
-            && this.props.staffRolesLocalState.entities
-            .filter(role => role.type === this.props.match.params.type)
-            .sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1)
-              .map((role, roleKey) => {
+            && sortedRoles.map((role, roleKey) => {
                 const shifts = this.getRota().plannedShifts
                   .filter(plannedShift => plannedShift.staffRole.id === role.id && plannedShift.type === this.props.match.params.type);
                 if (shifts.length > 0 || !editingDisabled) {
