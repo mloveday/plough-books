@@ -78,19 +78,20 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
         <div className="rota-grid">
             <div className="rota-column">
                 <div className="date-header"/>
+                <div className="staff-member" />
               {barStaff.map((staffMember, key) => (
-                <div key={key} className="staff-member">
-                  <div className="date-header" />
-                  <div className="shift-name">
-                    <div>{staffMember.name}</div>
-                  </div>
-                </div>
+                <div key={key} className="staff-member">{staffMember.name}</div>
               ))}
             </div>
           {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
             .map((rota, key) => (
               <div key={key} className="rota-column">
                 <div className="date-header">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+                <div className="shift">
+                  <div>Start</div>
+                  <div>End</div>
+                  <div>Breaks</div>
+                </div>
                 {barStaff.map((staffMember, staffKey) => {
                     const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">
@@ -108,19 +109,20 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
         <div className="rota-grid">
             <div className="rota-column">
                 <div className="date-header"/>
+                <div className="staff-member" />
               {kitchenStaff.map((staffMember, key) => (
-                <div key={key} className="staff-member">
-                  <div className="date-header" />
-                  <div className="shift-name">
-                    <div>{staffMember.name}</div>
-                  </div>
-                </div>
+                <div key={key} className="staff-member">{staffMember.name}</div>
               ))}
             </div>
           {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
             .map((rota, key) => (
               <div key={key} className="rota-column">
                 <div className="date-header">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+                <div className="shift">
+                  <div>Start</div>
+                  <div>End</div>
+                  <div>Breaks</div>
+                </div>
                 {kitchenStaff.map((staffMember, staffKey) => {
                     const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">
