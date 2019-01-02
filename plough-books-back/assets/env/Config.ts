@@ -1,14 +1,15 @@
-let backendDomain;
+let backendDomain = 'https://dashboard.theploughharborne.co.uk';
 let devDebugEnabled = false;
 
 switch (process.env.environment) {
     case 'production':
-        backendDomain = 'https://dashboard.theploughharborne.co.uk';
         break;
     case 'dev':
-    default:
         backendDomain = 'http://localhost:8000';
         devDebugEnabled = true;
+        break;
+    default:
+        break;
 }
 
 export const backendApiDomain = backendDomain;
