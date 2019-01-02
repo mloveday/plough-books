@@ -16,7 +16,7 @@ import {WeeklyRota} from "../../DataVisualisation/WeeklyRota/WeeklyRota";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {AuthState} from "../Auth/State/AuthState";
-import {LandingPage} from "../Nav/LandingPage";
+import {LandingPage} from "../LandingPage/LandingPage";
 import {Routes} from "../Routing/Routes";
 import {PageNotFound} from "./PageNotFound";
 import {RouteWithAuth} from "./RouteWithAuth";

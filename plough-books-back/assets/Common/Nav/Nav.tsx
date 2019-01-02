@@ -70,10 +70,10 @@ class NavComponent extends React.Component<NavProps, {}> {
           <li className={routeCssSingle}>
           {this.routeItem(Routes.CONSTANTS, "Constants", 'admin', 'cogs')}
           </li>
-          <li className={routeCssDouble}>
+          {this.isRouteAllowed(Routes.USERS) && <li className={routeCssDouble}>
           {this.routeItem(Routes.USERS, "Users", 'admin', 'user-tie')}
           {this.routeItem(Routes.ROLES, "User Roles", 'admin', 'user-tag')}
-          </li>
+          </li>}
         </ul>
       </nav>
     )

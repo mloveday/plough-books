@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
+import {AuthState} from "../Auth/State/AuthState";
 import {Routes} from "../Routing/Routes";
 import './LandingPage.scss';
 
@@ -11,10 +12,13 @@ interface LandingPageOwnProps {
 }
 
 interface LandingPageStateProps {
+  authState: AuthState;
 }
 
 const mapStateToProps = (state: AppState, ownProps: LandingPageOwnProps): LandingPageStateProps => {
-  return {}
+  return {
+    authState: state.authState,
+  }
 };
 
 interface LandingPageDispatchProps {
@@ -67,12 +71,12 @@ class LandingPageComponent extends React.Component<LandingPageProps, {}> {
           </div>
           <div className={'query-tip'}>Tip: Don't worry, changing hourly rates or roles will only affect future rotas and sign in sheets</div>
         </div>
-        <div className={'query'}>
+        {this.props.authState.currentUser && this.props.authState.currentUser.role.managesUsers && <div className={'query'}>
           <div className={'query-title'}>Change who can access this dashboard</div>
           <div className={'query-answers'}>
             <div className={'query-answer'}>Go to the <Link className={'link'} to={Routes.ROLES}>user roles</Link> and <Link className={'link'} to={Routes.USERS}>users</Link> pages. This allows you to let people create rotas, etc.</div>
           </div>
-        </div>
+        </div>}
       </div>
     )
   }
