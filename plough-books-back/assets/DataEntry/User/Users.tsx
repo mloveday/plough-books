@@ -103,16 +103,16 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             <input type="checkbox"
                    onChange={ev => this.dataEntryNewUser(newUser.with({blacklisted: ev.target.checked}))}
                    checked={newUser.blacklisted} className="user-value"/>
-            <select onChange={ev => this.dataEntryNewUser(newUser.with({role: {id: parseInt(ev.target.value, 10)}}))}
+            <select onChange={ev => this.dataEntryNewUser(newUser.with({role: this.props.rolesExternalState.externalState.entities.find(role => role.entityId === parseInt(ev.target.value, 10))}))}
                     className="user-value" value={newUser.role.entityId}>
-                <option value={undefined}>Choose a role...</option>
+              {!newUser.role.isValid() && <option value={undefined}>Choose a role...</option>}
               {this.props.rolesExternalState.externalState.entities.map((role, roleKey) => (
                 <option key={roleKey} value={role.entityId}>{role.role}</option>
               ))}
             </select>
             <input disabled={true} type="checkbox" checked={newUser.role.managesUsers} className="user-value"/>
             <div className="user-edit-buttons">
-                <button type="button" onClick={() => this.props.saveUser(newUser)}><FontAwesomeIcon icon="save" /> Save</button>
+                <button type="button" disabled={!newUser.role.isValid()} onClick={() => this.props.saveUser(newUser)}><FontAwesomeIcon icon="save" /> Save</button>
                 <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>
             </div>
         </div>}

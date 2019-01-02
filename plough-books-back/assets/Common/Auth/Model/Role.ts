@@ -32,4 +32,8 @@ export class Role extends EditableEntity {
   public get entityId() {
     return this.id ? this.id : -1;
   }
+
+  public isValid() {
+    return this.entityId !== -1;
+  }
 }
