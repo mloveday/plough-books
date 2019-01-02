@@ -96,7 +96,7 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
                     return shift ? (<div key={staffKey} className="shift">
                       <div>{shift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
                       <div>{shift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.totalBreaks * 30}</div>
+                      <div>{shift.totalBreaks * 60}</div>
                     </div>) : <div key={staffKey} className="shift"/>;
                   }
                 )}
