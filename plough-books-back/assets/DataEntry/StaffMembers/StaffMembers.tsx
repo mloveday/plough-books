@@ -141,7 +141,6 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
         <div className="staff-member-entity">
           {isCreatingNewMember && <input value={newMember.name} onChange={ev => this.newStaffMember(newMember.with({'name': ev.target.value}))}/>}
           {isCreatingNewMember && <select value={newMember.status} onChange={ev => this.newStaffMember(newMember.with({'status' : ev.target.value}))} >
-              <option value={undefined}>Choose a status...</option>
               <option value={StaffMemberStatus.ACTIVE}>Active</option>
               <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
           </select>}

@@ -9,7 +9,7 @@ export class StaffMember extends EditableEntity {
       '',
       0,
       StaffRole.default(),
-      '',
+      StaffMemberStatus.ACTIVE,
     );
   }
 
