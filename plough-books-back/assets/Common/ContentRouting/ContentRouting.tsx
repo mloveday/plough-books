@@ -13,6 +13,7 @@ import {Users} from "../../DataEntry/User/Users";
 import {WeeklyPlanning} from "../../DataEntry/WeeklyPlanning/WeeklyPlanning";
 import {WeeklyOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {WeeklyRota} from "../../DataVisualisation/WeeklyRota/WeeklyRota";
+import {WeeklySignIn} from "../../DataVisualisation/WeeklySignIn/WeeklySignIn";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {AuthState} from "../Auth/State/AuthState";
@@ -56,12 +57,14 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.weeklyOverviewRoute()} component={WeeklyOverview}/>
             <RouteWithAuth exact={true} path={Routes.weeklyPlanningRoute()} component={WeeklyPlanning}/>
             <RouteWithAuth exact={true} path={Routes.weeklyRotaRoute()} component={WeeklyRota}/>
+            <RouteWithAuth exact={true} path={Routes.weeklySignInRoute()} component={WeeklySignIn}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>
             <Redirect to={Routes.weeklyPlanningUrl(moment.utc())} exact={false} path={Routes.WEEKLY_PLANNING} />
+            <Redirect to={Routes.weeklySignInUrl(moment.utc())} exact={false} path={Routes.WEEKLY_SIGN_IN} />
             <Redirect to={Routes.weeklyRotaUrl(moment.utc())} exact={false} path={Routes.WEEKLY_ROTA} />
             <Redirect to={Routes.weeklyOverviewUrl(moment.utc())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
             <Redirect to={Routes.cashUpUrl(moment.utc())} exact={false} path={Routes.CASH_UP} />

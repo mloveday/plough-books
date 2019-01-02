@@ -1,0 +1,31 @@
+.weekly-sign-in {
+  * {
+    @media print {
+      font-size: 1rem;
+    }
+  }
+  .sign-in-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 2fr) 1fr 1fr;
+    margin: 16px;
+    @media print {
+      width: 100vw;
+      height: 100vh;
+    }
+  }
+  .sign-in-column {
+    display:grid;
+    grid-auto-rows: 32px;
+  }
+  .shift {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .staff-member, .shift {
+    display: grid;
+    align-content: center;
+    &:nth-of-type(2n) {
+      background-color: #eeeeee;
+    }
+  }
+}

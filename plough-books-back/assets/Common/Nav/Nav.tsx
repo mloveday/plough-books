@@ -51,14 +51,15 @@ class NavComponent extends React.Component<NavProps, {}> {
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.KITCHEN), "Kitchen Rota", 'planning', 'calendar-day', Routes.ROTA)}
           </li>
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", 'planning', 'print', Routes.WEEKLY_ROTA)}
-          </li>
-          <li className={routeCssSingle}>
             {this.routeItem(Routes.cashUpUrl(date), "Cash up", 'recording', 'cash-register', Routes.CASH_UP)}
           </li>
           <li className={routeCssDouble}>
           {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.signInUrl(date, WorkTypes.KITCHEN), "Sign-in kitchen", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
+          </li>
+          <li className={routeCssDouble}>
+            {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", 'planning', 'print', Routes.WEEKLY_ROTA)}
+            {this.routeItem(Routes.weeklySignInUrl(date), "Weekly sign in", 'planning', 'print', Routes.WEEKLY_SIGN_IN)}
           </li>
           <li className={routeCssSingle}>
           {this.routeItem(Routes.weeklyOverviewUrl(date), "Weekly overview", 'reviewing', 'calendar-alt', Routes.WEEKLY_OVERVIEW)}

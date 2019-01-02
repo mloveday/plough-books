@@ -15,6 +15,7 @@ export class Routes {
   public static readonly ROLES = "/admin/roles";
   public static readonly WEEKLY_PLANNING = "/weekly-planning";
   public static readonly WEEKLY_ROTA = "/weekly-rota";
+  public static readonly WEEKLY_SIGN_IN = "/weekly-sign-in";
 
   public static cashUpUrl(date: moment.Moment) {
     return `${this.CASH_UP}/${date.format(DateFormats.API)}`;
@@ -54,6 +55,14 @@ export class Routes {
 
   public static weeklyRotaRoute() {
     return `${this.WEEKLY_ROTA}/:year/:weekNumber`;
+  }
+
+  public static weeklySignInUrl(date: moment.Moment) {
+    return `${this.WEEKLY_SIGN_IN}/${accountingYear(date)}/${accountingWeek(date)}`;
+  }
+
+  public static weeklySignInRoute() {
+    return `${this.WEEKLY_SIGN_IN}/:year/:weekNumber`;
   }
 
   public static weeklyPlanningUrl(date: moment.Moment) {
