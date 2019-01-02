@@ -1,4 +1,5 @@
-import {backendApiDomain, tokenQueryParam} from "../../../env/Config";
+// @ts-ignore
+import {backendApiDomain, tokenQueryParam} from "env/Config";
 import {getAuthTokenFromLocalStorage} from "../State/AuthStorage";
 
 export function authenticatedFetch(url: string, onAuthError: () => void, init?: RequestInit): Promise<any> {

@@ -145,7 +145,9 @@ class RotaComponent extends React.Component<RotaProps, {}> {
           {     this.props.staffRolesExternalState.isLoaded()
             &&  this.getRota()
             &&  this.props.staffMembersExternalState.isLoaded()
-            && this.props.staffRolesLocalState.entities.filter(role => role.type === this.props.match.params.type)
+            && this.props.staffRolesLocalState.entities
+            .filter(role => role.type === this.props.match.params.type)
+            .sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1)
               .map((role, roleKey) => {
                 const shifts = this.getRota().plannedShifts
                   .filter(plannedShift => plannedShift.staffRole.id === role.id && plannedShift.type === this.props.match.params.type);

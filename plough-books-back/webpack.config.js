@@ -1,4 +1,5 @@
-var Encore = require('@symfony/webpack-encore');
+var path = require('path');
+const Encore = require('@symfony/webpack-encore');
 
 Encore
     .setOutputPath('public/build/')
@@ -23,4 +24,8 @@ Encore
     })
 ;
 
-module.exports = Encore.getWebpackConfig();
+const config = Encore.getWebpackConfig();
+config.resolve.alias = {
+    env: path.resolve(Encore.isProduction() ? 'assets/env/prod' : 'assets/env/dev')
+};
+module.exports = config;
