@@ -103,6 +103,18 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
                 )}
               </div>
             ))}
+            <div className="rota-column">
+                <div className="date-header">Total hours</div>
+                <div className="shift" />
+              {barStaff.map((staffMember, staffKey) => {
+                const totalHours = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek).reduce((prev, curr) => {
+                  const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
+                  return prev + (shift ? shift.endTime.diff(shift.startTime, 'minutes') - shift.totalBreaks*60 : 0);
+                }, 0);
+                  return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
+                }
+              )}
+            </div>
         </div>}
         <div>Weekly kitchen rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
         {this.props.rotaExternalState.isLoaded() &&
@@ -134,6 +146,18 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
                 )}
               </div>
             ))}
+            <div className="rota-column">
+                <div className="date-header">Total hours</div>
+                <div className="shift" />
+              {kitchenStaff.map((staffMember, staffKey) => {
+                  const totalHours = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek).reduce((prev, curr) => {
+                    const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
+                    return prev + (shift ? shift.endTime.diff(shift.startTime, 'minutes') - shift.totalBreaks*60 : 0);
+                  }, 0);
+                  return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
+                }
+              )}
+            </div>
         </div>}
       </div>
     )
