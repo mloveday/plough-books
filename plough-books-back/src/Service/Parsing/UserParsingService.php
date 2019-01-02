@@ -33,7 +33,7 @@ class UserParsingService {
         if ($user->isPlaceholder()) {
             throw new BadRequestHttpException("User with given ID does not exist");
         }
-        $role = $this->roleRepository->getById($request->request->getInt('role'));
+        $role = $this->roleRepository->getById((int)$request->request->get('role')['id']);
         if ($role->isPlaceholder()) {
             throw new BadRequestHttpException("Role with given ID does not exist");
         }

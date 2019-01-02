@@ -79,7 +79,7 @@ class UsersComponent extends React.Component<UsersProps, {}> {
                    onChange={ev => this.dataEntry(user.with({blacklisted: ev.target.checked}))}
                    checked={user.blacklisted} className="user-value"/>
             <select disabled={!editing}
-                    onChange={ev => this.dataEntry(user.with({role: {id: parseInt(ev.target.value, 10)}}))}
+                    onChange={ev => this.dataEntry(user.with({role: this.props.rolesExternalState.externalState.entities.find(role => role.entityId === parseInt(ev.target.value, 10))}))}
                     className="user-value" value={user.role.entityId}>
               {this.props.rolesExternalState.externalState.entities.map((role, roleKey) => (
                 <option key={roleKey} value={role.entityId}>{role.role}</option>
