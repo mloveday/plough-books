@@ -97,7 +97,22 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
           );
         })}
         <div className="constants-entity">
-          {isCreatingNewEntity && <input value={newEntity.fixedCosts} onChange={ev => this.updateConstants(newEntity.with({'fixedCosts' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />}
+          {isCreatingNewEntity && [
+            <div key={2}>{newEntity.date.format(DateFormats.DMY_SLASHES)}</div>,
+            <input key={3} type="number" value={newEntity.fixedCosts} onChange={ev => this.updateNewConstants(newEntity.with({'fixedCosts' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />,
+            <input key={4} type="number" value={newEntity.labourRate*100} onChange={ev => this.updateNewConstants(newEntity.with({'labourRate' : parseFloat(ev.target.value)/100}))} />,
+            <input key={5} type="number" value={newEntity.vatMultiplier} onChange={ev => this.updateNewConstants(newEntity.with({'vatMultiplier' : parseFloat(ev.target.value)}))} />,
+            <input key={6} type="number" value={newEntity.barProportionOfRevenue*100} onChange={ev => this.updateNewConstants(newEntity.with({'barProportionOfRevenue' : parseFloat(ev.target.value)/100}))} />,
+            <input key={7} type="number" value={newEntity.hoursPerShortBreak} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerShortBreak' : parseFloat(ev.target.value)}))} />,
+            <input key={8} type="number" value={newEntity.shortBreakDuration} onChange={ev => this.updateNewConstants(newEntity.with({'shortBreakDuration' : parseFloat(ev.target.value)}))} />,
+            <input key={9} type="number" value={newEntity.hoursPerLongBreak} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerLongBreak' : parseFloat(ev.target.value)}))} />,
+            <input key={10} type="number" value={newEntity.longBreakDuration} onChange={ev => this.updateNewConstants(newEntity.with({'longBreakDuration' : parseFloat(ev.target.value)}))} />,
+            <input key={11} type="number" value={newEntity.ersThreshold} onChange={ev => this.updateNewConstants(newEntity.with({'ersThreshold' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />,
+            <input key={12} type="number" value={newEntity.ersPercentAboveThreshold*100} onChange={ev => this.updateNewConstants(newEntity.with({'ersPercentAboveThreshold' : parseFloat(ev.target.value)/100}))} />,
+            <input key={13} type="number" value={newEntity.holidayLinearPercent*100} onChange={ev => this.updateNewConstants(newEntity.with({'holidayLinearPercent' : parseFloat(ev.target.value)/100}))} />,
+            <input key={14} type="number" value={newEntity.pensionLinearPercent*100} onChange={ev => this.updateNewConstants(newEntity.with({'pensionLinearPercent' : parseFloat(ev.target.value)/100}))} />,
+            ]}
+          
           <div className="constants-edit-buttons">
             {!isCreatingNewEntity && !this.props.constantsLocalState.isEditing() &&
             <button type='button' onClick={() => this.newConstants()}>New</button>}
@@ -115,6 +130,10 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
 
   private updateConstants(constants: Constants) {
     this.props.updateConstants(this.props.constantsLocalState.withEntities([constants], constants.id));
+  }
+
+  private updateNewConstants(constants: Constants) {
+    this.props.updateConstants(this.props.constantsLocalState.withNewEntity(constants));
   }
 
   private cancelEdit() {

@@ -77,7 +77,7 @@ export const constantsExternalReducers = handleActions<ConstantsExternalState, a
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [CONSTANTS_CREATE_START]: (state, action) => {
-    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.STARTED));
+    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [CONSTANTS_CREATE_SUCCESS]: (state, action) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
