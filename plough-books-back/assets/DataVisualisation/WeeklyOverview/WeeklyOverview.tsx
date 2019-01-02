@@ -2,6 +2,8 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {WeekPicker} from "../../Common/Nav/WeekPicker";
+import {Routes} from "../../Common/Routing/Routes";
 import {CashUpExternalState} from "../../DataEntry/CashUp/State/CashUpExternalState";
 import {cashUpFetch} from "../../DataEntry/CashUp/State/CashUpRedux";
 import {ConstantsExternalState} from "../../DataEntry/Constants/State/ConstantsExternalState";
@@ -15,9 +17,9 @@ import {staffMembersFetch} from "../../DataEntry/StaffMembers/State/StaffMembers
 import {StaffRolesExternalState} from "../../DataEntry/StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../../DataEntry/StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../../DataEntry/StaffRoles/State/StaffRolesRedux";
-import {WeekPicker} from "../../Nav/WeekPicker";
 import {AppState} from "../../redux";
-import {Routes} from "../../Routing/Routes";
+import {uiUpdate} from "../../State/UiRedux";
+import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {LabourCostOverview} from "./LabourCostOverview";
@@ -26,8 +28,6 @@ import {RevenueOverview} from "./RevenueOverview";
 import {DailyOverviews} from "./State/DailyOverviews";
 import {SummaryOverview} from "./SummaryOverview";
 import './WeeklyOverview.scss';
-import {UiState} from "../../State/UiState";
-import {uiUpdate} from "../../State/UiRedux";
 
 interface WeeklyOverviewOwnProps {
   match: match<{

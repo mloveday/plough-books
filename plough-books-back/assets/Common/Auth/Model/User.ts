@@ -1,4 +1,4 @@
-import {EditableEntity} from "../../State/EditableEntity";
+import {EditableEntity} from "../../../State/EditableEntity";
 import {Role} from "./Role";
 
 export class User extends EditableEntity {

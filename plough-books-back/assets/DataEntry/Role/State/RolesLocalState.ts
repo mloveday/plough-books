@@ -1,4 +1,4 @@
-import {Role} from "../../../Auth/Model/Role";
+import {Role} from "../../../Common/Auth/Model/Role";
 import {EditableLocalState} from "../../../State/EditableLocalState";
 
 export class RolesLocalState extends EditableLocalState<Role> {

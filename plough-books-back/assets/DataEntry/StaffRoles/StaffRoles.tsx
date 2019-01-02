@@ -1,3 +1,4 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {StaffRoleStatus} from "../../Enum/StaffRoleStatus";
@@ -9,7 +10,6 @@ import "./StaffRoles.scss";
 import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface StaffRolesOwnProps {
 }

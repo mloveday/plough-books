@@ -1,12 +1,12 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {AppState} from "../redux";
-import {DateFormats} from "../Util/DateFormats";
-import {accountingWeek, accountingYearString} from "../Util/DateUtils";
+import {AppState} from "../../redux";
+import {DateFormats} from "../../Util/DateFormats";
+import {accountingWeek, accountingYearString} from "../../Util/DateUtils";
 import './DatePicker.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface DatePickerOwnProps {
   dateParam: string;

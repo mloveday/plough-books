@@ -1,11 +1,14 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {DatePicker} from "../../Common/Nav/DatePicker";
+import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Enum/RotaStatus";
-import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
-import {Routes} from "../../Routing/Routes";
+import {uiUpdate} from "../../State/UiRedux";
+import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
@@ -21,9 +24,6 @@ import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
-import {UiState} from "../../State/UiState";
-import {uiUpdate} from "../../State/UiRedux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface SignInOwnProps {
   match: match<{

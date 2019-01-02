@@ -2,24 +2,24 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router";
+import {CashUp} from "../../DataEntry/CashUp/CashUp";
+import {ConstantsDataEntry} from "../../DataEntry/Constants/Constants";
+import {Roles} from "../../DataEntry/Role/Roles";
+import {Rota} from "../../DataEntry/Rota/Rota";
+import {SignIn} from "../../DataEntry/SignIn/SignIn";
+import {StaffMembers} from "../../DataEntry/StaffMembers/StaffMembers";
+import {StaffRoles} from "../../DataEntry/StaffRoles/StaffRoles";
+import {Users} from "../../DataEntry/User/Users";
+import {WeeklyPlanning} from "../../DataEntry/WeeklyPlanning/WeeklyPlanning";
+import {WeeklyOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyOverview";
+import {WeeklyRota} from "../../DataVisualisation/WeeklyRota/WeeklyRota";
+import {WorkTypes} from "../../Enum/WorkTypes";
+import {AppState} from "../../redux";
 import {AuthState} from "../Auth/State/AuthState";
-import {CashUp} from "../DataEntry/CashUp/CashUp";
-import {ConstantsDataEntry} from "../DataEntry/Constants/Constants";
-import {Roles} from "../DataEntry/Role/Roles";
-import {Rota} from "../DataEntry/Rota/Rota";
-import {SignIn} from "../DataEntry/SignIn/SignIn";
-import {StaffMembers} from "../DataEntry/StaffMembers/StaffMembers";
-import {StaffRoles} from "../DataEntry/StaffRoles/StaffRoles";
-import {Users} from "../DataEntry/User/Users";
-import {WeeklyPlanning} from "../DataEntry/WeeklyPlanning/WeeklyPlanning";
-import {WeeklyOverview} from "../DataVisualisation/WeeklyOverview/WeeklyOverview";
-import {WeeklyRota} from "../DataVisualisation/WeeklyRota/WeeklyRota";
-import {WorkTypes} from "../Enum/WorkTypes";
-import {AppState} from "../redux";
+import {LandingPage} from "../Nav/LandingPage";
 import {Routes} from "../Routing/Routes";
 import {PageNotFound} from "./PageNotFound";
 import {RouteWithAuth} from "./RouteWithAuth";
-import {LandingPage} from "../Nav/LandingPage";
 
 interface ContentRoutingOwnProps {
 }

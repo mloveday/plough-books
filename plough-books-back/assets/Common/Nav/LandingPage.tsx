@@ -1,11 +1,11 @@
+import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {AppState} from "../redux";
-import './LandingPage.scss';
-import {Routes} from "../Routing/Routes";
-import {WorkTypes} from "../Enum/WorkTypes";
-import * as moment from "moment";
 import {Link} from "react-router-dom";
+import {WorkTypes} from "../../Enum/WorkTypes";
+import {AppState} from "../../redux";
+import {Routes} from "../Routing/Routes";
+import './LandingPage.scss';
 
 interface LandingPageOwnProps {
 }

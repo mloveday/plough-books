@@ -3,8 +3,8 @@ import {connect} from "react-redux";
 import {Constants} from "../../DataEntry/Rota/State/Constants";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
-import './Constants.scss';
 import {Formatting} from "../../Util/Formatting";
+import './Constants.scss';
 
 interface ConstantsWithHoverOwnProps {
   constants: Constants,

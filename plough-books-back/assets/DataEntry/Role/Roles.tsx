@@ -1,12 +1,12 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Role} from "../../Auth/Model/Role";
+import {Role} from "../../Common/Auth/Model/Role";
 import {AppState} from "../../redux";
 import './Roles.scss';
 import {RolesExternalState} from "./State/RolesExternalState";
 import {RolesLocalState} from "./State/RolesLocalState";
 import {rolesCreate, rolesDataEntry, rolesFetch} from "./State/RolesRedux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface RolesOwnProps {
 }

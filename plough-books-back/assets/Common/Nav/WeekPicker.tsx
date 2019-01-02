@@ -1,12 +1,12 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {AppState} from "../redux";
-import {DateFormats} from "../Util/DateFormats";
-import {accountingWeek, accountingYear, startOfWeek} from "../Util/DateUtils";
+import {AppState} from "../../redux";
+import {DateFormats} from "../../Util/DateFormats";
+import {accountingWeek, accountingYear, startOfWeek} from "../../Util/DateUtils";
 import './WeekPicker.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface WeekPickerOwnProps {
   week: number;

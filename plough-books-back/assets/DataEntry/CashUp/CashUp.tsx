@@ -1,10 +1,13 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
-import {DatePicker} from "../../Nav/DatePicker";
+import {DatePicker} from "../../Common/Nav/DatePicker";
+import {Routes} from "../../Common/Routing/Routes";
+import {CashUpSection} from "../../Enum/CashUpSection";
 import {AppState} from "../../redux";
-import {Routes} from "../../Routing/Routes";
+import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.scss';
@@ -14,11 +17,8 @@ import {CashUpExternalState} from "./State/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
 import {CashUpsForWeek} from "./State/CashUpsForWeek";
 import {Receipt} from "./State/Receipt";
-import {TillInputGroup} from "./TillInputGroup";
-import {uiUpdate} from "../../State/UiRedux";
-import {CashUpSection} from "../../Enum/CashUpSection";
 import {SectionPosition} from "./State/SectionPosition";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {TillInputGroup} from "./TillInputGroup";
 
 interface CashUpOwnProps {
   match: match<{

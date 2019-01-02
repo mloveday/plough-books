@@ -1,3 +1,4 @@
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
 import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
@@ -16,7 +17,6 @@ import {
   staffMembersFetch,
   staffMembersFilter
 } from "./State/StaffMembersRedux";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 interface StaffMembersOwnProps {
 }

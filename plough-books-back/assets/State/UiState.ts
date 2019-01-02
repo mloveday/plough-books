@@ -1,6 +1,6 @@
 import * as moment from "moment";
-import {DateFormats} from "../Util/DateFormats";
 import {CashUpSection} from "../Enum/CashUpSection";
+import {DateFormats} from "../Util/DateFormats";
 
 export class UiState {
   public static default(): UiState {

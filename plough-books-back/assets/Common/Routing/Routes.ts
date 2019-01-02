@@ -1,6 +1,6 @@
 import * as moment from "moment";
-import {accountingWeek, accountingYear} from "../Util/DateUtils";
-import {DateFormats} from "../Util/DateFormats";
+import {DateFormats} from "../../Util/DateFormats";
+import {accountingWeek, accountingYear} from "../../Util/DateUtils";
 
 export class Routes {
   public static readonly INDEX = "/";

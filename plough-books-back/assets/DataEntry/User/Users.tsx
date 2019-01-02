@@ -1,6 +1,7 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
-import {User} from "../../Auth/Model/User";
+import {User} from "../../Common/Auth/Model/User";
 import {AppState} from "../../redux";
 import {RolesExternalState} from "../Role/State/RolesExternalState";
 import {rolesFetch} from "../Role/State/RolesRedux";
@@ -8,7 +9,6 @@ import {UsersExternalState} from "./State/UsersExternalState";
 import {UsersLocalState} from "./State/UsersLocalState";
 import {usersCreate, usersDataEntry, usersFetch} from "./State/UsersRedux";
 import './Users.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface UsersOwnProps {
 }

@@ -1,11 +1,14 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {DatePicker} from "../../Common/Nav/DatePicker";
+import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Enum/RotaStatus";
-import {DatePicker} from "../../Nav/DatePicker";
 import {AppState} from "../../redux";
-import {Routes} from "../../Routing/Routes";
+import {uiUpdate} from "../../State/UiRedux";
+import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
@@ -24,9 +27,6 @@ import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
 import {StaffMember} from "./State/StaffMember";
-import {UiState} from "../../State/UiState";
-import {uiUpdate} from "../../State/UiRedux";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface RotaOwnProps {
   match: match<{

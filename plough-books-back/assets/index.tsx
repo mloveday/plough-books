@@ -4,7 +4,7 @@ import * as ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import {Route, Router} from 'react-router';
 import {applyMiddleware, combineReducers, createStore} from "redux";
-import { composeWithDevTools } from 'redux-devtools-extension';
+import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import {App} from './App/App';
 import './index.scss';

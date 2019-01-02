@@ -7,11 +7,11 @@ import {rotaFetch} from "../../DataEntry/Rota/State/RotaRedux";
 import {StaffMember} from '../../DataEntry/Rota/State/StaffMember';
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
+import {uiUpdate} from "../../State/UiRedux";
+import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import "./WeeklyRota.scss";
-import {UiState} from "../../State/UiState";
-import {uiUpdate} from "../../State/UiRedux";
 
 interface WeeklyRotaOwnProps {
   match: match<{

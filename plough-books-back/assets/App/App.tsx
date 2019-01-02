@@ -1,9 +1,9 @@
 import * as React from 'react';
 import {Route} from "react-router";
-import {ContentRouting} from "../ContentRouting/ContentRouting";
-import {Header} from "../Header/Header";
-import {Nav} from "../Nav/Nav";
-import {UnauthorisedUserOverlay} from "../Overlay/UnauthorisedUserOverlay";
+import {ContentRouting} from "../Common/ContentRouting/ContentRouting";
+import {Header} from "../Common/Header/Header";
+import {Nav} from "../Common/Nav/Nav";
+import {UnauthorisedUserOverlay} from "../Common/Overlay/UnauthorisedUserOverlay";
 import './App.scss';
 import './FontawesomeLibrary';
 

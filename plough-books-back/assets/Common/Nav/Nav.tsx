@@ -1,15 +1,15 @@
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {WorkTypes} from "../../Enum/WorkTypes";
+import {AppState} from "../../redux";
+import {UiState} from "../../State/UiState";
 import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
-import {WorkTypes} from "../Enum/WorkTypes";
-import {AppState} from "../redux";
 import {Routes} from "../Routing/Routes";
-import {UiState} from "../State/UiState";
 import './Nav.scss';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 interface NavOwnProps {
 }

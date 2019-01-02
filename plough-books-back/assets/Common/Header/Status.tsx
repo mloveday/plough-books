@@ -1,17 +1,17 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
-import {AppState} from "../redux";
-import {StaffRolesExternalState} from "../DataEntry/StaffRoles/State/StaffRolesExternalState";
-import {RolesExternalState} from "../DataEntry/Role/State/RolesExternalState";
-import {ConstantsExternalState} from "../DataEntry/Constants/State/ConstantsExternalState";
-import {UsersExternalState} from "../DataEntry/User/State/UsersExternalState";
-import {CashUpExternalState} from "../DataEntry/CashUp/State/CashUpExternalState";
-import {RotaExternalState} from "../DataEntry/Rota/State/RotaExternalState";
-import {StaffMembersExternalState} from "../DataEntry/StaffMembers/State/StaffMembersExternalState";
+import {CashUpExternalState} from "../../DataEntry/CashUp/State/CashUpExternalState";
+import {ConstantsExternalState} from "../../DataEntry/Constants/State/ConstantsExternalState";
+import {RolesExternalState} from "../../DataEntry/Role/State/RolesExternalState";
+import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
+import {StaffMembersExternalState} from "../../DataEntry/StaffMembers/State/StaffMembersExternalState";
+import {StaffRolesExternalState} from "../../DataEntry/StaffRoles/State/StaffRolesExternalState";
+import {UsersExternalState} from "../../DataEntry/User/State/UsersExternalState";
+import {FetchStatus} from "../../Enum/FetchStatus";
+import {AppState} from "../../redux";
 import {StatusItem} from "./State/StatusItem";
-import {FetchStatus} from "../Enum/FetchStatus";
 import './Status.scss';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 interface StatusOwnProps {
 }

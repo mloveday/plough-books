@@ -1,4 +1,4 @@
-import {User} from "../../../Auth/Model/User";
+import {User} from "../../../Common/Auth/Model/User";
 import {EditableLocalState} from "../../../State/EditableLocalState";
 
 export class UsersLocalState extends EditableLocalState<User> {

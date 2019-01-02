@@ -1,5 +1,5 @@
-import {authReducer} from "./Auth/State/AuthReducer";
-import {AuthState} from "./Auth/State/AuthState";
+import {authReducer} from "./Common/Auth/State/AuthReducer";
+import {AuthState} from "./Common/Auth/State/AuthState";
 import {CashUpExternalState} from "./DataEntry/CashUp/State/CashUpExternalState";
 import {cashUpExternalReducers, cashUpInternalReducers} from "./DataEntry/CashUp/State/CashUpRedux";
 import {CashUpsForWeek} from "./DataEntry/CashUp/State/CashUpsForWeek";

@@ -1,9 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {AppState} from "../../redux";
 import {Auth} from "../Auth/Auth";
 import {clearAuthentication} from "../Auth/State/AuthActions";
 import {AuthState} from "../Auth/State/AuthState";
-import {AppState} from "../redux";
 import "./Overlay.scss";
 
 interface UnauthorisedUserOverlayOwnProps {

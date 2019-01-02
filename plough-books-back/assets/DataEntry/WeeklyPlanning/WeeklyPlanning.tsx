@@ -2,10 +2,12 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {WeekPicker} from "../../Common/Nav/WeekPicker";
+import {Routes} from "../../Common/Routing/Routes";
 import {ConstantsWithHover} from "../../DataVisualisation/Constants/ConstantsWithHover";
-import {WeekPicker} from "../../Nav/WeekPicker";
 import {AppState} from "../../redux";
-import {Routes} from "../../Routing/Routes";
+import {uiUpdate} from "../../State/UiRedux";
+import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
@@ -21,8 +23,6 @@ import {rotaDataEntry, rotaFetchWithPrevious, weeklyRotasCreate} from "../Rota/S
 import {RotasForWeek} from "../Rota/State/RotasForWeek";
 import {PriorWeekOverview} from "./PriorWeekOverview";
 import './WeeklyPlanning.scss';
-import {UiState} from "../../State/UiState";
-import {uiUpdate} from "../../State/UiRedux";
 
 interface WeeklyPlanningOwnProps {
   match: match<{
