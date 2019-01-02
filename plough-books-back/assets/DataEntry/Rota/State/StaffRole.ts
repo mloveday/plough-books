@@ -1,3 +1,4 @@
+import {StaffRoleStatus} from "../../../Enum/StaffRoleStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {EditableEntity} from "../../../State/EditableEntity";
 
@@ -7,7 +8,7 @@ export class StaffRole extends EditableEntity {
     return new StaffRole(
       '',
       0,
-      'inactive',
+      StaffRoleStatus.ACTIVE,
       WorkTypes.BAR,
     );
   }
@@ -41,5 +42,9 @@ export class StaffRole extends EditableEntity {
 
   public get entityId(): number {
     return this.id;
+  }
+
+  public isValid() {
+    return this.entityId !== undefined;
   }
 }

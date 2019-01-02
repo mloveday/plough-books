@@ -147,7 +147,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
           {isCreatingNewMember &&
           <select value={newMember.role.id} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
-              <option value={undefined}>Choose a role...</option>
+            {!newMember.role.isValid() && <option value={undefined}>Choose a role...</option>}
             {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
               <option key={roleKey} value={role.id}>{role.role}</option>
             ))}
@@ -155,7 +155,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           <div className="staff-member-edit-buttons">
             {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() &&
             <button type='button' onClick={() => this.newStaffMember()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
-            {isCreatingNewMember && <button type='button' onClick={() => this.saveStaffMember(newMember)}><FontAwesomeIcon icon="save"/> Save</button>}
+            {isCreatingNewMember && <button disabled={!newMember.role.isValid()} type='button' onClick={() => this.saveStaffMember(newMember)}><FontAwesomeIcon icon="save"/> Save</button>}
             {isCreatingNewMember && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
           </div>
         </div>
