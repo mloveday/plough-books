@@ -129,6 +129,10 @@ export class CashUpEntity {
   }
 
   public getTotalRevenue(): number {
-    return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0) + this.receipts.reduce((prev, curr) => prev + curr.amount, 0);
+    return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0)
+      - this.receipts.reduce((prev, curr) => prev + curr.amount, 0)
+      + this.amexTots - this.tills.reduce((prev, curr) => prev + curr.amex,0)
+      + this.visaMcTots - this.tills.reduce((prev, curr) => prev + curr.visa,0)
+      + this.chargeToAccount + this.depositRedeemed;
   }
 }
