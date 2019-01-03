@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="d6f78e2c-35ed-477a-bf9d-a9dc3ab55c00" name="dashboard.theploughharborne.co.uk" url="https://dashboard.theploughharborne.co.uk">
+        <fileTransfer host="dashboard.theploughharborne.co.uk" port="22" rootFolder="/home/dashboard" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

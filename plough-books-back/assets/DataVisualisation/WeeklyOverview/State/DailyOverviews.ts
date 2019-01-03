@@ -100,10 +100,15 @@ export class DailyOverviews {
           day
         ));
       } else if (cashUp && cashUp.isDefault && rota) {
-        // TODO work out how best to handle this - default rota/cashUp? extend with isvalid methods? interface for each and implement new class for a missing rota/cashUp?
         overviews.push(new DailyOverview(
           PlaceholderCashUp.default(day),
           rota,
+          day
+        ));
+      } else if (cashUp && !cashUp.isDefault){
+        overviews.push(new DailyOverview(
+          cashUp,
+          RotaEntity.default().with({date: day}),
           day
         ));
       } else {
