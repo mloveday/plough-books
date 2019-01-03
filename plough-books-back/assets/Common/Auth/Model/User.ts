@@ -27,7 +27,7 @@ export class User extends EditableEntity {
   }
 
   public with(obj: any) {
-    return Object.assign(User.default(), this, User.fromResponse(obj));
+    return Object.assign(User.default(), User.fromResponse(Object.assign(this,obj)));
   }
 
   public get entityId(): number {
