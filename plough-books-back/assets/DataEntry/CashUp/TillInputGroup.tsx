@@ -44,7 +44,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
       <div className="label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
         <input id={id} type="number"
-               value={this.props.tills[index][this.props.tillProperty]}
+               value={this.props.tills[index][this.props.tillProperty].toFixed(2)}
                onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: validateCash(ev.target.value, this.props.tills[index][this.props.tillProperty])}))}/>
       </div>
     );

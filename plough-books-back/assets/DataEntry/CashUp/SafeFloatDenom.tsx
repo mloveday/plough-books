@@ -56,7 +56,7 @@ class SafeFloatDenomComponent extends React.Component<SafeFloatDenomProps, {}> {
     return <div className="label-and-input">
       <label htmlFor={id}>{friendlyName}</label>
       <input id={id} type="number"
-             value={this.props.safeFloatObj[property]}
+             value={this.props.safeFloatObj[property].toFixed(2)}
              onChange={ev => this.props.formUpdate({[this.props.cashUpPropName]: this.props.safeFloatObj.with({[property]: validateCash(ev.target.value, this.props.safeFloatObj[property])})})} />
     </div>
   }
