@@ -75,18 +75,18 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
           return (
             <div className="constants-entity" key={key}>
               <div>{entity.date.format(DateFormats.DMY_SLASHES)}</div>
-              <input disabled={!isEditingEntity} type="number" value={entity.fixedCosts} onChange={ev => this.updateConstants(entity.with({'fixedCosts' : validateCash(ev.target.value, entity.fixedCosts)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.labourRate*100} onChange={ev => this.updateConstants(entity.with({'labourRate' : parseFloat(ev.target.value)/100}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.vatMultiplier} onChange={ev => this.updateConstants(entity.with({'vatMultiplier' : parseFloat(ev.target.value)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.barProportionOfRevenue*100} onChange={ev => this.updateConstants(entity.with({'barProportionOfRevenue' : parseFloat(ev.target.value)/100}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.hoursPerShortBreak} onChange={ev => this.updateConstants(entity.with({'hoursPerShortBreak' : parseFloat(ev.target.value)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.shortBreakDuration} onChange={ev => this.updateConstants(entity.with({'shortBreakDuration' : parseFloat(ev.target.value)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.hoursPerLongBreak} onChange={ev => this.updateConstants(entity.with({'hoursPerLongBreak' : parseFloat(ev.target.value)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.longBreakDuration} onChange={ev => this.updateConstants(entity.with({'longBreakDuration' : parseFloat(ev.target.value)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.ersThreshold} onChange={ev => this.updateConstants(entity.with({'ersThreshold' : validateCash(ev.target.value, entity.fixedCosts)}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.ersPercentAboveThreshold*100} onChange={ev => this.updateConstants(entity.with({'ersPercentAboveThreshold' : parseFloat(ev.target.value)/100}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.holidayLinearPercent*100} onChange={ev => this.updateConstants(entity.with({'holidayLinearPercent' : parseFloat(ev.target.value)/100}))} />
-              <input disabled={!isEditingEntity} type="number" value={entity.pensionLinearPercent*100} onChange={ev => this.updateConstants(entity.with({'pensionLinearPercent' : parseFloat(ev.target.value)/100}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.fixedCosts} onChange={ev => this.updateConstants(entity.with({'fixedCosts' : validateCash(ev.target.value, entity.fixedCosts)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.labourRate*100} onChange={ev => this.updateConstants(entity.with({'labourRate' : parseFloat(ev.target.value)/100}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.vatMultiplier} onChange={ev => this.updateConstants(entity.with({'vatMultiplier' : parseFloat(ev.target.value)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.barProportionOfRevenue*100} onChange={ev => this.updateConstants(entity.with({'barProportionOfRevenue' : parseFloat(ev.target.value)/100}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.hoursPerShortBreak} onChange={ev => this.updateConstants(entity.with({'hoursPerShortBreak' : parseFloat(ev.target.value)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.shortBreakDuration} onChange={ev => this.updateConstants(entity.with({'shortBreakDuration' : parseFloat(ev.target.value)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.hoursPerLongBreak} onChange={ev => this.updateConstants(entity.with({'hoursPerLongBreak' : parseFloat(ev.target.value)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.longBreakDuration} onChange={ev => this.updateConstants(entity.with({'longBreakDuration' : parseFloat(ev.target.value)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.ersThreshold} onChange={ev => this.updateConstants(entity.with({'ersThreshold' : validateCash(ev.target.value, entity.fixedCosts)}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.ersPercentAboveThreshold*100} onChange={ev => this.updateConstants(entity.with({'ersPercentAboveThreshold' : parseFloat(ev.target.value)/100}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.holidayLinearPercent*100} onChange={ev => this.updateConstants(entity.with({'holidayLinearPercent' : parseFloat(ev.target.value)/100}))} />
+              <input disabled={!isEditingEntity} type="number" step="0.01" value={entity.pensionLinearPercent*100} onChange={ev => this.updateConstants(entity.with({'pensionLinearPercent' : parseFloat(ev.target.value)/100}))} />
               <div className="constants-edit-buttons">
                 {!isCreatingNewEntity && !isEditingEntity && !this.props.constantsLocalState.isEditing() &&
                 <button type='button' onClick={() => this.updateConstants(entity)}>Edit</button>}
@@ -99,18 +99,18 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
         <div className="constants-entity">
           {isCreatingNewEntity && [
             <div key={2}>{newEntity.date.format(DateFormats.DMY_SLASHES)}</div>,
-            <input key={3} type="number" value={(newEntity.fixedCosts).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'fixedCosts' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />,
-            <input key={4} type="number" value={(newEntity.labourRate*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'labourRate' : parseFloat(ev.target.value)/100}))} />,
-            <input key={5} type="number" value={(newEntity.vatMultiplier).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'vatMultiplier' : parseFloat(ev.target.value)}))} />,
-            <input key={6} type="number" value={(newEntity.barProportionOfRevenue*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'barProportionOfRevenue' : parseFloat(ev.target.value)/100}))} />,
-            <input key={7} type="number" value={(newEntity.hoursPerShortBreak).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerShortBreak' : parseFloat(ev.target.value)}))} />,
-            <input key={8} type="number" value={(newEntity.shortBreakDuration).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'shortBreakDuration' : parseFloat(ev.target.value)}))} />,
-            <input key={9} type="number" value={(newEntity.hoursPerLongBreak).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerLongBreak' : parseFloat(ev.target.value)}))} />,
-            <input key={10} type="number" value={(newEntity.longBreakDuration).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'longBreakDuration' : parseFloat(ev.target.value)}))} />,
-            <input key={11} type="number" value={(newEntity.ersThreshold).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'ersThreshold' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />,
-            <input key={12} type="number" value={(newEntity.ersPercentAboveThreshold*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'ersPercentAboveThreshold' : parseFloat(ev.target.value)/100}))} />,
-            <input key={13} type="number" value={(newEntity.holidayLinearPercent*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'holidayLinearPercent' : parseFloat(ev.target.value)/100}))} />,
-            <input key={14} type="number" value={(newEntity.pensionLinearPercent*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'pensionLinearPercent' : parseFloat(ev.target.value)/100}))} />,
+            <input key={3} type="number" step="0.01" value={(newEntity.fixedCosts).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'fixedCosts' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />,
+            <input key={4} type="number" step="0.01" value={(newEntity.labourRate*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'labourRate' : parseFloat(ev.target.value)/100}))} />,
+            <input key={5} type="number" step="0.01" value={(newEntity.vatMultiplier).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'vatMultiplier' : parseFloat(ev.target.value)}))} />,
+            <input key={6} type="number" step="0.01" value={(newEntity.barProportionOfRevenue*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'barProportionOfRevenue' : parseFloat(ev.target.value)/100}))} />,
+            <input key={7} type="number" step="0.01" value={(newEntity.hoursPerShortBreak).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerShortBreak' : parseFloat(ev.target.value)}))} />,
+            <input key={8} type="number" step="0.01" value={(newEntity.shortBreakDuration).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'shortBreakDuration' : parseFloat(ev.target.value)}))} />,
+            <input key={9} type="number" step="0.01" value={(newEntity.hoursPerLongBreak).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerLongBreak' : parseFloat(ev.target.value)}))} />,
+            <input key={10} type="number" step="0.01" value={(newEntity.longBreakDuration).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'longBreakDuration' : parseFloat(ev.target.value)}))} />,
+            <input key={11} type="number" step="0.01" value={(newEntity.ersThreshold).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'ersThreshold' : validateCash(ev.target.value, newEntity.fixedCosts)}))} />,
+            <input key={12} type="number" step="0.01" value={(newEntity.ersPercentAboveThreshold*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'ersPercentAboveThreshold' : parseFloat(ev.target.value)/100}))} />,
+            <input key={13} type="number" step="0.01" value={(newEntity.holidayLinearPercent*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'holidayLinearPercent' : parseFloat(ev.target.value)/100}))} />,
+            <input key={14} type="number" step="0.01" value={(newEntity.pensionLinearPercent*100).toFixed(2)} onChange={ev => this.updateNewConstants(newEntity.with({'pensionLinearPercent' : parseFloat(ev.target.value)/100}))} />,
             ]}
           
           <div className="constants-edit-buttons">
