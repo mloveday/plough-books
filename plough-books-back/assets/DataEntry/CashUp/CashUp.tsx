@@ -9,6 +9,7 @@ import {CashUpSection} from "../../Enum/CashUpSection";
 import {AppState} from "../../redux";
 import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
+import {Formatting} from "../../Util/Formatting";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
@@ -105,6 +106,48 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             </div>
             <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}><FontAwesomeIcon icon="save" /> Save</button>
           </div>
+
+          <div className={`z-read-summary`}>
+            <div className={`summary-stat`}>
+              <div>Total in drawer inc receipts</div>
+              <div>{Formatting.formatCash(this.getCashUp().getTotalRevenue())}</div>
+            </div>
+            <div className={`summary-stat`}>
+              <div>Como in drawer</div>
+              <div>{Formatting.formatCash(this.getCashUp().comoInDrawer)}</div>
+            </div>
+            <div className={`summary-stat`}>
+              <div>Comps</div>
+              <div>{Formatting.formatCash(this.getCashUp().getTotalComps())}</div>
+            </div>
+
+            <div className={`summary-stat`}>
+              <div>Expected z read</div>
+              <div>{Formatting.formatCash(this.getCashUp().getTotalComps() + this.getCashUp().getTotalRevenue() + this.getCashUp().comoInDrawer)}</div>
+            </div>
+            <div className={`summary-stat`}>
+              <div>Actual z read</div>
+              <div>{Formatting.formatCash(this.getCashUp().getTotalZRead())}</div>
+            </div>
+            <div className={`summary-stat`}>
+              <div>Variance</div>
+              <div>{Formatting.formatCash(this.getCashUp().getZReadVariance())}</div>
+            </div>
+
+            <div className={`summary-stat`}>
+              <div>Visa/Amex fill in total</div>
+              <div>{Formatting.formatCash(this.getCashUp().amexTots + this.getCashUp().visaMcTots)}</div>
+            </div>
+            <div className={`summary-stat`}>
+              <div>Visa/Amex in tills</div>
+              <div>{Formatting.formatCash(this.getCashUp().tills.reduce((prev, curr) => prev + curr.visa + curr.amex,0))}</div>
+            </div>
+            <div className={`summary-stat`}>
+              <div>Variance</div>
+              <div>{Formatting.formatCash(this.getCashUp().amexTots + this.getCashUp().visaMcTots - this.getCashUp().tills.reduce((prev, curr) => prev + curr.visa + curr.amex,0))}</div>
+            </div>
+          </div>
+
           <ul className='cash-up-link-list'>
             {Array.from(this.sectionOrder.values()).map((sectionPosition, key) => (
               <li className='cash-up-link-item' key={key}>
@@ -113,7 +156,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             ))}
           </ul>
 
-          {sectionShown === CashUpSection.TILLS && <div className="form-group">
+          {sectionShown === CashUpSection.TILLS &&
+          <div className="form-group">
             <div className="till-labels">
               <div className="till-label">1</div>
               <div className="till-label">2</div>
@@ -183,9 +227,19 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'5p'}
                             groupIdentifier={'five_p_tills'} tillProperty={'fivePence'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label z_label">Z</h4>
+            <div className={`section-line`}/>
+            <h4 className="group-label z_label">Z read</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'} groupIdentifier={'z_tills'}
                             tillProperty={'zRead'} tills={this.getCashUp().tills}/>
+            <div className={`section-line`}/>
+            <h4 className="group-label z_label">Z variance</h4>
+            <div className={`per-till diff`}>
+              {this.getCashUp().tills.map((till, index) =>
+                <div className="label-and-input" key={index}>
+                  <div>{Formatting.formatCash(till.totalTaken() - till.zRead)}</div>
+                </div>
+              )}
+            </div>
           </div>}
 
           {sectionShown === CashUpSection.DISCOUNTS && <div className="form-group">

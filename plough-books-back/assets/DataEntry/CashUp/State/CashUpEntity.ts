@@ -135,4 +135,16 @@ export class CashUpEntity {
       + this.visaMcTots - this.tills.reduce((prev, curr) => prev + curr.visa,0)
       + this.chargeToAccount + this.depositRedeemed;
   }
+
+  public getTotalZRead(): number {
+  return this.tills.reduce((prev, curr) => prev + curr.zRead, 0);
+  }
+
+  public getTotalComps(): number {
+    return this.compsWet + this.dCustomersCoffee + this.dCustomersDry + this.dCustomersWet + this.fwtWet;
+  }
+
+  public getZReadVariance(): number {
+    return this.getTotalComps() + this.getTotalRevenue() + this.comoInDrawer - this.getTotalZRead();
+  }
 }
