@@ -34,6 +34,14 @@
     "webpack-notifier": "^1.6.0"
   },
   "license": "UNLICENSED",
+  "name": "plough-books",
+  "description": "Book keeping and rota management for the Plough Harborne",
+  "homepage": "https://github.com/mloveday/plough-books",
+  "readme": "../readme.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mloveday/plough-books"
+  },
   "private": true,
   "scripts": {
     "dev-server": "encore dev-server",
