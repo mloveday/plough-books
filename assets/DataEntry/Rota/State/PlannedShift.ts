@@ -39,14 +39,14 @@ export class PlannedShift {
     return (time.isSameOrAfter(this.startTime) && time.isBefore(this.endTime));
   }
 
-  public with(o: any) {
+  public with(o: any): PlannedShift {
     const obj = Object.assign({}, o);
     obj.staffMember = obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember;
     obj.staffRole = obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole;
     obj.startTime = obj.startTime ? moment.utc(obj.startTime) : this.startTime.clone();
     obj.endTime = obj.endTime ? moment.utc(obj.endTime) : this.endTime.clone();
-    obj.startTimeInputValue = obj.startTime.format('HH:mm');
-    obj.endTimeInputValue = obj.endTime.format('HH:mm');
+    obj.startTimeInputValue = obj.startTimeInputValue ? obj.startTimeInputValue : this.startTimeInputValue;
+    obj.endTimeInputValue = obj.endTimeInputValue ? obj.endTimeInputValue : this.endTimeInputValue;
     return Object.assign(
       new PlannedShift(this.staffMember, this.staffRole, this.status, this.hourlyRate, this.startTime, this.endTime, this.totalBreaks, this.type),
       {id: this.id},

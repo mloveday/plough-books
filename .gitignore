@@ -1,4 +1,5 @@
-/plough-books-back/
+/test/output
+
 ###> symfony/framework-bundle ###
 /.env
 /bin/

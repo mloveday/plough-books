@@ -3,7 +3,7 @@ databases:
   user: dev
   password: secret
 folders:
-  - map: ../plough-books-back
+  - map: ../
     to: /vagrant/code
 sites:
 - url: localhost

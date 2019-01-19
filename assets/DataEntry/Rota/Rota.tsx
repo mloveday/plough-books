@@ -171,7 +171,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
                             {editingDisabled ? (
                               <div>{plannedShift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
                             ) : (
-                              <input disabled={editingDisabled} type='time' step={1800} className="rota-time-input"
+                              <input disabled={editingDisabled} type='time' className="rota-time-input"
                                      value={plannedShift.startTimeInputValue}
                                      onChange={ev => this.startTimeHandler(ev.target.value, plannedShift)}
                               />
@@ -181,7 +181,7 @@ class RotaComponent extends React.Component<RotaProps, {}> {
                             {editingDisabled ? (
                               <div>{plannedShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
                             ) : (
-                              <input type='time' step={1800} className="rota-time-input"
+                              <input type='time' className="rota-time-input"
                                      value={plannedShift.endTimeInputValue}
                                      onChange={ev => this.endTimeHandler(ev.target.value, plannedShift)}
                               />
