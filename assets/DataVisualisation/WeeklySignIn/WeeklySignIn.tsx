@@ -86,7 +86,7 @@ class WeeklySignInComponent extends React.Component<WeeklySignInProps, {}> {
           {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
             .map((rota, key) => (
               <div key={key} className="sign-in-column">
-                <div className="date-header">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+                <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>
                 <div className="shift">
                   <div>Start</div>
                   <div>End</div>
@@ -141,7 +141,7 @@ class WeeklySignInComponent extends React.Component<WeeklySignInProps, {}> {
           {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
             .map((rota, key) => (
               <div key={key} className="sign-in-column">
-                <div className="date-header">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+                <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>
                 <div className="shift">
                   <div>Start</div>
                   <div>End</div>

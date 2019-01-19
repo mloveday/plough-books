@@ -108,7 +108,7 @@ class SignInComponent extends React.Component<SignInProps, {}> {
     const editingDisabled = !this.getRota().canEditSignIn();
     return (
       <div>
-        <h1 className="rota-title">{this.props.match.params.type} Sign-in {this.getRota().date.format(DateFormats.READABLE_WITH_YEAR)}</h1>
+        <h1 className="rota-title">{this.props.match.params.type} Sign-in {this.getRota().getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
         <DatePicker dateParam={this.props.match.params.date} urlFromDate={(date: moment.Moment) => Routes.signInUrl(date, this.props.match.params.type)}/>
         <div className="rota-overview">
           <div className="rota-stat">

@@ -86,7 +86,7 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
           {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
             .map((rota, key) => (
               <div key={key} className="rota-column">
-                <div className="date-header">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+                <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>
                 <div className="shift">
                   <div>Start</div>
                   <div>End</div>
@@ -129,7 +129,7 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
           {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
             .map((rota, key) => (
               <div key={key} className="rota-column">
-                <div className="date-header">{rota.date.format(DateFormats.READABLE_NO_YEAR)}</div>
+                <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>
                 <div className="shift">
                   <div>Start</div>
                   <div>End</div>

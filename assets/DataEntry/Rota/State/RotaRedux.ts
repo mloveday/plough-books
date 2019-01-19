@@ -70,7 +70,7 @@ export const rotaCreate = (rota: RotaEntity) => {
       },
       method: 'POST',
     })
-      .then(d => dispatch(rotaCreateSuccess({date: moment.utc(rota.date), response: d})))
+      .then(d => dispatch(rotaCreateSuccess({date: rota.getDate(), response: d})))
       .catch(e => dispatch(rotaCreateError(e)))
       ;
   }
@@ -79,7 +79,7 @@ export const rotaCreate = (rota: RotaEntity) => {
 export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(weeklyRotasCreate(rotas));
-    dispatch(weeklyRotasCreateStart({date: rotas[0].date, response: rotas}));
+    dispatch(weeklyRotasCreateStart({date: rotas[0].getDate(), response: rotas}));
     return authenticatedFetch('/weekly-planning', () => dispatch(invalidUser([thisDispatchable])), {
       body: JSON.stringify(rotas.map(rota => rota.forApi())),
       headers: {
@@ -87,7 +87,7 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
       },
       method: 'POST',
     })
-      .then(d => dispatch(weeklyRotasCreateSuccess({date: Array.from(rotas.values())[0].date, response: d})))
+      .then(d => dispatch(weeklyRotasCreateSuccess({date: Array.from(rotas.values())[0].getDate(), response: d})))
       .catch(e => dispatch(weeklyRotasCreateError(e)))
       ;
   }

@@ -5,7 +5,7 @@ export class Constants extends EditableEntity {
 
   public static default() {
     return new Constants(
-      moment.utc(),
+      moment.utc().startOf('day'),
       0,
       0,
       1,

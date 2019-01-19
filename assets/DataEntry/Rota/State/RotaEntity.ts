@@ -12,18 +12,18 @@ export class RotaEntity {
   public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
   public static default() {
     return new RotaEntity(
-      moment.utc(),
+      moment.utc().startOf('day'),
       0,
       0,
       Constants.default(),
       RotaStatus.NEW,
       [],
       [],
-    );
+    ).with({});
   }
 
   public readonly id: number;
-  public readonly date: moment.Moment;
+  public readonly date: string;
   public readonly forecastRevenue: number;
   public readonly targetLabourRate: number;
   public readonly constants: Constants;
@@ -32,7 +32,7 @@ export class RotaEntity {
   public readonly actualShifts: ActualShift[];
 
   constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
-    this.date = moment.utc(date);
+    this.date = date.format(DateFormats.API);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
     this.constants = constants;
@@ -43,7 +43,7 @@ export class RotaEntity {
   
   public with(o: any): RotaEntity {
     const obj = Object.assign({}, o);
-    obj.date = obj.date ? moment.utc(obj.date) : this.date.clone();
+    obj.date = obj.date ? moment.utc(obj.date).format(DateFormats.API) : this.date;
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
       ? obj.plannedShifts.map((plannedShift: any) => PlannedShift.default().with(plannedShift))
@@ -54,11 +54,11 @@ export class RotaEntity {
       : this.actualShifts.map(actualShift => actualShift.with({})))
       .sort((a: ActualShift, b: ActualShift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     if (!obj.targetLabourRate && this.targetLabourRate === 0) {
-      obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[obj.date.isoWeekday()-1];
+      obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
     }
     return Object.assign(
       new RotaEntity(
-        this.date,
+        this.getDate(),
         this.forecastRevenue,
         this.targetLabourRate,
         this.constants,
@@ -75,9 +75,8 @@ export class RotaEntity {
     return Object.assign(
       this,
       {
-        actualShifts: this.actualShifts.map(actualShift => actualShift.forApi(this.date.clone())),
-        date: this.date.clone().format(DateFormats.API),
-        plannedShifts: this.plannedShifts.map(plannedShift => plannedShift.forApi(this.date.clone())),
+        actualShifts: this.actualShifts.map(actualShift => actualShift.forApi(this.getDate())),
+        plannedShifts: this.plannedShifts.map(plannedShift => plannedShift.forApi(this.getDate())),
       }
     );
   }
@@ -145,6 +144,10 @@ export class RotaEntity {
 
   public canEditSignIn() {
     return this.status === RotaStatus.ROTA_COMPLETE;
+  }
+
+  public getDate(): moment.Moment {
+    return moment.utc(this.date);
   }
 
   public getReadableStatus() {

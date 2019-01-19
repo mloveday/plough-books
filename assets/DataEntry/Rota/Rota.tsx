@@ -2,7 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {match} from "react-router";
+import {match, Prompt} from "react-router";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Enum/RotaStatus";
@@ -118,9 +118,14 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     });
     const sortedRoles = visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
     const editingDisabled = !this.getRota().canEditRota();
+    if (!this.props.staffRolesExternalState.isLoaded()
+      || !this.getRota()
+      || !this.props.staffMembersExternalState.isLoaded()) {
+      return null;
+    }
     return (
       <div>
-        <h1 className="rota-title">{this.props.match.params.type} Rota {this.getRota().date.format(DateFormats.READABLE_WITH_YEAR)}</h1>
+        <h1 className="rota-title">{this.props.match.params.type} Rota {this.getRota().getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
         <DatePicker dateParam={this.props.match.params.date} urlFromDate={(date: moment.Moment) => Routes.rotaUrl(date, this.props.match.params.type)}/>
         <div className="rota-overview">
           <div className="rota-stat">
@@ -150,6 +155,10 @@ class RotaComponent extends React.Component<RotaProps, {}> {
               <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
             ))}
           </div>
+          {this.props.staffRolesExternalState.isLoaded()
+          && this.getRota()
+          && this.props.staffMembersExternalState.isLoaded()
+          && <Prompt when={JSON.stringify(this.getRota().forApi()) !== JSON.stringify(this.getExternalRota().forApi())} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>}
           {     this.props.staffRolesExternalState.isLoaded()
             &&  this.getRota()
             &&  this.props.staffMembersExternalState.isLoaded()
@@ -220,10 +229,15 @@ class RotaComponent extends React.Component<RotaProps, {}> {
         </div>
       </div>)
   }
-  
+
   private getRota(): RotaEntity {
     const localState = this.props.rotaLocalStates.getRotaForDate(moment.utc(this.props.match.params.date));
     return localState === undefined ? RotaEntity.default() : localState;
+  }
+
+  private getExternalRota(): RotaEntity {
+    const state = this.props.rotaExternalState.rotasForWeek.getRotaForDate(moment.utc(this.props.match.params.date));
+    return state === undefined ? RotaEntity.default() : state;
   }
 
   private formUpdate(obj: {}) {
