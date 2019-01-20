@@ -10,6 +10,7 @@ import {AppState} from "../../redux";
 import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
@@ -21,11 +22,11 @@ import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.scss';
 import {Constants} from "./State/Constants";
-import {PlannedShift} from "./State/PlannedShift";
 import {RotaEntity} from "./State/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
+import {Shift} from "./State/Shift";
 import {StaffMember} from "./State/StaffMember";
 import {StaffRole} from "./State/StaffRole";
 
@@ -97,8 +98,8 @@ class RotaComponent extends React.Component<RotaProps, {}> {
 
   public render() {
     const today = moment.utc(this.props.match.params.date);
-    const startTime = moment.utc(this.props.match.params.date).set('hour', this.DAY_START_HOUR).set('minute', 0);
-    const endTime = moment.utc(this.props.match.params.date).add(1, 'day').set('hour', this.DAY_START_HOUR).set('minute', 0);
+    const startTime = momentFromDateAndTime(this.props.match.params.date, `0${this.DAY_START_HOUR}:00`);
+    const endTime = momentFromDateAndTime(this.props.match.params.date, `0${this.DAY_START_HOUR}:00`).add(1, 'day');
     const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
     const timePeriods: moment.Moment[] = [];
     for (let i=0; i<numberOfTimePeriods; i++) {
@@ -155,77 +156,73 @@ class RotaComponent extends React.Component<RotaProps, {}> {
               <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
             ))}
           </div>
-          {this.props.staffRolesExternalState.isLoaded()
-          && this.getRota()
-          && this.props.staffMembersExternalState.isLoaded()
-          && <Prompt when={JSON.stringify(this.getRota().forApi()) !== JSON.stringify(this.getExternalRota().forApi())} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>}
-          {     this.props.staffRolesExternalState.isLoaded()
-            &&  this.getRota()
-            &&  this.props.staffMembersExternalState.isLoaded()
-            && sortedRoles.map((role, roleKey) => {
-                const shifts = this.getRota().plannedShifts
-                  .filter(plannedShift => plannedShift.staffRole.id === role.id && plannedShift.type === this.props.match.params.type);
-                if (shifts.length > 0 || !editingDisabled) {
-                  return (
-                    <div className="rota-role-group" key={roleKey}>
-                      <div className="rota-role-header">{role.role}</div>
-                      {shifts.map((plannedShift, shiftKey) => (
-                        <div className="rota-shift" key={shiftKey}>
-                          <div className="rota-staff-name">{plannedShift.staffMember.name}</div>
-                          <div className="rota-remove-shift">
-                            {!editingDisabled && <button className="rota-remove-shift-button" type='button'
-                                                         onClick={() => this.removePlannedShift(plannedShift)}><FontAwesomeIcon icon="trash" /></button>}
-                          </div>
-                          <div className="rota-start-time">
-                            {editingDisabled ? (
-                              <div>{plannedShift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                            ) : (
-                              <input disabled={editingDisabled} type='time' className="rota-time-input"
-                                     value={plannedShift.startTimeInputValue}
-                                     onChange={ev => this.startTimeHandler(ev.target.value, plannedShift)}
-                              />
-                            )}
-                          </div>
-                          <div className="rota-end-time">
-                            {editingDisabled ? (
-                              <div>{plannedShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                            ) : (
-                              <input type='time' className="rota-time-input"
-                                     value={plannedShift.endTimeInputValue}
-                                     onChange={ev => this.endTimeHandler(ev.target.value, plannedShift)}
-                              />
-                            )}
-                          </div>
-                          <div className="rota-breaks">{plannedShift.totalBreaks * 60} mins</div>
-                          {timePeriods.map((timePeriod, periodKey) => (
-                            <div
-                              className={plannedShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"}
-                              key={periodKey}/>
-                          ))}
-                        </div>
+          <Prompt when={this.getRota().touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
+          {sortedRoles.map((role, roleKey) => {
+            const shifts = this.getRota().plannedShifts
+              .filter(plannedShift => plannedShift.staffRole.id === role.id && plannedShift.type === this.props.match.params.type);
+            if (shifts.length > 0 || !editingDisabled) {
+              return (
+                <div className="rota-role-group" key={roleKey}>
+                  <div className="rota-role-header">{role.role}</div>
+                  {shifts.map((plannedShift, shiftKey) => (
+                    <div className="rota-shift" key={shiftKey}>
+                      <div className="rota-staff-name">{plannedShift.staffMember.name}</div>
+                      <div className="rota-remove-shift">
+                        {!editingDisabled && <button className="rota-remove-shift-button" type='button'
+                                                     onClick={() => this.removePlannedShift(plannedShift)}>
+                          <FontAwesomeIcon icon="trash"/></button>}
+                      </div>
+                      <div className="rota-start-time">
+                        {editingDisabled ? (
+                          <div>{plannedShift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
+                        ) : (
+                          <input disabled={editingDisabled} type='time' className="rota-time-input"
+                                 value={plannedShift.startTimeInputValue}
+                                 onChange={ev => this.startTimeHandler(ev.target.value, plannedShift)}
+                          />
+                        )}
+                      </div>
+                      <div className="rota-end-time">
+                        {editingDisabled ? (
+                          <div>{plannedShift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
+                        ) : (
+                          <input type='time' className="rota-time-input"
+                                 value={plannedShift.endTimeInputValue}
+                                 onChange={ev => this.endTimeHandler(ev.target.value, plannedShift)}
+                          />
+                        )}
+                      </div>
+                      <div className="rota-breaks">{plannedShift.totalBreaks * 60} mins</div>
+                      {timePeriods.map((timePeriod, periodKey) => (
+                        <div
+                          className={plannedShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"}
+                          key={periodKey}/>
                       ))}
-                      <div className="rota-horizontal-spacer"/>
-                      {!editingDisabled && unusedMembers
-                        .filter(member => member.role.id === role.id)
-                        .map((member, shiftKey) => (
-                          <div className="rota-shift no-shift" key={shiftKey}>
-                            <div className="rota-staff-name">{member.name}</div>
-                            <div className="rota-remove-shift"/>
-                            <div className="rota-new-shift">
-                              <button onClick={() => this.newShiftHandler(member)} type="button"><FontAwesomeIcon icon="plus-circle" /> </button>
-                            </div>
-                            <div className="rota-new-shift-spacer"/>
-                            <div className="rota-new-shift-spacer"/>
-                            {timePeriods.map((timePeriod, periodKey) => (
-                              <div className="rota-time" key={periodKey}/>
-                            ))}
-                          </div>
+                    </div>
+                  ))}
+                  <div className="rota-horizontal-spacer"/>
+                  {!editingDisabled && unusedMembers
+                    .filter(member => member.role.id === role.id)
+                    .map((member, shiftKey) => (
+                      <div className="rota-shift no-shift" key={shiftKey}>
+                        <div className="rota-staff-name">{member.name}</div>
+                        <div className="rota-remove-shift"/>
+                        <div className="rota-new-shift">
+                          <button onClick={() => this.newShiftHandler(member)} type="button"><FontAwesomeIcon
+                            icon="plus-circle"/></button>
+                        </div>
+                        <div className="rota-new-shift-spacer"/>
+                        <div className="rota-new-shift-spacer"/>
+                        {timePeriods.map((timePeriod, periodKey) => (
+                          <div className="rota-time" key={periodKey}/>
                         ))}
-                    </div>);
-                }
-                return null;
-              }
-            )}
+                      </div>
+                    ))}
+                </div>);
+            }
+            return null;
+            }
+          )}
         </div>
       </div>)
   }
@@ -235,58 +232,41 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     return localState === undefined ? RotaEntity.default() : localState;
   }
 
-  private getExternalRota(): RotaEntity {
-    const state = this.props.rotaExternalState.rotasForWeek.getRotaForDate(moment.utc(this.props.match.params.date));
-    return state === undefined ? RotaEntity.default() : state;
-  }
-
   private formUpdate(obj: {}) {
     this.props.updateRotaLocalState(
-      [this.getRota().with(obj)]
+      [this.getRota().touchedWith(obj)]
     );
   }
 
   private newShiftHandler(member: StaffMember) {
-    const time = moment.utc(this.props.match.params.date).startOf('day');
-    this.addPlannedShift(PlannedShift.default().with({type: this.props.match.params.type, staffMember: member, staffRole: member.role, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
+    this.addPlannedShift(Shift.default().with({type: this.props.match.params.type, date: this.getRota().date, staffMember: member, staffRole: member.role, hourlyRate: member.currentHourlyRate}));
   }
 
-  private startTimeHandler(value: string, plannedShift: PlannedShift) {
-    const time = moment.utc(`${plannedShift.startTime.format(DateFormats.API)} ${value}`);
-    if (this.isBeforeRotaStarts(time)) {
-      time.add(1, 'days');
+  private startTimeHandler(value: string, plannedShift: Shift) {
+    let time = momentFromDateAndTime(plannedShift.date, value);
+    if (time.hour() < this.DAY_START_HOUR) {
+      time = momentFromDateAndTime(plannedShift.date, '06:00');
+      value = time.format('HH:mm');
     }
-    if (this.isAfterRotaEnds(time)) {
-      time.subtract(1, 'days');
-    }
-    if (time.isAfter(plannedShift.endTime)) {
-      this.updatePlannedShift(plannedShift.with({startTimeInputValue: value, startTime: time, endTime: time, totalBreaks: this.getExpectedBreaks(time, plannedShift.endTime)}));
+    const formattedTime = time.format('HH:mm');
+    if (time.isSameOrAfter(plannedShift.getEndTime())) {
+      this.updatePlannedShift(plannedShift.with({startTimeInputValue: value, startTime: formattedTime, endTimeInputValue: formattedTime, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, plannedShift.getEndTime())}));
     } else {
-      this.updatePlannedShift(plannedShift.with({startTimeInputValue: value, startTime: time, totalBreaks: this.getExpectedBreaks(time, plannedShift.endTime)}));
+      this.updatePlannedShift(plannedShift.with({startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, plannedShift.getEndTime())}));
     }
   }
 
-  private endTimeHandler(value: string, plannedShift: PlannedShift) {
-    const time = moment.utc(`${plannedShift.endTime.format(DateFormats.API)} ${value}`);
-    if (this.isBeforeRotaStarts(time)) {
-      time.add(1, 'days');
+  private endTimeHandler(value: string, plannedShift: Shift) {
+    const time = momentFromDateAndTime(plannedShift.date, value);
+    if (time.hour() < this.DAY_START_HOUR) {
+      time.add(1, 'day');
     }
-    if (this.isAfterRotaEnds(time)) {
-      time.subtract(1, 'days');
-    }
-    if (time.isBefore(plannedShift.startTime)) {
-      this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: time, startTime: time, totalBreaks: this.getExpectedBreaks(plannedShift.startTime, time)}));
+    const formattedTime = time.format('HH:mm');
+    if (time.isSameOrBefore(plannedShift.getStartTime())) {
+      this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: formattedTime, startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(plannedShift.getStartTime(), time)}));
     } else {
-      this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: time, totalBreaks: this.getExpectedBreaks(plannedShift.startTime, time)}));
+      this.updatePlannedShift(plannedShift.with({endTimeInputValue: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(plannedShift.getStartTime(), time)}));
     }
-  }
-
-  private isBeforeRotaStarts(time: moment.Moment) {
-    return time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day');
-  }
-
-  private isAfterRotaEnds(time: moment.Moment) {
-    return time.hour() >= this.DAY_START_HOUR && !time.isSame(this.getRota().date, 'day');
   }
 
   private getExpectedBreaks(startTime: moment.Moment, endTime: moment.Moment): number {
@@ -300,18 +280,18 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     return 0;
   }
 
-  private addPlannedShift(plannedShift: PlannedShift) {
+  private addPlannedShift(plannedShift: Shift) {
     const clonedPlannedShifts = this.getRota().plannedShifts.map(shift => shift.clone());
     clonedPlannedShifts.push(plannedShift);
     this.formUpdate({plannedShifts: clonedPlannedShifts});
   }
 
-  private updatePlannedShift(plannedShift: PlannedShift) {
+  private updatePlannedShift(plannedShift: Shift) {
     const clonedPlannedShifts = this.getRota().plannedShifts.map(shift => shift.staffMember.id === plannedShift.staffMember.id ? plannedShift : shift.clone());
     this.formUpdate({plannedShifts: clonedPlannedShifts});
   }
 
-  private removePlannedShift(plannedShift: PlannedShift) {
+  private removePlannedShift(plannedShift: Shift) {
     const clonedPlannedShifts = this.getRota().plannedShifts
       .filter(shift => shift.staffMember.id !== plannedShift.staffMember.id)
       .map(shift => shift.clone());

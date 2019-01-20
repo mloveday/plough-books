@@ -3,9 +3,8 @@ import {RotaStatus} from "../../../Enum/RotaStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
-import {ActualShift} from "./ActualShift";
 import {Constants} from "./Constants";
-import {PlannedShift} from "./PlannedShift";
+import {Shift} from "./Shift";
 
 export class RotaEntity {
 
@@ -28,10 +27,11 @@ export class RotaEntity {
   public readonly targetLabourRate: number;
   public readonly constants: Constants;
   public readonly status: RotaStatus;
-  public readonly plannedShifts: PlannedShift[];
-  public readonly actualShifts: ActualShift[];
+  public readonly plannedShifts: Shift[];
+  public readonly actualShifts: Shift[];
+  public readonly touched: boolean = false;
 
-  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: PlannedShift[], actualShifts: ActualShift[]) {
+  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[]) {
     this.date = date.format(DateFormats.API);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
@@ -40,19 +40,23 @@ export class RotaEntity {
     this.plannedShifts = plannedShifts;
     this.actualShifts = actualShifts;
   }
+
+  public touchedWith(o: any): RotaEntity {
+    return this.with(Object.assign({touched: true}, o));
+  }
   
   public with(o: any): RotaEntity {
     const obj = Object.assign({}, o);
     obj.date = obj.date ? moment.utc(obj.date).format(DateFormats.API) : this.date;
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((plannedShift: any) => PlannedShift.default().with(plannedShift))
+      ? obj.plannedShifts.map((plannedShift: any) => Shift.default().with(Object.assign({date: obj.date}, plannedShift)))
       : this.plannedShifts.map(plannedShift => plannedShift.with({})))
-      .sort((a: PlannedShift, b: PlannedShift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     obj.actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((actualShift: any) => ActualShift.default().with(actualShift))
+      ? obj.actualShifts.map((actualShift: any) => Shift.default().with(Object.assign({date: obj.date}, actualShift)))
       : this.actualShifts.map(actualShift => actualShift.with({})))
-      .sort((a: ActualShift, b: ActualShift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     if (!obj.targetLabourRate && this.targetLabourRate === 0) {
       obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
     }
@@ -75,8 +79,8 @@ export class RotaEntity {
     return Object.assign(
       this,
       {
-        actualShifts: this.actualShifts.map(actualShift => actualShift.forApi(this.getDate())),
-        plannedShifts: this.plannedShifts.map(plannedShift => plannedShift.forApi(this.getDate())),
+        actualShifts: this.actualShifts.map(actualShift => actualShift.forApi()),
+        plannedShifts: this.plannedShifts.map(plannedShift => plannedShift.forApi()),
       }
     );
   }
@@ -132,7 +136,8 @@ export class RotaEntity {
   }
 
   public getTotalRunningLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
-    const rawCost = (this.actualShifts.length > 0 ? this.actualShifts : this.plannedShifts)
+    const shifts = (this.actualShifts.length > 0 ? this.actualShifts : this.plannedShifts);
+    const rawCost = shifts
       .filter(s => s.type === type)
       .reduce<number>((a, b) => a + b.getRawCost(), 0);
     return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);

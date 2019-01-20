@@ -12,13 +12,13 @@ export class RotasForWeek {
   public static defaultForWeek(dayInWeek: moment.Moment) {
     const startOfWeek = moment.utc(dayInWeek).startOf('isoWeek');
     const dates = [
-      {'date': startOfWeek.clone().add(0, 'days')},
-      {'date': startOfWeek.clone().add(1, 'days')},
-      {'date': startOfWeek.clone().add(2, 'days')},
-      {'date': startOfWeek.clone().add(3, 'days')},
-      {'date': startOfWeek.clone().add(4, 'days')},
-      {'date': startOfWeek.clone().add(5, 'days')},
-      {'date': startOfWeek.clone().add(6, 'days')},
+      {'date': startOfWeek.clone().add(0, 'days').format(DateFormats.API)},
+      {'date': startOfWeek.clone().add(1, 'days').format(DateFormats.API)},
+      {'date': startOfWeek.clone().add(2, 'days').format(DateFormats.API)},
+      {'date': startOfWeek.clone().add(3, 'days').format(DateFormats.API)},
+      {'date': startOfWeek.clone().add(4, 'days').format(DateFormats.API)},
+      {'date': startOfWeek.clone().add(5, 'days').format(DateFormats.API)},
+      {'date': startOfWeek.clone().add(6, 'days').format(DateFormats.API)},
     ];
     return RotasForWeek.default().with(dates);
   }

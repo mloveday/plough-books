@@ -12,7 +12,7 @@ import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
-import {ActualShift} from "../Rota/State/ActualShift";
+import {Shift} from "../Rota/State/Shift";
 import {RotaEntity} from "../Rota/State/RotaEntity";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "../Rota/State/RotaRedux";
@@ -151,11 +151,11 @@ class SignInComponent extends React.Component<SignInProps, {}> {
                             <div className="rota-staff-name">{actualShift.staffMember.name}</div>
                             <div className="rota-remove-shift">
                               {!editingDisabled && <button className="rota-remove-shift-button" type='button'
-                                                           onClick={() => this.removeActualShift(actualShift)}><FontAwesomeIcon icon="trash" /> </button>}
+                                                           onClick={() => this.removePlannedShift(actualShift)}><FontAwesomeIcon icon="trash" /> </button>}
                             </div>
                             <div className="rota-start-time">
                               {editingDisabled ? (
-                                <div>{actualShift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
+                                <div>{actualShift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
                               ) : (
                                 <input disabled={editingDisabled} type='time' step={1800} className="rota-time-input"
                                        value={actualShift.startTimeInputValue}
@@ -165,12 +165,12 @@ class SignInComponent extends React.Component<SignInProps, {}> {
                             </div>
                             <div className="rota-end-time">
                               {editingDisabled ? (
-                                <div>{actualShift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
+                                <div>{actualShift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
                               ) : (
                                 <input type='time' step={1800} className="rota-time-input" value={actualShift.endTimeInputValue} onChange={ev => this.endTimeHandler(ev.target.value, actualShift)}/>
                               )}
                             </div>
-                            <input className="rota-breaks" value={(actualShift.totalBreaks*60).toFixed(0)} onChange={ev => this.updateActualShift(actualShift.with({totalBreaks: parseInt(ev.target.value, 10)/60}))}/>
+                            <input className="rota-breaks" value={(actualShift.totalBreaks*60).toFixed(0)} onChange={ev => this.updatePlannedShift(actualShift.with({totalBreaks: parseInt(ev.target.value, 10)/60}))}/>
                             {timePeriods.map((timePeriod, periodKey) => (
                               <div className={actualShift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
                             ))}
@@ -215,36 +215,36 @@ class SignInComponent extends React.Component<SignInProps, {}> {
 
   private newShiftHandler(member: StaffMember) {
     const time = moment.utc(this.props.match.params.date).startOf('day');
-    this.addActualShift(ActualShift.default().with({type: this.props.match.params.type, staffMember: member, staffRole: member.role, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
+    this.addPlannedShift(Shift.default().with({type: this.props.match.params.type, staffMember: member, staffRole: member.role, startTime: time.clone().hour(10), endTime: time.clone().hour(17), hourlyRate: member.currentHourlyRate}));
   }
 
-  private startTimeHandler(value: string, actualShift: ActualShift) {
-    const time = moment.utc(`${actualShift.startTime.format(DateFormats.API)} ${value}`);
+  private startTimeHandler(value: string, actualShift: Shift) {
+    const time = moment.utc(`${actualShift.getStartTime().format(DateFormats.API)} ${value}`);
     if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
       time.add(1, 'days');
     }
     if (time.hour() >= this.DAY_START_HOUR && !time.isSame(this.getRota().date, 'day')) {
       time.subtract(1, 'days');
     }
-    if (time.isAfter(actualShift.endTime)) {
-      this.updateActualShift(actualShift.with({startTimeInputValue: value, startTime: time, endTime: time, totalBreaks: this.getExpectedBreaks(time, actualShift.endTime)}));
+    if (time.isAfter(actualShift.getEndTime())) {
+      this.updatePlannedShift(actualShift.with({startTimeInputValue: value, startTime: time, endTime: time, totalBreaks: this.getExpectedBreaks(time, actualShift.getEndTime())}));
     } else {
-      this.updateActualShift(actualShift.with({startTimeInputValue: value, startTime: time, totalBreaks: this.getExpectedBreaks(time, actualShift.endTime)}));
+      this.updatePlannedShift(actualShift.with({startTimeInputValue: value, startTime: time, totalBreaks: this.getExpectedBreaks(time, actualShift.getEndTime())}));
     }
   }
 
-  private endTimeHandler(value: string, actualShift: ActualShift) {
-    const time = moment.utc(`${actualShift.endTime.format(DateFormats.API)} ${value}`);
+  private endTimeHandler(value: string, actualShift: Shift) {
+    const time = moment.utc(`${actualShift.getEndTime().format(DateFormats.API)} ${value}`);
     if (time.hour() < this.DAY_START_HOUR && time.isSame(this.getRota().date, 'day')) {
       time.add(1, 'days');
     }
     if (time.hour() >= this.DAY_START_HOUR && !time.isSame(this.getRota().date, 'day')) {
       time.subtract(1, 'days');
     }
-    if (time.isBefore(actualShift.startTime)) {
-      this.updateActualShift(actualShift.with({endTimeInputValue: value, endTime: time, startTime: time, totalBreaks: this.getExpectedBreaks(actualShift.startTime, time)}));
+    if (time.isBefore(actualShift.getStartTime())) {
+      this.updatePlannedShift(actualShift.with({endTimeInputValue: value, endTime: time, startTime: time, totalBreaks: this.getExpectedBreaks(actualShift.getStartTime(), time)}));
     } else {
-      this.updateActualShift(actualShift.with({endTimeInputValue: value, endTime: time, totalBreaks: this.getExpectedBreaks(actualShift.startTime, time)}));
+      this.updatePlannedShift(actualShift.with({endTimeInputValue: value, endTime: time, totalBreaks: this.getExpectedBreaks(actualShift.getStartTime(), time)}));
     }
   }
 
@@ -260,26 +260,26 @@ class SignInComponent extends React.Component<SignInProps, {}> {
   }
 
   private autoPopulateShifts() {
-    const clonedActualShifts = this.getRota().plannedShifts.map(shift => ActualShift.fromPlannedShift(shift));
-    this.formUpdate({actualShifts: clonedActualShifts});
+    const clonedPlannedShifts = this.getRota().plannedShifts.map(shift => Shift.fromOtherShift(shift));
+    this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 
-  private addActualShift(actualShift: ActualShift) {
-    const clonedActualShifts = this.getRota().actualShifts.map(shift => shift.clone());
-    clonedActualShifts.push(actualShift);
-    this.formUpdate({actualShifts: clonedActualShifts});
+  private addPlannedShift(actualShift: Shift) {
+    const clonedPlannedShifts = this.getRota().actualShifts.map(shift => shift.clone());
+    clonedPlannedShifts.push(actualShift);
+    this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 
-  private updateActualShift(actualShift: ActualShift) {
-    const clonedActualShifts = this.getRota().actualShifts.map(shift => shift.staffMember.id === actualShift.staffMember.id ? actualShift : shift.clone());
-    this.formUpdate({actualShifts: clonedActualShifts});
+  private updatePlannedShift(actualShift: Shift) {
+    const clonedPlannedShifts = this.getRota().actualShifts.map(shift => shift.staffMember.id === actualShift.staffMember.id ? actualShift : shift.clone());
+    this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 
-  private removeActualShift(actualShift: ActualShift) {
-    const clonedActualShifts = this.getRota().actualShifts
+  private removePlannedShift(actualShift: Shift) {
+    const clonedPlannedShifts = this.getRota().actualShifts
       .filter(shift => shift.staffMember.id !== actualShift.staffMember.id)
       .map(shift => shift.clone());
-    this.formUpdate({actualShifts: clonedActualShifts});
+    this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 
   private maintainStateWithUrl() {

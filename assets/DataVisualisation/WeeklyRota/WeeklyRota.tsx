@@ -95,8 +95,8 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
                 {barStaff.map((staffMember, staffKey) => {
                     const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">
-                      <div>{shift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
+                      <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
+                      <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
                       <div>{shift.totalBreaks * 60}</div>
                     </div>) : <div key={staffKey} className="shift"/>;
                   }
@@ -109,7 +109,7 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
               {barStaff.map((staffMember, staffKey) => {
                 const totalHours = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek).reduce((prev, curr) => {
                   const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
-                  return prev + (shift ? shift.endTime.diff(shift.startTime, 'minutes') - shift.totalBreaks*60 : 0);
+                  return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
                 }, 0);
                   return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
                 }
@@ -138,8 +138,8 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
                 {kitchenStaff.map((staffMember, staffKey) => {
                     const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">
-                      <div>{shift.startTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.endTime.format(DateFormats.TIME_LEADING_ZERO)}</div>
+                      <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
+                      <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
                       <div>{shift.totalBreaks * 30}</div>
                     </div>) : <div key={staffKey} className="shift"/>;
                   }
@@ -152,7 +152,7 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
               {kitchenStaff.map((staffMember, staffKey) => {
                   const totalHours = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek).reduce((prev, curr) => {
                     const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
-                    return prev + (shift ? shift.endTime.diff(shift.startTime, 'minutes') - shift.totalBreaks*60 : 0);
+                    return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
                   }, 0);
                   return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
                 }
