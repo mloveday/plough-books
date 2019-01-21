@@ -6,7 +6,7 @@ import {CashUp} from "../../DataEntry/CashUp/CashUp";
 import {ConstantsDataEntry} from "../../DataEntry/Constants/Constants";
 import {Roles} from "../../DataEntry/Role/Roles";
 import {Rota} from "../../DataEntry/Rota/Rota";
-import {SignIn} from "../../DataEntry/SignIn/SignIn";
+import {SignIn} from "../../DataEntry/Rota/SignIn";
 import {StaffMembers} from "../../DataEntry/StaffMembers/StaffMembers";
 import {StaffRoles} from "../../DataEntry/StaffRoles/StaffRoles";
 import {Users} from "../../DataEntry/User/Users";

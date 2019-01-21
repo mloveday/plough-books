@@ -9,9 +9,9 @@ import {
 } from "./RotaAbstract";
 import {Shift} from "./State/Shift";
 
-class RotaComponent extends RotaAbstractComponent {
+class SignInComponent extends RotaAbstractComponent {
   protected getName(): string {
-    return "Rota";
+    return "Sign-in";
   }
 
   protected showStats(): boolean {
@@ -19,28 +19,28 @@ class RotaComponent extends RotaAbstractComponent {
   }
 
   protected getShifts() {
-    return this.getRota().plannedShifts;
+    return this.getRota().actualShifts;
   }
 
   protected addShift(shiftToAdd: Shift) {
     const clonedShifts = this.getShifts().map(shift => shift.clone());
     clonedShifts.push(shiftToAdd);
-    this.formUpdate({plannedShifts: clonedShifts});
+    this.formUpdate({actualShifts: clonedShifts});
   }
 
   protected updateShift(shiftToUpdate: Shift) {
     const clonedShifts = this.getShifts().map(shift => shift.staffMember.id === shiftToUpdate.staffMember.id ? shiftToUpdate : shift.clone());
-    this.formUpdate({plannedShifts: clonedShifts});
+    this.formUpdate({actualShifts: clonedShifts});
   }
 
   protected removeShift(shiftToRemove: Shift) {
     const clonedShifts = this.getShifts()
       .filter(shift => shift.staffMember.id !== shiftToRemove.staffMember.id)
       .map(shift => shift.clone());
-    this.formUpdate({plannedShifts: clonedShifts});
+    this.formUpdate({actualShifts: clonedShifts});
   }
 }
-export const Rota = connect<RotaAbstractStateProps, RotaAbstractDispatchProps, RotaAbstractOwnProps>(
+export const SignIn = connect<RotaAbstractStateProps, RotaAbstractDispatchProps, RotaAbstractOwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(RotaComponent);
+)(SignInComponent);
