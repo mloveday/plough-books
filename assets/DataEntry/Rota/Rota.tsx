@@ -124,6 +124,9 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       || !this.props.staffMembersExternalState.isLoaded()) {
       return null;
     }
+    if (this.props.constantsExternalState.isLoaded() && this.props.constantsExternalState.externalState.entities.length === 0) {
+      return (<div>No constants found. Cannot create a rota without constants.</div>)
+    }
     return (
       <div>
         <h1 className="rota-title">{this.props.match.params.type} Rota {this.getRota().getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
@@ -232,10 +235,16 @@ class RotaComponent extends React.Component<RotaProps, {}> {
     return localState === undefined ? RotaEntity.default() : localState;
   }
 
-  private formUpdate(obj: {}) {
-    this.props.updateRotaLocalState(
-      [this.getRota().touchedWith(obj)]
-    );
+  private formUpdate(obj: {}, touched: boolean = true) {
+    if (touched) {
+      this.props.updateRotaLocalState(
+        [this.getRota().touchedWith(obj)]
+      );
+    } else {
+      this.props.updateRotaLocalState(
+        [this.getRota().with(obj)]
+      );
+    }
   }
 
   private newShiftHandler(member: StaffMember) {
@@ -320,8 +329,11 @@ class RotaComponent extends React.Component<RotaProps, {}> {
       this.props.fetchRotaForDate(moment.utc(paramDate));
       return;
     }
+    if (this.props.constantsExternalState.isLoaded() && this.props.constantsExternalState.externalState.entities.length === 0) {
+      return;
+    }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && !this.getRota().constants.id && this.props.constantsExternalState.externalState) {
-      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()});
+      this.formUpdate({type: this.props.match.params.type, constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}, false);
     }
   }
 }
