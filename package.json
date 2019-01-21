@@ -59,7 +59,8 @@
     "dev": "encore dev",
     "watch": "encore dev --watch",
     "build": "encore production --progress",
-    "test": "jest --coverage --watchAll --config ./jest.config.js"
+    "test": "jest --watchAll --config ./jest.config.js",
+    "coverage": "jest --coverage --watchAll --config ./jest.config.js"
   },
   "dependencies": {
     "lodash": "^4.17.11",
