@@ -15,6 +15,14 @@ export class Shift {
     return new Shift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.date, shift.startTime, shift.endTime, shift.totalBreaks, shift.type);
   }
 
+  public static fromApi(o: any, date: string): Shift {
+    const obj = Object.assign({}, o);
+    obj.date = date;
+    obj.startTime = obj.startTime ? moment.utc(obj.startTime).format('HH:mm') : undefined;
+    obj.endTime = obj.endTime ? moment.utc(obj.endTime).format('HH:mm') : undefined;
+    return Shift.default().with(obj);
+  }
+
   public readonly id: number;
   public readonly staffMember: StaffMember;
   public readonly staffRole: StaffRole;

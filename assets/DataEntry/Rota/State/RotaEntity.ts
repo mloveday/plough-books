@@ -50,11 +50,11 @@ export class RotaEntity {
     obj.date = obj.date ? moment.utc(obj.date).format(DateFormats.API) : this.date;
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((plannedShift: any) => Shift.default().with(Object.assign({date: obj.date}, plannedShift)))
+      ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, obj.date))
       : this.plannedShifts.map(plannedShift => plannedShift.with({})))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     obj.actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((actualShift: any) => Shift.default().with(Object.assign({date: obj.date}, actualShift)))
+      ? obj.actualShifts.map((actualShift: any) => Shift.fromApi(actualShift, obj.date))
       : this.actualShifts.map(actualShift => actualShift.with({})))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     if (!obj.targetLabourRate && this.targetLabourRate === 0) {
