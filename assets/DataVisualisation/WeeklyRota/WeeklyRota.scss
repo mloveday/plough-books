@@ -18,7 +18,13 @@
     display:grid;
     grid-auto-rows: 32px;
   }
-  .shift {
+  .staff-role {
+    display: grid;
+    align-content: center;
+    font-weight: bold;
+    background-color: lightblue;
+  }
+  .shift, .staff-role-shift {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
   }

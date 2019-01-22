@@ -5,6 +5,7 @@ import {match} from "react-router";
 import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
 import {rotaFetch} from "../../DataEntry/Rota/State/RotaRedux";
 import {StaffMember} from '../../DataEntry/Rota/State/StaffMember';
+import {StaffRole} from "../../DataEntry/Rota/State/StaffRole";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {uiUpdate} from "../../State/UiRedux";
@@ -12,6 +13,7 @@ import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import "./WeeklyRota.scss";
+import {RotaGridComponent} from "./RotaGrid";
 
 interface WeeklyRotaOwnProps {
   match: match<{
@@ -56,6 +58,10 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
   }
 
   public render() {
+    if (!this.props.rotaExternalState.isLoaded()) {
+      return null;
+    }
+
     const startOfThisWeek = this.getStartOfWeek();
     const allStaff = new Map<number, StaffMember>();
     this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
@@ -71,94 +77,23 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
       .sort((a,b) => a.role.orderInRota > b.role.orderInRota ? 1 : (a.name > b.name ? 1 : -1));
     const kitchenStaff = Array.from(allStaff.values())
       .filter(staffMember => staffMember.role.type === WorkTypes.KITCHEN);
+
+    const visibleRoles: StaffRole[] = [];
+    allStaff.forEach(member => {
+      if (member.isActive() && visibleRoles.find(role => member.role.entityId === role.entityId) === undefined) {
+        visibleRoles.push(member.role);
+      }
+    });
+    const sortedRoles = visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
+
+    const rotas = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek);
+
     return (
       <div className="weekly-rota">
         <div>Weekly bar rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
-        {this.props.rotaExternalState.isLoaded() &&
-        <div className="rota-grid">
-            <div className="rota-column">
-                <div className="date-header"/>
-                <div className="staff-member" />
-              {barStaff.map((staffMember, key) => (
-                <div key={key} className="staff-member">{staffMember.name}</div>
-              ))}
-            </div>
-          {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
-            .map((rota, key) => (
-              <div key={key} className="rota-column">
-                <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>
-                <div className="shift">
-                  <div>Start</div>
-                  <div>End</div>
-                  <div>Breaks</div>
-                </div>
-                {barStaff.map((staffMember, staffKey) => {
-                    const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
-                    return shift ? (<div key={staffKey} className="shift">
-                      <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.totalBreaks * 60}</div>
-                    </div>) : <div key={staffKey} className="shift"/>;
-                  }
-                )}
-              </div>
-            ))}
-            <div className="rota-column">
-                <div className="date-header">Total hours</div>
-                <div className="shift" />
-              {barStaff.map((staffMember, staffKey) => {
-                const totalHours = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek).reduce((prev, curr) => {
-                  const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
-                  return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
-                }, 0);
-                  return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
-                }
-              )}
-            </div>
-        </div>}
+        <RotaGridComponent staff={barStaff} rotas={rotas} roles={sortedRoles}/>
         <div>Weekly kitchen rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
-        {this.props.rotaExternalState.isLoaded() &&
-        <div className="rota-grid">
-            <div className="rota-column">
-                <div className="date-header"/>
-                <div className="staff-member" />
-              {kitchenStaff.map((staffMember, key) => (
-                <div key={key} className="staff-member">{staffMember.name}</div>
-              ))}
-            </div>
-          {this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
-            .map((rota, key) => (
-              <div key={key} className="rota-column">
-                <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>
-                <div className="shift">
-                  <div>Start</div>
-                  <div>End</div>
-                  <div>Breaks</div>
-                </div>
-                {kitchenStaff.map((staffMember, staffKey) => {
-                    const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
-                    return shift ? (<div key={staffKey} className="shift">
-                      <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-                      <div>{shift.totalBreaks * 30}</div>
-                    </div>) : <div key={staffKey} className="shift"/>;
-                  }
-                )}
-              </div>
-            ))}
-            <div className="rota-column">
-                <div className="date-header">Total hours</div>
-                <div className="shift" />
-              {kitchenStaff.map((staffMember, staffKey) => {
-                  const totalHours = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek).reduce((prev, curr) => {
-                    const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
-                    return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
-                  }, 0);
-                  return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
-                }
-              )}
-            </div>
-        </div>}
+        <RotaGridComponent staff={kitchenStaff} rotas={rotas}  roles={sortedRoles}/>
       </div>
     )
   }
