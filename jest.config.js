@@ -1,5 +1,8 @@
 module.exports = {
-  moduleNameMapper: {"\\.(css|less|scss)$": "<rootDir>/test/styleMock.ts"},
+  moduleNameMapper: {
+    "\\.(css|less|scss)$": "<rootDir>/test/styleMock.ts",
+    "env/Config": "<rootDir>/assets/env/test/Config.ts",
+  },
   reporters: ["default", "jest-stare"],
   coverageDirectory: "<rootDir>/test/output/coverage",
   coverageReporters: ["html", "clover"],
