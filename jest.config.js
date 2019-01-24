@@ -4,9 +4,12 @@ module.exports = {
     "env/Config": "<rootDir>/assets/env/test/Config.ts",
   },
   reporters: ["default", "jest-stare"],
+  collectCoverageFrom : ["assets/**/*.ts","assets/**/*.tsx"],
   coverageDirectory: "<rootDir>/test/output/coverage",
   coverageReporters: ["html", "clover"],
   coveragePathIgnorePatterns: [
+    "<rootDir>/assets/env/",
+    "<rootDir>/assets/Enum/",
     "<rootDir>/bin/",
     "<rootDir>/build/",
     "<rootDir>/config/",
@@ -23,5 +26,5 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['<rootDir>/assets'],
   testEnvironment: 'jsdom',
-  testMatch: ['**/*.test.ts', '**/*.test.jsx']
+  testMatch: ['**/*.test.ts', '**/*.test.jsx'],
 };
