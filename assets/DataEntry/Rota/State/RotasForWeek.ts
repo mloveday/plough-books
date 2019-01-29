@@ -37,7 +37,7 @@ export class RotasForWeek {
     return this
       .with(Array.from(RotasForWeek.defaultForWeek(moment.utc(date)).rotas.values())) // ensure week is populated
       .with(Array.from(this.rotas.values())) // ensure we are not overwriting any existing data
-      .with(obj); // now overwrite anything with new data
+      .with(obj); // now overwrite anything fromApi new data
   }
 
   public with(o: any[]|undefined): RotasForWeek {

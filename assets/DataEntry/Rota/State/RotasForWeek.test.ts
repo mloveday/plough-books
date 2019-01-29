@@ -3,7 +3,7 @@ import {RotaEntity} from "./RotaEntity";
 import {RotasForWeek} from "./RotasForWeek";
 
 describe('RotasForWeek', () => {
-  it('should populate with default rotas for week', () => {
+  it('should populate fromApi default rotas for week', () => {
     const date = moment().startOf('isoWeek');
     const rotas = RotasForWeek.default();
 
@@ -24,7 +24,7 @@ describe('RotasForWeek', () => {
     });
   });
 
-  it('should re-populate with default rotas for week', () => {
+  it('should re-populate fromApi default rotas for week', () => {
     const date = moment().startOf('isoWeek');
     const rotas = RotasForWeek.default().populateForWeek(date, []);
 

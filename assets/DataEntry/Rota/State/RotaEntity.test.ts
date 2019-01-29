@@ -5,7 +5,7 @@ import {Constants} from "./Constants";
 import {RotaEntity} from "./RotaEntity";
 
 describe('RotaEntity', () => {
-  it('calling with() using an empty object does not modify the entity', () => {
+  it('calling fromApi() using an empty object does not modify the entity', () => {
     const rotaEntity = RotaEntity.default();
 
     const modified = rotaEntity.with({});
@@ -13,7 +13,7 @@ describe('RotaEntity', () => {
     expect(modified).toEqual(RotaEntity.default());
   });
 
-  it('calling with() using a moment date returns an object with a string as a date', () => {
+  it('calling fromApi() using a moment date returns an object fromApi a string as a date', () => {
     const rotaEntity = RotaEntity.default();
     const date = moment.utc();
 
@@ -22,7 +22,7 @@ describe('RotaEntity', () => {
     expect(modified.date).toEqual(date.format(DateFormats.API));
   });
 
-  it('calling with() using a string date returns an object with a string as a date', () => {
+  it('calling fromApi() using a string date returns an object fromApi a string as a date', () => {
     const rotaEntity = RotaEntity.default();
     const date = moment().format(DateFormats.API);
 
@@ -31,7 +31,7 @@ describe('RotaEntity', () => {
     expect(modified.date).toEqual(date);
   });
 
-  it('calling with() using a type and constants returns an object with a string as a date', () => {
+  it('calling fromApi() using a type and constants returns an object fromApi a string as a date', () => {
     const rotaEntity = RotaEntity.default();
 
     const modified = rotaEntity.with({type: WorkTypes.BAR, constants: Constants.default()});

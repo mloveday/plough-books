@@ -8,11 +8,11 @@ import {StaffRole} from "./StaffRole";
 export class Shift {
 
   public static default() {
-    return new Shift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment.utc().format(DateFormats.API), '10:00', '17:00', 0, WorkTypes.BAR);
+    return new Shift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment.utc().format(DateFormats.API), '10:00', '17:00', 0, WorkTypes.BAR, '10:00', '17:00');
   }
 
   public static fromOtherShift(shift: Shift) {
-    return new Shift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.date, shift.startTime, shift.endTime, shift.totalBreaks, shift.type);
+    return new Shift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.date, shift.startTime, shift.endTime, shift.totalBreaks, shift.type, shift.startTime, shift.endTime, shift.id);
   }
 
   public static fromApi(o: any, date: string): Shift {
@@ -20,7 +20,7 @@ export class Shift {
     obj.date = date;
     obj.startTime = obj.startTime ? moment.utc(obj.startTime).format('HH:mm') : undefined;
     obj.endTime = obj.endTime ? moment.utc(obj.endTime).format('HH:mm') : undefined;
-    return Shift.default().with(obj);
+    return Shift.default().fromApi(obj);
   }
 
   public readonly id: number;
@@ -36,7 +36,7 @@ export class Shift {
   private readonly endTime: string;
   private readonly startTime: string;
 
-  constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: string) {
+  private constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: string, startTimeInputValue?: string, endTimeInputValue?: string, id?: number) {
     this.staffMember = staffMember;
     this.staffRole = staffRole;
     this.status = status;
@@ -48,27 +48,42 @@ export class Shift {
     this.startTimeInputValue = startTime;
     this.endTimeInputValue = endTime;
     this.type = type;
+    if (id !== undefined) {
+      this.id = id;
+    }
+    const endAsMoment = momentFromDateAndTime(this.date, this.endTime);
+    if (!endAsMoment.isValid()) {
+      throw(new Error('bad end'));
+    }
+    const startAsMoment = momentFromDateAndTime(this.date, this.endTime);
+    if (!startAsMoment.isValid()) {
+      throw(new Error('bad start'));
+    }
   }
 
   public isWorkingAtTime(time: moment.Moment) {
     return (time.isSameOrAfter(this.getStartTime()) && time.isBefore(this.getEndTime()));
   }
 
-  public with(o: any): Shift {
-    const obj = Object.assign({}, o);
-    obj.staffMember = obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember;
-    obj.staffRole = obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole;
-    obj.startTimeInputValue = obj.startTimeInputValue ? obj.startTimeInputValue : this.startTimeInputValue;
-    obj.endTimeInputValue = obj.endTimeInputValue ? obj.endTimeInputValue : this.endTimeInputValue;
-    return Object.assign(
-      new Shift(this.staffMember, this.staffRole, this.status, this.hourlyRate, this.date, this.startTime, this.endTime, this.totalBreaks, this.type),
-      {id: this.id},
-      obj,
+  public fromApi(obj: any): Shift {
+    return new Shift(
+      obj.staffMember ? obj.staffMember : this.staffMember,
+      obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole.with({}),
+      obj.status ? obj.status : this.status,
+      obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
+      obj.date ? obj.date : this.date,
+      obj.startTime ? obj.startTime : this.startTime,
+      obj.endTime ? obj.endTime : this.endTime,
+      obj.totalBreaks ? obj.totalBreaks : this.totalBreaks,
+      obj.type ? obj.type : this.type,
+      obj.startTimeInputValue ? obj.startTimeInputValue : this.startTimeInputValue,
+      obj.endTimeInputValue ? obj.endTimeInputValue : this.endTimeInputValue,
+      obj.id ? obj.id : this.id,
     );
   }
 
   public clone(): Shift {
-    return this.with({});
+    return this.fromApi({});
   }
   
   public getRawCost() {

@@ -51,11 +51,11 @@ export class RotaEntity {
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
     obj.plannedShifts = (obj.plannedShifts
       ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, obj.date))
-      : this.plannedShifts.map(plannedShift => plannedShift.with({})))
+      : this.plannedShifts.map(plannedShift => plannedShift.fromApi({})))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     obj.actualShifts = (obj.actualShifts
       ? obj.actualShifts.map((actualShift: any) => Shift.fromApi(actualShift, obj.date))
-      : this.actualShifts.map(actualShift => actualShift.with({})))
+      : this.actualShifts.map(actualShift => actualShift.fromApi({})))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     if (!obj.targetLabourRate && this.targetLabourRate === 0) {
       obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];

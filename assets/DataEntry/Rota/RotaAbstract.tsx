@@ -254,7 +254,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   }
 
   private newShiftHandler(member: StaffMember) {
-    this.addShift(Shift.default().with({type: this.props.match.params.type, date: this.getRota().date, staffMember: member, staffRole: member.role, hourlyRate: member.currentHourlyRate}));
+    this.addShift(Shift.default().fromApi({type: this.props.match.params.type, date: this.getRota().date, staffMember: member, staffRole: member.role, hourlyRate: member.currentHourlyRate}));
   }
 
   private startTimeHandler(value: string, shift: Shift) {
@@ -265,9 +265,9 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     }
     const formattedTime = time.format('HH:mm');
     if (time.isSameOrAfter(shift.getEndTime())) {
-      this.updateShift(shift.with({startTimeInputValue: value, startTime: formattedTime, endTimeInputValue: formattedTime, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
+      this.updateShift(shift.fromApi({startTimeInputValue: value, startTime: formattedTime, endTimeInputValue: formattedTime, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
     } else {
-      this.updateShift(shift.with({startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
+      this.updateShift(shift.fromApi({startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
     }
   }
 
@@ -278,9 +278,9 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     }
     const formattedTime = time.format('HH:mm');
     if (time.isSameOrBefore(shift.getStartTime())) {
-      this.updateShift(shift.with({endTimeInputValue: value, endTime: formattedTime, startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
+      this.updateShift(shift.fromApi({endTimeInputValue: value, endTime: formattedTime, startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
     } else {
-      this.updateShift(shift.with({endTimeInputValue: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
+      this.updateShift(shift.fromApi({endTimeInputValue: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
     }
   }
 

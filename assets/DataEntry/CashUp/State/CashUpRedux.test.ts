@@ -22,7 +22,7 @@ describe('CashUpRedux', () => {
       expect(outputEntity.mod).toEqual(entity.mod);
     });
 
-    it('DATA_ENTRY replaces existing entity with given entity', () => {
+    it('DATA_ENTRY replaces existing entity fromApi given entity', () => {
       const date = moment.utc();
       const entity = CashUpEntity.default(date).with({mod: 'the expected MOD'});
       const inputState = CashUpsForWeek.default().with([CashUpEntity.default(date).with({mod: 'Not the expected mod'})]);
