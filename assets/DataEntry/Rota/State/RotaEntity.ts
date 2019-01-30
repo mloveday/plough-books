@@ -20,7 +20,33 @@ export class RotaEntity {
       [],
       [],
       false
-    ).fromApi({});
+    );
+  }
+
+  public static fromApi(obj: any): RotaEntity {
+    const rota = RotaEntity.default();
+    const plannedShifts = (obj.plannedShifts
+      ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, obj.date))
+      : [])
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    const actualShifts = (obj.actualShifts
+      ? obj.actualShifts.map((actualShift: any) => Shift.fromApi(actualShift, obj.date))
+      : [])
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    if (!obj.targetLabourRate) {
+      obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
+    }
+    return new RotaEntity(
+      obj.date ? moment.utc(obj.date) : rota.getDate(),
+      obj.forecastRevenue ? obj.forecastRevenue : rota.forecastRevenue,
+      obj.targetLabourRate ? obj.targetLabourRate : rota.targetLabourRate,
+      obj.constants ? rota.constants.with(obj.constants) : rota.constants.with({}),
+      obj.status ? obj.status : rota.status,
+      plannedShifts,
+      actualShifts,
+      false,
+      obj.id ? obj.id : rota.id,
+    );
   }
 
   public readonly id: number;
@@ -82,35 +108,6 @@ export class RotaEntity {
       obj.status ? obj.status : this.status,
       plannedShifts,
       actualShifts,
-      obj.touched ? obj.touched : this.touched,
-      obj.id ? obj.id : this.id,
-    );
-  }
-
-  // TODO make static
-  public fromApi(o: any): RotaEntity {
-    const obj = Object.assign({}, o);
-    obj.date = obj.date ? moment.utc(obj.date).format(DateFormats.API) : this.date;
-    obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
-    obj.plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, obj.date))
-      : this.plannedShifts.map(plannedShift => plannedShift.fromApi({})))
-      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    obj.actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((actualShift: any) => Shift.fromApi(actualShift, obj.date))
-      : this.actualShifts.map(actualShift => actualShift.fromApi({})))
-      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    if (!obj.targetLabourRate && this.targetLabourRate === 0) {
-      obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
-    }
-    return new RotaEntity(
-      obj.date ? moment.utc(obj.date) : this.getDate(),
-      obj.forecastRevenue ? obj.forecastRevenue : this.forecastRevenue,
-      obj.targetLabourRate ? obj.targetLabourRate : this.targetLabourRate,
-      obj.constants ? obj.constants : this.constants,
-      obj.status ? obj.status : this.status,
-      obj.plannedShifts ? obj.plannedShifts : this.plannedShifts,
-      obj.actualShifts ? obj.actualShifts : this.actualShifts,
       obj.touched ? obj.touched : this.touched,
       obj.id ? obj.id : this.id,
     );

@@ -12,13 +12,13 @@ export class RotasForWeek {
   public static defaultForWeek(dayInWeek: moment.Moment) {
     const startOfWeek = moment.utc(dayInWeek).startOf('isoWeek');
     const dates = [
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(0, 'days').format(DateFormats.API)}),
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(1, 'days').format(DateFormats.API)}),
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(2, 'days').format(DateFormats.API)}),
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(3, 'days').format(DateFormats.API)}),
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(4, 'days').format(DateFormats.API)}),
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(5, 'days').format(DateFormats.API)}),
-      RotaEntity.default().fromApi({'date': startOfWeek.clone().add(6, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(0, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(1, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(2, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(3, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(4, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(5, 'days').format(DateFormats.API)}),
+      RotaEntity.fromApi({'date': startOfWeek.clone().add(6, 'days').format(DateFormats.API)}),
     ];
     return RotasForWeek.default().update(dates);
   }
@@ -94,7 +94,7 @@ export class RotasForWeek {
   }
 
   private fromApi(obj: any[]): RotasForWeek {
-    const newRotas = obj.map(apiRota => RotaEntity.default().fromApi(apiRota));
+    const newRotas = obj.map(apiRota => RotaEntity.fromApi(apiRota));
     return this.updateRotas(newRotas);
   }
 
