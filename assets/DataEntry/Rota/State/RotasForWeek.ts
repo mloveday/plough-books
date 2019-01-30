@@ -6,7 +6,7 @@ import {RotaEntity} from "./RotaEntity";
 
 export class RotasForWeek {
   public static default() {
-    return new RotasForWeek(new Map<string, RotaEntity>());
+    return new RotasForWeek([]);
   }
 
   public static defaultForWeek(dayInWeek: moment.Moment) {
@@ -23,18 +23,18 @@ export class RotasForWeek {
     return RotasForWeek.default().update(dates);
   }
 
-  private readonly rotas: Map<string, RotaEntity> = new Map<string, RotaEntity>();
+  private readonly rotas: RotaEntity[] = [];
 
-  constructor(rotas: Map<string, RotaEntity>) {
+  constructor(rotas: RotaEntity[]) {
     this.rotas = rotas;
   }
 
-  public hasRotaForDate(date: moment.Moment) {
-    return this.rotas.has(date.format(DateFormats.API));
+  public hasRotaForDate(date: moment.Moment): boolean {
+    return this.getRotaForDate(date) !== undefined;
   }
 
-  public getRotaForDate(date: moment.Moment) {
-    return this.rotas.get(date.format(DateFormats.API));
+  public getRotaForDate(date: moment.Moment): RotaEntity|undefined {
+    return this.rotas.find(rota => rota.date === date.format(DateFormats.API));
   }
 
   public getTotalForecastRevenue(date: moment.Moment): number {
@@ -74,8 +74,8 @@ export class RotasForWeek {
       startOfWeek.clone().add(6, 'days'),
     ];
     return dates.map( date => {
-      const rota = this.rotas.get(date.format(DateFormats.API));
-      if (rota === undefined || rota === null) {
+      const rota = this.getRotaForDate(date);
+      if (rota === undefined) {
         return RotaEntity.default()
       }
       return rota;
@@ -90,32 +90,24 @@ export class RotasForWeek {
   }
 
   public update(newRotas: RotaEntity[]): RotasForWeek {
-    const rotas = this.getClonedRotas();
-    newRotas.forEach((rota, key) => rotas.set(rota.date, rota));
-    return new RotasForWeek(rotas);
+    return this.updateRotas(newRotas);
   }
 
-  private fromApi(o: any[]): RotasForWeek {
-    const obj = o ? o.map(d => Object.assign({}, d, {date: moment.utc(d.date)})) : [];
-    const newRotas = this.getNewRotasFromApiObject(obj);
-    const rotas = this.getClonedRotas();
-    newRotas.forEach((rota, key) => rotas.set(key, rota));
-    return new RotasForWeek(rotas);
+  private fromApi(obj: any[]): RotasForWeek {
+    const newRotas = obj.map(apiRota => RotaEntity.default().fromApi(apiRota));
+    return this.updateRotas(newRotas);
   }
 
-  private getNewRotasFromApiObject(obj: any[]) {
-    const newRotas = new Map<string, RotaEntity>();
-    obj.forEach(v => {
-      newRotas.set(moment.utc(v.date).format(DateFormats.API), RotaEntity.default().fromApi(v))
+  private updateRotas(newRotas: RotaEntity[]) {
+    let rotas = this.rotas.map(rota => rota.clone());
+    newRotas.forEach((newRota, key) => {
+      const existingRota = rotas.find(rota => rota.date === newRota.date);
+      if (existingRota) {
+        rotas = rotas.map(rota => rota.date === newRota.date ? newRota : rota);
+      } else {
+        rotas.push(newRota);
+      }
     });
-    return newRotas;
-  }
-
-  private getClonedRotas() {
-    const rotas = new Map<string, RotaEntity>();
-    this.rotas.forEach((rota, key) => {
-      rotas.set(key, rota.clone());
-    });
-    return rotas;
+    return new RotasForWeek(rotas);
   }
 }
