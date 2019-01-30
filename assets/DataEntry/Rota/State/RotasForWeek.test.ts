@@ -7,7 +7,7 @@ describe('RotasForWeek', () => {
     const date = moment().startOf('isoWeek');
     const rotas = RotasForWeek.default();
 
-    const modified = rotas.populateForWeek(date, []);
+    const modified = rotas.populateWeekFromApi(date, []);
 
     const datesInWeek = [
       date.clone(),
@@ -26,9 +26,9 @@ describe('RotasForWeek', () => {
 
   it('should re-populate fromApi default rotas for week', () => {
     const date = moment().startOf('isoWeek');
-    const rotas = RotasForWeek.default().populateForWeek(date, []);
+    const rotas = RotasForWeek.default().populateWeekFromApi(date, []);
 
-    const modified = rotas.populateForWeek(date, []);
+    const modified = rotas.populateWeekFromApi(date, []);
 
     const datesInWeek = [
       date.clone(),

@@ -34,7 +34,7 @@ export class RotaExternalState extends ExternalState {
       new RotaExternalState(),
       this,
       {
-        rotasForWeek: this.rotasForWeek.with(undefined)
+        rotasForWeek: this.rotasForWeek.update([])
       }
     );
   }

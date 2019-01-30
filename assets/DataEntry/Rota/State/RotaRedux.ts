@@ -94,12 +94,12 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
 };
 
 const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: any}): RotasForWeek => {
-  return state.populateForWeek(moment.utc(payload.date), payload.response);
+  return state.populateWeekFromApi(moment.utc(payload.date), payload.response);
 };
 
 export const rotaInternalReducers = handleActions<RotasForWeek, any>({
   [ROTA_DATA_ENTRY]: (state: RotasForWeek, action) => {
-    return state.with(action.payload);
+    return state.update(action.payload);
   },
   [ROTA_FETCH_SUCCESS]: (state, action) => {
     return handleRotaPayload(state, action.payload);
