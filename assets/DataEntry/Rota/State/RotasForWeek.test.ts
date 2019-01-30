@@ -20,7 +20,7 @@ describe('RotasForWeek', () => {
     ];
     datesInWeek.forEach(dateInWeek => {
       expect(modified.hasRotaForDate(dateInWeek)).toBeTruthy();
-      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.default().with({date: dateInWeek}));
+      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.default().fromApi({date: dateInWeek}));
     });
   });
 
@@ -41,7 +41,7 @@ describe('RotasForWeek', () => {
     ];
     datesInWeek.forEach(dateInWeek => {
       expect(modified.hasRotaForDate(dateInWeek)).toBeTruthy();
-      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.default().with({date: dateInWeek}));
+      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.default().fromApi({date: dateInWeek}));
     });
   });
   // it('', () => {});

@@ -8,7 +8,7 @@ describe('RotaEntity', () => {
   it('calling fromApi() using an empty object does not modify the entity', () => {
     const rotaEntity = RotaEntity.default();
 
-    const modified = rotaEntity.with({});
+    const modified = rotaEntity.fromApi({});
 
     expect(modified).toEqual(RotaEntity.default());
   });
@@ -17,7 +17,7 @@ describe('RotaEntity', () => {
     const rotaEntity = RotaEntity.default();
     const date = moment.utc();
 
-    const modified = rotaEntity.with({date});
+    const modified = rotaEntity.fromApi({date});
 
     expect(modified.date).toEqual(date.format(DateFormats.API));
   });
@@ -26,7 +26,7 @@ describe('RotaEntity', () => {
     const rotaEntity = RotaEntity.default();
     const date = moment().format(DateFormats.API);
 
-    const modified = rotaEntity.with({date});
+    const modified = rotaEntity.fromApi({date});
 
     expect(modified.date).toEqual(date);
   });
@@ -34,7 +34,7 @@ describe('RotaEntity', () => {
   it('calling fromApi() using a type and constants returns an object fromApi a string as a date', () => {
     const rotaEntity = RotaEntity.default();
 
-    const modified = rotaEntity.with({type: WorkTypes.BAR, constants: Constants.default()});
+    const modified = rotaEntity.fromApi({type: WorkTypes.BAR, constants: Constants.default()});
 
     expect(modified.date).toEqual(rotaEntity.date);
   });

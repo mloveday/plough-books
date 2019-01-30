@@ -9,6 +9,7 @@ import {Shift} from "./Shift";
 export class RotaEntity {
 
   public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
+  
   public static default() {
     return new RotaEntity(
       moment.utc().startOf('day'),
@@ -18,7 +19,8 @@ export class RotaEntity {
       RotaStatus.NEW,
       [],
       [],
-    ).with({});
+      false
+    ).fromApi({});
   }
 
   public readonly id: number;
@@ -31,7 +33,7 @@ export class RotaEntity {
   public readonly actualShifts: Shift[];
   public readonly touched: boolean = false;
 
-  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[]) {
+  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, id?: number) {
     this.date = date.format(DateFormats.API);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
@@ -39,13 +41,54 @@ export class RotaEntity {
     this.status = status;
     this.plannedShifts = plannedShifts;
     this.actualShifts = actualShifts;
+    if (id !== undefined) {
+      this.id = id;
+    }
   }
 
-  public touchedWith(o: any): RotaEntity {
-    return this.with(Object.assign({touched: true}, o));
+  public updateTouched(o: any): RotaEntity {
+    return this.update(Object.assign({touched: true}, o));
   }
-  
-  public with(o: any): RotaEntity {
+
+  public clone() {
+    return new RotaEntity(
+      this.getDate(),
+      this.forecastRevenue,
+      this.targetLabourRate,
+      this.constants.with({}),
+      this.status,
+      this.plannedShifts.map(shift => shift.clone()),
+      this.actualShifts.map(shift => shift.clone()),
+      this.touched,
+      this.id,
+    )
+  }
+
+  public update(obj: any): RotaEntity {
+    const constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
+    const plannedShifts = (obj.plannedShifts
+      ? obj.plannedShifts.map((shift: Shift) => shift.clone())
+      : this.plannedShifts.map((shift: Shift) => shift.clone()))
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    const actualShifts = (obj.actualShifts
+      ? obj.actualShifts.map((shift: Shift) => shift.clone())
+      : this.actualShifts.map((shift: Shift) => shift.clone()))
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    return new RotaEntity(
+      obj.date ? moment.utc(obj.date) : this.getDate(),
+      obj.forecastRevenue ? obj.forecastRevenue : this.forecastRevenue,
+      obj.targetLabourRate ? obj.targetLabourRate : this.targetLabourRate,
+      constants,
+      obj.status ? obj.status : this.status,
+      plannedShifts,
+      actualShifts,
+      obj.touched ? obj.touched : this.touched,
+      obj.id ? obj.id : this.id,
+    );
+  }
+
+  // TODO make static
+  public fromApi(o: any): RotaEntity {
     const obj = Object.assign({}, o);
     obj.date = obj.date ? moment.utc(obj.date).format(DateFormats.API) : this.date;
     obj.constants = obj.constants ? this.constants.with(obj.constants) : this.constants.with({});
@@ -60,18 +103,16 @@ export class RotaEntity {
     if (!obj.targetLabourRate && this.targetLabourRate === 0) {
       obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
     }
-    return Object.assign(
-      new RotaEntity(
-        this.getDate(),
-        this.forecastRevenue,
-        this.targetLabourRate,
-        this.constants,
-        this.status,
-        this.plannedShifts,
-        this.actualShifts,
-      ),
-      {id: this.id},
-      obj
+    return new RotaEntity(
+      obj.date ? moment.utc(obj.date) : this.getDate(),
+      obj.forecastRevenue ? obj.forecastRevenue : this.forecastRevenue,
+      obj.targetLabourRate ? obj.targetLabourRate : this.targetLabourRate,
+      obj.constants ? obj.constants : this.constants,
+      obj.status ? obj.status : this.status,
+      obj.plannedShifts ? obj.plannedShifts : this.plannedShifts,
+      obj.actualShifts ? obj.actualShifts : this.actualShifts,
+      obj.touched ? obj.touched : this.touched,
+      obj.id ? obj.id : this.id,
     );
   }
 

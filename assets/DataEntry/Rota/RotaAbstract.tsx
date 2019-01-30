@@ -244,11 +244,11 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   protected formUpdate(obj: {}, touched: boolean = true) {
     if (touched) {
       this.props.updateRotaLocalState(
-        [this.getRota().touchedWith(obj)]
+        [this.getRota().updateTouched(obj)]
       );
     } else {
       this.props.updateRotaLocalState(
-        [this.getRota().with(obj)]
+        [this.getRota().update(obj)]
       );
     }
   }

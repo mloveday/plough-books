@@ -45,13 +45,13 @@ export class RotasForWeek {
     const newRotas = new Map<string, RotaEntity>();
     if (obj !== undefined) {
       obj.forEach(v => {
-        newRotas.set(moment.utc(v.date).format(DateFormats.API), RotaEntity.default().with(v))
+        newRotas.set(moment.utc(v.date).format(DateFormats.API), RotaEntity.default().fromApi(v))
       });
     }
     const rotas = new Map<string, RotaEntity>();
     this.rotas.forEach((v, k) => {
       const rota = newRotas.get(k);
-      rotas.set(k, rota ? rota : v.with({}));
+      rotas.set(k, rota ? rota : v.fromApi({}));
     });
     newRotas.forEach((v,k) => rotas.set(k, v));
     return Object.assign(
