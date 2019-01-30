@@ -56,7 +56,7 @@ export class Shift {
 
   public fromApi(obj: any): Shift {
     return new Shift(
-      obj.staffMember ? obj.staffMember : this.staffMember,
+      obj.staffMember ? StaffMember.default().with(obj.staffMember) : this.staffMember,
       obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole.with({}),
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
