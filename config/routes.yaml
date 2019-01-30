@@ -55,4 +55,4 @@ index:
   path: /{foo}
   controller: App\Controller\IndexController::indexAction
   requirements:
-    foo: .*
+    foo: ^(?!.*_profiler).*

@@ -2,10 +2,17 @@
 <project version="4">
   <component name="PublishConfigData" serverName="dashboard.theploughharborne.co.uk">
     <serverData>
+      <paths name="dashboard root">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html/build" local="$PROJECT_DIR$/public/build" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="dashboard.theploughharborne.co.uk">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/public_html/build" local="$PROJECT_DIR$/public/build" web="/" />
           </mappings>
         </serverdata>
       </paths>
