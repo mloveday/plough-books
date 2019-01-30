@@ -15,11 +15,8 @@ export class Shift {
     return new Shift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.date, shift.startTime, shift.endTime, shift.totalBreaks, shift.type, shift.startTime, shift.endTime, shift.id);
   }
 
-  public static fromApi(o: any, date: string): Shift {
-    const obj = Object.assign({}, o);
+  public static fromApi(obj: any, date: string): Shift {
     obj.date = date;
-    obj.startTime = obj.startTime ? moment.utc(obj.startTime).format('HH:mm') : undefined;
-    obj.endTime = obj.endTime ? moment.utc(obj.endTime).format('HH:mm') : undefined;
     return Shift.default().fromApi(obj);
   }
 
@@ -51,14 +48,6 @@ export class Shift {
     if (id !== undefined) {
       this.id = id;
     }
-    const endAsMoment = momentFromDateAndTime(this.date, this.endTime);
-    if (!endAsMoment.isValid()) {
-      throw(new Error('bad end'));
-    }
-    const startAsMoment = momentFromDateAndTime(this.date, this.endTime);
-    if (!startAsMoment.isValid()) {
-      throw(new Error('bad start'));
-    }
   }
 
   public isWorkingAtTime(time: moment.Moment) {
@@ -72,8 +61,8 @@ export class Shift {
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
       obj.date ? obj.date : this.date,
-      obj.startTime ? obj.startTime : this.startTime,
-      obj.endTime ? obj.endTime : this.endTime,
+      obj.startTime ? moment.utc(obj.startTime).format('HH:mm') : this.startTime,
+      obj.endTime ? moment.utc(obj.endTime).format('HH:mm') : this.endTime,
       obj.totalBreaks ? obj.totalBreaks : this.totalBreaks,
       obj.type ? obj.type : this.type,
       obj.startTimeInputValue ? obj.startTimeInputValue : this.startTimeInputValue,
@@ -83,7 +72,7 @@ export class Shift {
   }
 
   public clone(): Shift {
-    return this.fromApi({});
+    return Shift.fromOtherShift(this);
   }
   
   public getRawCost() {
@@ -107,13 +96,12 @@ export class Shift {
   }
 
   public forApi() {
-    // TODO: investigate why calling this mutates this shift
     return Object.assign(
       this.clone(),
       {
         endTime: this.getEndTime().format(),
         startTime: this.getStartTime().format(),
       }
-    )
+    );
   }
 }

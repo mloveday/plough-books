@@ -84,8 +84,8 @@ export class RotasForWeek {
 
   public populateWeekFromApi(date: moment.Moment, obj: any[]) {
     return this
-      .update(Array.from(RotasForWeek.defaultForWeek(moment.utc(date)).rotas.values())) // ensure week is populated
-      .update(Array.from(this.rotas.values())) // ensure we are not overwriting any existing data
+      .update(RotasForWeek.defaultForWeek(moment.utc(date)).rotas) // ensure week is populated
+      .update(this.rotas) // ensure we are not overwriting any existing data
       .fromApi(obj); // now overwrite anything fromApi new data
   }
 

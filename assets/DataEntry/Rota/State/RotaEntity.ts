@@ -115,7 +115,7 @@ export class RotaEntity {
 
   public forApi() {
     return Object.assign(
-      this,
+      this.clone(),
       {
         actualShifts: this.actualShifts.map(actualShift => actualShift.forApi()),
         plannedShifts: this.plannedShifts.map(plannedShift => plannedShift.forApi()),

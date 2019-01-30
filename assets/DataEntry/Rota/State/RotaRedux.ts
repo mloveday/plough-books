@@ -104,13 +104,7 @@ export const rotaInternalReducers = handleActions<RotasForWeek, any>({
   [ROTA_FETCH_SUCCESS]: (state, action) => {
     return handleRotaPayload(state, action.payload);
   },
-  [ROTA_CREATE_START]: (state, action) => {
-    return handleRotaPayload(state, {date: moment.utc(action.payload.date), response: [action.payload]});
-  },
   [ROTA_CREATE_SUCCESS]: (state, action) => {
-    return handleRotaPayload(state, action.payload);
-  },
-  [WEEKLY_ROTAS_CREATE_START]: (state: RotasForWeek, action) => {
     return handleRotaPayload(state, action.payload);
   },
   [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action) => {
