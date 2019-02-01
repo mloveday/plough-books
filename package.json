@@ -16,7 +16,6 @@
     "@types/react-router": "^4.4.1",
     "@types/react-router-dom": "^4.3.1",
     "@types/redux-actions": "^2.3.1",
-    "@types/redux-thunk": "^2.1.0",
     "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
@@ -60,6 +59,7 @@
     "watch": "encore dev --watch",
     "build": "encore production --progress",
     "test": "jest --watchAll --config ./jest.config.js",
+    "prebuildtest": "jest --coverage --config ./jest.config.js",
     "coverage": "jest --coverage --watchAll --config ./jest.config.js"
   },
   "dependencies": {
