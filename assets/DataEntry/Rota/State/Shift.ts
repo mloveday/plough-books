@@ -42,8 +42,8 @@ export class Shift {
     this.startTime = startTime;
     this.endTime = endTime;
     this.totalBreaks = totalBreaks;
-    this.startTimeInputValue = startTime;
-    this.endTimeInputValue = endTime;
+    this.startTimeInputValue = startTimeInputValue ? startTimeInputValue : startTime;
+    this.endTimeInputValue = endTimeInputValue ? endTimeInputValue : endTime;
     this.type = type;
     if (id !== undefined) {
       this.id = id;
