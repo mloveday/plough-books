@@ -264,7 +264,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
       time = momentFromDateAndTime(shift.date, '06:00');
       value = time.format('HH:mm');
     }
-    const formattedTime = time.format('HH:mm');
+    const formattedTime = time.format(`${DateFormats.API} HH:mm`);
     if (time.isSameOrAfter(shift.getEndTime())) {
       this.updateShift(shift.fromApi({startTimeInputValue: value, startTime: formattedTime, endTimeInputValue: formattedTime, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
     } else {
@@ -277,7 +277,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     if (time.hour() < this.DAY_START_HOUR) {
       time.add(1, 'day');
     }
-    const formattedTime = time.format('HH:mm');
+    const formattedTime = time.format(`${DateFormats.API} HH:mm`);
     if (time.isSameOrBefore(shift.getStartTime())) {
       this.updateShift(shift.fromApi({endTimeInputValue: value, endTime: formattedTime, startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
     } else {
