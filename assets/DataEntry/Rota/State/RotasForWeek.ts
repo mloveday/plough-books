@@ -76,7 +76,7 @@ export class RotasForWeek {
     return dates.map( date => {
       const rota = this.getRotaForDate(date);
       if (rota === undefined) {
-        return RotaEntity.default()
+        return RotaEntity.default(date)
       }
       return rota;
     });

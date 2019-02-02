@@ -237,8 +237,9 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   protected abstract removeShift(shiftToRemove: Shift): void;
 
   protected getRota(): RotaEntity {
-    const localState = this.props.rotaLocalStates.getRotaForDate(moment.utc(this.props.match.params.date));
-    return localState === undefined ? RotaEntity.default() : localState;
+    const date = moment.utc(this.props.match.params.date);
+    const localState = this.props.rotaLocalStates.getRotaForDate(date);
+    return localState === undefined ? RotaEntity.default(date) : localState;
   }
 
   protected formUpdate(obj: {}, touched: boolean = true) {

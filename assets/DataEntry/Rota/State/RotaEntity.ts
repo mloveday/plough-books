@@ -10,11 +10,12 @@ export class RotaEntity {
 
   public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
   
-  public static default() {
+  public static default(date: moment.Moment) {
+    date = date.clone().startOf('day');
     return new RotaEntity(
-      moment.utc().startOf('day'),
+      date,
       0,
-      0,
+      RotaEntity.DEFAULT_LABOUR_RATES[date.isoWeekday()-1],
       Constants.default(),
       RotaStatus.NEW,
       [],
@@ -24,7 +25,8 @@ export class RotaEntity {
   }
 
   public static fromApi(obj: any): RotaEntity {
-    const rota = RotaEntity.default();
+    const date = obj.date ? moment.utc(obj.date) : moment.utc();
+    const rota = RotaEntity.default(date);
     const plannedShifts = (obj.plannedShifts
       ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, obj.date))
       : [])
@@ -37,7 +39,7 @@ export class RotaEntity {
       obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
     }
     return new RotaEntity(
-      obj.date ? moment.utc(obj.date) : rota.getDate(),
+      date,
       obj.forecastRevenue ? obj.forecastRevenue : rota.forecastRevenue,
       obj.targetLabourRate ? obj.targetLabourRate : rota.targetLabourRate,
       obj.constants ? rota.constants.with(obj.constants) : rota.constants.with({}),
