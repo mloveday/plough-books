@@ -1,5 +1,5 @@
 import {createAction, handleActions} from "redux-actions";
-import {User} from "../../../Common/Auth/Model/User";
+import {UserNotPersisted} from "../../../Common/Auth/Model/UserNotPersisted";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
@@ -22,7 +22,7 @@ export const usersFetchStart = createAction(USERS_FETCH_START);
 export const usersFetchSuccess = createAction<UsersExternalState>(USERS_FETCH_SUCCESS);
 export const usersFetchError = createAction(USERS_FETCH_ERROR);
 
-export const usersCreateStart = createAction<User>(USERS_CREATE_START);
+export const usersCreateStart = createAction<UserNotPersisted>(USERS_CREATE_START);
 export const usersCreateSuccess = createAction<UsersExternalState>(USERS_CREATE_SUCCESS);
 export const usersCreateError = createAction(USERS_CREATE_ERROR);
 
@@ -37,7 +37,7 @@ export const usersFetch = () => {
   }
 };
 
-export const usersCreate = (user: User) => {
+export const usersCreate = (user: UserNotPersisted) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(usersCreate(user));
     dispatch(usersCreateStart(user));

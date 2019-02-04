@@ -1,37 +1,36 @@
-import {EditableEntity} from "../../../State/EditableEntity";
-import {Role} from "./Role";
-import {RoleNotPersisted} from "./RoleNotPersisted";
+import {IApiRoleObject, Role} from "./Role";
+import {IApiUserNotPersistedObject, UserNotPersisted} from "./UserNotPersisted";
 
-export class User extends EditableEntity {
+export interface IApiUserObject extends IApiUserNotPersistedObject {
+  id?: number;
+  role?: IApiRoleObject;
+}
 
-  public static default() {
-    return new User('', false, false, RoleNotPersisted.default(), undefined);
-  }
+export class User extends UserNotPersisted {
 
   public static fromResponse(json: any): User {
     return new User(json.email, json.whitelisted, json.blacklisted, Role.fromResponse(json.role), json.id);
   }
 
-  public readonly email: string;
-  public readonly whitelisted: boolean;
-  public readonly blacklisted: boolean;
-  public readonly role: RoleNotPersisted;
-  private readonly id?: number;
+  public readonly role: Role;
+  public readonly id: number;
 
-  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: RoleNotPersisted, id?: number) {
-    super();
+  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: Role, id: number) {
+    super(email, whitelisted, blacklisted, role);
     this.id = id;
-    this.email = email;
-    this.whitelisted = whitelisted;
-    this.blacklisted = blacklisted;
-    this.role = role;
   }
 
-  public with(obj: any) {
-    return Object.assign(User.default(), User.fromResponse(Object.assign(this,obj)));
+  public with(obj: IApiUserObject) {
+    return new User(
+      obj.email ? obj.email : this.email,
+      obj.whitelisted ? obj.whitelisted : this.whitelisted,
+      obj.blacklisted ? obj.blacklisted : this.blacklisted,
+      obj.role ? this.role.with(obj.role) : this.role.clone(),
+      obj.id ? obj.id : this.id,
+    );
   }
 
   public get entityId(): number {
-    return this.id ? this.id : -1;
+    return this.id;
   }
 }

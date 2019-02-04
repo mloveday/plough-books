@@ -12,7 +12,7 @@ export class Role extends RoleNotPersisted {
 
   public readonly role: string;
   public readonly managesUsers: boolean;
-  private readonly id: number;
+  public readonly id: number;
 
   constructor(role: string, managesUsers: boolean, id: number) {
     super(role, managesUsers);

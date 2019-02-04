@@ -2,6 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {User} from "../../Common/Auth/Model/User";
+import {UserNotPersisted} from "../../Common/Auth/Model/UserNotPersisted";
 import {AppState} from "../../redux";
 import {RolesExternalState} from "../Role/State/RolesExternalState";
 import {rolesFetch} from "../Role/State/RolesRedux";
@@ -30,7 +31,7 @@ const mapStateToProps = (state: AppState, ownProps: UsersOwnProps): UsersStatePr
 interface UsersDispatchProps {
   fetchUsers: () => void,
   fetchRoles: () => void,
-  saveUser: (user: User) => void,
+  saveUser: (user: UserNotPersisted) => void,
   updateUsers: (state: UsersLocalState) => void,
 }
 
@@ -123,10 +124,10 @@ class UsersComponent extends React.Component<UsersProps, {}> {
   }
 
   private newUser() {
-    this.props.updateUsers(this.props.usersLocalState.withNewEntity(User.default()));
+    this.props.updateUsers(this.props.usersLocalState.withNewEntity(UserNotPersisted.default()));
   }
 
-  private dataEntryNewUser(user: User) {
+  private dataEntryNewUser(user: UserNotPersisted) {
     this.props.updateUsers(this.props.usersLocalState.withNewEntity(user));
   }
 
