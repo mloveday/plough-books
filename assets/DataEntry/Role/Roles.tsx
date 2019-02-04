@@ -2,6 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Role} from "../../Common/Auth/Model/Role";
+import {RoleNotPersisted} from "../../Common/Auth/Model/RoleNotPersisted";
 import {AppState} from "../../redux";
 import './Roles.scss';
 import {RolesExternalState} from "./State/RolesExternalState";
@@ -25,7 +26,7 @@ const mapStateToProps = (state: AppState, ownProps: RolesOwnProps): RolesStatePr
 
 interface RolesDispatchProps {
   fetchRoles: () => void,
-  saveRole: (role: Role) => void,
+  saveRole: (role: RoleNotPersisted) => void,
   updateRoles: (state: RolesLocalState) => void,
 }
 
@@ -62,7 +63,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
           return (
             <div className="role-entity" key={key}>
               <input disabled={!editing} className="role-value" value={role.role}
-                     onChange={ev => this.dataEntry(role.with({email: ev.target.value}))}/>
+                     onChange={ev => this.dataEntry(role.with({role: ev.target.value}))}/>
               <input disabled={!editing} type="checkbox" checked={role.managesUsers} className="role-value"
                      onChange={ev => this.dataEntry(role.with({managesUsers: ev.target.checked}))}/>
               <div className="role-edit-buttons">
@@ -90,10 +91,10 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private newRole() {
-    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(Role.default()));
+    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(RoleNotPersisted.default()));
   }
 
-  private dataEntryNewRole(role: Role) {
+  private dataEntryNewRole(role: RoleNotPersisted) {
     this.props.updateRoles(this.props.rolesLocalState.withNewEntity(role));
   }
 
