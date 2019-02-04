@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DATE=`date '+%Y-%m-%d-%H%M%S'`
-DEPLOY_DIRECTORY="/home/dashboard/deploy_$DATE/"
+DEPLOY_DIRECTORY="/home/dashboard/deploy/$DATE/"
 CONNECTION_AND_DIRECTORY="dashboard@dashboard.theploughharborne.co.uk:$DEPLOY_DIRECTORY"
 PRIVATE_KEY="~/.ssh/id_rsa"
 
@@ -27,3 +27,6 @@ ssh dashboard@dashboard.theploughharborne.co.uk "cd $DEPLOY_DIRECTORY ; ./setup.
 
 echo "Creating symlink to new directory..."
 ssh dashboard@dashboard.theploughharborne.co.uk "ln -nfs $DEPLOY_DIRECTORY/public/ /home/dashboard/public_html"
+echo "Removing old deployments..."
+ssh dashboard@dashboard.theploughharborne.co.uk "rm -rf /home/dashboard/deploy/!($DATE)"
+echo "Deployment complete"
