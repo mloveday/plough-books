@@ -1,12 +1,13 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
-import {IApiStaffRoleObject, StaffRole} from "./StaffRole";
+import {StaffRole} from "./StaffRole";
+import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
 
 export interface IApiStaffMemberObject {
   id?: number;
   name?: string;
   currentHourlyRate?: number;
-  role?: IApiStaffRoleObject;
+  role?: IApiStaffRoleNotPersistedObject;
   status?: string;
 }
 
@@ -16,7 +17,7 @@ export class StaffMember extends EditableEntity {
     return new StaffMember(
       '',
       0,
-      StaffRole.default(),
+      StaffRoleNotPersisted.default(),
       StaffMemberStatus.ACTIVE,
     );
   }

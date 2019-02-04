@@ -1,50 +1,38 @@
-import {StaffRoleStatus} from "../../../Enum/StaffRoleStatus";
-import {WorkTypes} from "../../../Enum/WorkTypes";
-import {EditableEntity} from "../../../State/EditableEntity";
+import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
 
-export interface IApiStaffRoleObject {
+export interface IApiStaffRoleObject extends IApiStaffRoleNotPersistedObject {
   id?: number;
-  role?: string;
-  orderInRota?: number;
-  status?: string;
-  type?: string;
 }
 
-export class StaffRole extends EditableEntity {
-
-  public static default() {
+export class StaffRole extends StaffRoleNotPersisted {
+  
+  public static fromResponse(obj: any) {
     return new StaffRole(
-      '',
-      0,
-      StaffRoleStatus.ACTIVE,
-      WorkTypes.BAR,
+      obj.role,
+      obj.orderInRota,
+      obj.status,
+      obj.type,
+      obj.id,
     );
   }
-
+  
   public readonly id: number;
   public readonly role: string;
   public readonly orderInRota: number;
   public readonly status: string;
   public readonly type: string;
 
-  constructor(role: string, orderInRota: number, status: string, type: string) {
-    super();
-    this.role = role;
-    this.orderInRota = orderInRota;
-    this.status = status;
-    this.type = type;
+  constructor(role: string, orderInRota: number, status: string, type: string, id: number) {
+    super(role, orderInRota, status, type);
   }
 
   public with(obj: IApiStaffRoleObject) {
-    return Object.assign(
-      new StaffRole(
-        this.role,
-        this.orderInRota,
-        this.status,
-        this.type,
-      ),
-      {id: this.id},
-      obj,
+    return new StaffRole(
+      obj.role ? obj.role : this.role,
+      obj.orderInRota ? obj.orderInRota : this.orderInRota,
+      obj.status ? obj.status : this.status,
+      obj.type ? obj.type : this.type,
+      obj.id ? obj.id : this.id,
     );
   }
 
@@ -53,6 +41,6 @@ export class StaffRole extends EditableEntity {
   }
 
   public isValid() {
-    return this.entityId !== undefined;
+    return true;
   }
 }
