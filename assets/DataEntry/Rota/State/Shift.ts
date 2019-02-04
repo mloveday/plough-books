@@ -1,6 +1,5 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
-import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
 import {IApiStaffMemberObject, StaffMember} from "./StaffMember";
 import {IApiStaffRoleObject, StaffRole} from "./StaffRole";
@@ -22,17 +21,16 @@ export interface IApiShiftObject {
 
 export class Shift {
 
-  public static default() {
-    return new Shift(StaffMember.default(), StaffRole.default(), 'inactive', 0, moment.utc().format(DateFormats.API), '10:00', '17:00', 0, WorkTypes.BAR, '10:00', '17:00');
-  }
-
   public static fromOtherShift(shift: Shift) {
     return new Shift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.date, shift.startTime, shift.endTime, shift.totalBreaks, shift.type, shift.startTime, shift.endTime, shift.id);
   }
 
-  public static fromApi(obj: IApiShiftObject, date: string): Shift {
+  public static fromResponse(obj: IApiShiftObject, date: string): Shift {
     obj.date = date;
-    return Shift.default().fromApi(obj);
+    const staffMember = StaffMember.fromResponse(obj.staffMember);
+    const staffRole = StaffRole.fromResponse(obj.staffRole);
+    const templateShift = new Shift(staffMember, staffRole, 'inactive', 0, date, '10:00', '17:00', 0, WorkTypes.BAR, '10:00', '17:00');
+    return templateShift.fromApi(obj);
   }
 
   public readonly id: number;
@@ -71,8 +69,8 @@ export class Shift {
 
   public fromApi(obj: IApiShiftObject): Shift {
     return new Shift(
-      obj.staffMember ? StaffMember.default().with(obj.staffMember) : this.staffMember,
-      obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole.with({}),
+      obj.staffMember ? StaffMember.fromResponse(obj.staffMember) : this.staffMember,
+      obj.staffRole ? StaffRole.fromResponse(obj.staffRole) : this.staffRole.with({}),
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
       obj.date ? obj.date : this.date,

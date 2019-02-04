@@ -255,7 +255,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   }
 
   private newShiftHandler(member: StaffMember) {
-    this.addShift(Shift.default().fromApi({type: this.props.match.params.type, date: this.getRota().date, staffMember: member, staffRole: member.role, hourlyRate: member.currentHourlyRate}));
+    this.addShift(Shift.fromResponse({type: this.props.match.params.type, staffMember: member, staffRole: member.role, hourlyRate: member.currentHourlyRate}, this.getRota().date));
   }
 
   private startTimeHandler(value: string, shift: Shift) {
