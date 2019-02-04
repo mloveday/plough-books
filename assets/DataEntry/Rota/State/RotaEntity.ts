@@ -3,7 +3,7 @@ import {RotaStatus} from "../../../Enum/RotaStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
-import {Constants, IApiConstantsObject} from "./Constants";
+import {Constants, IApiConstantsObject} from "../../Constants/State/Constants";
 import {IApiShiftObject, Shift} from "./Shift";
 
 export interface IApiRotaObject {

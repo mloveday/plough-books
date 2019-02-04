@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Constants} from "../../DataEntry/Rota/State/Constants";
+import {Constants} from "../../DataEntry/Constants/State/Constants";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";

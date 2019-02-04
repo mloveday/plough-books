@@ -16,7 +16,7 @@ import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
 import {cashUpFetchWithPrevious} from "../CashUp/State/CashUpRedux";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
-import {Constants} from "../Rota/State/Constants";
+import {Constants} from "../Constants/State/Constants";
 import {RotaEntity} from "../Rota/State/RotaEntity";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
 import {rotaDataEntry, rotaFetchWithPrevious, weeklyRotasCreate} from "../Rota/State/RotaRedux";

@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../../Util/DateFormats";
-import {Constants} from "./Constants";
+import {Constants} from "../../Constants/State/Constants";
 import {RotaEntity} from "./RotaEntity";
 
 describe('RotaEntity', () => {

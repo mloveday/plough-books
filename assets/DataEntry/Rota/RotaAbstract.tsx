@@ -20,7 +20,7 @@ import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalSta
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.scss';
-import {Constants} from "./State/Constants";
+import {Constants} from "../Constants/State/Constants";
 import {RotaEntity} from "./State/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";

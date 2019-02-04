@@ -1,6 +1,6 @@
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
-import {Constants} from "../../Rota/State/Constants";
-import {ConstantsNotPersisted} from "../../Rota/State/ConstantsNotPersisted";
+import {Constants} from "./Constants";
+import {ConstantsNotPersisted} from "./ConstantsNotPersisted";
 
 export class ConstantsLocalState extends EditableLocalState<ConstantsNotPersisted, Constants> {
   public static default() {
