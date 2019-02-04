@@ -7,6 +7,7 @@ import {AppState} from "../../redux";
 import {getStaffRoleOrder} from "../../Util/SortingUtils";
 import {StaffRole} from "../Rota/State/StaffRole";
 import "./StaffRoles.scss";
+import {StaffRoleNotPersisted} from "../Rota/State/StaffRoleNotPersisted";
 import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";
@@ -28,7 +29,7 @@ const mapStateToProps = (state: AppState, ownProps: StaffRolesOwnProps): StaffRo
 
 interface StaffRolesDispatchProps {
   fetchStaffRoles: () => void;
-  saveStaffRole: (staffRole: StaffRole) => void;
+  saveStaffRole: (staffRole: StaffRoleNotPersisted) => void;
   updateStaffRole: (staffRolesLocalState: StaffRolesLocalState) => void;
 }
 
@@ -114,7 +115,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
     )
   }
 
-  private newStaffRole(staffRole: StaffRole = StaffRole.default()) {
+  private newStaffRole(staffRole: StaffRoleNotPersisted = StaffRole.default()) {
     this.props.updateStaffRole(this.props.staffRolesLocalState.withNewEntity(staffRole));
   }
 
@@ -126,7 +127,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
     this.props.updateStaffRole(this.props.staffRolesLocalState.withEntities([]));
   }
 
-  private saveStaffRole(staffRole: StaffRole) {
+  private saveStaffRole(staffRole: StaffRoleNotPersisted) {
     this.props.saveStaffRole(staffRole);
   }
 

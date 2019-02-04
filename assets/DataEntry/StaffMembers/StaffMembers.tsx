@@ -5,6 +5,7 @@ import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
 import {AppState} from "../../redux";
 import {validateCash} from "../../Util/Validation";
 import {StaffMember} from "../Rota/State/StaffMember";
+import {StaffMemberNotPersisted} from "../Rota/State/StaffMemberNotPersisted";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import "./StaffMembers.scss";
@@ -41,7 +42,7 @@ interface StaffMembersDispatchProps {
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
   setFilters: (filters: StaffMemberFilters) => void;
-  saveStaffMember: (staffMember: StaffMember) => void;
+  saveStaffMember: (staffMember: StaffMemberNotPersisted) => void;
   updateStaffMember: (staffMembersLocalState: StaffMembersLocalState) => void;
 }
 
@@ -146,7 +147,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           </select>}
           {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
           {isCreatingNewMember &&
-          <select value={newMember.role.id} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
+          <select value={newMember.role.entityId} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
             {!newMember.role.isValid() && <option value={undefined}>Choose a role...</option>}
             {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
               <option key={roleKey} value={role.id}>{role.role}</option>
@@ -163,7 +164,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     )
   }
   
-  private newStaffMember(staffMember: StaffMember = StaffMember.default()) {
+  private newStaffMember(staffMember: StaffMemberNotPersisted = StaffMember.default()) {
     this.props.updateStaffMember(this.props.staffMembersLocalState.withNewEntity(staffMember));
   }
 
@@ -175,7 +176,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     this.props.updateStaffMember(this.props.staffMembersLocalState.withEntities([]));
   }
 
-  private saveStaffMember(staffMember: StaffMember) {
+  private saveStaffMember(staffMember: StaffMemberNotPersisted) {
     this.props.saveStaffMember(staffMember);
   }
 

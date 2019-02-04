@@ -1,52 +1,39 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
-import {EditableEntity} from "../../../State/EditableEntity";
-import {StaffRole} from "./StaffRole";
-import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
+import {IApiStaffMemberNotPersistedObject, StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
+import {IApiStaffRoleObject, StaffRole} from "./StaffRole";
 
-export interface IApiStaffMemberObject {
+export interface IApiStaffMemberObject extends IApiStaffMemberNotPersistedObject {
   id?: number;
-  name?: string;
-  currentHourlyRate?: number;
-  role?: IApiStaffRoleNotPersistedObject;
-  status?: string;
+  role?: IApiStaffRoleObject;
 }
 
-export class StaffMember extends EditableEntity {
+export class StaffMember extends StaffMemberNotPersisted {
 
-  public static default() {
+  public static fromResponse(obj: any) {
     return new StaffMember(
-      '',
-      0,
-      StaffRoleNotPersisted.default(),
-      StaffMemberStatus.ACTIVE,
+      obj.name,
+      obj.currentHourlyRate,
+      StaffRole.fromResponse(obj.role),
+      obj.status,
+      obj.id,
     );
   }
 
   public readonly id: number;
-  public readonly name: string;
-  public readonly currentHourlyRate: number;
   public readonly role: StaffRole;
-  public readonly status: string;
 
-  constructor(name: string, currentHourlyRate: number, role: StaffRole, status: string) {
-    super();
-    this.name = name;
-    this.currentHourlyRate = currentHourlyRate;
-    this.role = role;
-    this.status = status;
+  constructor(name: string, currentHourlyRate: number, role: StaffRole, status: string, id: number) {
+    super(name, currentHourlyRate, role, status);
+    this.id = id;
   }
 
   public with(obj: IApiStaffMemberObject) {
-    obj.role = obj.role ? this.role.with(obj.role) : this.role;
-    return Object.assign(
-      new StaffMember(
-        this.name,
-        this.currentHourlyRate,
-        this.role,
-        this.status,
-      ),
-      {id: this.id},
-      obj,
+    return new StaffMember(
+      obj.name ? obj.name : this.name,
+      obj.currentHourlyRate ? obj.currentHourlyRate : this.currentHourlyRate,
+      obj.role ? this.role.with(obj.role) : this.role,
+      obj.status ? obj.status : this.status,
+      obj.id ? obj.id : this.id,
     );
   }
 

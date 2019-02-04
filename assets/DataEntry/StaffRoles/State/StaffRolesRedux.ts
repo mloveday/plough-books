@@ -2,7 +2,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
-import {StaffRole} from "../../Rota/State/StaffRole";
+import {StaffRoleNotPersisted} from "../../Rota/State/StaffRoleNotPersisted";
 import {StaffRolesExternalState} from "./StaffRolesExternalState";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
@@ -22,7 +22,7 @@ export const staffRolesFetchStart = createAction(STAFF_ROLES_FETCH_START);
 export const staffRolesFetchSuccess = createAction<StaffRolesExternalState>(STAFF_ROLES_FETCH_SUCCESS);
 export const staffRolesFetchError = createAction(STAFF_ROLES_FETCH_ERROR);
 
-export const staffRolesCreateStart = createAction<StaffRole>(STAFF_ROLES_CREATE_START);
+export const staffRolesCreateStart = createAction<StaffRoleNotPersisted>(STAFF_ROLES_CREATE_START);
 export const staffRolesCreateSuccess = createAction<StaffRolesExternalState>(STAFF_ROLES_CREATE_SUCCESS);
 export const staffRolesCreateError = createAction(STAFF_ROLES_CREATE_ERROR);
 
@@ -37,7 +37,7 @@ export const staffRolesFetch = () => {
   }
 };
 
-export const staffRolesCreate = (staffRole: StaffRole) => {
+export const staffRolesCreate = (staffRole: StaffRoleNotPersisted) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(staffRolesCreate(staffRole));
     dispatch(staffRolesCreateStart(staffRole));
