@@ -26,7 +26,7 @@ import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
 import {Shift} from "./State/Shift";
-import {StaffMember} from "./State/StaffMember";
+import {StaffMember} from "../StaffMembers/State/StaffMember";
 import {StaffRole} from "./State/StaffRole";
 
 export interface RotaAbstractOwnProps {

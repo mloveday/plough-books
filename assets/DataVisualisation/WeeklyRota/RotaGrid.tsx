@@ -1,6 +1,6 @@
 import * as React from "react";
 import {RotaEntity} from "../../DataEntry/Rota/State/RotaEntity";
-import {StaffMember} from "../../DataEntry/Rota/State/StaffMember";
+import {StaffMember} from "../../DataEntry/StaffMembers/State/StaffMember";
 import {StaffRole} from "../../DataEntry/Rota/State/StaffRole";
 import {DateFormats} from "../../Util/DateFormats";
 

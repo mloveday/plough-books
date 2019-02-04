@@ -2,7 +2,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
-import {StaffMemberNotPersisted} from "../../Rota/State/StaffMemberNotPersisted";
+import {StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
 import {StaffMemberFilters} from "./StaffMemberFilters";
 import {StaffMembersExternalState} from "./StaffMembersExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
