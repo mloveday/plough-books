@@ -1,7 +1,13 @@
 import {EditableEntity} from "./EditableEntity";
 
+export interface IApiEditableLocalState<T extends EditableEntity> {
+  editingEntityId?: number;
+  isCreatingEntity?: boolean;
+  newEntity?: T;
+  entities?: T[];
+}
 
-export abstract class EditableLocalState<T extends EditableEntity> {
+export abstract class EditableLocalState<T extends EditableEntity> implements IApiEditableLocalState<T>{
   private static NOT_EDITING_ID = -1;
 
   public readonly editingEntityId: number = EditableLocalState.NOT_EDITING_ID;

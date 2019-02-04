@@ -1,4 +1,4 @@
-import {EditableLocalState} from "../../../State/EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 import {Constants} from "../../Rota/State/Constants";
 
 export class ConstantsLocalState extends EditableLocalState<Constants> {
@@ -13,7 +13,7 @@ export class ConstantsLocalState extends EditableLocalState<Constants> {
     );
   }
   
-  public with(obj: any) {
+  public with(obj: IApiEditableLocalState<Constants>) {
     return Object.assign(
       new ConstantsLocalState(),
       this,

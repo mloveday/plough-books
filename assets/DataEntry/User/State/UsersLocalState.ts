@@ -1,5 +1,5 @@
 import {User} from "../../../Common/Auth/Model/User";
-import {EditableLocalState} from "../../../State/EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 
 export class UsersLocalState extends EditableLocalState<User> {
   public static default() {
@@ -13,7 +13,7 @@ export class UsersLocalState extends EditableLocalState<User> {
     );
   }
 
-  public with(obj: any) {
+  public with(obj: IApiEditableLocalState<User>) {
     return Object.assign(
       new UsersLocalState(),
       this,

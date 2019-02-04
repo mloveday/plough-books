@@ -1,4 +1,4 @@
-import {EditableLocalState} from "../../../State/EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 import {StaffRole} from "../../Rota/State/StaffRole";
 
 export class StaffRolesLocalState extends EditableLocalState<StaffRole> {
@@ -13,7 +13,7 @@ export class StaffRolesLocalState extends EditableLocalState<StaffRole> {
     );
   }
 
-  public with(obj: any): StaffRolesLocalState {
+  public with(obj: IApiEditableLocalState<StaffRole>): StaffRolesLocalState {
     return Object.assign(
       new StaffRolesLocalState(),
       this,
