@@ -15,8 +15,8 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IA
   public readonly newEntity: T;
   public readonly entities: T[] = [];
 
-  private fromObjFn: (obj: any) => T;
-  private compareFn: (a: T, b: T) => number;
+  private readonly fromObjFn: (obj: any) => T;
+  private readonly compareFn: (a: T, b: T) => number;
 
   protected constructor(cloneFn: (obj: any) => T, compareFn: (a: T, b: T) => number) {
     this.fromObjFn = cloneFn;
