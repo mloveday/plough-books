@@ -9,7 +9,7 @@ export class ConstantsLocalState extends EditableLocalState<ConstantsNotPersiste
 
   public constructor() {
     super(
-      obj => Constants.default().with(obj),
+      obj => Constants.fromResponse(obj),
       (a: Constants, b: Constants) => a.date < b.date ? 1 : -1
     );
   }
