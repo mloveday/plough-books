@@ -1,9 +1,18 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
+import {StaffMember} from "../../StaffMembers/State/StaffMember";
+import {StaffRole} from "../../StaffRoles/State/StaffRole";
 import {Shift} from "./Shift";
 
-const defaultShift = () => Shift.fromResponse({}, moment.utc().format(DateFormats.API));
+const defaultRole = () => StaffRole.fromResponse({id: 1});
+
+const defaultShift = () => Shift.fromResponse({
+  staffMember: StaffMember.fromResponse({
+    role: defaultRole()
+  }),
+  staffRole: defaultRole(),
+}, moment.utc().format(DateFormats.API));
 
 describe('Shift', () => {
   it('stores the raw time input for start time', () => {
