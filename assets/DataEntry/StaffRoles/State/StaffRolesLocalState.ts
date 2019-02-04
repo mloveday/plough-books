@@ -1,6 +1,6 @@
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
-import {StaffRole} from "../../Rota/State/StaffRole";
-import {StaffRoleNotPersisted} from "../../Rota/State/StaffRoleNotPersisted";
+import {StaffRole} from "./StaffRole";
+import {StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
 
 export class StaffRolesLocalState extends EditableLocalState<StaffRoleNotPersisted, StaffRole> {
   public static default() {

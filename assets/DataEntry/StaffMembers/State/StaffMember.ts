@@ -1,6 +1,6 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {IApiStaffMemberNotPersistedObject, StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
-import {IApiStaffRoleObject, StaffRole} from "../../Rota/State/StaffRole";
+import {IApiStaffRoleObject, StaffRole} from "../../StaffRoles/State/StaffRole";
 
 export interface IApiStaffMemberObject extends IApiStaffMemberNotPersistedObject {
   id?: number;

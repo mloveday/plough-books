@@ -1,6 +1,6 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
-import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "../../Rota/State/StaffRoleNotPersisted";
+import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "../../StaffRoles/State/StaffRoleNotPersisted";
 
 export interface IApiStaffMemberNotPersistedObject {
   name?: string;

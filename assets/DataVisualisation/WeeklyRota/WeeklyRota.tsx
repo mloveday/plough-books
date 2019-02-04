@@ -5,7 +5,7 @@ import {match} from "react-router";
 import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
 import {rotaFetch} from "../../DataEntry/Rota/State/RotaRedux";
 import {StaffMember} from '../../DataEntry/StaffMembers/State/StaffMember';
-import {StaffRole} from "../../DataEntry/Rota/State/StaffRole";
+import {StaffRole} from "../../DataEntry/StaffRoles/State/StaffRole";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {uiUpdate} from "../../State/UiRedux";

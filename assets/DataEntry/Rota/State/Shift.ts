@@ -2,7 +2,7 @@ import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
 import {IApiStaffMemberObject, StaffMember} from "../../StaffMembers/State/StaffMember";
-import {IApiStaffRoleObject, StaffRole} from "./StaffRole";
+import {IApiStaffRoleObject, StaffRole} from "../../StaffRoles/State/StaffRole";
 
 export interface IApiShiftObject {
   id?: number;

@@ -1,4 +1,4 @@
-import {StaffRole} from "../DataEntry/Rota/State/StaffRole";
+import {StaffRole} from "../DataEntry/StaffRoles/State/StaffRole";
 import {WorkTypes} from "../Enum/WorkTypes";
 
 export const getStaffRoleOrder = (role: StaffRole) => {
