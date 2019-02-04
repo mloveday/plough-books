@@ -72,7 +72,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
                   <option value={StaffRoleStatus.ACTIVE}>Active</option>
                   <option value={StaffRoleStatus.INACTIVE}>Inactive</option>
                 </select>}
-                <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': ev.target.value}))}/>
+                <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': parseInt(ev.target.value, 10)}))}/>
                 <select disabled={!isEditingThisRole} value={role.type} onChange={ev => this.updateStaffRole(role.with({type: ev.target.value}))}>
                     <option value='bar'>Bar</option>
                     <option value='kitchen'>Kitchen</option>
@@ -97,7 +97,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
               <option value={StaffRoleStatus.ACTIVE}>Active</option>
               <option value={StaffRoleStatus.INACTIVE}>Inactive</option>
           </select>}
-          {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newEntity.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'orderInRota': ev.target.value}))}/>}
+          {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newEntity.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'orderInRota': parseInt(ev.target.value, 10)}))}/>}
           {isCreatingNewRole &&
             <select value={this.props.staffRolesLocalState.newEntity.type} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({type: ev.target.value}))}>
             <option value={WorkTypes.BAR}>Bar</option>

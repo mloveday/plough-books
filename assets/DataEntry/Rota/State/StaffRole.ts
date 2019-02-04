@@ -35,7 +35,7 @@ export class StaffRole extends EditableEntity {
     this.type = type;
   }
 
-  public with(obj: any) {
+  public with(obj: IApiStaffRoleObject) {
     return Object.assign(
       new StaffRole(
         this.role,
