@@ -5,7 +5,7 @@ module.exports = {
   },
   reporters: ["default", "jest-stare"],
   collectCoverageFrom : ["assets/**/*.ts","assets/**/*.tsx"],
-  coverageDirectory: "<rootDir>/test/output/coverage",
+  coverageDirectory: "<rootDir>/public/build/test/output/coverage",
   coverageReporters: ["html", "clover"],
   coveragePathIgnorePatterns: [
     "<rootDir>/assets/env/",

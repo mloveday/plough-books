@@ -13,5 +13,3 @@ echo "Done installing dependencies"
 echo "Optimising Symfony..."
 php composer.phar dump-autoload --optimize --no-dev --classmap-authoritative
 echo "Done optimising Symfony"
-
-cp -r ./test/output/ ./public/build/test

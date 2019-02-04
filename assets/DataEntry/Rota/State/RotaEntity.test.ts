@@ -13,7 +13,7 @@ describe('RotaEntity', () => {
   });
 
   it('calling fromApi() using a string date returns an object fromApi a string as a date', () => {
-    const date = moment().format(DateFormats.API);
+    const date = moment.utc().format(DateFormats.API);
 
     const modified = RotaEntity.fromApi({date});
 

@@ -5,7 +5,7 @@ import {RotasForWeek} from "./RotasForWeek";
 
 describe('RotasForWeek', () => {
   it('should populate fromApi default rotas for week', () => {
-    const date = moment().startOf('isoWeek');
+    const date = moment.utc().startOf('isoWeek');
     const rotas = RotasForWeek.default();
 
     const modified = rotas.populateWeekFromApi(date, []);
@@ -26,7 +26,7 @@ describe('RotasForWeek', () => {
   });
 
   it('should re-populate fromApi default rotas for week', () => {
-    const date = moment().startOf('isoWeek');
+    const date = moment.utc().startOf('isoWeek');
     const rotas = RotasForWeek.default().populateWeekFromApi(date, []);
 
     const modified = rotas.populateWeekFromApi(date, []);

@@ -69,7 +69,7 @@
     "react-dom": "^16.6.3"
   },
   "jest-stare": {
-    "resultDir": "./test/output/jest-stare",
+    "resultDir": "./public/build/test/output/jest-stare",
     "coverageLink": "../coverage/index.html"
   }
 }
