@@ -1,8 +1,8 @@
 import {Role} from "../../../Common/Auth/Model/Role";
 import {RoleNotPersisted} from "../../../Common/Auth/Model/RoleNotPersisted";
-import {EditableDualLocalState, IApiEditableDualLocalState} from "../../../State/EditableDualLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 
-export class RolesLocalState extends EditableDualLocalState<RoleNotPersisted, Role> {
+export class RolesLocalState extends EditableLocalState<RoleNotPersisted, Role> {
   public static default() {
     return new RolesLocalState();
   }
@@ -14,7 +14,7 @@ export class RolesLocalState extends EditableDualLocalState<RoleNotPersisted, Ro
     );
   }
 
-  public with(obj: IApiEditableDualLocalState<RoleNotPersisted, Role>): RolesLocalState {
+  public with(obj: IApiEditableLocalState<RoleNotPersisted, Role>): RolesLocalState {
     return Object.assign(
       new RolesLocalState(),
       this,

@@ -1,18 +1,20 @@
 import {EditableEntity} from "./EditableEntity";
 
-export interface IApiEditableLocalState<T extends EditableEntity> {
+export interface IApiEditableLocalState<N extends EditableEntity, T extends N> {
   editingEntityId?: number;
   isCreatingEntity?: boolean;
-  newEntity?: T;
+  newEntity?: N;
   entities?: T[];
+
+  with(obj: IApiEditableLocalState<N,T>): IApiEditableLocalState<N,T>; // we really want this to return the class extending EditableLocalState
 }
 
-export abstract class EditableLocalState<T extends EditableEntity> implements IApiEditableLocalState<T>{
+export abstract class EditableLocalState<N extends EditableEntity, T extends N> implements IApiEditableLocalState<N, T> {
   private static NOT_EDITING_ID = -1;
 
   public readonly editingEntityId: number = EditableLocalState.NOT_EDITING_ID;
   public readonly isCreatingEntity: boolean = false;
-  public readonly newEntity: T;
+  public readonly newEntity: N;
   public readonly entities: T[] = [];
 
   private readonly fromObjFn: (obj: any) => T;
@@ -23,7 +25,7 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IA
     this.compareFn = compareFn;
   }
 
-  public withNewEntity(entity: T) {
+  public withNewEntity(entity: N) {
     return this.with({
       isCreatingEntity: true,
       newEntity: entity,

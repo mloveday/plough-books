@@ -1,8 +1,8 @@
 import {IApiUserObject, User} from "../../../Common/Auth/Model/User";
 import {UserNotPersisted} from "../../../Common/Auth/Model/UserNotPersisted";
-import {EditableDualLocalState} from "../../../State/EditableDualLocalState";
+import {EditableLocalState} from "../../../State/EditableLocalState";
 
-export class UsersLocalState extends EditableDualLocalState<UserNotPersisted, User> {
+export class UsersLocalState extends EditableLocalState<UserNotPersisted, User> {
   public static default() {
     return new UsersLocalState();
   }
@@ -14,7 +14,7 @@ export class UsersLocalState extends EditableDualLocalState<UserNotPersisted, Us
     );
   }
 
-  public with(obj: EditableDualLocalState<UserNotPersisted, User>) {
+  public with(obj: EditableLocalState<UserNotPersisted, User>) {
     return Object.assign(
       new UsersLocalState(),
       this,

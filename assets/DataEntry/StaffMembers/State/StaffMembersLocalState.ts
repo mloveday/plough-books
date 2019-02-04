@@ -1,8 +1,8 @@
-import {EditableDualLocalState, IApiEditableDualLocalState} from "../../../State/EditableDualLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 import {IApiStaffMemberObject, StaffMember} from "../../Rota/State/StaffMember";
 import {StaffMemberNotPersisted} from "../../Rota/State/StaffMemberNotPersisted";
 
-export class StaffMembersLocalState extends EditableDualLocalState<StaffMemberNotPersisted, StaffMember> {
+export class StaffMembersLocalState extends EditableLocalState<StaffMemberNotPersisted, StaffMember> {
   public static default() {
     return new StaffMembersLocalState();
   }
@@ -14,7 +14,7 @@ export class StaffMembersLocalState extends EditableDualLocalState<StaffMemberNo
     );
   }
 
-  public with(obj: IApiEditableDualLocalState<StaffMemberNotPersisted, StaffMember>) {
+  public with(obj: IApiEditableLocalState<StaffMemberNotPersisted, StaffMember>) {
     return Object.assign(
       new StaffMembersLocalState(),
       this,
