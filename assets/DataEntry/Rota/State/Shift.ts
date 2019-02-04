@@ -30,7 +30,7 @@ export class Shift {
     return new Shift(shift.staffMember, shift.staffRole, shift.status, shift.hourlyRate, shift.date, shift.startTime, shift.endTime, shift.totalBreaks, shift.type, shift.startTime, shift.endTime, shift.id);
   }
 
-  public static fromApi(obj: any, date: string): Shift {
+  public static fromApi(obj: IApiShiftObject, date: string): Shift {
     obj.date = date;
     return Shift.default().fromApi(obj);
   }
@@ -69,7 +69,7 @@ export class Shift {
     return (time.isSameOrAfter(this.getStartTime()) && time.isBefore(this.getEndTime()));
   }
 
-  public fromApi(obj: any): Shift {
+  public fromApi(obj: IApiShiftObject): Shift {
     return new Shift(
       obj.staffMember ? StaffMember.default().with(obj.staffMember) : this.staffMember,
       obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole.with({}),
