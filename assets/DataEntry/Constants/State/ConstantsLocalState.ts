@@ -1,7 +1,8 @@
-import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
+import {EditableDualLocalState, IApiEditableDualLocalState} from "../../../State/EditableDualLocalState";
 import {Constants} from "../../Rota/State/Constants";
+import {ConstantsNotPersisted} from "../../Rota/State/ConstantsNotPersisted";
 
-export class ConstantsLocalState extends EditableLocalState<Constants> {
+export class ConstantsLocalState extends EditableDualLocalState<ConstantsNotPersisted, Constants> {
   public static default() {
     return new ConstantsLocalState();
   }
@@ -13,7 +14,7 @@ export class ConstantsLocalState extends EditableLocalState<Constants> {
     );
   }
   
-  public with(obj: IApiEditableLocalState<Constants>) {
+  public with(obj: IApiEditableDualLocalState<ConstantsNotPersisted, Constants>) {
     return Object.assign(
       new ConstantsLocalState(),
       this,

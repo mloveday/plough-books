@@ -4,33 +4,34 @@ import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {validateCash} from "../../Util/Validation";
 import {Constants} from "../Rota/State/Constants";
+import {ConstantsNotPersisted} from "../Rota/State/ConstantsNotPersisted";
 import "./Constants.scss";
 import {ConstantsExternalState} from "./State/ConstantsExternalState";
 import {ConstantsLocalState} from "./State/ConstantsLocalState";
 import {constantsCreate, constantsDataEntry, constantsFetch} from "./State/ConstantsRedux";
 
-interface ConstantsOwnProps {
+interface ConstantsDataEntryOwnProps {
 }
 
-interface ConstantsStateProps {
+interface ConstantsDataEntryStateProps {
   constantsExternalState: ConstantsExternalState;
   constantsLocalState: ConstantsLocalState;
 }
 
-const mapStateToProps = (state: AppState, ownProps: ConstantsOwnProps): ConstantsStateProps => {
+const mapStateToProps = (state: AppState, ownProps: ConstantsDataEntryOwnProps): ConstantsDataEntryStateProps => {
   return {
     constantsExternalState: state.constantsExternalState,
     constantsLocalState: state.constantsLocalState,
   }
 };
 
-interface ConstantsDispatchProps {
+interface ConstantsDataEntryDispatchProps {
   fetchConstants: () => void;
-  saveConstants: (constants: Constants) => void;
+  saveConstants: (constants: ConstantsNotPersisted) => void;
   updateConstants: (constantsLocalState: ConstantsLocalState) => void;
 }
 
-const mapDispatchToProps = (dispatch: any, ownProps: ConstantsOwnProps): ConstantsDispatchProps => {
+const mapDispatchToProps = (dispatch: any, ownProps: ConstantsDataEntryOwnProps): ConstantsDataEntryDispatchProps => {
   return {
     fetchConstants: () => dispatch(constantsFetch()),
     saveConstants: (constants: Constants) => dispatch(constantsCreate(constants)),
@@ -38,9 +39,9 @@ const mapDispatchToProps = (dispatch: any, ownProps: ConstantsOwnProps): Constan
   };
 };
 
-type ConstantsProps = ConstantsOwnProps & ConstantsStateProps & ConstantsDispatchProps;
+type ConstantsDataEntryProps = ConstantsDataEntryOwnProps & ConstantsDataEntryStateProps & ConstantsDataEntryDispatchProps;
 
-class ConstantsComponent extends React.Component<ConstantsProps, {}> {
+class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProps, {}> {
   public componentDidMount() {
     this.maintainStateWithUrl();
   }
@@ -124,15 +125,15 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
     )
   }
   
-  private newConstants(constants: Constants = Constants.default()) {
-    this.props.updateConstants(this.props.constantsLocalState.withNewEntity(constants));
+  private newConstants() {
+    this.props.updateConstants(this.props.constantsLocalState.withNewEntity(ConstantsNotPersisted.default()));
   }
 
   private updateConstants(constants: Constants) {
     this.props.updateConstants(this.props.constantsLocalState.withEntities([constants], constants.id));
   }
 
-  private updateNewConstants(constants: Constants) {
+  private updateNewConstants(constants: ConstantsNotPersisted) {
     this.props.updateConstants(this.props.constantsLocalState.withNewEntity(constants));
   }
 
@@ -140,7 +141,7 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
     this.props.updateConstants(this.props.constantsLocalState.withEntities(this.props.constantsExternalState.externalState.entities));
   }
 
-  private saveConstants(constants: Constants) {
+  private saveConstants(constants: ConstantsNotPersisted) {
     this.props.saveConstants(constants);
   }
 
@@ -152,7 +153,7 @@ class ConstantsComponent extends React.Component<ConstantsProps, {}> {
   }
 }
 
-export const ConstantsDataEntry = connect<ConstantsStateProps, ConstantsDispatchProps, ConstantsOwnProps>(
+export const ConstantsDataEntry = connect<ConstantsDataEntryStateProps, ConstantsDataEntryDispatchProps, ConstantsDataEntryOwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(ConstantsComponent);
+)(ConstantsDataEntryComponent);

@@ -84,7 +84,7 @@ class StatusComponent extends React.Component<StatusProps, {}> {
       statuses.push(new StatusItem('Cash up', key, fetchStatus));
     });
     this.props.constants.states.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Constants', key, fetchStatus));
+      statuses.push(new StatusItem('ConstantsNotPersisted', key, fetchStatus));
     });
     this.props.rota.states.forEach((fetchStatus, key) => {
       statuses.push(new StatusItem('Rota', key, fetchStatus));

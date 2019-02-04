@@ -1,40 +1,28 @@
 import * as moment from "moment";
-import {EditableEntity} from "../../../State/EditableEntity";
+import {ConstantsNotPersisted, IApiConstantsNotPersistedObject} from "./ConstantsNotPersisted";
 
-export interface IApiConstantsObject {
+export interface IApiConstantsObject extends IApiConstantsNotPersistedObject {
   id?: number;
-  date?: moment.Moment;
-  fixedCosts?: number;
-  labourRate?: number;
-  vatMultiplier?: number;
-  barProportionOfRevenue?: number;
-  hoursPerShortBreak?: number;
-  shortBreakDuration?: number;
-  hoursPerLongBreak?: number;
-  longBreakDuration?: number;
-  ersThreshold?: number;
-  ersPercentAboveThreshold?: number;
-  holidayLinearPercent?: number;
-  pensionLinearPercent?: number;
 }
 
-export class Constants extends EditableEntity {
+export class Constants extends ConstantsNotPersisted {
 
-  public static default() {
+  public static fromResponse(obj: any): Constants {
     return new Constants(
-      moment.utc().startOf('day'),
-      0,
-      0,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
+      moment.utc(obj.date),
+      obj.fixedCosts,
+      obj.labourRate,
+      obj.vatMultiplier,
+      obj.barProportionOfRevenue,
+      obj.hoursPerShortBreak,
+      obj.shortBreakDuration,
+      obj.hoursPerLongBreak,
+      obj.longBreakDuration,
+      obj.ersThreshold,
+      obj.ersPercentAboveThreshold,
+      obj.holidayLinearPercent,
+      obj.pensionLinearPercent,
+      obj.id,
     );
   }
 
@@ -53,44 +41,28 @@ export class Constants extends EditableEntity {
   public readonly holidayLinearPercent: number;
   public readonly pensionLinearPercent: number;
 
-  constructor(date: moment.Moment, fixedCosts: number, labourRate: number, vatMultiplier: number, barProportionOfRevenue: number, hoursPerShortBreak: number, shortBreakDuration: number, hoursPerLongBreak: number, longBreakDuration: number, ersThreshold: number, ersPercentAboveThreshold: number, holidayLinearPercent: number, pensionLinearPercent: number) {
-    super();
-    this.date = date;
-    this.fixedCosts = fixedCosts;
-    this.labourRate = labourRate;
-    this.vatMultiplier = vatMultiplier;
-    this.barProportionOfRevenue = barProportionOfRevenue;
-    this.hoursPerShortBreak = hoursPerShortBreak;
-    this.shortBreakDuration = shortBreakDuration;
-    this.hoursPerLongBreak = hoursPerLongBreak;
-    this.longBreakDuration = longBreakDuration;
-    this.ersThreshold = ersThreshold;
-    this.ersPercentAboveThreshold = ersPercentAboveThreshold;
-    this.holidayLinearPercent = holidayLinearPercent;
-    this.pensionLinearPercent = pensionLinearPercent;
+  constructor(date: moment.Moment, fixedCosts: number, labourRate: number, vatMultiplier: number, barProportionOfRevenue: number, hoursPerShortBreak: number, shortBreakDuration: number, hoursPerLongBreak: number, longBreakDuration: number, ersThreshold: number, ersPercentAboveThreshold: number, holidayLinearPercent: number, pensionLinearPercent: number, id: number) {
+    super(date, fixedCosts, labourRate, vatMultiplier, barProportionOfRevenue, hoursPerShortBreak, shortBreakDuration, hoursPerLongBreak, longBreakDuration, ersThreshold, ersPercentAboveThreshold, holidayLinearPercent, pensionLinearPercent);
+    this.id = id;
   }
 
-  public with(obj: any) {
-    obj.date = obj.date ? moment.utc(obj.date) : this.date.clone();
-    return Object.assign(
-      new Constants(
-        this.date,
-        this.fixedCosts,
-        this.labourRate,
-        this.vatMultiplier,
-        this.barProportionOfRevenue,
-        this.hoursPerShortBreak,
-        this.shortBreakDuration,
-        this.hoursPerLongBreak,
-        this.longBreakDuration,
-        this.ersThreshold,
-        this.ersPercentAboveThreshold,
-        this.holidayLinearPercent,
-        this.pensionLinearPercent,
-      ),
-      {id: this.id},
-      obj
-    );
+  public with(obj: IApiConstantsObject): Constants {
+    return new Constants(
+      obj.date ? moment.utc(obj.date) : this.date.clone(),
+      obj.fixedCosts ? obj.fixedCosts : this.fixedCosts,
+      obj.labourRate ? obj.labourRate : this.labourRate,
+      obj.vatMultiplier ? obj.vatMultiplier : this.vatMultiplier,
+      obj.barProportionOfRevenue ? obj.barProportionOfRevenue : this.barProportionOfRevenue,
+      obj.hoursPerShortBreak ? obj.hoursPerShortBreak : this.hoursPerShortBreak,
+      obj.shortBreakDuration ? obj.shortBreakDuration : this.shortBreakDuration,
+      obj.hoursPerLongBreak ? obj.hoursPerLongBreak : this.hoursPerLongBreak,
+      obj.longBreakDuration ? obj.longBreakDuration : this.longBreakDuration,
+      obj.ersThreshold ? obj.ersThreshold : this.ersThreshold,
+      obj.ersPercentAboveThreshold ? obj.ersPercentAboveThreshold : this.ersPercentAboveThreshold,
+      obj.holidayLinearPercent ? obj.holidayLinearPercent : this.holidayLinearPercent,
+      obj.pensionLinearPercent ? obj.pensionLinearPercent : this.pensionLinearPercent,
+      obj.id ? obj.id : this.id,
+      );
   }
 
   public get entityId() {

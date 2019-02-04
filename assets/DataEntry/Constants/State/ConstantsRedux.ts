@@ -2,7 +2,7 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
-import {Constants} from "../../Rota/State/Constants";
+import {ConstantsNotPersisted} from "../../Rota/State/ConstantsNotPersisted";
 import {ConstantsExternalState} from "./ConstantsExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
 
@@ -22,7 +22,7 @@ export const constantsFetchStart = createAction(CONSTANTS_FETCH_START);
 export const constantsFetchSuccess = createAction<ConstantsExternalState>(CONSTANTS_FETCH_SUCCESS);
 export const constantsFetchError = createAction(CONSTANTS_FETCH_ERROR);
 
-export const constantsCreateStart = createAction<Constants>(CONSTANTS_CREATE_START);
+export const constantsCreateStart = createAction<ConstantsNotPersisted>(CONSTANTS_CREATE_START);
 export const constantsCreateSuccess = createAction<ConstantsExternalState>(CONSTANTS_CREATE_SUCCESS);
 export const constantsCreateError = createAction(CONSTANTS_CREATE_ERROR);
 
@@ -37,7 +37,7 @@ export const constantsFetch = () => {
   }
 };
 
-export const constantsCreate = (constants: Constants) => {
+export const constantsCreate = (constants: ConstantsNotPersisted) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(constantsCreate(constants));
     dispatch(constantsCreateStart(constants));
