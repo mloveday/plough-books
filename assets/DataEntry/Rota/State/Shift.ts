@@ -2,8 +2,23 @@ import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
-import {StaffMember} from "./StaffMember";
-import {StaffRole} from "./StaffRole";
+import {IApiStaffMemberObject, StaffMember} from "./StaffMember";
+import {IApiStaffRoleObject, StaffRole} from "./StaffRole";
+
+export interface IApiShiftObject {
+  id?: number;
+  staffMember?: IApiStaffMemberObject;
+  staffRole?: IApiStaffRoleObject;
+  status?: string;
+  hourlyRate?: number;
+  date?: string;
+  totalBreaks?: number;
+  startTimeInputValue?: string;
+  endTimeInputValue?: string;
+  type?: string;
+  endTime?: string;
+  startTime?: string;
+}
 
 export class Shift {
 

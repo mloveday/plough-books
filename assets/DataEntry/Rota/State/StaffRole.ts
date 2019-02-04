@@ -2,6 +2,14 @@ import {StaffRoleStatus} from "../../../Enum/StaffRoleStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {EditableEntity} from "../../../State/EditableEntity";
 
+export interface IApiStaffRoleObject {
+  id?: number;
+  role?: string;
+  orderInRota?: number;
+  status?: string;
+  type?: string;
+}
+
 export class StaffRole extends EditableEntity {
 
   public static default() {

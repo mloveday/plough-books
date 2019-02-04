@@ -1,6 +1,23 @@
 import * as moment from "moment";
 import {EditableEntity} from "../../../State/EditableEntity";
 
+export interface IApiConstantsObject {
+  id?: number;
+  date?: moment.Moment;
+  fixedCosts?: number;
+  labourRate?: number;
+  vatMultiplier?: number;
+  barProportionOfRevenue?: number;
+  hoursPerShortBreak?: number;
+  shortBreakDuration?: number;
+  hoursPerLongBreak?: number;
+  longBreakDuration?: number;
+  ersThreshold?: number;
+  ersPercentAboveThreshold?: number;
+  holidayLinearPercent?: number;
+  pensionLinearPercent?: number;
+}
+
 export class Constants extends EditableEntity {
 
   public static default() {

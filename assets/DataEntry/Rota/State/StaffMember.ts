@@ -1,6 +1,14 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
-import {StaffRole} from "./StaffRole";
+import {IApiStaffRoleObject, StaffRole} from "./StaffRole";
+
+export interface IApiStaffMemberObject {
+  id?: number;
+  name?: string;
+  currentHourlyRate?: number;
+  role?: IApiStaffRoleObject;
+  status?: string;
+}
 
 export class StaffMember extends EditableEntity {
 

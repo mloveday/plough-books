@@ -3,8 +3,20 @@ import {RotaStatus} from "../../../Enum/RotaStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
-import {Constants} from "./Constants";
-import {Shift} from "./Shift";
+import {Constants, IApiConstantsObject} from "./Constants";
+import {IApiShiftObject, Shift} from "./Shift";
+
+export interface IApiRotaObject {
+  id?: number;
+  date?: string;
+  forecastRevenue?: number;
+  targetLabourRate?: number;
+  constants?: IApiConstantsObject;
+  status?: RotaStatus;
+  plannedShifts?: IApiShiftObject[];
+  actualShifts?: IApiShiftObject[];
+  touched?: boolean;
+}
 
 export class RotaEntity {
 
@@ -24,15 +36,15 @@ export class RotaEntity {
     );
   }
 
-  public static fromApi(obj: any): RotaEntity {
+  public static fromApi(obj: IApiRotaObject): RotaEntity {
     const date = obj.date ? moment.utc(obj.date) : moment.utc();
     const rota = RotaEntity.default(date);
     const plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, obj.date))
+      ? obj.plannedShifts.map((plannedShift: any) => Shift.fromApi(plannedShift, date.format(DateFormats.API)))
       : [])
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((actualShift: any) => Shift.fromApi(actualShift, obj.date))
+      ? obj.actualShifts.map((actualShift: any) => Shift.fromApi(actualShift, date.format(DateFormats.API)))
       : [])
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     if (!obj.targetLabourRate) {
