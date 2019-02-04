@@ -24,6 +24,7 @@ export class StaffRole extends StaffRoleNotPersisted {
 
   constructor(role: string, orderInRota: number, status: string, type: string, id: number) {
     super(role, orderInRota, status, type);
+    this.id = id;
   }
 
   public with(obj: IApiStaffRoleObject) {

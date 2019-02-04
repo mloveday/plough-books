@@ -115,7 +115,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
     )
   }
 
-  private newStaffRole(staffRole: StaffRoleNotPersisted = StaffRole.default()) {
+  private newStaffRole(staffRole: StaffRoleNotPersisted = StaffRoleNotPersisted.default()) {
     this.props.updateStaffRole(this.props.staffRolesLocalState.withNewEntity(staffRole));
   }
 

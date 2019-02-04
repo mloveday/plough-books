@@ -31,7 +31,7 @@ export class StaffMember extends StaffMemberNotPersisted {
     return new StaffMember(
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? obj.currentHourlyRate : this.currentHourlyRate,
-      obj.role ? this.role.with(obj.role) : this.role,
+      obj.role ? StaffRole.fromResponse(obj.role) : this.role,
       obj.status ? obj.status : this.status,
       obj.id ? obj.id : this.id,
     );
