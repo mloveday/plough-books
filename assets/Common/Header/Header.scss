@@ -4,7 +4,7 @@
   padding: 16px;
   color: white;
   display: grid;
-  grid-template-columns: 40px 70px auto 200px;
+  grid-template-columns: 40px 70px auto 100px 200px;
 
   @media print {
     display:none;

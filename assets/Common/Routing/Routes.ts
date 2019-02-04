@@ -16,6 +16,8 @@ export class Routes {
   public static readonly WEEKLY_PLANNING = "/weekly-planning";
   public static readonly WEEKLY_ROTA = "/weekly-rota";
   public static readonly WEEKLY_SIGN_IN = "/weekly-sign-in";
+  public static readonly TEST_RESULTS = "/test-results";
+  public static readonly TEST_COVERAGE = "/test-coverage";
 
   public static cashUpUrl(date: moment.Moment) {
     return `${this.CASH_UP}/${date.format(DateFormats.API)}`;

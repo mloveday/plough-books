@@ -11,6 +11,8 @@ import {StaffMembers} from "../../DataEntry/StaffMembers/StaffMembers";
 import {StaffRoles} from "../../DataEntry/StaffRoles/StaffRoles";
 import {Users} from "../../DataEntry/User/Users";
 import {WeeklyPlanning} from "../../DataEntry/WeeklyPlanning/WeeklyPlanning";
+import {TestCoverageComponent} from "../../DataVisualisation/Tests/TestCoverage";
+import {TestResultsComponent} from "../../DataVisualisation/Tests/TestResults";
 import {WeeklyOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {WeeklyRota} from "../../DataVisualisation/WeeklyRota/WeeklyRota";
 import {WeeklySignIn} from "../../DataVisualisation/WeeklySignIn/WeeklySignIn";
@@ -63,6 +65,8 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>
+            <RouteWithAuth exact={true} path={Routes.TEST_RESULTS} component={TestResultsComponent}/>
+            <RouteWithAuth exact={true} path={Routes.TEST_COVERAGE} component={TestCoverageComponent}/>
             <Redirect to={Routes.weeklyPlanningUrl(moment.utc())} exact={false} path={Routes.WEEKLY_PLANNING} />
             <Redirect to={Routes.weeklySignInUrl(moment.utc())} exact={false} path={Routes.WEEKLY_SIGN_IN} />
             <Redirect to={Routes.weeklyRotaUrl(moment.utc())} exact={false} path={Routes.WEEKLY_ROTA} />

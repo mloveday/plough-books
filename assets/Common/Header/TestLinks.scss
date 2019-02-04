@@ -1,0 +1,11 @@
+.test-links {
+  display: grid;
+  grid-auto-flow: row;
+  a {
+    font-size: 1.2rem;
+    color: white;
+    &:hover {
+      color: grey;
+    }
+  }
+}

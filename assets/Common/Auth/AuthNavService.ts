@@ -14,6 +14,8 @@ export const routeAllowed = (route: string, user: User): boolean => {
     case Routes.STAFF_MEMBERS:
     case Routes.STAFF_ROLES:
     case Routes.CONSTANTS:
+    case Routes.TEST_RESULTS:
+    case Routes.TEST_COVERAGE:
       return true;
     case Routes.USERS:
     case Routes.ROLES:
