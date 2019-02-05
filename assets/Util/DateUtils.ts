@@ -1,3 +1,4 @@
+import log from 'loglevel';
 import * as moment from "moment";
 import {DateFormats} from "./DateFormats";
 
@@ -36,6 +37,11 @@ export const weeksDataKey = (date: moment.Moment) => {
   return date.clone().startOf('isoWeek').format(DateFormats.API);
 };
 
-export const momentFromDateAndTime = (date: string, time:string) => {
+export const momentFromDateAndTime = (date: string, time: string) => {
+  const pattern = new RegExp(/[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}/);
+  if (pattern.test(time)) {
+    log.error(`Caught time as date (${time})`);
+    return moment.utc(time);
+  }
   return moment.utc(`${date.toString()}T${time.toString()}Z`);
 };
