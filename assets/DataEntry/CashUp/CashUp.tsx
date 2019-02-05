@@ -381,7 +381,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
               <label htmlFor="cash_advantage_bag">Cash advantage bag</label>
               <input id="cash_advantage_bag" type="text"
                      value={this.getCashUp().cashAdvantageBag}
-                     onChange={ev => this.formUpdate({cashAdvantageBag: this.getCashUp().cashAdvantageBag})}/>
+                     onChange={ev => this.formUpdate({cashAdvantageBag: ev.target.value})}/>
             </div>
             <div className="label-and-input cash_advantage_bag_seen_by">
               <label htmlFor="cash_advantage_bag_seen_by">Seen by</label>
