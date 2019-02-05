@@ -1,6 +1,12 @@
+export interface IDomainApiObject {
+    emailDomain: string;
+    whitelisted: boolean;
+    blacklisted: boolean;
+}
+
 export class Domain {
 
-    public static fromResponse(json: any): Domain {
+    public static fromResponse(json: IDomainApiObject): Domain {
         return new Domain(
             json.emailDomain,
             json.whitelisted,

@@ -1,7 +1,7 @@
 import {IApiRoleObject, Role} from "./Role";
 import {IApiUserNotPersistedObject, UserNotPersisted} from "./UserNotPersisted";
 
-export interface IApiUserObject extends IApiUserNotPersistedObject {
+export interface IUserApiObject extends IApiUserNotPersistedObject {
   id?: number;
   role?: IApiRoleObject;
 }
@@ -20,7 +20,7 @@ export class User extends UserNotPersisted {
     this.id = id;
   }
 
-  public with(obj: IApiUserObject) {
+  public with(obj: IUserApiObject) {
     return new User(
       obj.email ? obj.email : this.email,
       obj.whitelisted ? obj.whitelisted : this.whitelisted,

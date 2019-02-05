@@ -1,4 +1,4 @@
-import {IApiUserObject, User} from "../../../Common/Auth/Model/User";
+import {IUserApiObject, User} from "../../../Common/Auth/Model/User";
 import {UserNotPersisted} from "../../../Common/Auth/Model/UserNotPersisted";
 import {EditableLocalState} from "../../../State/EditableLocalState";
 
@@ -9,7 +9,7 @@ export class UsersLocalState extends EditableLocalState<UserNotPersisted, User> 
 
   public constructor() {
     super(
-      (obj: IApiUserObject) => User.fromResponse(obj),
+      (obj: IUserApiObject) => User.fromResponse(obj),
       (a: User, b: User) => a.email > b.email ? 1 : -1
     );
   }
