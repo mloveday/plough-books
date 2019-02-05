@@ -1,11 +1,11 @@
 import {EditableEntity} from "../../../State/EditableEntity";
-import {IApiRoleNotPersistedObject, RoleNotPersisted} from "./RoleNotPersisted";
+import {IRoleNotPersistedUpdateObject, RoleNotPersisted} from "./RoleNotPersisted";
 
 export interface IApiUserNotPersistedObject {
   email?: string;
   whitelisted?: boolean;
   blacklisted?: boolean;
-  role?: IApiRoleNotPersistedObject;
+  role?: IRoleNotPersistedUpdateObject;
 }
 
 export class UserNotPersisted extends EditableEntity {

@@ -1,9 +1,9 @@
-import {IApiRoleObject, Role} from "./Role";
+import {IRoleApiObject, IRoleUpdateObject, Role} from "./Role";
 import {IApiUserNotPersistedObject, UserNotPersisted} from "./UserNotPersisted";
 
 export interface IUserApiObject {
   id: number;
-  role: IApiRoleObject;
+  role: IRoleApiObject;
   email: string;
   whitelisted: boolean;
   blacklisted: boolean;
@@ -11,7 +11,7 @@ export interface IUserApiObject {
 
 export interface IUserUpdateObject extends IApiUserNotPersistedObject {
   id?: number;
-  role?: IApiRoleObject;
+  role?: IRoleUpdateObject;
 }
 
 export class User extends UserNotPersisted {

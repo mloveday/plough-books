@@ -1,6 +1,6 @@
 import {EditableEntity} from "../../../State/EditableEntity";
 
-export interface IApiRoleNotPersistedObject {
+export interface IRoleNotPersistedUpdateObject {
   role?: string;
   managesUsers?: boolean;
 }
@@ -24,7 +24,7 @@ export class RoleNotPersisted extends EditableEntity {
     return new RoleNotPersisted(this.role, this.managesUsers);
   }
 
-  public with(obj: IApiRoleNotPersistedObject): RoleNotPersisted {
+  public with(obj: IRoleNotPersistedUpdateObject): RoleNotPersisted {
     return Object.assign(RoleNotPersisted.default(), this, obj);
   }
 
