@@ -1,3 +1,15 @@
+export interface IReceiptUpdateObject {
+  id?: number;
+  description?: string;
+  amount?: number;
+}
+
+export interface IReceiptApiObject {
+  id: number;
+  description: string;
+  amount: number;
+}
+
 export class Receipt {
   public static default() {
     return new Receipt('',0);
@@ -12,7 +24,7 @@ export class Receipt {
     this.amount = amount;
   }
 
-  public with(obj: any): Receipt {
+  public with(obj: IReceiptUpdateObject): Receipt {
     return Object.assign(new Receipt(this.description, this.amount), obj);
   }
 
