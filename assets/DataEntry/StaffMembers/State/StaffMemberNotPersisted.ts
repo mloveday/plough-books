@@ -1,11 +1,11 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
-import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "../../StaffRoles/State/StaffRoleNotPersisted";
+import {IStaffRoleNotPersistedUpdateObject, StaffRoleNotPersisted} from "../../StaffRoles/State/StaffRoleNotPersisted";
 
-export interface IApiStaffMemberNotPersistedObject {
+export interface IStaffMemberNotPersistedUpdateObject {
   name?: string;
   currentHourlyRate?: number;
-  role?: IApiStaffRoleNotPersistedObject;
+  role?: IStaffRoleNotPersistedUpdateObject;
   status?: string;
 }
 
@@ -33,7 +33,7 @@ export class StaffMemberNotPersisted extends EditableEntity {
     this.status = status;
   }
 
-  public with(obj: IApiStaffMemberNotPersistedObject) {
+  public with(obj: IStaffMemberNotPersistedUpdateObject) {
     return new StaffMemberNotPersisted(
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? obj.currentHourlyRate : this.currentHourlyRate,

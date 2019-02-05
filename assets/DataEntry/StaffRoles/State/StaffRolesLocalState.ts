@@ -1,5 +1,5 @@
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
-import {StaffRole} from "./StaffRole";
+import {IStaffRoleApiObject, StaffRole} from "./StaffRole";
 import {StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
 
 export class StaffRolesLocalState extends EditableLocalState<StaffRoleNotPersisted, StaffRole> {
@@ -9,7 +9,7 @@ export class StaffRolesLocalState extends EditableLocalState<StaffRoleNotPersist
 
   public constructor() {
     super(
-      (obj: any) => StaffRole.fromResponse(obj),
+      (obj: IStaffRoleApiObject) => StaffRole.fromResponse(obj),
       (a: StaffRole, b: StaffRole) => a.role > b.role ? 1 : -1
     );
   }

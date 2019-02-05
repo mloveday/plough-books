@@ -1,12 +1,20 @@
-import {IApiStaffRoleNotPersistedObject, StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
+import {IStaffRoleNotPersistedUpdateObject, StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
 
-export interface IApiStaffRoleObject extends IApiStaffRoleNotPersistedObject {
+export interface IStaffRoleUpdateObject extends IStaffRoleNotPersistedUpdateObject {
   id?: number;
+}
+
+export interface IStaffRoleApiObject {
+  id: number;
+  role: string;
+  orderInRota: number;
+  status: string;
+  type: string;
 }
 
 export class StaffRole extends StaffRoleNotPersisted {
   
-  public static fromResponse(obj: any) {
+  public static fromResponse(obj: IStaffRoleApiObject) {
     return new StaffRole(
       obj.role,
       obj.orderInRota,
@@ -14,6 +22,10 @@ export class StaffRole extends StaffRoleNotPersisted {
       obj.type,
       obj.id,
     );
+  }
+
+  public static placeholder() {
+    return new StaffRole('',-1,'','',-1);
   }
   
   public readonly id: number;
@@ -27,7 +39,7 @@ export class StaffRole extends StaffRoleNotPersisted {
     this.id = id;
   }
 
-  public with(obj: IApiStaffRoleObject) {
+  public with(obj: IStaffRoleUpdateObject) {
     return new StaffRole(
       obj.role ? obj.role : this.role,
       obj.orderInRota ? obj.orderInRota : this.orderInRota,

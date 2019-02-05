@@ -1,15 +1,23 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
-import {IApiStaffMemberNotPersistedObject, StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
-import {IApiStaffRoleObject, StaffRole} from "../../StaffRoles/State/StaffRole";
+import {IStaffRoleApiObject, IStaffRoleUpdateObject, StaffRole} from "../../StaffRoles/State/StaffRole";
+import {IStaffMemberNotPersistedUpdateObject, StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
 
-export interface IApiStaffMemberObject extends IApiStaffMemberNotPersistedObject {
+export interface IStaffMemberUpdateObject extends IStaffMemberNotPersistedUpdateObject {
   id?: number;
-  role?: IApiStaffRoleObject;
+  role?: IStaffRoleUpdateObject;
+}
+
+export interface IStaffMemberApiObject {
+  name: string;
+  currentHourlyRate: number;
+  role: IStaffRoleApiObject;
+  status: string;
+  id: number;
 }
 
 export class StaffMember extends StaffMemberNotPersisted {
 
-  public static fromResponse(obj: any) {
+  public static fromResponse(obj: IStaffMemberApiObject) {
     return new StaffMember(
       obj.name,
       obj.currentHourlyRate,
@@ -17,6 +25,10 @@ export class StaffMember extends StaffMemberNotPersisted {
       obj.status,
       obj.id,
     );
+  }
+
+  public static placeholder() {
+    return new StaffMember('',0,StaffRole.placeholder(),'',-1);
   }
 
   public readonly id: number;
@@ -27,11 +39,11 @@ export class StaffMember extends StaffMemberNotPersisted {
     this.id = id;
   }
 
-  public with(obj: IApiStaffMemberObject) {
+  public with(obj: IStaffMemberUpdateObject) {
     return new StaffMember(
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? obj.currentHourlyRate : this.currentHourlyRate,
-      obj.role ? StaffRole.fromResponse(obj.role) : this.role,
+      obj.role ? this.role.with(obj.role) : this.role,
       obj.status ? obj.status : this.status,
       obj.id ? obj.id : this.id,
     );

@@ -3,12 +3,9 @@ import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
 import {StaffMember} from "../../StaffMembers/State/StaffMember";
-import {StaffRole} from "../../StaffRoles/State/StaffRole";
 import {Shift} from "./Shift";
 
-const defaultRole = () => StaffRole.fromResponse({id: 1});
-
-const defaultShift = () => Shift.defaultFor(StaffMember.fromResponse({role: defaultRole()}), WorkTypes.BAR, moment.utc().format(DateFormats.API));
+const defaultShift = () => Shift.defaultFor(StaffMember.placeholder(), WorkTypes.BAR, moment.utc().format(DateFormats.API));
 
 describe('Shift', () => {
   it('stores the raw time input for start time', () => {

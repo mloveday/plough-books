@@ -1,13 +1,13 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
-import {IApiStaffMemberObject, StaffMember} from "../../StaffMembers/State/StaffMember";
-import {IApiStaffRoleObject, StaffRole} from "../../StaffRoles/State/StaffRole";
+import {IStaffMemberApiObject, IStaffMemberUpdateObject, StaffMember} from "../../StaffMembers/State/StaffMember";
+import {IStaffRoleApiObject, IStaffRoleUpdateObject, StaffRole} from "../../StaffRoles/State/StaffRole";
 
 export interface IShiftApiObject {
   id?: number;
-  staffMember: IApiStaffMemberObject;
-  staffRole: IApiStaffRoleObject;
+  staffMember: IStaffMemberApiObject;
+  staffRole: IStaffRoleApiObject;
   status: string;
   hourlyRate: number;
   date: string;
@@ -21,8 +21,8 @@ export interface IShiftApiObject {
 
 export interface IShiftUpdateObject {
   id?: number;
-  staffMember?: IApiStaffMemberObject;
-  staffRole?: IApiStaffRoleObject;
+  staffMember?: IStaffMemberUpdateObject;
+  staffRole?: IStaffRoleUpdateObject;
   status?: string;
   hourlyRate?: number;
   date?: string;
@@ -46,7 +46,7 @@ export class Shift {
 
   public static fromPartial(obj: IShiftUpdateObject, type: WorkTypes, date: string): Shift {
     return Shift.defaultFor(
-      StaffMember.fromResponse(obj.staffMember),
+      StaffMember.placeholder(),
       type,
       date
     ).update(obj);
@@ -106,8 +106,8 @@ export class Shift {
   public update(obj: IShiftUpdateObject): Shift {
     const date = obj.date ? obj.date : this.date;
     return new Shift(
-      obj.staffMember ? StaffMember.fromResponse(obj.staffMember) : this.staffMember,
-      obj.staffRole ? StaffRole.fromResponse(obj.staffRole) : this.staffRole.with({}),
+      obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember,
+      obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole.with({}),
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
       date,

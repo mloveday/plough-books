@@ -2,7 +2,7 @@ import {StaffRoleStatus} from "../../../Enum/StaffRoleStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {EditableEntity} from "../../../State/EditableEntity";
 
-export interface IApiStaffRoleNotPersistedObject {
+export interface IStaffRoleNotPersistedUpdateObject {
   role?: string;
   orderInRota?: number;
   status?: string;
@@ -33,7 +33,7 @@ export class StaffRoleNotPersisted extends EditableEntity {
     this.type = type;
   }
 
-  public with(obj: IApiStaffRoleNotPersistedObject) {
+  public with(obj: IStaffRoleNotPersistedUpdateObject) {
     return new StaffRoleNotPersisted(
       obj.role ? obj.role : this.role,
       obj.orderInRota ? obj.orderInRota : this.orderInRota,
