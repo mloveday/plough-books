@@ -1,13 +1,30 @@
 import * as moment from "moment";
 import {ConstantsNotPersisted, IApiConstantsNotPersistedObject} from "./ConstantsNotPersisted";
 
-export interface IApiConstantsObject extends IApiConstantsNotPersistedObject {
+export interface IConstantsUpdateObject extends IApiConstantsNotPersistedObject {
   id?: number;
+}
+
+export interface IConstantsApiObject {
+  id: number;
+  date: moment.Moment|string;
+  fixedCosts: number;
+  labourRate: number;
+  vatMultiplier: number;
+  barProportionOfRevenue: number;
+  hoursPerShortBreak: number;
+  shortBreakDuration: number;
+  hoursPerLongBreak: number;
+  longBreakDuration: number;
+  ersThreshold: number;
+  ersPercentAboveThreshold: number;
+  holidayLinearPercent: number;
+  pensionLinearPercent: number;
 }
 
 export class Constants extends ConstantsNotPersisted {
 
-  public static fromResponse(obj: any): Constants {
+  public static fromResponse(obj: IConstantsApiObject): Constants {
     return new Constants(
       moment.utc(obj.date),
       obj.fixedCosts,
@@ -24,6 +41,10 @@ export class Constants extends ConstantsNotPersisted {
       obj.pensionLinearPercent,
       obj.id,
     );
+  }
+
+  public static placeholder() {
+    return new Constants(moment.utc(), 0,0,0,0,0,0,0,0,0,0,0,0,-1);
   }
 
   public readonly id: number;
@@ -46,7 +67,7 @@ export class Constants extends ConstantsNotPersisted {
     this.id = id;
   }
 
-  public with(obj: IApiConstantsObject): Constants {
+  public with(obj: IConstantsUpdateObject): Constants {
     return new Constants(
       obj.date ? moment.utc(obj.date) : this.date.clone(),
       obj.fixedCosts ? obj.fixedCosts : this.fixedCosts,
