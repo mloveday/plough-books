@@ -2,6 +2,11 @@ import * as moment from "moment";
 import {CashUpSection} from "../Enum/CashUpSection";
 import {DateFormats} from "../Util/DateFormats";
 
+export interface IUiStateUpdateObject {
+  cashUpSection?: CashUpSection;
+  currentDateString?: string;
+}
+
 export class UiState {
   public static default(): UiState {
     return new UiState();
@@ -26,7 +31,7 @@ export class UiState {
     return this.with({cashUpSection});
   }
 
-  private with(obj: any): UiState {
+  private with(obj: IUiStateUpdateObject): UiState {
     return Object.assign(new UiState(), this, obj);
   }
 }
