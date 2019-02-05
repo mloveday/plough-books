@@ -4,25 +4,25 @@ import {Constants} from "../../Constants/State/Constants";
 import {RotaEntity} from "./RotaEntity";
 
 describe('RotaEntity', () => {
-  it('calling fromApi() using an empty object creates a default entity', () => {
+  it('calling fromPartial() using an empty object creates a default entity', () => {
     const date = moment.utc();
 
-    const modified = RotaEntity.fromApi({date: date.format(DateFormats.API)});
+    const modified = RotaEntity.fromPartial({date: date.format(DateFormats.API)});
 
     expect(modified).toEqual(RotaEntity.default(date));
   });
 
-  it('calling fromApi() using a string date returns an object fromApi a string as a date', () => {
+  it('calling fromPartial() using a string date returns an object fromPartial a string as a date', () => {
     const date = moment.utc().format(DateFormats.API);
 
-    const modified = RotaEntity.fromApi({date});
+    const modified = RotaEntity.fromPartial({date});
 
     expect(modified.date).toEqual(date);
   });
 
-  it('calling fromApi() using constants returns an object fromApi a string as a date', () => {
+  it('calling fromPartial() using constants returns an object fromPartial a string as a date', () => {
     const date = moment.utc();
-    const modified = RotaEntity.fromApi({constants: Constants.default()});
+    const modified = RotaEntity.fromPartial({constants: Constants.default()});
 
     expect(modified.date).toEqual(RotaEntity.default(date).date);
   });

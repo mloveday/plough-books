@@ -5,29 +5,30 @@ import {match, Prompt} from "react-router";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Enum/RotaStatus";
+import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
+import {Constants} from "../Constants/State/Constants";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
+import {StaffMember} from "../StaffMembers/State/StaffMember";
 import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../StaffMembers/State/StaffMembersLocalState";
 import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
+import {StaffRole} from "../StaffRoles/State/StaffRole";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.scss';
-import {Constants} from "../Constants/State/Constants";
-import {RotaEntity} from "./State/RotaEntity";
+import {IRotaUpdateObject, RotaEntity} from "./State/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
 import {Shift} from "./State/Shift";
-import {StaffMember} from "../StaffMembers/State/StaffMember";
-import {StaffRole} from "../StaffRoles/State/StaffRole";
 
 export interface RotaAbstractOwnProps {
   match: match<{
@@ -133,7 +134,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
         <div className="rota-overview">
           <div className="rota-stat">
             Status:
-            <select value={this.getRota().status} onChange={ev => this.formUpdate({status: ev.target.value})}>
+            <select value={this.getRota().status} onChange={ev => this.formUpdate({status: RotaStatus[ev.target.value]})}>
               <option value={RotaStatus.NEW}>New</option>
               <option value={RotaStatus.DRAFT}>Draft</option>
               <option value={RotaStatus.ROTA_COMPLETE}>Rota Complete</option>
@@ -145,6 +146,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
           {this.showStats() && <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>}
           {this.showStats() && <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))}</div>}
           {this.showStats() && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))} (aiming for &lt; {Formatting.formatPercent(this.getRota().targetLabourRate)})</div>}
+          {this.canAutoPopulateFromRota() && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.getRota())}><FontAwesomeIcon icon="save" /> Save</button></div>
         </div>
         <div className="rota-grid">
@@ -231,6 +233,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
 
   protected abstract getName(): string;
   protected abstract showStats(): boolean;
+  protected abstract canAutoPopulateFromRota(): boolean;
   protected abstract getShifts(): Shift[];
   protected abstract addShift(shiftToAdd: Shift): void;
   protected abstract updateShift(shiftToUpdate: Shift): void;
@@ -242,7 +245,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     return localState === undefined ? RotaEntity.default(date) : localState;
   }
 
-  protected formUpdate(obj: {}, touched: boolean = true) {
+  protected formUpdate(obj: IRotaUpdateObject, touched: boolean = true) {
     if (touched) {
       this.props.updateRotaLocalState(
         [this.getRota().updateTouched(obj)]
@@ -255,7 +258,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   }
 
   private newShiftHandler(member: StaffMember) {
-    this.addShift(Shift.fromResponse({type: this.props.match.params.type, staffMember: member, staffRole: member.role, hourlyRate: member.currentHourlyRate}, this.getRota().date));
+    this.addShift(Shift.defaultFor(member, WorkTypes[this.props.match.params.type], this.getRota().date));
   }
 
   private startTimeHandler(value: string, shift: Shift) {
@@ -266,9 +269,9 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     }
     const formattedTime = time.format(`${DateFormats.API} HH:mm`);
     if (time.isSameOrAfter(shift.getEndTime())) {
-      this.updateShift(shift.fromApi({startTimeInputValue: value, startTime: formattedTime, endTimeInputValue: formattedTime, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
+      this.updateShift(shift.update({startTimeInputValue: value, startTime: formattedTime, endTimeInputValue: formattedTime, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
     } else {
-      this.updateShift(shift.fromApi({startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
+      this.updateShift(shift.update({startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime())}));
     }
   }
 
@@ -279,9 +282,9 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     }
     const formattedTime = time.format(`${DateFormats.API} HH:mm`);
     if (time.isSameOrBefore(shift.getStartTime())) {
-      this.updateShift(shift.fromApi({endTimeInputValue: value, endTime: formattedTime, startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
+      this.updateShift(shift.update({endTimeInputValue: value, endTime: formattedTime, startTimeInputValue: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
     } else {
-      this.updateShift(shift.fromApi({endTimeInputValue: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
+      this.updateShift(shift.update({endTimeInputValue: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time)}));
     }
   }
 
@@ -324,5 +327,10 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && this.getRota().constants.id === undefined && this.props.constantsExternalState.externalState) {
       this.formUpdate({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}, false);
     }
+  }
+
+  private autoPopulateShifts() {
+    const clonedPlannedShifts = this.getRota().plannedShifts.map(shift => Shift.fromOtherShift(shift));
+    this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 }

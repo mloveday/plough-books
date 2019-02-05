@@ -5,7 +5,7 @@ import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
-import {RotaEntity} from "./RotaEntity";
+import {IRotaApiObject, RotaEntity} from "./RotaEntity";
 import {RotaExternalState} from "./RotaExternalState";
 import {RotasForWeek} from "./RotasForWeek";
 
@@ -93,7 +93,7 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
   }
 };
 
-const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: any}): RotasForWeek => {
+const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: IRotaApiObject[]}): RotasForWeek => {
   return state.populateWeekFromApi(moment.utc(payload.date), payload.response);
 };
 

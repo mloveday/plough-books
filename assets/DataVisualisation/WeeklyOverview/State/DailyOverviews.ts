@@ -108,13 +108,13 @@ export class DailyOverviews {
       } else if (cashUp && !cashUp.isDefault){
         overviews.push(new DailyOverview(
           cashUp,
-          RotaEntity.fromApi({date: day.format(DateFormats.API)}),
+          RotaEntity.fromPartial({date: day.format(DateFormats.API)}),
           day
         ));
       } else {
         overviews.push(new DailyOverview(
           PlaceholderCashUp.default(day),
-          RotaEntity.fromApi({date: day.format(DateFormats.API)}),
+          RotaEntity.fromPartial({date: day.format(DateFormats.API)}),
           day
         ));
       }

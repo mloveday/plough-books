@@ -18,6 +18,10 @@ class RotaComponent extends RotaAbstractComponent {
     return true;
   }
 
+  protected canAutoPopulateFromRota(): boolean {
+    return false;
+  }
+
   protected getShifts() {
     return this.getRota().plannedShifts;
   }

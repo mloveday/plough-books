@@ -4,17 +4,29 @@ import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
 import {Constants, IApiConstantsObject} from "../../Constants/State/Constants";
-import {IApiShiftObject, Shift} from "./Shift";
+import {IShiftApiObject, IShiftUpdateObject, Shift} from "./Shift";
 
-export interface IApiRotaObject {
+export interface IRotaApiObject {
+  id?: number;
+  date: string;
+  forecastRevenue: number;
+  targetLabourRate: number;
+  constants: IApiConstantsObject;
+  status: string;
+  plannedShifts: IShiftApiObject[];
+  actualShifts: IShiftApiObject[];
+  touched: boolean;
+}
+
+export interface IRotaUpdateObject {
   id?: number;
   date?: string;
   forecastRevenue?: number;
   targetLabourRate?: number;
   constants?: IApiConstantsObject;
   status?: RotaStatus;
-  plannedShifts?: IApiShiftObject[];
-  actualShifts?: IApiShiftObject[];
+  plannedShifts?: IShiftUpdateObject[];
+  actualShifts?: IShiftUpdateObject[];
   touched?: boolean;
 }
 
@@ -36,7 +48,7 @@ export class RotaEntity {
     );
   }
 
-  public static fromApi(obj: IApiRotaObject): RotaEntity {
+  public static fromPartial(obj: IRotaUpdateObject): RotaEntity {
     const date = obj.date ? moment.utc(obj.date) : moment.utc();
     const rota = RotaEntity.default(date);
     const plannedShifts = (obj.plannedShifts
@@ -63,6 +75,25 @@ export class RotaEntity {
     );
   }
 
+  public static fromApi(obj: IRotaApiObject): RotaEntity {
+    const date = moment.utc(obj.date);
+    const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromResponse(plannedShift, date.format(DateFormats.API)))
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    const actualShifts = obj.actualShifts.map(actualShift => Shift.fromResponse(actualShift, date.format(DateFormats.API)))
+      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
+    return new RotaEntity(
+      date,
+      obj.forecastRevenue,
+      obj.targetLabourRate,
+      Constants.fromResponse(obj.constants),
+      RotaStatus[obj.status],
+      plannedShifts,
+      actualShifts,
+      false,
+      obj.id,
+    );
+  }
+
   public readonly id: number;
   public readonly date: string;
   public readonly forecastRevenue: number;
@@ -86,7 +117,7 @@ export class RotaEntity {
     }
   }
 
-  public updateTouched(o: any): RotaEntity {
+  public updateTouched(o: IRotaUpdateObject): RotaEntity {
     return this.update(Object.assign({touched: true}, o));
   }
 
@@ -104,14 +135,14 @@ export class RotaEntity {
     )
   }
 
-  public update(obj: IApiRotaObject): RotaEntity {
+  public update(obj: IRotaUpdateObject): RotaEntity {
     const constants = obj.constants ? Constants.fromResponse(obj.constants) : this.constants.with({});
     const plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((shift: IApiShiftObject) => Shift.fromResponse(shift, this.date))
+      ? obj.plannedShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? WorkTypes[shift.type] : WorkTypes.BAR, this.date))
       : this.plannedShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((shift: IApiShiftObject) => Shift.fromResponse(shift, this.date))
+      ? obj.actualShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? WorkTypes[shift.type] : WorkTypes.BAR, this.date))
       : this.actualShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(

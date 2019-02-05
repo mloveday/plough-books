@@ -18,6 +18,10 @@ class SignInComponent extends RotaAbstractComponent {
     return true;
   }
 
+  protected canAutoPopulateFromRota(): boolean {
+    return true;
+  }
+
   protected getShifts() {
     return this.getRota().actualShifts;
   }

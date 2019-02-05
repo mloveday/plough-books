@@ -2,7 +2,7 @@ import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
-import {RotaEntity} from "./RotaEntity";
+import {IRotaApiObject, RotaEntity} from "./RotaEntity";
 
 export class RotasForWeek {
   public static default() {
@@ -12,15 +12,19 @@ export class RotasForWeek {
   public static defaultForWeek(dayInWeek: moment.Moment) {
     const startOfWeek = moment.utc(dayInWeek).startOf('isoWeek');
     const dates = [
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(0, 'days').format(DateFormats.API)}),
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(1, 'days').format(DateFormats.API)}),
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(2, 'days').format(DateFormats.API)}),
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(3, 'days').format(DateFormats.API)}),
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(4, 'days').format(DateFormats.API)}),
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(5, 'days').format(DateFormats.API)}),
-      RotaEntity.fromApi({'date': startOfWeek.clone().add(6, 'days').format(DateFormats.API)}),
+      this.defaultRotaFor(startOfWeek, 0),
+      this.defaultRotaFor(startOfWeek, 1),
+      this.defaultRotaFor(startOfWeek, 2),
+      this.defaultRotaFor(startOfWeek, 3),
+      this.defaultRotaFor(startOfWeek, 4),
+      this.defaultRotaFor(startOfWeek, 5),
+      this.defaultRotaFor(startOfWeek, 6),
     ];
     return RotasForWeek.default().update(dates);
+  }
+
+  private static defaultRotaFor(date: moment.Moment, daysToAdd: number = 0) {
+    return RotaEntity.fromPartial({'date': date.clone().add(daysToAdd, 'days').format(DateFormats.API)})
   }
 
   private readonly rotas: RotaEntity[] = [];
@@ -82,7 +86,7 @@ export class RotasForWeek {
     });
   }
 
-  public populateWeekFromApi(date: moment.Moment, obj: any[]) {
+  public populateWeekFromApi(date: moment.Moment, obj: IRotaApiObject[]) {
     return this
       .update(RotasForWeek.defaultForWeek(moment.utc(date)).rotas) // ensure week is populated
       .update(this.rotas) // ensure we are not overwriting any existing data
@@ -93,7 +97,7 @@ export class RotasForWeek {
     return this.updateRotas(newRotas);
   }
 
-  private fromApi(obj: any[]): RotasForWeek {
+  private fromApi(obj: IRotaApiObject[]): RotasForWeek {
     const newRotas = obj.map(apiRota => RotaEntity.fromApi(apiRota));
     return this.updateRotas(newRotas);
   }

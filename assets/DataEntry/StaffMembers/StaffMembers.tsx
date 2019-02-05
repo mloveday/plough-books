@@ -4,12 +4,12 @@ import {connect} from "react-redux";
 import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
 import {AppState} from "../../redux";
 import {validateCash} from "../../Util/Validation";
-import {StaffMember} from "./State/StaffMember";
-import {StaffMemberNotPersisted} from "./State/StaffMemberNotPersisted";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import "./StaffMembers.scss";
+import {StaffMember} from "./State/StaffMember";
 import {StaffMemberFilters} from "./State/StaffMemberFilters";
+import {StaffMemberNotPersisted} from "./State/StaffMemberNotPersisted";
 import {StaffMembersExternalState} from "./State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "./State/StaffMembersLocalState";
 import {

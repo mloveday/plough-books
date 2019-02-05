@@ -4,7 +4,7 @@ import {RotaEntity} from "./RotaEntity";
 import {RotasForWeek} from "./RotasForWeek";
 
 describe('RotasForWeek', () => {
-  it('should populate fromApi default rotas for week', () => {
+  it('should populate fromPartial default rotas for week', () => {
     const date = moment.utc().startOf('isoWeek');
     const rotas = RotasForWeek.default();
 
@@ -21,11 +21,11 @@ describe('RotasForWeek', () => {
     ];
     datesInWeek.forEach(dateInWeek => {
       expect(modified.hasRotaForDate(dateInWeek)).toBeTruthy();
-      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.fromApi({date: dateInWeek.format(DateFormats.API)}));
+      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.fromPartial({date: dateInWeek.format(DateFormats.API)}));
     });
   });
 
-  it('should re-populate fromApi default rotas for week', () => {
+  it('should re-populate fromPartial default rotas for week', () => {
     const date = moment.utc().startOf('isoWeek');
     const rotas = RotasForWeek.default().populateWeekFromApi(date, []);
 
@@ -42,7 +42,7 @@ describe('RotasForWeek', () => {
     ];
     datesInWeek.forEach(dateInWeek => {
       expect(modified.hasRotaForDate(dateInWeek)).toBeTruthy();
-      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.fromApi({date: dateInWeek.format(DateFormats.API)}));
+      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.fromPartial({date: dateInWeek.format(DateFormats.API)}));
     });
   });
   // it('', () => {});
