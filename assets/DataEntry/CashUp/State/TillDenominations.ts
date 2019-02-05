@@ -1,4 +1,18 @@
-import {Denominations} from "./Denominations";
+import {Denominations, IDenominationsApiObject, IDenominationsUpdateObject} from "./Denominations";
+
+export interface ITillDenominationsApiObject extends IDenominationsApiObject {
+  float: number;
+  visa: number;
+  amex: number;
+  zRead: number;
+}
+
+export interface ITillDenominationsUpdateObject extends IDenominationsUpdateObject {
+  float?: number;
+  visa?: number;
+  amex?: number;
+  zRead?: number;
+}
 
 export class TillDenominations extends Denominations {
   public static default() {
@@ -32,7 +46,7 @@ export class TillDenominations extends Denominations {
     this.zRead = zRead;
   }
 
-  public with(obj: any): TillDenominations {
+  public with(obj: ITillDenominationsUpdateObject): TillDenominations {
     return Object.assign(
       new TillDenominations(this.visa, this.amex, this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.float, this.zRead),
       obj
