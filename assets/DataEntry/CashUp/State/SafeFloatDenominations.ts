@@ -1,4 +1,12 @@
-import {Denominations} from "./Denominations";
+import {Denominations, IDenominationsApiObject, IDenominationsUpdateObject} from "./Denominations";
+
+export interface ISafeFloatDenominationsApiObject extends IDenominationsApiObject {
+  initials: string;
+}
+
+export interface ISafeFloatDenominationsUpdateObject extends IDenominationsUpdateObject {
+  initials?: string;
+}
 
 export class SafeFloatDenominations extends Denominations {
   public static default() {
@@ -23,7 +31,7 @@ export class SafeFloatDenominations extends Denominations {
     this.initials = initials;
   }
 
-  public with(obj: any): SafeFloatDenominations {
+  public with(obj: ISafeFloatDenominationsUpdateObject): SafeFloatDenominations {
     return Object.assign(
       new SafeFloatDenominations(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.initials),
       obj
