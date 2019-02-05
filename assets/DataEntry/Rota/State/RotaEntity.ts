@@ -52,11 +52,11 @@ export class RotaEntity {
     const date = obj.date ? moment.utc(obj.date) : moment.utc();
     const rota = RotaEntity.default(date);
     const plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((plannedShift: any) => Shift.fromResponse(plannedShift, date.format(DateFormats.API)))
+      ? obj.plannedShifts.map(plannedShift => Shift.fromPartial(plannedShift, WorkTypes.BAR, date.format(DateFormats.API)))
       : [])
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((actualShift: any) => Shift.fromResponse(actualShift, date.format(DateFormats.API)))
+      ? obj.actualShifts.map(actualShift => Shift.fromPartial(actualShift, WorkTypes.BAR, date.format(DateFormats.API)))
       : [])
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     if (!obj.targetLabourRate) {
