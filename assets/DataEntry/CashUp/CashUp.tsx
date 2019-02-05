@@ -13,7 +13,7 @@ import {Formatting} from "../../Util/Formatting";
 import {validateCash} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
-import {CashUpEntity} from "./State/CashUpEntity";
+import {CashUpEntity, ICashUpEntityUpdateObject} from "./State/CashUpEntity";
 import {CashUpExternalState} from "./State/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
 import {CashUpsForWeek} from "./State/CashUpsForWeek";
@@ -481,7 +481,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     )
   }
 
-  private formUpdate(obj: {}) {
+  private formUpdate(obj: ICashUpEntityUpdateObject) {
     this.props.updateCashUpLocalState(
       [this.getCashUp().with(obj)]
     );

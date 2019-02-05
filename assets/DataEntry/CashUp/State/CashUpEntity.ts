@@ -1,7 +1,88 @@
 import * as moment from 'moment';
-import {Receipt} from "./Receipt";
-import {SafeFloatDenominations} from "./SafeFloatDenominations";
-import {TillDenominations} from "./TillDenominations";
+import {IReceiptApiObject, IReceiptUpdateObject, Receipt} from "./Receipt";
+import {
+  ISafeFloatDenominationsApiObject,
+  ISafeFloatDenominationsUpdateObject,
+  SafeFloatDenominations
+} from "./SafeFloatDenominations";
+import {ITillDenominationsApiObject, ITillDenominationsUpdateObject, TillDenominations} from "./TillDenominations";
+
+export interface ICashUpEntityApiObject {
+  id: number;
+  date: string|moment.Moment;
+  mod: string;
+  dailyNotes: string;
+  tills: ITillDenominationsApiObject[];
+  chargeToAccount: number;
+  depositRedeemed: number;
+  compsWet: number;
+  dStaffDry: number;
+  dCustomersWet: number;
+  dCustomersDry: number;
+  dCustomersCoffee: number;
+  fwtWet: number;
+  comoInDrawer: number;
+  amexTots: number;
+  visaMcTots: number;
+  receipts: IReceiptApiObject[];
+  spendStaffPts: number;
+  comoDiscAsset: number;
+  takeDry: number;
+  takeCoffee: number;
+  takeGiftCard: number;
+  takeDepositPaid: number;
+  paidOutAmnt: number;
+  paidOutTo: string;
+  banked: number;
+  cashAdvantageBag: string;
+  cashAdvantageBagSeenBy: string;
+  sfdAm: ISafeFloatDenominationsApiObject;
+  sfdPm: ISafeFloatDenominationsApiObject;
+  sfdNotes: string;
+  pubSecuredBy: string;
+  barClosedBy: string;
+  floorClosedBy: string;
+  nextDoorBy: string;
+}
+
+export interface ICashUpEntityUpdateObject {
+  id?: number;
+  isDefault?: boolean;
+  date?: moment.Moment;
+  mod?: string;
+  dailyNotes?: string;
+  tills?: ITillDenominationsUpdateObject[];
+  chargeToAccount?: number;
+  depositRedeemed?: number;
+  compsWet?: number;
+  dStaffDry?: number;
+  dCustomersWet?: number;
+  dCustomersDry?: number;
+  dCustomersCoffee?: number;
+  fwtWet?: number;
+  comoInDrawer?: number;
+  amexTots?: number;
+  visaMcTots?: number;
+  receipts?: IReceiptUpdateObject[];
+  spendStaffPts?: number;
+  comoDiscAsset?: number;
+  takeDry?: number;
+  takeCoffee?: number;
+  takeGiftCard?: number;
+  takeDepositPaid?: number;
+  paidOutAmnt?: number;
+  paidOutTo?: string;
+  banked?: number;
+  cashAdvantageBag?: string;
+  cashAdvantageBagSeenBy?: string;
+  sfdAm?: ISafeFloatDenominationsUpdateObject;
+  sfdPm?: ISafeFloatDenominationsUpdateObject;
+  sfdNotes?: string;
+  pubSecuredBy?: string;
+  barClosedBy?: string;
+  floorClosedBy?: string;
+  nextDoorBy?: string;
+}
 
 export class CashUpEntity {
   public static default(date: moment.Moment): CashUpEntity {
@@ -16,19 +97,19 @@ export class CashUpEntity {
     ], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, [], 0, 0, 0, 0, 0, 0, 0, '', 0, '', '', SafeFloatDenominations.default(), SafeFloatDenominations.default(), '', '', '', '', '', true, undefined);
   }
 
-  public static fromBackend(obj: any): CashUpEntity {
-    obj.date = moment.utc(obj.date);
-    obj.isDefault = false;
+  public static fromBackend(obj: ICashUpEntityApiObject): CashUpEntity {
+    const date = moment.utc(obj.date);
+    const newObj: ICashUpEntityUpdateObject = Object.assign({}, obj, {date, isDefault: false});
     if (obj.hasOwnProperty('tills')) {
-      obj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
+      newObj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
         .filter((value: TillDenominations, index: number) => index < 7);
     }
     if (obj.hasOwnProperty('receipts')) {
-      obj.receipts = obj.receipts.map((receipt: any) => Receipt.default().with(receipt));
+      newObj.receipts = obj.receipts.map((receipt: any) => Receipt.default().with(receipt));
     }
-    obj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
-    obj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
-    return CashUpEntity.default(obj.date).with(obj);
+    newObj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
+    newObj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
+    return CashUpEntity.default(date).with(newObj);
   }
 
   public readonly id?: number;
@@ -117,7 +198,7 @@ export class CashUpEntity {
     this.isDefault = isDefault;
   }
 
-  public with(obj: any): CashUpEntity {
+  public with(obj: ICashUpEntityUpdateObject): CashUpEntity {
     return Object.assign(
       new CashUpEntity(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, this.isDefault, this.id),
       obj
