@@ -1,11 +1,12 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
-import {IStaffRoleNotPersistedUpdateObject, StaffRoleNotPersisted} from "../../StaffRoles/State/StaffRoleNotPersisted";
+import {IStaffRoleUpdateObject, StaffRole} from "../../StaffRoles/State/StaffRole";
+import {StaffRoleNotPersisted} from "../../StaffRoles/State/StaffRoleNotPersisted";
 
 export interface IStaffMemberNotPersistedUpdateObject {
   name?: string;
   currentHourlyRate?: number;
-  role?: IStaffRoleNotPersistedUpdateObject;
+  role?: IStaffRoleUpdateObject;
   status?: string;
 }
 
@@ -37,7 +38,7 @@ export class StaffMemberNotPersisted extends EditableEntity {
     return new StaffMemberNotPersisted(
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? obj.currentHourlyRate : this.currentHourlyRate,
-      obj.role ? this.role.with(obj.role) : this.role,
+      obj.role ? (obj.role.id ? StaffRole.placeholder().with(obj.role) : this.role.with(obj.role)) : this.role,
       obj.status ? obj.status : this.status,
     );
   }
