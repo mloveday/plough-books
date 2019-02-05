@@ -1,14 +1,22 @@
 import {IApiRoleObject, Role} from "./Role";
 import {IApiUserNotPersistedObject, UserNotPersisted} from "./UserNotPersisted";
 
-export interface IUserApiObject extends IApiUserNotPersistedObject {
+export interface IUserApiObject {
+  id: number;
+  role: IApiRoleObject;
+  email: string;
+  whitelisted: boolean;
+  blacklisted: boolean;
+}
+
+export interface IUserUpdateObject extends IApiUserNotPersistedObject {
   id?: number;
   role?: IApiRoleObject;
 }
 
 export class User extends UserNotPersisted {
 
-  public static fromResponse(json: any): User {
+  public static fromResponse(json: IUserApiObject): User {
     return new User(json.email, json.whitelisted, json.blacklisted, Role.fromResponse(json.role), json.id);
   }
 
@@ -20,7 +28,7 @@ export class User extends UserNotPersisted {
     this.id = id;
   }
 
-  public with(obj: IUserApiObject) {
+  public with(obj: IUserUpdateObject) {
     return new User(
       obj.email ? obj.email : this.email,
       obj.whitelisted ? obj.whitelisted : this.whitelisted,
