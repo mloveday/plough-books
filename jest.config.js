@@ -1,6 +1,6 @@
 module.exports = {
   moduleNameMapper: {
-    "\\.(css|less|scss)$": "<rootDir>/test/styleMock.ts",
+    "\\.(css|less|scss)$": "<rootDir>/assets/TestHelpers/StyleMock.ts",
     "env/Config": "<rootDir>/assets/env/test/Config.ts",
   },
   reporters: ["default", "jest-stare"],
@@ -10,6 +10,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     "<rootDir>/assets/env/",
     "<rootDir>/assets/Enum/",
+    "<rootDir>/assets/TestHelpers/",
     "<rootDir>/bin/",
     "<rootDir>/build/",
     "<rootDir>/config/",
@@ -26,5 +27,5 @@ module.exports = {
   preset: 'ts-jest',
   roots: ['<rootDir>/assets'],
   testEnvironment: 'jsdom',
-  testMatch: ['**/*.test.ts', '**/*.test.jsx'],
+  testMatch: ['**/*.test.ts', '**/*.test.tsx'],
 };
