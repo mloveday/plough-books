@@ -42,6 +42,25 @@ export interface AppStateUpdate {
 }
 
 export class StateHelpers {
+  public static normalUser() {
+    return User.fromResponse({
+      email: 'user@theploughharborne.co.uk',
+      whitelisted: true,
+      blacklisted: false,
+      role: {role: 'normal user', managesUsers: false, id: 1},
+      id: 1
+    });
+  }
+  public static adminUser() {
+    return User.fromResponse({
+      email: 'admin@theploughharborne.co.uk',
+      whitelisted: true,
+      blacklisted: false,
+      role: {role: 'admin', managesUsers: true, id: 1},
+      id: 1
+    });
+  }
+
   public static blankAppState(): AppState {
     return {
       authState: AuthState.cleared(),
@@ -68,7 +87,7 @@ export class StateHelpers {
     return Object.assign({}, this.blankAppState(), obj);
   }
 
-  public static authState() {
+  public static authState(user: User = User.fromResponse(this.adminUser())) {
     return AuthState.cleared().withAuthentication(AuthenticatedUserResponse.fromResponse({
       El: '115549802405448388321',
       Zi: {
@@ -115,13 +134,7 @@ export class StateHelpers {
         familyName: 'Person'
       }
     }))
-      .withUser(User.fromResponse({
-        email: 'person@theploughharborne.co.uk',
-        whitelisted: true,
-        blacklisted: false,
-        role: {role: 'admin', managesUsers: true, id: 1},
-        id: 1
-      }));
+      .withUser(user);
   }
 
   public static constantsState() {
