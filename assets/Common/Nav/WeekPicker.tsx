@@ -49,17 +49,17 @@ class WeekPickerComponent extends React.Component<WeekPickerProps, {}> {
         <h3 className="week-number">{this.props.year} Week {this.props.week}</h3>
         <ul className="week-list">
           <li className="week-list-item">
-            <Link className="week-link" to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'month'))}><FontAwesomeIcon icon="chevron-left" /></Link>
+            <Link className="week-link prev-period" to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'month'))}><FontAwesomeIcon icon="chevron-left" /></Link>
           </li>
           {otherWeeks.map((date, index) => {
             return <li key={index} className={`week-list-item ${(date.isSame(selectedDate, 'week') ? "selected" : "")}`}>
-              <Link className="week-link"
+              <Link className="week-link this-period"
                     to={this.props.urlFromDate(date)}>{`${accountingYear(date)}-${accountingWeek(date)}`}<br/>{`(${date.format(DateFormats.DMY_SLASHES)})`}
               </Link>
             </li>
           })}
           <li className="week-list-item">
-            <Link className="week-link" to={this.props.urlFromDate(selectedDate.clone().add(1, 'month'))}><FontAwesomeIcon icon="chevron-right" /></Link>
+            <Link className="week-link next-period" to={this.props.urlFromDate(selectedDate.clone().add(1, 'month'))}><FontAwesomeIcon icon="chevron-right" /></Link>
           </li>
         </ul>
       </div>
