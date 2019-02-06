@@ -86,7 +86,7 @@ export class RotaEntity {
       obj.forecastRevenue,
       obj.targetLabourRate,
       Constants.fromResponse(obj.constants),
-      RotaStatus[obj.status],
+      obj.status as RotaStatus,
       plannedShifts,
       actualShifts,
       false,
@@ -138,11 +138,11 @@ export class RotaEntity {
   public update(obj: IRotaUpdateObject): RotaEntity {
     const constants = obj.constants ? Constants.placeholder().with(obj.constants) : this.constants.with({});
     const plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? WorkTypes[shift.type] : WorkTypes.BAR, this.date))
+      ? obj.plannedShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? shift.type as WorkTypes : WorkTypes.BAR, this.date))
       : this.plannedShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? WorkTypes[shift.type] : WorkTypes.BAR, this.date))
+      ? obj.actualShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? shift.type as WorkTypes : WorkTypes.BAR, this.date))
       : this.actualShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(

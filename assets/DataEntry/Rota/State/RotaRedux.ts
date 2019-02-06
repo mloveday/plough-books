@@ -26,15 +26,15 @@ const WEEKLY_ROTAS_CREATE_ERROR = 'WEEKLY_ROTAS_CREATE_ERROR';
 export const rotaDataEntry = createAction<RotaEntity[]>(ROTA_DATA_ENTRY);
 
 export const rotaFetchStart = createAction<moment.Moment>(ROTA_FETCH_START);
-export const rotaFetchSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(ROTA_FETCH_SUCCESS);
+export const rotaFetchSuccess = createAction<{date: moment.Moment, response: IRotaApiObject[]}>(ROTA_FETCH_SUCCESS);
 export const rotaFetchError = createAction(ROTA_FETCH_ERROR);
 
 export const rotaCreateStart = createAction<RotaEntity>(ROTA_CREATE_START);
-export const rotaCreateSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(ROTA_CREATE_SUCCESS);
+export const rotaCreateSuccess = createAction<{date: moment.Moment, response: IRotaApiObject[]}>(ROTA_CREATE_SUCCESS);
 export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
 
 export const weeklyRotasCreateStart = createAction<{date: moment.Moment, response: RotaEntity[]}>(WEEKLY_ROTAS_CREATE_START);
-export const weeklyRotasCreateSuccess = createAction<{date: moment.Moment, response: RotaExternalState}>(WEEKLY_ROTAS_CREATE_SUCCESS);
+export const weeklyRotasCreateSuccess = createAction<{date: moment.Moment, response: IRotaApiObject[]}>(WEEKLY_ROTAS_CREATE_SUCCESS);
 export const weeklyRotasCreateError = createAction(WEEKLY_ROTAS_CREATE_ERROR);
 
 export const rotaFetchWithPrevious = (date: moment.Moment) => {

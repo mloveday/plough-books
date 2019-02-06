@@ -134,7 +134,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
         <div className="rota-overview">
           <div className="rota-stat">
             Status:
-            <select value={this.getRota().status} onChange={ev => this.formUpdate({status: RotaStatus[ev.target.value]})}>
+            <select value={this.getRota().status} onChange={ev => this.formUpdate({status: ev.target.value as RotaStatus})}>
               <option value={RotaStatus.NEW}>New</option>
               <option value={RotaStatus.DRAFT}>Draft</option>
               <option value={RotaStatus.ROTA_COMPLETE}>Rota Complete</option>
@@ -258,7 +258,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   }
 
   private newShiftHandler(member: StaffMember) {
-    this.addShift(Shift.defaultFor(member, WorkTypes[this.props.match.params.type], this.getRota().date));
+    this.addShift(Shift.defaultFor(member, this.props.match.params.type as WorkTypes, this.getRota().date));
   }
 
   private startTimeHandler(value: string, shift: Shift) {

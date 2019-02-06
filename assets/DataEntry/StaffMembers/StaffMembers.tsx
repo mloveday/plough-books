@@ -98,7 +98,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
             </div>
             <div className="filter-group">
               <label>Status</label>
-              <select value={this.props.staffMemberFilters.status} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({status: StaffMemberStatus[ev.target.value]}))}>
+              <select value={this.props.staffMemberFilters.status} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({status: ev.target.value as StaffMemberStatus}))}>
                 <option value={StaffMemberStatus.ACTIVE}>{StaffMemberStatus.ACTIVE}</option>
                 <option value={StaffMemberStatus.INACTIVE}>{StaffMemberStatus.INACTIVE}</option>
                 <option value={StaffMemberStatus.IMPORTED}>{StaffMemberStatus.IMPORTED}</option>
