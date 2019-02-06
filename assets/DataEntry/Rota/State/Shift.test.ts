@@ -38,7 +38,7 @@ describe('Shift', () => {
   it('getStartTime() returns a moment including correct date for time after 06:00 and before midnight', () => {
     const today = moment.utc().format(DateFormats.API);
     const time = `23:45`;
-    const plannedShift = defaultShift().update({date: today, startTime: `${today} ${time}`});
+    const plannedShift = defaultShift().update({date: today, startTime: time});
 
     expect(plannedShift.getStartTime().isSame(momentFromDateAndTime(today, time))).toBeTruthy();
   });
@@ -47,7 +47,7 @@ describe('Shift', () => {
     const today = moment.utc().format(DateFormats.API);
     const tomorrow = moment.utc().add(1, 'day').format(DateFormats.API);
     const time = `03:45`;
-    const plannedShift = defaultShift().update({date: today, startTime: `${today} ${time}`});
+    const plannedShift = defaultShift().update({date: today, startTime: time});
 
     expect(plannedShift.getStartTime().isSame(momentFromDateAndTime(tomorrow, time))).toBeTruthy();
   });
@@ -55,7 +55,7 @@ describe('Shift', () => {
   it('getEndTime() returns a moment including correct date for time after 06:00 and before midnight', () => {
     const today = moment.utc().format(DateFormats.API);
     const time = `23:45`;
-    const plannedShift = defaultShift().update({date: today, endTime: `${today} ${time}`});
+    const plannedShift = defaultShift().update({date: today, endTime: time});
 
     expect(plannedShift.getEndTime().isSame(momentFromDateAndTime(today, time))).toBeTruthy();
   });
@@ -64,7 +64,7 @@ describe('Shift', () => {
     const today = moment.utc().format(DateFormats.API);
     const tomorrow = moment.utc().add(1, 'day').format(DateFormats.API);
     const time = `03:45`;
-    const plannedShift = defaultShift().update({date: today, endTime: `${today} ${time}`});
+    const plannedShift = defaultShift().update({date: today, endTime: time});
 
     expect(plannedShift.getEndTime().isSame(momentFromDateAndTime(tomorrow, time))).toBeTruthy();
   });
