@@ -1,16 +1,6 @@
-export interface IDenominationsInputsUpdateObject {
-  fiftyPounds?: string;
-  twentyPounds?: string;
-  tenPounds?: string;
-  fivePounds?: string;
-  pounds?: string;
-  fiftyPence?: string;
-  twentyPence?: string;
-  tenPence?: string;
-  fivePence?: string;
-}
+import {IDenominationsApiObject, IDenominationsUpdateObject} from "./Denominations";
 
-export class DenominationsInputs {
+export class DenominationsInputs implements IDenominationsApiObject<string> {
   public static default() {
     return new DenominationsInputs(
       "0",
@@ -47,7 +37,7 @@ export class DenominationsInputs {
     this.fivePence = fivePence;
   }
 
-  public with(obj: IDenominationsInputsUpdateObject): DenominationsInputs {
+  public with(obj: IDenominationsUpdateObject<string>): DenominationsInputs {
     return Object.assign(
       new DenominationsInputs(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence),
       obj

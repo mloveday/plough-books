@@ -1,28 +1,28 @@
-export interface IDenominationsApiObject {
-  fiftyPounds: number;
-  twentyPounds: number;
-  tenPounds: number;
-  fivePounds: number;
-  pounds: number;
-  fiftyPence: number;
-  twentyPence: number;
-  tenPence: number;
-  fivePence: number;
+export interface IDenominationsApiObject<T> {
+  fiftyPounds: T;
+  twentyPounds: T;
+  tenPounds: T;
+  fivePounds: T;
+  pounds: T;
+  fiftyPence: T;
+  twentyPence: T;
+  tenPence: T;
+  fivePence: T;
 }
 
-export interface IDenominationsUpdateObject {
-  fiftyPounds?: number;
-  twentyPounds?: number;
-  tenPounds?: number;
-  fivePounds?: number;
-  pounds?: number;
-  fiftyPence?: number;
-  twentyPence?: number;
-  tenPence?: number;
-  fivePence?: number;
+export interface IDenominationsUpdateObject<T> {
+  fiftyPounds?: T;
+  twentyPounds?: T;
+  tenPounds?: T;
+  fivePounds?: T;
+  pounds?: T;
+  fiftyPence?: T;
+  twentyPence?: T;
+  tenPence?: T;
+  fivePence?: T;
 }
 
-export class Denominations {
+export class Denominations implements IDenominationsApiObject<number> {
   public static default() {
     return new Denominations(
       0,
@@ -59,7 +59,7 @@ export class Denominations {
     this.fivePence = fivePence;
   }
 
-  public with(obj: IDenominationsUpdateObject): Denominations {
+  public with(obj: IDenominationsUpdateObject<number>): Denominations {
     return Object.assign(
       new Denominations(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence),
       obj
