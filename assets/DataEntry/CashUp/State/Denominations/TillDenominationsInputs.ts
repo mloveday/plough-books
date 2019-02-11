@@ -1,31 +1,13 @@
-import {DenominationsInputs, IDenominationsInputsUpdateObject} from "./DenominationsInputs";
+import {Denominations, IDenominationsUpdateObject} from "./Denominations";
 
-export interface ITillDenominationsInputsUpdateObject extends IDenominationsInputsUpdateObject {
+export interface ITillDenominationsInputsUpdateObject extends IDenominationsUpdateObject<string> {
   float?: number;
   visa?: number;
   amex?: number;
   zRead?: number;
 }
 
-export class TillDenominationsInputs extends DenominationsInputs {
-  public static default() {
-    return new TillDenominationsInputs(
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-      "0",
-    );
-  }
-
+export class TillDenominationsInputs extends Denominations<string> {
   public readonly float: string;
   public readonly visa: string;
   public readonly amex: string;
@@ -45,5 +27,9 @@ export class TillDenominationsInputs extends DenominationsInputs {
       new TillDenominationsInputs(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.float, this.visa, this.amex, this.zRead),
       obj
     );
+  }
+
+  public clone(): TillDenominationsInputs {
+    return this.with({});
   }
 }

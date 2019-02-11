@@ -1,11 +1,15 @@
 import * as moment from 'moment';
-import {IReceiptApiObject, IReceiptUpdateObject, Receipt} from "./Receipt";
 import {
   ISafeFloatDenominationsApiObject,
   ISafeFloatDenominationsUpdateObject,
   SafeFloatDenominations
 } from "./Denominations/SafeFloatDenominations";
-import {ITillDenominationsApiObject, ITillDenominationsUpdateObject, TillDenominations} from "./Denominations/TillDenominations";
+import {
+  ITillDenominationsApiObject,
+  ITillDenominationsUpdateObject,
+  TillDenominations
+} from "./Denominations/TillDenominations";
+import {IReceiptApiObject, IReceiptUpdateObject, Receipt} from "./Receipt";
 
 export interface ICashUpEntityApiObject {
   id: number;
@@ -36,8 +40,8 @@ export interface ICashUpEntityApiObject {
   banked: number;
   cashAdvantageBag: string;
   cashAdvantageBagSeenBy: string;
-  sfdAm: ISafeFloatDenominationsApiObject;
-  sfdPm: ISafeFloatDenominationsApiObject;
+  sfdAm: ISafeFloatDenominationsApiObject<number>;
+  sfdPm: ISafeFloatDenominationsApiObject<number>;
   sfdNotes: string;
   pubSecuredBy: string;
   barClosedBy: string;
@@ -75,8 +79,8 @@ export interface ICashUpEntityUpdateObject {
   banked?: number;
   cashAdvantageBag?: string;
   cashAdvantageBagSeenBy?: string;
-  sfdAm?: ISafeFloatDenominationsUpdateObject;
-  sfdPm?: ISafeFloatDenominationsUpdateObject;
+  sfdAm?: ISafeFloatDenominationsUpdateObject<number>;
+  sfdPm?: ISafeFloatDenominationsUpdateObject<number>;
   sfdNotes?: string;
   pubSecuredBy?: string;
   barClosedBy?: string;

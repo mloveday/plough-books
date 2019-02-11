@@ -1,20 +1,20 @@
 import {Denominations, IDenominationsApiObject, IDenominationsUpdateObject} from "./Denominations";
 
-export interface ITillDenominationsApiObject extends IDenominationsApiObject {
+export interface ITillDenominationsApiObject extends IDenominationsApiObject<number> {
   float: number;
   visa: number;
   amex: number;
   zRead: number;
 }
 
-export interface ITillDenominationsUpdateObject extends IDenominationsUpdateObject {
+export interface ITillDenominationsUpdateObject extends IDenominationsUpdateObject<number> {
   float?: number;
   visa?: number;
   amex?: number;
   zRead?: number;
 }
 
-export class TillDenominations extends Denominations {
+export class TillDenominations extends Denominations<number> {
   public static default() {
     return new TillDenominations(
       0,
@@ -59,5 +59,9 @@ export class TillDenominations extends Denominations {
 
   public totalTaken(): number {
     return this.visa + this.amex + this.totalCashTaken();
+  }
+
+  private totalCashTaken(): number {
+    return this.fiftyPounds + this.twentyPounds + this.tenPounds + this.fivePounds + this.pounds + this.fiftyPence + this.twentyPence + this.tenPence + this.fivePence
   }
 }

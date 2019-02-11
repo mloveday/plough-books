@@ -22,32 +22,18 @@ export interface IDenominationsUpdateObject<T> {
   fivePence?: T;
 }
 
-export class Denominations implements IDenominationsApiObject<number> {
-  public static default() {
-    return new Denominations(
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-    );
-  }
+export abstract class Denominations<T> implements IDenominationsApiObject<T> {
+  public readonly fiftyPounds: T;
+  public readonly twentyPounds: T;
+  public readonly tenPounds: T;
+  public readonly fivePounds: T;
+  public readonly pounds: T;
+  public readonly fiftyPence: T;
+  public readonly twentyPence: T;
+  public readonly tenPence: T;
+  public readonly fivePence: T;
 
-  public readonly fiftyPounds: number;
-  public readonly twentyPounds: number;
-  public readonly tenPounds: number;
-  public readonly fivePounds: number;
-  public readonly pounds: number;
-  public readonly fiftyPence: number;
-  public readonly twentyPence: number;
-  public readonly tenPence: number;
-  public readonly fivePence: number;
-
-  constructor(fiftyPounds: number, twentyPounds: number, tenPounds: number, fivePounds: number, pounds: number, fiftyPence: number, twentyPence: number, tenPence: number, fivePence: number) {
+  constructor(fiftyPounds: T, twentyPounds: T, tenPounds: T, fivePounds: T, pounds: T, fiftyPence: T, twentyPence: T, tenPence: T, fivePence: T) {
     this.fiftyPounds = fiftyPounds;
     this.twentyPounds = twentyPounds;
     this.tenPounds = tenPounds;
@@ -59,18 +45,7 @@ export class Denominations implements IDenominationsApiObject<number> {
     this.fivePence = fivePence;
   }
 
-  public with(obj: IDenominationsUpdateObject<number>): Denominations {
-    return Object.assign(
-      new Denominations(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence),
-      obj
-    );
-  }
+  public abstract with(obj: IDenominationsUpdateObject<T>): Denominations<T>;
 
-  public clone(): Denominations {
-    return this.with({});
-  }
-  
-  public totalCashTaken(): number {
-    return this.fiftyPounds + this.twentyPounds + this.tenPounds + this.fivePounds + this.pounds + this.fiftyPence + this.twentyPence + this.tenPence + this.fivePence
-  }
+  public abstract clone(): Denominations<T>;
 }
