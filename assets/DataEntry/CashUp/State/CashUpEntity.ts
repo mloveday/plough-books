@@ -1,22 +1,14 @@
 import * as moment from 'moment';
-import {
-  ISafeFloatDenominationsApiObject,
-  ISafeFloatDenominationsUpdateObject,
-  SafeFloatDenominations
-} from "./Denominations/SafeFloatDenominations";
-import {
-  ITillDenominationsApiObject,
-  ITillDenominationsUpdateObject,
-  TillDenominations
-} from "./Denominations/TillDenominations";
-import {IReceiptApiObject, IReceiptUpdateObject, Receipt} from "./Receipt";
+import {ISafeFloatDenominationsApiObject, SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
+import {ITillDenominationsApiObject, TillDenominations} from "./Denominations/TillDenominations";
+import {IReceiptApiObject, Receipt} from "./Receipt";
 
 export interface ICashUpEntityApiObject {
   id: number;
   date: string|moment.Moment;
   mod: string;
   dailyNotes: string;
-  tills: ITillDenominationsApiObject[];
+  tills: Array<ITillDenominationsApiObject<number>>;
   chargeToAccount: number;
   depositRedeemed: number;
   compsWet: number;
@@ -55,7 +47,7 @@ export interface ICashUpEntityUpdateObject {
   date?: moment.Moment;
   mod?: string;
   dailyNotes?: string;
-  tills?: ITillDenominationsUpdateObject[];
+  tills?: TillDenominations[];
   chargeToAccount?: number;
   depositRedeemed?: number;
   compsWet?: number;
@@ -67,7 +59,7 @@ export interface ICashUpEntityUpdateObject {
   comoInDrawer?: number;
   amexTots?: number;
   visaMcTots?: number;
-  receipts?: IReceiptUpdateObject[];
+  receipts?: Receipt[];
   spendStaffPts?: number;
   comoDiscAsset?: number;
   takeDry?: number;
@@ -79,8 +71,8 @@ export interface ICashUpEntityUpdateObject {
   banked?: number;
   cashAdvantageBag?: string;
   cashAdvantageBagSeenBy?: string;
-  sfdAm?: ISafeFloatDenominationsUpdateObject<number>;
-  sfdPm?: ISafeFloatDenominationsUpdateObject<number>;
+  sfdAm?: SafeFloatDenominations;
+  sfdPm?: SafeFloatDenominations;
   sfdNotes?: string;
   pubSecuredBy?: string;
   barClosedBy?: string;
@@ -105,11 +97,11 @@ export class CashUpEntity {
     const date = moment.utc(obj.date);
     const newObj: ICashUpEntityUpdateObject = Object.assign({}, obj, {date, isDefault: false});
     if (obj.hasOwnProperty('tills')) {
-      newObj.tills = obj.tills.map((till: any) => TillDenominations.default().with(till))
+      newObj.tills = obj.tills.map(till => TillDenominations.parseApiResponse(till))
         .filter((value: TillDenominations, index: number) => index < 7);
     }
     if (obj.hasOwnProperty('receipts')) {
-      newObj.receipts = obj.receipts.map((receipt: any) => Receipt.default().with(receipt));
+      newObj.receipts = obj.receipts.map(receipt => Receipt.default().with(receipt));
     }
     newObj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
     newObj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
@@ -203,9 +195,43 @@ export class CashUpEntity {
   }
 
   public with(obj: ICashUpEntityUpdateObject): CashUpEntity {
-    return Object.assign(
-      new CashUpEntity(this.date, this.mod, this.dailyNotes, this.tills.map(till => till.clone()), this.chargeToAccount, this.depositRedeemed, this.compsWet, this.dStaffDry, this.dCustomersWet, this.dCustomersDry, this.dCustomersCoffee, this.fwtWet, this.comoInDrawer, this.amexTots, this.visaMcTots, this.receipts.map(receipt => receipt.clone()), this.spendStaffPts, this.comoDiscAsset, this.takeDry, this.takeCoffee, this.takeGiftCard, this.takeDepositPaid, this.paidOutAmnt, this.paidOutTo, this.banked, this.cashAdvantageBag, this.cashAdvantageBagSeenBy, this.sfdAm.clone(), this.sfdPm.clone(), this.sfdNotes, this.pubSecuredBy, this.barClosedBy, this.floorClosedBy, this.nextDoorBy, this.isDefault, this.id),
-      obj
+    return new CashUpEntity(
+      obj.date ? obj.date : this.date,
+      obj.mod ? obj.mod : this.mod,
+      obj.dailyNotes ? obj.dailyNotes : this.dailyNotes,
+      obj.tills ? obj.tills.map(till => till.clone()) : this.tills.map(till => till.clone()),
+      obj.chargeToAccount ? obj.chargeToAccount : this.chargeToAccount,
+      obj.depositRedeemed ? obj.depositRedeemed : this.depositRedeemed,
+      obj.compsWet ? obj.compsWet : this.compsWet,
+      obj.dStaffDry ? obj.dStaffDry : this.dStaffDry,
+      obj.dCustomersWet ? obj.dCustomersWet : this.dCustomersWet,
+      obj.dCustomersDry ? obj.dCustomersDry : this.dCustomersDry,
+      obj.dCustomersCoffee ? obj.dCustomersCoffee : this.dCustomersCoffee,
+      obj.fwtWet ? obj.fwtWet : this.fwtWet,
+      obj.comoInDrawer ? obj.comoInDrawer : this.comoInDrawer,
+      obj.amexTots ? obj.amexTots : this.amexTots,
+      obj.visaMcTots ? obj.visaMcTots : this.visaMcTots,
+      obj.receipts ? obj.receipts : this.receipts.map(receipt => receipt.clone()),
+      obj.spendStaffPts ? obj.spendStaffPts : this.spendStaffPts,
+      obj.comoDiscAsset ? obj.comoDiscAsset : this.comoDiscAsset,
+      obj.takeDry ? obj.takeDry : this.takeDry,
+      obj.takeCoffee ? obj.takeCoffee : this.takeCoffee,
+      obj.takeGiftCard ? obj.takeGiftCard : this.takeGiftCard,
+      obj.takeDepositPaid ? obj.takeDepositPaid : this.takeDepositPaid,
+      obj.paidOutAmnt ? obj.paidOutAmnt : this.paidOutAmnt,
+      obj.paidOutTo ? obj.paidOutTo : this.paidOutTo,
+      obj.banked ? obj.banked : this.banked,
+      obj.cashAdvantageBag ? obj.cashAdvantageBag : this.cashAdvantageBag,
+      obj.cashAdvantageBagSeenBy ? obj.cashAdvantageBagSeenBy : this.cashAdvantageBagSeenBy,
+      obj.sfdAm ? obj.sfdAm : this.sfdAm.clone(),
+      obj.sfdPm ? obj.sfdPm : this.sfdPm.clone(),
+      obj.sfdNotes ? obj.sfdNotes : this.sfdNotes,
+      obj.pubSecuredBy ? obj.pubSecuredBy : this.pubSecuredBy,
+      obj.barClosedBy ? obj.barClosedBy : this.barClosedBy,
+      obj.floorClosedBy ? obj.floorClosedBy : this.floorClosedBy,
+      obj.nextDoorBy ? obj.nextDoorBy : this.nextDoorBy,
+      obj.isDefault ? obj.isDefault : this.isDefault,
+      this.id
     );
   }
 

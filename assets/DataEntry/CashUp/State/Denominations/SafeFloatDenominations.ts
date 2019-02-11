@@ -8,7 +8,7 @@ export interface ISafeFloatDenominationsUpdateObject<T> extends IDenominationsUp
   initials?: string;
 }
 
-export class SafeFloatDenominations extends Denominations<number> implements ISafeFloatDenominationsApiObject<number> {
+export class SafeFloatDenominations extends Denominations<number, number> implements ISafeFloatDenominationsApiObject<number> {
   public static default() {
     return new SafeFloatDenominations(
       0,

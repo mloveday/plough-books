@@ -1,7 +1,7 @@
 import {Denominations} from "./Denominations";
 import {ITillDenominationsUpdateObject} from "./TillDenominations";
 
-export class TillDenominationsInputs extends Denominations<string> {
+export class TillDenominationsInputs extends Denominations<string, string> {
   public readonly float: string;
   public readonly visa: string;
   public readonly amex: string;

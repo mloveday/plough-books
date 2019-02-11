@@ -1,7 +1,7 @@
 import {Denominations} from "./Denominations";
 import {ISafeFloatDenominationsUpdateObject} from "./SafeFloatDenominations";
 
-export class SafeFloatDenominationsInputs extends Denominations<string> {
+export class SafeFloatDenominationsInputs extends Denominations<string, string> {
   public readonly initials: string;
 
   constructor(fiftyPounds: string, twentyPounds: string, tenPounds: string, fivePounds: string, pounds: string, fiftyPence: string, twentyPence: string, tenPence: string, fivePence: string, initials: string) {
