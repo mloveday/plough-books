@@ -1,8 +1,5 @@
-import {Denominations, IDenominationsUpdateObject} from "./Denominations";
-
-export interface ISafeFloatDenominationsInputsUpdateObject extends IDenominationsUpdateObject<string> {
-  initials?: string;
-}
+import {Denominations} from "./Denominations";
+import {ISafeFloatDenominationsUpdateObject} from "./SafeFloatDenominations";
 
 export class SafeFloatDenominationsInputs extends Denominations<string> {
   public readonly initials: string;
@@ -12,7 +9,7 @@ export class SafeFloatDenominationsInputs extends Denominations<string> {
     this.initials = initials;
   }
 
-  public with(obj: ISafeFloatDenominationsInputsUpdateObject): SafeFloatDenominationsInputs {
+  public with(obj: ISafeFloatDenominationsUpdateObject<string>): SafeFloatDenominationsInputs {
     return Object.assign(
       new SafeFloatDenominationsInputs(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.initials),
       obj
