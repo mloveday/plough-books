@@ -1,17 +1,17 @@
 import {Denominations, IDenominationsApiObject, IDenominationsUpdateObject} from "./Denominations";
 
-export interface ITillDenominationsApiObject extends IDenominationsApiObject<number> {
-  float: number;
-  visa: number;
-  amex: number;
-  zRead: number;
+export interface ITillDenominationsApiObject<T> extends IDenominationsApiObject<T> {
+  float: T;
+  visa: T;
+  amex: T;
+  zRead: T;
 }
 
-export interface ITillDenominationsUpdateObject extends IDenominationsUpdateObject<number> {
-  float?: number;
-  visa?: number;
-  amex?: number;
-  zRead?: number;
+export interface ITillDenominationsUpdateObject<T> extends IDenominationsUpdateObject<T> {
+  float?: T;
+  visa?: T;
+  amex?: T;
+  zRead?: T;
 }
 
 export class TillDenominations extends Denominations<number> {
@@ -46,7 +46,7 @@ export class TillDenominations extends Denominations<number> {
     this.zRead = zRead;
   }
 
-  public with(obj: ITillDenominationsUpdateObject): TillDenominations {
+  public with(obj: ITillDenominationsUpdateObject<number>): TillDenominations {
     return Object.assign(
       new TillDenominations(this.visa, this.amex, this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.float, this.zRead),
       obj
