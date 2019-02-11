@@ -11,7 +11,7 @@ describe('CashUpRedux', () => {
 
       const outputState = cashUpInternalReducers(inputState, cashUpDataEntry([entity]));
 
-      expect(Array.from(outputState.cashUps.values()).length).toEqual(1);
+      expect(outputState.cashUps.length).toEqual(1);
       expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
       const outputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
       if (outputEntity === undefined) {
@@ -28,7 +28,7 @@ describe('CashUpRedux', () => {
 
       const outputState = cashUpInternalReducers(inputState, cashUpDataEntry([entity]));
 
-      expect(Array.from(outputState.cashUps.values()).length).toEqual(1);
+      expect(outputState.cashUps.length).toEqual(1);
       expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
       const outputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
       if (outputEntity === undefined) {
@@ -46,11 +46,11 @@ describe('CashUpRedux', () => {
       const inputState = CashUpsForWeek.default().update([existingEntity]);
 
       const outputState = cashUpInternalReducers(inputState, cashUpDataEntry([entity]));
-      expect(Array.from(outputState.cashUps.values()).length).toEqual(2);
+      expect(outputState.cashUps.length).toEqual(2);
 
       // expect existing entity to be correct
       expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
-      const existingOutputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
+      const existingOutputEntity = outputState.getCashUpForDay(moment.utc(existingEntity.date));
       if (existingOutputEntity === undefined) {
         expect(existingOutputEntity).toBeDefined();
         return;
