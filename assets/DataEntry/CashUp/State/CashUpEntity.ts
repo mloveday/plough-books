@@ -1,11 +1,12 @@
 import * as moment from 'moment';
+import {DateFormats} from "../../../Util/DateFormats";
 import {ISafeFloatDenominationsApiObject, SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
 import {ITillDenominationsApiObject, TillDenominations} from "./Denominations/TillDenominations";
 import {IReceiptApiObject, Receipt} from "./Receipt";
 
 export interface ICashUpEntityApiObject {
   id: number;
-  date: string|moment.Moment;
+  date: string;
   mod: string;
   dailyNotes: string;
   tills: Array<ITillDenominationsApiObject<number>>;
@@ -44,7 +45,7 @@ export interface ICashUpEntityApiObject {
 export interface ICashUpEntityUpdateObject {
   id?: number;
   isDefault?: boolean;
-  date?: moment.Moment;
+  date?: string;
   mod?: string;
   dailyNotes?: string;
   tills?: TillDenominations[];
@@ -82,7 +83,7 @@ export interface ICashUpEntityUpdateObject {
 
 export class CashUpEntity {
   public static default(date: moment.Moment): CashUpEntity {
-    return new CashUpEntity(moment.utc(date), '', '', [
+    return new CashUpEntity(moment.utc(date).format(DateFormats.API), '', '', [
       TillDenominations.default(),
       TillDenominations.default(),
       TillDenominations.default(),
@@ -95,7 +96,7 @@ export class CashUpEntity {
 
   public static fromBackend(obj: ICashUpEntityApiObject): CashUpEntity {
     const date = moment.utc(obj.date);
-    const newObj: ICashUpEntityUpdateObject = Object.assign({}, obj, {date, isDefault: false});
+    const newObj: ICashUpEntityUpdateObject = Object.assign({}, obj, {date: date.format(DateFormats.API), isDefault: false});
     if (obj.hasOwnProperty('tills')) {
       newObj.tills = obj.tills.map(till => TillDenominations.parseApiResponse(till))
         .filter((value: TillDenominations, index: number) => index < 7);
@@ -110,7 +111,7 @@ export class CashUpEntity {
 
   public readonly id?: number;
   public readonly isDefault: boolean;
-  public readonly date: moment.Moment;
+  public readonly date: string;
 
   public readonly mod: string;
   public readonly dailyNotes: string;
@@ -155,7 +156,7 @@ export class CashUpEntity {
   public readonly floorClosedBy: string;
   public readonly nextDoorBy: string;
 
-  constructor(date: moment.Moment, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: string, banked: number, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, isDefault: boolean, id?: number) {
+  constructor(date: string, mod: string, dailyNotes: string, tills: TillDenominations[], chargeToAccount: number, depositRedeemed: number, compsWet: number, dStaffDry: number, dCustomersWet: number, dCustomersDry: number, dCustomersCoffee: number, fwtWet: number, comoInDrawer: number, amexTots: number, visaMcTots: number, receipts: Receipt[], spendStaffPts: number, comoDiscAsset: number, takeDry: number, takeCoffee: number, takeGiftCard: number, takeDepositPaid: number, paidOutAmnt: number, paidOutTo: string, banked: number, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: SafeFloatDenominations, sfdPm: SafeFloatDenominations, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, isDefault: boolean, id?: number) {
     this.id = id;
     this.date = date;
     this.mod = mod;
@@ -233,6 +234,10 @@ export class CashUpEntity {
       obj.isDefault ? obj.isDefault : this.isDefault,
       this.id
     );
+  }
+
+  public clone() {
+    return this.with({});
   }
 
   public isValid() {

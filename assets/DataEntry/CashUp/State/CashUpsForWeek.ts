@@ -1,52 +1,49 @@
 import * as moment from "moment";
-import {DateFormats} from "../../../Util/DateFormats";
-import {CashUpEntity} from "./CashUpEntity";
+import {CashUpEntity, ICashUpEntityApiObject} from "./CashUpEntity";
 
 export class CashUpsForWeek {
   public static default() {
-    return new CashUpsForWeek();
+    return new CashUpsForWeek([]);
   }
 
   public static defaultForWeek(dayInWeek: moment.Moment) {
     const startOfWeek = dayInWeek.clone().startOf('isoWeek');
     const dates = [
-      {'date': startOfWeek.clone().add(0, 'days')},
-      {'date': startOfWeek.clone().add(1, 'days')},
-      {'date': startOfWeek.clone().add(2, 'days')},
-      {'date': startOfWeek.clone().add(3, 'days')},
-      {'date': startOfWeek.clone().add(4, 'days')},
-      {'date': startOfWeek.clone().add(5, 'days')},
-      {'date': startOfWeek.clone().add(6, 'days')},
+      CashUpEntity.default(startOfWeek.clone().add(0, 'days')),
+      CashUpEntity.default(startOfWeek.clone().add(1, 'days')),
+      CashUpEntity.default(startOfWeek.clone().add(2, 'days')),
+      CashUpEntity.default(startOfWeek.clone().add(3, 'days')),
+      CashUpEntity.default(startOfWeek.clone().add(4, 'days')),
+      CashUpEntity.default(startOfWeek.clone().add(5, 'days')),
+      CashUpEntity.default(startOfWeek.clone().add(6, 'days')),
     ];
-    return CashUpsForWeek.default().with(dates);
+    return CashUpsForWeek.default().update(dates);
   }
 
-  public readonly cashUps: Map<string, CashUpEntity> = new Map<string, CashUpEntity>();
+  public readonly cashUps: CashUpEntity[] = [];
 
-  public with(obj: any[]|undefined): CashUpsForWeek {
-    const newCashUps = new Map<string, CashUpEntity>();
-    if (obj !== undefined) {
-      obj.forEach(v => {
-        const date = moment.utc(v.date);
-        newCashUps.set(date.format(DateFormats.API), CashUpEntity.fromBackend(v))
-      });
-    }
-    const cashUps = new Map<string, CashUpEntity>();
-    this.cashUps.forEach((v, k) => {
-      const cashUp = newCashUps.get(k);
-      cashUps.set(k, cashUp ? cashUp : v.with({}));
-    });
-    newCashUps.forEach((v,k) => cashUps.set(k, v));
-    return Object.assign(
-      new CashUpsForWeek(),
-      {cashUps}
-      );
+  constructor(cashUps: CashUpEntity[]) {
+    this.cashUps = cashUps;
+  }
+
+  public update(newCashUps: CashUpEntity[]): CashUpsForWeek {
+    return this.updateCashUps(newCashUps);
+  }
+
+  public fromApi(obj: ICashUpEntityApiObject[]): CashUpsForWeek {
+    const newCashUps = obj.map(apiCashUp => CashUpEntity.fromBackend(apiCashUp));
+    return this.updateCashUps(newCashUps);
   }
 
   public getTotalRevenue(currentDate: moment.Moment): number {
     return this.getCashUpsForWeek(currentDate).reduce((prev, curr) => prev + curr.getTotalRevenue(), 0)
   }
 
+  public getCashUpForDay(date: moment.Moment): CashUpEntity {
+    const result = this.cashUps.find((cashUp) => date.isSame(cashUp.date, 'day'));
+    return result === undefined ? CashUpEntity.default(moment.utc(date)) : result;
+  }
+  
   private getCashUpsForWeek(currentDate: moment.Moment): CashUpEntity[] {
     const startOfWeek = currentDate.clone().startOf('isoWeek');
     const dates = [
@@ -58,12 +55,19 @@ export class CashUpsForWeek {
       startOfWeek.clone().add(5, 'days'),
       startOfWeek.clone().add(6, 'days'),
     ];
-    return dates.map( date => {
-      const cashUp = this.cashUps.get(date.format(DateFormats.API));
-      if (cashUp === undefined || cashUp === null) {
-        return CashUpEntity.default(date)
+    return dates.map( date => this.getCashUpForDay(date));
+  }
+
+  private updateCashUps(newCashUps: CashUpEntity[]): CashUpsForWeek {
+    let cashUps = this.cashUps.map(cashUp => cashUp.clone());
+    newCashUps.forEach((newCashUp, key) => {
+      const existingCashUp = cashUps.find(cashUp => cashUp.date === newCashUp.date);
+      if (existingCashUp) {
+        cashUps = cashUps.map(cashUp => cashUp.date === newCashUp.date ? newCashUp : cashUp);
+      } else {
+        cashUps.push(newCashUp);
       }
-      return cashUp;
     });
+    return new CashUpsForWeek(cashUps);
   }
 }

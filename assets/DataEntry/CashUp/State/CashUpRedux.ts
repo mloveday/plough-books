@@ -62,7 +62,7 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
       },
       method: 'POST',
     })
-      .then(d => dispatch(cashUpCreateSuccess({date: cashUp.date, response: d})))
+      .then(d => dispatch(cashUpCreateSuccess({date: moment.utc(cashUp.date), response: d})))
       .catch(e => dispatch(cashUpCreateError(e)))
       ;
   }
@@ -70,31 +70,31 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
 
 export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
   [CASH_UP_DATA_ENTRY]: (state, action) => {
-    return state.with(action.payload);
+    return state.update(action.payload);
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return state.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload.date).cashUps.values())).with(action.payload.response);
+    return state.update(CashUpsForWeek.defaultForWeek(action.payload.date).cashUps).fromApi(action.payload.response);
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return state.with(action.payload.response);
+    return state.update(action.payload.response);
   }
 }, CashUpsForWeek.default());
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(Array.from(CashUpsForWeek.defaultForWeek(action.payload).cashUps.values())), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
+    return state.with(state.cashUpsForWeek.update(CashUpsForWeek.defaultForWeek(action.payload).cashUps), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
+    return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
   },
   [CASH_UP_CREATE_START]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
+    return state.with(state.cashUpsForWeek.update(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return state.with(state.cashUpsForWeek.with(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
+    return state.with(state.cashUpsForWeek.update(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));

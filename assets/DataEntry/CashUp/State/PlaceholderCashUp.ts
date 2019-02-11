@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpEntity} from "./CashUpEntity";
 import {SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
 import {TillDenominations} from "./Denominations/TillDenominations";
@@ -6,7 +7,7 @@ import {TillDenominations} from "./Denominations/TillDenominations";
 export class PlaceholderCashUp extends CashUpEntity {
   public static default(date: moment.Moment): PlaceholderCashUp {
     return new PlaceholderCashUp(
-      moment.utc(date),
+      moment.utc(date).format(DateFormats.API),
       '',
       'No cash up for today',
       [

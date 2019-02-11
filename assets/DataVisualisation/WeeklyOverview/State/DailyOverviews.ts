@@ -91,21 +91,21 @@ export class DailyOverviews {
     ];
     const overviews: DailyOverview[] = [];
     days.forEach(day => {
-      const cashUp = cashUps.cashUps.get(day.format(DateFormats.API));
+      const cashUp = cashUps.getCashUpForDay(day);
       const rota = rotas.getRotaForDate(day);
-      if (cashUp && !cashUp.isDefault && rota) {
+      if (!cashUp.isDefault && rota) {
         overviews.push(new DailyOverview(
           cashUp,
           rota,
           day
         ));
-      } else if (cashUp && cashUp.isDefault && rota) {
+      } else if (cashUp.isDefault && rota) {
         overviews.push(new DailyOverview(
           PlaceholderCashUp.default(day),
           rota,
           day
         ));
-      } else if (cashUp && !cashUp.isDefault){
+      } else if (!cashUp.isDefault){
         overviews.push(new DailyOverview(
           cashUp,
           RotaEntity.fromPartial({date: day.format(DateFormats.API)}),

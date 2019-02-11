@@ -440,8 +440,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   private getCashUp(): CashUpEntity {
-    const localState = this.props.cashUpsForWeek.cashUps.get(this.props.match.params.date);
-    return localState === undefined ? CashUpEntity.default(moment.utc(this.props.match.params.date)) : localState;
+    return this.props.cashUpsForWeek.getCashUpForDay(moment.utc(this.props.match.params.date));
   }
 
   private maintainStateWithUrl() {

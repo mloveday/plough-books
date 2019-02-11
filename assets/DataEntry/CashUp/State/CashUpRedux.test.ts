@@ -1,5 +1,4 @@
 import * as moment from "moment";
-import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpEntity} from "./CashUpEntity";
 import {cashUpDataEntry, cashUpInternalReducers} from "./CashUpRedux";
 import {CashUpsForWeek} from "./CashUpsForWeek";
@@ -13,8 +12,8 @@ describe('CashUpRedux', () => {
       const outputState = cashUpInternalReducers(inputState, cashUpDataEntry([entity]));
 
       expect(Array.from(outputState.cashUps.values()).length).toEqual(1);
-      expect(outputState.cashUps.has(entity.date.format(DateFormats.API))).toBeTruthy();
-      const outputEntity = outputState.cashUps.get(entity.date.format(DateFormats.API));
+      expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
+      const outputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
       if (outputEntity === undefined) {
         expect(outputEntity).toBeDefined();
         return;
@@ -25,13 +24,13 @@ describe('CashUpRedux', () => {
     it('DATA_ENTRY replaces existing entity fromApi given entity', () => {
       const date = moment.utc();
       const entity = CashUpEntity.default(date).with({mod: 'the expected MOD'});
-      const inputState = CashUpsForWeek.default().with([CashUpEntity.default(date).with({mod: 'Not the expected mod'})]);
+      const inputState = CashUpsForWeek.default().update([CashUpEntity.default(date).with({mod: 'Not the expected mod'})]);
 
       const outputState = cashUpInternalReducers(inputState, cashUpDataEntry([entity]));
 
       expect(Array.from(outputState.cashUps.values()).length).toEqual(1);
-      expect(outputState.cashUps.has(entity.date.format(DateFormats.API))).toBeTruthy();
-      const outputEntity = outputState.cashUps.get(entity.date.format(DateFormats.API));
+      expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
+      const outputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
       if (outputEntity === undefined) {
         expect(outputEntity).toBeDefined();
         return;
@@ -44,14 +43,14 @@ describe('CashUpRedux', () => {
       const otherDate = moment.utc().subtract(1, 'week');
       const entity = CashUpEntity.default(otherDate).with({mod: 'the expected MOD'});
       const existingEntity = CashUpEntity.default(date).with({mod: 'Not the expected mod'});
-      const inputState = CashUpsForWeek.default().with([existingEntity]);
+      const inputState = CashUpsForWeek.default().update([existingEntity]);
 
       const outputState = cashUpInternalReducers(inputState, cashUpDataEntry([entity]));
       expect(Array.from(outputState.cashUps.values()).length).toEqual(2);
 
       // expect existing entity to be correct
-      expect(outputState.cashUps.has(existingEntity.date.format(DateFormats.API))).toBeTruthy();
-      const existingOutputEntity = outputState.cashUps.get(existingEntity.date.format(DateFormats.API));
+      expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
+      const existingOutputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
       if (existingOutputEntity === undefined) {
         expect(existingOutputEntity).toBeDefined();
         return;
@@ -59,8 +58,8 @@ describe('CashUpRedux', () => {
       expect(existingOutputEntity.mod).toEqual(existingEntity.mod);
 
       // expect new entity to be correct
-      expect(outputState.cashUps.has(entity.date.format(DateFormats.API))).toBeTruthy();
-      const newOutputEntity = outputState.cashUps.get(entity.date.format(DateFormats.API));
+      expect(outputState.cashUps.find(cashUp => moment.utc(cashUp.date).isSame(entity.date, 'day'))).toBeTruthy();
+      const newOutputEntity = outputState.getCashUpForDay(moment.utc(entity.date));
       if (newOutputEntity === undefined) {
         expect(newOutputEntity).toBeDefined();
         return;
