@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {CashUpEntity} from "./CashUpEntity";
-import {SafeFloatDenominations} from "./SafeFloatDenominations";
-import {TillDenominations} from "./TillDenominations";
+import {SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
+import {TillDenominations} from "./Denominations/TillDenominations";
 
 export class PlaceholderCashUp extends CashUpEntity {
   public static default(date: moment.Moment): PlaceholderCashUp {

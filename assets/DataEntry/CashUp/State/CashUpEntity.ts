@@ -4,8 +4,8 @@ import {
   ISafeFloatDenominationsApiObject,
   ISafeFloatDenominationsUpdateObject,
   SafeFloatDenominations
-} from "./SafeFloatDenominations";
-import {ITillDenominationsApiObject, ITillDenominationsUpdateObject, TillDenominations} from "./TillDenominations";
+} from "./Denominations/SafeFloatDenominations";
+import {ITillDenominationsApiObject, ITillDenominationsUpdateObject, TillDenominations} from "./Denominations/TillDenominations";
 
 export interface ICashUpEntityApiObject {
   id: number;

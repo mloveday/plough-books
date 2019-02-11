@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
 import {validateCash} from "../../Util/Validation";
-import {SafeFloatDenominations} from "./State/SafeFloatDenominations";
+import {SafeFloatDenominations} from "./State/Denominations/SafeFloatDenominations";
 
 interface SafeFloatDenomOwnProps {
   cashUpPropName: string;

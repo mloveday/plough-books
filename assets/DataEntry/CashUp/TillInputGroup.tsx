@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
 import {validateCash} from "../../Util/Validation";
-import {TillDenominations} from "./State/TillDenominations";
+import {TillDenominations} from "./State/Denominations/TillDenominations";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];
