@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
+import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
 import {routeAllowed} from "../Auth/AuthNavService";
 import {AuthState} from "../Auth/State/AuthState";
@@ -27,10 +28,13 @@ const mapStateToProps = (state: AppState, ownProps: NavOwnProps): NavStateProps 
 };
 
 interface NavDispatchProps {
+  updateUi: (state: UiState) => void;
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: NavOwnProps): NavDispatchProps => {
-  return {};
+  return {
+    updateUi: (state: UiState) => dispatch(uiUpdate(state)),
+  };
 };
 
 type NavProps = NavOwnProps & NavStateProps & NavDispatchProps;
@@ -83,7 +87,9 @@ class NavComponent extends React.Component<NavProps, {}> {
   private routeItem(route: string, text: string, groupCss: string, icon: IconProp, baseRoute?: string): JSX.Element|null {
     if (this.isRouteAllowed(baseRoute ? baseRoute : route)) {
       return (
-          <Link className={`App-nav-anchor ${groupCss}`} to={route}><FontAwesomeIcon icon={icon} className={`link-icon`} /> {text}</Link>
+          <Link className={`App-nav-anchor ${groupCss}`} to={route} onClick={() => this.props.updateUi(this.props.uiState.withShouldShowNav(false))}>
+            <FontAwesomeIcon icon={icon} className={`link-icon`} /> {text}
+          </Link>
       );
     }
     return null;
