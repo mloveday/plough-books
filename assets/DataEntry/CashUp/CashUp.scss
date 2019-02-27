@@ -1,3 +1,5 @@
+@import '../../Styling/Global';
+
 .cash-up {
   display: grid;
   grid-template-areas: 'date-picker date-picker date-picker' 'prev form next';
@@ -13,7 +15,15 @@
   }
 
   .form-wrapper {
-    margin: 16px 64px;
+    @include r-mobile {
+      margin: 4px 8px;
+    }
+    @include r-tablet {
+      margin: 4px 8px;
+    }
+    @include r-desktop {
+      margin: 16px 64px;
+    }
     grid-area: form;
     display: grid;
     grid-gap: 16px;
