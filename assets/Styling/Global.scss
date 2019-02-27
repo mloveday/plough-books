@@ -1,0 +1,25 @@
+@import '../../node_modules/sass-mq/mq';
+
+$mq-breakpoints: (
+        mobile:  320px,
+        tablet:  740px,
+        desktop: 980px
+);
+
+@mixin r-mobile {
+  @include mq($until: tablet) {
+    @content
+  }
+}
+
+@mixin r-tablet {
+  @include mq($from: tablet, $until: desktop) {
+    @content
+  }
+}
+
+@mixin r-desktop {
+  @include mq($from: desktop) {
+    @content
+  }
+}

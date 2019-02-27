@@ -1,11 +1,29 @@
+@import '../../Styling/Global';
+
 .App-nav {
+  @include r-mobile {
+    .App-nav-list {
+      display: none;
+      height: 60px;
+    }
+  }
+  @include r-tablet {
+    .App-nav-list {
+      display: none;
+      height: 60px;
+    }
+  }
+  @include r-desktop {
+    .App-nav-list {
+      height: 60px;
+      display: grid;
+      grid-gap: 1px;
+      grid-auto-flow: column;
+    }
+  }
   .App-nav-list {
-    height: 60px;
     padding: 1px;
     margin: 0;
-    display: grid;
-    grid-gap: 1px;
-    grid-auto-flow: column;
     list-style-type: none;
     @media print {
       display: none;
