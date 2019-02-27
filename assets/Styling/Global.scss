@@ -23,3 +23,8 @@ $mq-breakpoints: (
     @content
   }
 }
+
+@mixin r-not-desktop {
+  @include r-mobile { @content }
+  @include r-tablet { @content }
+}
