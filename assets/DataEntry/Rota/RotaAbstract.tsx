@@ -160,6 +160,20 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
               <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
             ))}
           </div>
+          {this.showStaffLevels() && <div className="rota-staff-levels">
+            <div className="rota-header rota-staff-name"/>
+            <div className="rota-header rota-remove-shift"/>
+            <div className="rota-header rota-start-time"/>
+            <div className="rota-header rota-end-time"/>
+            <div className="rota-header rota-breaks"/>
+            {timePeriods.map((timePeriod, timeKey) => {
+              const numberWorking = this.getRota().getPlannedNumberWorkingAtTime(timePeriod.format(DateFormats.TIME_LEADING_ZERO), this.props.match.params.type);
+              const numberRequired = (this.props.match.params.type === WorkTypes.BAR ? this.getRota().barRotaTemplate : this.getRota().kitchenRotaTemplate).staffRequired(timeKey);
+              const numberLeft = numberRequired - numberWorking;
+              const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
+              return <div className={`rota-time ${stylingClass}`} key={timeKey}>{numberLeft}</div>
+            })}
+          </div>}
           <Prompt when={this.getRota().touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
           {sortedRoles.map((role, roleKey) => {
             const shifts = this.getShifts()
@@ -233,6 +247,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
 
   protected abstract getName(): string;
   protected abstract showStats(): boolean;
+  protected abstract showStaffLevels(): boolean;
   protected abstract canAutoPopulateFromRota(): boolean;
   protected abstract getShifts(): Shift[];
   protected abstract addShift(shiftToAdd: Shift): void;
