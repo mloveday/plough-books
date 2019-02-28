@@ -47,7 +47,7 @@ class NavComponent extends React.Component<NavProps, {}> {
     return (
       <nav className="App-nav">
         <ul className="App-nav-list">
-          <li className={routeCssSingle}>
+          <li className={`${routeCssSingle} nav-menu-anchor`}>
             <div className={`App-nav-anchor`} onClick={() => this.props.updateUi(this.props.uiState.withShouldShowNav(false))}>
               <FontAwesomeIcon icon={`chevron-left`} className={`link-icon`} />
             </div>

@@ -35,6 +35,9 @@
       grid-gap: 1px;
       grid-auto-flow: column;
     }
+    .single-link.nav-menu-anchor {
+      display: none;
+    }
   }
   .App-nav-list {
     margin: 0;
