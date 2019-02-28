@@ -59,6 +59,7 @@
   }
 
   .nav-menu {
+    @include std-link;
     @include r-desktop {
       display: none;
     }

@@ -48,7 +48,12 @@ class NavComponent extends React.Component<NavProps, {}> {
       <nav className="App-nav">
         <ul className="App-nav-list">
           <li className={routeCssSingle}>
-          {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", 'planning', 'calendar-week', Routes.WEEKLY_PLANNING)}
+            <div className={`App-nav-anchor`} onClick={() => this.props.updateUi(this.props.uiState.withShouldShowNav(false))}>
+              <FontAwesomeIcon icon={`chevron-left`} className={`link-icon`} />
+            </div>
+          </li>
+          <li className={routeCssSingle}>
+            {this.routeItem(Routes.weeklyPlanningUrl(date), "Weekly planning", 'planning', 'calendar-week', Routes.WEEKLY_PLANNING)}
           </li>
           <li className={routeCssDouble}>
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", 'planning', 'calendar-day', Routes.ROTA)}
