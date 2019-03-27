@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpEntity, ICashUpEntityApiObject} from "./CashUpEntity";
 
 export class CashUpsForWeek {
@@ -40,7 +41,8 @@ export class CashUpsForWeek {
   }
 
   public getCashUpForDay(date: moment.Moment): CashUpEntity {
-    const result = this.cashUps.find((cashUp) => date.isSame(cashUp.date, 'day'));
+    const day = date.format(DateFormats.API);
+    const result = this.cashUps.find((cashUp) => day === cashUp.date);
     return result === undefined ? CashUpEntity.default(moment.utc(date)) : result;
   }
   

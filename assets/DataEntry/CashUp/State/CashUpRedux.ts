@@ -3,9 +3,10 @@ import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {DefinedAction} from "../../../State/DefinedAction";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
-import {CashUpEntity} from "./CashUpEntity";
+import {CashUpEntity, ICashUpEntityApiObject} from "./CashUpEntity";
 import {CashUpExternalState} from "./CashUpExternalState";
 import {CashUpsForWeek} from "./CashUpsForWeek";
 
@@ -19,14 +20,16 @@ const CASH_UP_CREATE_START = 'CASH_UP_CREATE_START';
 const CASH_UP_CREATE_SUCCESS = 'CASH_UP_CREATE_SUCCESS';
 const CASH_UP_CREATE_ERROR = 'CASH_UP_CREATE_ERROR';
 
+interface IFetchResponse {date: moment.Moment, response: ICashUpEntityApiObject[]}
+
 export const cashUpDataEntry = createAction<CashUpEntity[]>(CASH_UP_DATA_ENTRY);
 
 export const cashUpFetchStart = createAction<moment.Moment>(CASH_UP_FETCH_START);
-export const cashUpFetchSuccess = createAction<{date: moment.Moment, response: CashUpExternalState}>(CASH_UP_FETCH_SUCCESS);
+export const cashUpFetchSuccess = createAction<IFetchResponse>(CASH_UP_FETCH_SUCCESS);
 export const cashUpFetchError = createAction(CASH_UP_FETCH_ERROR);
 
 export const cashUpCreateStart = createAction<CashUpEntity>(CASH_UP_CREATE_START);
-export const cashUpCreateSuccess = createAction<{date: moment.Moment, response: CashUpExternalState}>(CASH_UP_CREATE_SUCCESS);
+export const cashUpCreateSuccess = createAction<IFetchResponse>(CASH_UP_CREATE_SUCCESS);
 export const cashUpCreateError = createAction(CASH_UP_CREATE_ERROR);
 
 export const cashUpFetchWithPrevious = (date: moment.Moment) => {
@@ -72,11 +75,11 @@ export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
   [CASH_UP_DATA_ENTRY]: (state, action) => {
     return state.update(action.payload);
   },
-  [CASH_UP_FETCH_SUCCESS]: (state, action) => {
+  [CASH_UP_FETCH_SUCCESS]: (state: CashUpsForWeek, action: DefinedAction<IFetchResponse>) => {
     return state.update(CashUpsForWeek.defaultForWeek(action.payload.date).cashUps).fromApi(action.payload.response);
   },
-  [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return state.update(action.payload.response);
+  [CASH_UP_CREATE_SUCCESS]: (state: CashUpsForWeek, action: DefinedAction<IFetchResponse>) => {
+    return state.fromApi(action.payload.response);
   }
 }, CashUpsForWeek.default());
 
@@ -84,7 +87,7 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action) => {
     return state.with(state.cashUpsForWeek.update(CashUpsForWeek.defaultForWeek(action.payload).cashUps), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
   },
-  [CASH_UP_FETCH_SUCCESS]: (state, action) => {
+  [CASH_UP_FETCH_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
@@ -93,8 +96,8 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_CREATE_START]: (state, action) => {
     return state.with(state.cashUpsForWeek.update(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
   },
-  [CASH_UP_CREATE_SUCCESS]: (state, action) => {
-    return state.with(state.cashUpsForWeek.update(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
+  [CASH_UP_CREATE_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
+    return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
