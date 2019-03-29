@@ -1,7 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
-import {validateCash} from "../../Util/Validation";
 import {SafeFloatDenominations} from "./State/Denominations/SafeFloatDenominations";
 
 interface SafeFloatDenomOwnProps {
@@ -55,9 +54,9 @@ class SafeFloatDenomComponent extends React.Component<SafeFloatDenomProps, {}> {
     const id = this.props.cashUpPropName + '_' + property;
     return <div className="label-and-input">
       <label htmlFor={id}>{friendlyName}</label>
-      <input id={id} type="number" step="0.01"
-             value={this.props.safeFloatObj[property].toFixed(2)}
-             onChange={ev => this.props.formUpdate({[this.props.cashUpPropName]: this.props.safeFloatObj.with({[property]: validateCash(ev.target.value, this.props.safeFloatObj[property])})})} />
+      <input id={id} type="text" pattern="\d*(.\d{1,2})?"
+             value={this.props.safeFloatObj.inputs[property]}
+             onChange={ev => this.props.formUpdate({[this.props.cashUpPropName]: this.props.safeFloatObj.with({[property]: ev.target.value})})} />
     </div>
   }
 }

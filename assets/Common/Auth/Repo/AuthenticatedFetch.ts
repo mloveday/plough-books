@@ -3,8 +3,8 @@ import {backendApiDomain, tokenQueryParam} from "env/Config";
 import {getAuthTokenFromLocalStorage} from "../State/AuthStorage";
 
 export function authenticatedFetch(url: string, onAuthError: () => void, init?: RequestInit): Promise<any> {
-    url = '/api' + url;
-    return fetch(authenticatedUrl(url), init)
+    const prefixedUrl = '/api' + url;
+    return fetch(authenticatedUrl(prefixedUrl), init)
         .then(r => {
             if (r.ok) {
                 return r.json();
@@ -15,7 +15,7 @@ export function authenticatedFetch(url: string, onAuthError: () => void, init?: 
                         throw new Error('Not Authorised: ' + reason);
                     });
                 } else {
-                    throw new Error(`Error fetching data from URL (/api${url}) with response code (${r.status})`);
+                    throw new Error(`Error fetching data from URL (${prefixedUrl}) with response code (${r.status})`);
                 }
             }
         });

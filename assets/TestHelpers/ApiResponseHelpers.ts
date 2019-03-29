@@ -32,6 +32,7 @@ export const cashUpObject = (date: moment.Moment) => {
     cashAdvantageBag: 'cashAdvantageBag',
     cashAdvantageBagSeenBy: 'cashAdvantageBagSeenBy',
     sfdAm: {
+      id: 1,
       fiftyPounds: 0,
       twentyPounds: 0,
       tenPounds: 0,
@@ -42,8 +43,21 @@ export const cashUpObject = (date: moment.Moment) => {
       tenPence: 0,
       fivePence: 0,
       initials: 'initials',
+      inputs: {
+        fiftyPounds: '0',
+        twentyPounds: '0',
+        tenPounds: '0',
+        fivePounds: '0',
+        pounds: '0',
+        fiftyPence: '0',
+        twentyPence: '0',
+        tenPence: '0',
+        fivePence: '0',
+        initials: 'initials',
+      }
     },
     sfdPm: {
+      id: 2,
       fiftyPounds: 0,
       twentyPounds: 0,
       tenPounds: 0,
@@ -54,6 +68,18 @@ export const cashUpObject = (date: moment.Moment) => {
       tenPence: 0,
       fivePence: 0,
       initials: 'initials',
+      inputs: {
+        fiftyPounds: '0',
+        twentyPounds: '0',
+        tenPounds: '0',
+        fivePounds: '0',
+        pounds: '0',
+        fiftyPence: '0',
+        twentyPence: '0',
+        tenPence: '0',
+        fivePence: '0',
+        initials: 'initials',
+      }
     },
     sfdNotes: 'sfdNotes',
     pubSecuredBy: 'pubSecuredBy',

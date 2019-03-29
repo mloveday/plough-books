@@ -104,8 +104,8 @@ export class CashUpEntity {
     if (obj.hasOwnProperty('receipts')) {
       newObj.receipts = obj.receipts.map(receipt => Receipt.default().with(receipt));
     }
-    newObj.sfdAm = SafeFloatDenominations.default().with(obj.sfdAm);
-    newObj.sfdPm = SafeFloatDenominations.default().with(obj.sfdPm);
+    newObj.sfdAm = SafeFloatDenominations.parseApiResponse(obj.sfdAm);
+    newObj.sfdPm = SafeFloatDenominations.parseApiResponse(obj.sfdPm);
     return CashUpEntity.default(date).with(newObj);
   }
 

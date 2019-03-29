@@ -43,7 +43,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
     return (
       <div className="label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
-        <input id={id} type="number" step="0.01"
+        <input id={id} type="tel" pattern="\d*(.\d{1,2})?"
                value={this.props.tills[index].inputs[this.props.tillProperty]}
                onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: ev.target.value}))}/>
       </div>
