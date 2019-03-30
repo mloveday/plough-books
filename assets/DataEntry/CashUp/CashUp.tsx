@@ -88,7 +88,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
         <DatePicker dateParam={this.props.match.params.date}
                     urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date)}/>
 
-        <button className='prev-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.previous))}><FontAwesomeIcon icon="chevron-left" /></button>
         <form className="form-wrapper">
           <div className="form-group">
             <h3 className="group-title summary_title">Summary</h3>
@@ -158,87 +157,136 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.TILLS &&
           <div className="form-group">
-            <div className="till-labels">
-              <div className="till-label">1</div>
-              <div className="till-label">2</div>
-              <div className="till-label">3</div>
-              <div className="till-label">4</div>
-              <div className="till-label">5</div>
-              <div className="till-label">6</div>
-              <div className="till-label">7</div>
+            <div className="form-row">
+              <h4 className="group-label charge_deposit_label">Charge & deposit</h4>
+              <div className="label-and-input charge_to_ac">
+                <label htmlFor="charge_to_ac">Charge to account</label>
+                <input id="charge_to_ac" type="text" pattern="\d*(.\d{1,2})?"
+                       value={this.getCashUp().chargeToAccount.toFixed(2)}
+                       onChange={ev => this.formUpdate({chargeToAccount: validateCash(ev.target.value, this.getCashUp().chargeToAccount)})}/>
+              </div>
+              <div className="label-and-input deposit_redeemed">
+                <label htmlFor="deposit_redeemed">Deposit redeemed</label>
+                <input id="deposit_redeemed" type="text" pattern="\d*(.\d{1,2})?"
+                       value={this.getCashUp().depositRedeemed.toFixed(2)}
+                       onChange={ev => this.formUpdate({depositRedeemed: validateCash(ev.target.value, this.getCashUp().depositRedeemed)})}/>
+              </div>
             </div>
 
-            <h3 className="group-title till_float_title">Till float</h3>
+            <div className="form-row">
+              <h4 className="group-label till_label">Tills</h4>
+              <div className="per-till">
+                <div className="till-label">1</div>
+                <div className="till-label">2</div>
+                <div className="till-label">3</div>
+                <div className="till-label">4</div>
+                <div className="till-label">5</div>
+                <div className="till-label">6</div>
+                <div className="till-label">7</div>
+              </div>
+            </div>
+
+            <div className={`section-line`}/>
+
+            <div className="form-row">
+            <h4 className="group-label till_float_label">Till float</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Till float'}
                             groupIdentifier={'till_float_tills'} tillProperty={'float'}
                             tills={this.getCashUp().tills}/>
+            </div>
+
+            <div className="form-row">
             <h4 className="group-label amex_label">AMEX</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'amex'}
                             groupIdentifier={'amex_tills'} tillProperty={'amex'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label visa_label">VISA</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label visa_label">VISA</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'visa'}
                             groupIdentifier={'visa_tills'} tillProperty={'visa'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label charge_deposit_label">Charge & deposit</h4>
-            <div className="label-and-input charge_to_ac">
-              <label htmlFor="charge_to_ac">Charge to account</label>
-              <input id="charge_to_ac" type="text" pattern="\d*(.\d{1,2})?"
-                     value={this.getCashUp().chargeToAccount.toFixed(2)}
-                     onChange={ev => this.formUpdate({chargeToAccount: validateCash(ev.target.value, this.getCashUp().chargeToAccount)})}/>
             </div>
-            <div className="label-and-input deposit_redeemed">
-              <label htmlFor="deposit_redeemed">Deposit redeemed</label>
-              <input id="deposit_redeemed" type="text" pattern="\d*(.\d{1,2})?"
-                     value={this.getCashUp().depositRedeemed.toFixed(2)}
-                     onChange={ev => this.formUpdate({depositRedeemed: validateCash(ev.target.value, this.getCashUp().depositRedeemed)})}/>
-            </div>
-            <h4 className="group-label fifty_label">£50</h4>
+
+            <div className="form-row">
+              <h4 className="group-label fifty_label">£50</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£50'}
                             groupIdentifier={'fifty_tills'} tillProperty={'fiftyPounds'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label twenty_label">£20</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label twenty_label">£20</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£20'}
                             groupIdentifier={'twenty_tills'} tillProperty={'twentyPounds'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label ten_label">£10</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label ten_label">£10</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£10'} groupIdentifier={'ten_tills'}
                             tillProperty={'tenPounds'} tills={this.getCashUp().tills}/>
-            <h4 className="group-label five_label">£5</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label five_label">£5</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£5'} groupIdentifier={'five_tills'}
                             tillProperty={'fivePounds'} tills={this.getCashUp().tills}/>
-            <h4 className="group-label pounds_label">£1 &amp; £2</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label pounds_label">£1 &amp; £2</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£1 & £2'}
                             groupIdentifier={'pounds_tills'} tillProperty={'pounds'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label fifty_p_label">50p</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label fifty_p_label">50p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'50p'}
                             groupIdentifier={'fifty_p_tills'} tillProperty={'fiftyPence'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label twenty_p_label">20p</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label twenty_p_label">20p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'20p'}
                             groupIdentifier={'twenty_p_tills'} tillProperty={'twentyPence'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label ten_p_label">10p</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label ten_p_label">10p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'10p'}
                             groupIdentifier={'ten_p_tills'} tillProperty={'tenPence'}
                             tills={this.getCashUp().tills}/>
-            <h4 className="group-label five_p_label">5p</h4>
+            </div>
+
+            <div className="form-row">
+              <h4 className="group-label five_p_label">5p</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'5p'}
                             groupIdentifier={'five_p_tills'} tillProperty={'fivePence'}
                             tills={this.getCashUp().tills}/>
+            </div>
+
             <div className={`section-line`}/>
+            <div className="form-row">
             <h4 className="group-label z_label">Z read</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'} groupIdentifier={'z_tills'}
                             tillProperty={'zRead'} tills={this.getCashUp().tills}/>
+            </div>
+
             <div className={`section-line`}/>
+            <div className="form-row">
             <h4 className="group-label z_label">Z variance</h4>
             <div className={`per-till diff`}>
               {this.getCashUp().tills.map((till, index) =>
-                <div className="label-and-input" key={index}>
+                <div className="till-label-and-input" key={index}>
                   <div>{Formatting.formatCash(till.totalTaken() - till.zRead)}</div>
                 </div>
               )}
+            </div>
             </div>
           </div>}
 
@@ -434,7 +482,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           </div>}
 
         </form>
-        <button className='next-button' type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(currentSectionPosition.next))}><FontAwesomeIcon icon="chevron-right" /></button>
       </div>
     )
   }

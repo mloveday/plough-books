@@ -41,7 +41,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
   private tillInput(index: number) {
     const id = this.props.tillProperty+'_'+index;
     return (
-      <div className="label-and-input" key={index}>
+      <div className="till-label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
         <input id={id} type="tel" pattern="\d*(.\d{1,2})?"
                value={this.props.tills[index].inputs[this.props.tillProperty]}
