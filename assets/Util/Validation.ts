@@ -9,3 +9,5 @@ function limitDecimalsToCurrency(num: string, previous: number): string {
   const matches = num.match(re);
   return (matches && matches.length) ? matches[0] : `${previous}`;
 }
+
+export const currencyPattern = `\\d*(\\.\\d{1,2})?`;

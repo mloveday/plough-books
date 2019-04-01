@@ -1,6 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
+import {currencyPattern} from "../../Util/Validation";
 import {ICashUpEntityUpdateObject} from "./State/CashUpEntity";
 import {TillDenominations} from "./State/Denominations/TillDenominations";
 
@@ -43,7 +44,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
     return (
       <div className="till-label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
-        <input id={id} type="tel" pattern="\d*(.\d{1,2})?"
+        <input id={id} type="tel" pattern={currencyPattern}
                value={this.props.tills[index].inputs[this.props.tillProperty]}
                onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: ev.target.value}))}/>
       </div>
