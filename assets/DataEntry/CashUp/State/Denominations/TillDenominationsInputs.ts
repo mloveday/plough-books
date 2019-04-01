@@ -1,21 +1,16 @@
-import {Denominations} from "./Denominations";
-import {ITillDenominationsUpdateObject} from "./TillDenominations";
+import {
+  TillDenominationsAbstract,
+  TillDenominationsInputType,
+  TillDenominationsUpdateType
+} from "./TillDenominationsTypes";
 
-export class TillDenominationsInputs extends Denominations<string, string> {
-  public readonly float: string;
-  public readonly visa: string;
-  public readonly amex: string;
-  public readonly zRead: string;
+export class TillDenominationsInputs extends TillDenominationsAbstract<string> implements TillDenominationsInputType {
 
   constructor(fiftyPounds: string, twentyPounds: string, tenPounds: string, fivePounds: string, pounds: string, fiftyPence: string, twentyPence: string, tenPence: string, fivePence: string, float: string, visa: string, amex: string, zRead: string) {
-    super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence);
-    this.float = float;
-    this.visa = visa;
-    this.amex = amex;
-    this.zRead = zRead;
+    super(visa, amex, fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence, float, zRead);
   }
 
-  public with(obj: ITillDenominationsUpdateObject<string>): TillDenominationsInputs {
+  public with(obj: TillDenominationsUpdateType): TillDenominationsInputs {
     return Object.assign(
       new TillDenominationsInputs(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.float, this.visa, this.amex, this.zRead),
       obj

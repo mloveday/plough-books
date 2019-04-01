@@ -22,7 +22,7 @@ export interface IDenominationsUpdateObject<T> {
   fivePence?: T;
 }
 
-export abstract class Denominations<T, W> implements IDenominationsApiObject<T> {
+export abstract class Denominations<T> implements IDenominationsApiObject<T> {
   public readonly fiftyPounds: T;
   public readonly twentyPounds: T;
   public readonly tenPounds: T;
@@ -45,7 +45,7 @@ export abstract class Denominations<T, W> implements IDenominationsApiObject<T> 
     this.fivePence = fivePence;
   }
 
-  public abstract with(obj: IDenominationsUpdateObject<W>): Denominations<T, W>;
+  public abstract with(obj: IDenominationsUpdateObject<string>): Denominations<T>;
 
-  public abstract clone(): Denominations<T, W>;
+  public abstract clone(): Denominations<T>;
 }

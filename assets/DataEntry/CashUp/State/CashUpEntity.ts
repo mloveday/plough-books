@@ -1,7 +1,8 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../../Util/DateFormats";
 import {ISafeFloatDenominationsApiObject, SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
-import {ITillDenominationsApiObject, TillDenominations} from "./Denominations/TillDenominations";
+import {TillDenominations} from "./Denominations/TillDenominations";
+import {TillDenominationsApiType} from "./Denominations/TillDenominationsTypes";
 import {IReceiptApiObject, Receipt} from "./Receipt";
 
 export interface ICashUpEntityApiObject {
@@ -9,7 +10,7 @@ export interface ICashUpEntityApiObject {
   date: string;
   mod: string;
   dailyNotes: string;
-  tills: Array<ITillDenominationsApiObject<number>>;
+  tills: TillDenominationsApiType[];
   chargeToAccount: number;
   depositRedeemed: number;
   compsWet: number;
