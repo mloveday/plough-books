@@ -1,7 +1,8 @@
 import * as moment from "moment";
+import {ICashUpEntityApiObject} from "../DataEntry/CashUp/State/CashUpEntity";
 import {DateFormats} from "../Util/DateFormats";
 
-export const cashUpObject = (date: moment.Moment) => {
+export const cashUpObject = (date: moment.Moment): ICashUpEntityApiObject => {
   return {
     id: 1,
     date: date.format(DateFormats.API),
@@ -43,18 +44,6 @@ export const cashUpObject = (date: moment.Moment) => {
       tenPence: 0,
       fivePence: 0,
       initials: 'initials',
-      inputs: {
-        fiftyPounds: '0',
-        twentyPounds: '0',
-        tenPounds: '0',
-        fivePounds: '0',
-        pounds: '0',
-        fiftyPence: '0',
-        twentyPence: '0',
-        tenPence: '0',
-        fivePence: '0',
-        initials: 'initials',
-      }
     },
     sfdPm: {
       id: 2,
@@ -68,18 +57,6 @@ export const cashUpObject = (date: moment.Moment) => {
       tenPence: 0,
       fivePence: 0,
       initials: 'initials',
-      inputs: {
-        fiftyPounds: '0',
-        twentyPounds: '0',
-        tenPounds: '0',
-        fivePounds: '0',
-        pounds: '0',
-        fiftyPence: '0',
-        twentyPence: '0',
-        tenPence: '0',
-        fivePence: '0',
-        initials: 'initials',
-      }
     },
     sfdNotes: 'sfdNotes',
     pubSecuredBy: 'pubSecuredBy',

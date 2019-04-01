@@ -44,8 +44,4 @@ export abstract class Denominations<T> implements IDenominationsApiObject<T> {
     this.tenPence = tenPence;
     this.fivePence = fivePence;
   }
-
-  public abstract with(obj: IDenominationsUpdateObject<string>): Denominations<T>;
-
-  public abstract clone(): Denominations<T>;
 }

@@ -20,7 +20,7 @@ export class TillDenominations extends TillDenominationsAbstract<number> impleme
   public readonly inputs: TillDenominationsInputs;
 
   constructor(id: number|undefined, visa: number, amex: number, fiftyPounds: number, twentyPounds: number, tenPounds: number, fivePounds: number, pounds: number, fiftyPence: number, twentyPence: number, tenPence: number, fivePence: number, float: number, zRead: number, inputs: TillDenominationsInputs) {
-    super(visa, amex, fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence, float, zRead);
+    super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence, float, visa, amex, zRead);
     this.id = id;
     this.inputs = inputs;
   }

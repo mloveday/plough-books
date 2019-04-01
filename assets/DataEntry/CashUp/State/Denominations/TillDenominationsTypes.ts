@@ -6,7 +6,8 @@ export abstract class TillDenominationsAbstract<T> extends Denominations<T> {
   public readonly visa: T;
   public readonly amex: T;
   public readonly zRead: T;
-  protected constructor(visa: T, amex: T, fiftyPounds: T, twentyPounds: T, tenPounds: T, fivePounds: T, pounds: T, fiftyPence: T, twentyPence: T, tenPence: T, fivePence: T, float: T, zRead: T) {
+
+  constructor(fiftyPounds: T, twentyPounds: T, tenPounds: T, fivePounds: T, pounds: T, fiftyPence: T, twentyPence: T, tenPence: T, fivePence: T, float: T, visa: T, amex: T, zRead: T) {
     super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence);
     this.float = float;
     this.visa = visa;

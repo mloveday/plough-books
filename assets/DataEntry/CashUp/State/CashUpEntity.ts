@@ -1,6 +1,7 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../../Util/DateFormats";
-import {ISafeFloatDenominationsApiObject, SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
+import {SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
+import {SafeFloatDenominationsApiType} from "./Denominations/SafeFloatDenominationsTypes";
 import {TillDenominations} from "./Denominations/TillDenominations";
 import {TillDenominationsApiType} from "./Denominations/TillDenominationsTypes";
 import {IReceiptApiObject, Receipt} from "./Receipt";
@@ -34,8 +35,8 @@ export interface ICashUpEntityApiObject {
   banked: number;
   cashAdvantageBag: string;
   cashAdvantageBagSeenBy: string;
-  sfdAm: ISafeFloatDenominationsApiObject<number>;
-  sfdPm: ISafeFloatDenominationsApiObject<number>;
+  sfdAm: SafeFloatDenominationsApiType;
+  sfdPm: SafeFloatDenominationsApiType;
   sfdNotes: string;
   pubSecuredBy: string;
   barClosedBy: string;
