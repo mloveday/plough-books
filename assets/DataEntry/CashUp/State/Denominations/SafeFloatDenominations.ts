@@ -21,7 +21,7 @@ export class SafeFloatDenominations extends Denominations<number, string> {
   public static default() {
     return new SafeFloatDenominations(
       undefined, 0, 0, 0, 0, 0, 0, 0, 0,0, '',
-      new SafeFloatDenominationsInputs("0","0","0","0","0","0","0","0","0","",)
+      new SafeFloatDenominationsInputs("","","","","","","","","","",)
     );
   }
 

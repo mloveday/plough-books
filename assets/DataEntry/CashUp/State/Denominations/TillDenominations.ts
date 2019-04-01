@@ -23,7 +23,7 @@ export class TillDenominations extends Denominations<number, string> {
   }
   
   public static default() {
-    return new TillDenominations(undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, new TillDenominationsInputs("0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",));
+    return new TillDenominations(undefined, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, new TillDenominationsInputs("", "", "", "", "", "", "", "", "", "", "", "", "",));
   }
 
   public readonly id?: number;
