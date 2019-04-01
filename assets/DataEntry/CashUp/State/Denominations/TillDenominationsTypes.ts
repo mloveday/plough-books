@@ -1,7 +1,7 @@
 import {ApiType, EntityType, InputType, UpdateType} from "../../../../State/TypeWithNumericalInputs";
-import {Denominations} from "./Denominations";
+import {DenominationsAbstract} from "./DenominationsAbstract";
 
-export abstract class TillDenominationsAbstract<T> extends Denominations<T> {
+export abstract class TillDenominationsAbstract<T> extends DenominationsAbstract<T> {
   public readonly float: T;
   public readonly visa: T;
   public readonly amex: T;

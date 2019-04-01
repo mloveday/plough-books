@@ -1,7 +1,7 @@
 import {ApiType, EntityType, InputType, UpdateType} from "../../../../State/TypeWithNumericalInputs";
-import {Denominations} from "./Denominations";
+import {DenominationsAbstract} from "./DenominationsAbstract";
 
-export abstract class SafeFloatDenominationsAbstract<T> extends Denominations<T> {
+export abstract class SafeFloatDenominationsAbstract<T> extends DenominationsAbstract<T> {
   public readonly initials: string;
   constructor(fiftyPounds: T, twentyPounds: T, tenPounds: T, fivePounds: T, pounds: T, fiftyPence: T, twentyPence: T, tenPence: T, fivePence: T, initials: string) {
     super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence);
