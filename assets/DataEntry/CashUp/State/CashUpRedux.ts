@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
@@ -6,7 +7,8 @@ import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DefinedAction} from "../../../State/DefinedAction";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
-import {CashUpEntity, ICashUpEntityApiObject} from "./CashUpEntity";
+import {CashUpEntity} from "./CashUpEntity";
+import {CashUpEntityApiType} from "./CashUpEntityTypes";
 import {CashUpExternalState} from "./CashUpExternalState";
 import {CashUpsForWeek} from "./CashUpsForWeek";
 
@@ -20,7 +22,7 @@ const CASH_UP_CREATE_START = 'CASH_UP_CREATE_START';
 const CASH_UP_CREATE_SUCCESS = 'CASH_UP_CREATE_SUCCESS';
 const CASH_UP_CREATE_ERROR = 'CASH_UP_CREATE_ERROR';
 
-interface IFetchResponse {date: moment.Moment, response: ICashUpEntityApiObject[]}
+interface IFetchResponse {date: moment.Moment, response: CashUpEntityApiType[]}
 
 export const cashUpDataEntry = createAction<CashUpEntity[]>(CASH_UP_DATA_ENTRY);
 
@@ -49,7 +51,7 @@ export const cashUpFetch = (date: moment.Moment) => {
     dispatch(cashUpFetchStart(date));
     return authenticatedFetch(`/cash-up/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(cashUpFetchSuccess({date, response: d})))
-      .catch(e => dispatch(cashUpFetchError(e)))
+      .catch(e => dispatch(cashUpFetchError({error: e, date: date.clone()})))
       ;
   }
 };
@@ -66,7 +68,7 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
       method: 'POST',
     })
       .then(d => dispatch(cashUpCreateSuccess({date: moment.utc(cashUp.date), response: d})))
-      .catch(e => dispatch(cashUpCreateError(e)))
+      .catch(e => dispatch(cashUpCreateError({error: e, date: moment.utc(cashUp.date)})))
       ;
   }
 };
@@ -91,7 +93,8 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_FETCH_ERROR]: (state, action) => {
-    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
+    log.error(action.payload.error);
+    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_START]: (state, action) => {
     return state.with(state.cashUpsForWeek.update(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
@@ -100,7 +103,8 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_ERROR]: (state, action) => {
-    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload)));
+    log.error(action.payload.error);
+    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
 
   }, new CashUpExternalState());

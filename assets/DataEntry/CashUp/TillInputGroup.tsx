@@ -2,14 +2,14 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
 import {currencyPattern} from "../../Util/Validation";
-import {ICashUpEntityUpdateObject} from "./State/CashUpEntity";
+import {CashUpEntityUpdateType} from "./State/CashUpEntityTypes";
 import {TillDenominations} from "./State/Denominations/TillDenominations";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];
   tillProperty: string;
   friendlyName: string;
-  formUpdate: (obj: ICashUpEntityUpdateObject) => void;
+  formUpdate: (obj: CashUpEntityUpdateType) => void;
   groupIdentifier: string;
 }
 
@@ -53,7 +53,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
 
   private updateTill(tillNo: number, denoms: TillDenominations) {
     this.props.formUpdate({
-      tills: this.props.tills.map((till, index) => index === tillNo ? denoms : till.clone())
+      tills: this.props.tills.map((till, index) => index === tillNo ? denoms.inputs : till.inputs.clone())
     });
   }
 }

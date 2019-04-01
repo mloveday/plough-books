@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpEntity} from "./CashUpEntity";
+import {CashUpEntityInputs} from "./CashUpEntityInputs";
 import {SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
 import {TillDenominations} from "./Denominations/TillDenominations";
 
@@ -50,6 +51,8 @@ export class PlaceholderCashUp extends CashUpEntity {
       '',
       '',
       true,
+      undefined,
+      CashUpEntityInputs.default(date),
     );
   }
 

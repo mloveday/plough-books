@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {DateFormats} from "../../../Util/DateFormats";
-import {CashUpEntity, ICashUpEntityApiObject} from "./CashUpEntity";
+import {CashUpEntity} from "./CashUpEntity";
+import {CashUpEntityApiType} from "./CashUpEntityTypes";
 
 export class CashUpsForWeek {
   public static default() {
@@ -31,7 +32,7 @@ export class CashUpsForWeek {
     return this.updateCashUps(newCashUps);
   }
 
-  public fromApi(obj: ICashUpEntityApiObject[]): CashUpsForWeek {
+  public fromApi(obj: CashUpEntityApiType[]): CashUpsForWeek {
     const newCashUps = obj.map(apiCashUp => CashUpEntity.fromBackend(apiCashUp));
     return this.updateCashUps(newCashUps);
   }

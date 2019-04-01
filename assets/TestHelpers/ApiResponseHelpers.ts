@@ -1,8 +1,8 @@
 import * as moment from "moment";
-import {ICashUpEntityApiObject} from "../DataEntry/CashUp/State/CashUpEntity";
+import {CashUpEntityApiType} from "../DataEntry/CashUp/State/CashUpEntityTypes";
 import {DateFormats} from "../Util/DateFormats";
 
-export const cashUpObject = (date: moment.Moment): ICashUpEntityApiObject => {
+export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
   return {
     id: 1,
     date: date.format(DateFormats.API),
