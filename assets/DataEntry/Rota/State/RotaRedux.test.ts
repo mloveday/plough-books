@@ -50,7 +50,7 @@ describe('RotaRedux internal reducer', () => {
         const modified = rotaInternalReducers(existingState, fn({date: moment.utc(newRota.date), response: [newRota]}));
 
         expect(modified.hasRotaForDate(moment.utc(newRota.date))).toBeTruthy();
-        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(newRota);
+        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(RotaEntity.fromApi(newRota));
       };
       testSuccessFunction(rotaCreateSuccess);
       testSuccessFunction(rotaFetchSuccess);
@@ -71,7 +71,7 @@ describe('RotaRedux internal reducer', () => {
         expect(modified.getRotaForDate(existingRota.getDate())).toEqual(existingRota);
 
         expect(modified.hasRotaForDate(moment.utc(newRota.date))).toBeTruthy();
-        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(newRota);
+        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(RotaEntity.fromApi(newRota));
 
       };
       testSuccessFunction(rotaCreateSuccess);
