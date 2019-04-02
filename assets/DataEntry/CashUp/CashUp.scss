@@ -17,6 +17,21 @@
   }
 
   .form-group {
+    &.safe-float {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      .group-title.safe_float_label, .label-and-input.safe_float_notes {
+        grid-column: 1/3;
+      }
+    }
+    &.receipts {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 4px;
+      .group-title.receipts_label, .receipt_add_button {
+        grid-column: 1/3;
+      }
+    }
     .form-row {
       display: flex;
       flex-direction: row;

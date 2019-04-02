@@ -357,7 +357,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             </div>
           </div>}
 
-          {sectionShown === CashUpSection.RECEIPTS && <div className="form-group">
+          {sectionShown === CashUpSection.RECEIPTS && <div className="form-group receipts">
             <h3 className="group-title receipts_label">Cash Receipts</h3>
             <button className='receipt_add_button' type='button' onClick={ev => {
               this.formUpdate({
@@ -447,7 +447,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             </div>
           </div>}
 
-          {sectionShown === CashUpSection.SAFE_FLOAT && <div className="form-group">
+          {sectionShown === CashUpSection.SAFE_FLOAT && <div className="form-group safe-float">
             <h3 className="group-title safe_float_label">Safe float denom</h3>
             <SafeFloatDenom cashUpPropName='sfdAm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="AM"
                             safeFloatObj={this.getCashUp().sfdAm}/>
