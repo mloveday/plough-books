@@ -10,7 +10,7 @@ import {AppState} from "../../redux";
 import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
 import {Formatting} from "../../Util/Formatting";
-import {currencyPattern, validateCash} from "../../Util/Validation";
+import {currencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
 import {CashUpEntity} from "./State/CashUpEntity";
@@ -19,6 +19,7 @@ import {CashUpExternalState} from "./State/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
 import {CashUpsForWeek} from "./State/CashUpsForWeek";
 import {Receipt} from "./State/Receipt";
+import {ReceiptInput} from "./State/ReceiptInput";
 import {SectionPosition} from "./State/SectionPosition";
 import {TillInputGroup} from "./TillInputGroup";
 
@@ -226,14 +227,16 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
             <div className="form-row">
               <h4 className="group-label ten_label">£10</h4>
-            <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£10'} groupIdentifier={'ten_tills'}
-                            tillProperty={'tenPounds'} tills={this.getCashUp().tills}/>
+            <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£10'}
+                            groupIdentifier={'ten_tills'} tillProperty={'tenPounds'}
+                            tills={this.getCashUp().tills}/>
             </div>
 
             <div className="form-row">
               <h4 className="group-label five_label">£5</h4>
-            <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£5'} groupIdentifier={'five_tills'}
-                            tillProperty={'fivePounds'} tills={this.getCashUp().tills}/>
+            <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'£5'}
+                            groupIdentifier={'five_tills'} tillProperty={'fivePounds'}
+                            tills={this.getCashUp().tills}/>
             </div>
 
             <div className="form-row">
@@ -274,8 +277,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className={`section-line`}/>
             <div className="form-row">
             <h4 className="group-label z_label">Z read</h4>
-            <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'} groupIdentifier={'z_tills'}
-                            tillProperty={'zRead'} tills={this.getCashUp().tills}/>
+            <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Z'}
+                            groupIdentifier={'z_tills'} tillProperty={'zRead'}
+                            tills={this.getCashUp().tills}/>
             </div>
 
             <div className={`section-line`}/>
@@ -356,8 +360,11 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           {sectionShown === CashUpSection.RECEIPTS && <div className="form-group">
             <h3 className="group-title receipts_label">Cash Receipts</h3>
             <button className='receipt_add_button' type='button' onClick={ev => {
-              this.getCashUp().receipts.push(Receipt.default());
-              this.formUpdate({receipts: this.getCashUp().receipts});
+              this.formUpdate({
+                receipts: this.getCashUp().receipts
+                  .map(r => r.inputs)
+                  .concat([ReceiptInput.default()])
+              });
             }}>+
             </button>
             {this.getCashUp().receipts.map((receipt, index) => this.receiptInput(index))}
@@ -521,8 +528,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
         <div className="label-and-input receipt_amnt">
           <label htmlFor="receipt_amnt_01">Amount</label>
           <input id="receipt_amnt_01" type="text" pattern={currencyPattern}
-                 value={this.getCashUp().receipts[index].amount.toFixed(2)}
-                 onChange={ev => this.updateReceipt(index, this.getCashUp().receipts[index].with({amount: validateCash(ev.target.value, this.getCashUp().receipts[index].amount)}))}/>
+                 value={this.getCashUp().receipts[index].inputs.amount}
+                 onChange={ev => this.updateReceipt(index, this.getCashUp().receipts[index].with({amount: ev.target.value}))}/>
         </div>
       </div>
     )
@@ -535,8 +542,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   private updateReceipt(index: number, receipt: Receipt) {
-    const clonedReceipts = this.getCashUp().receipts.map(till => till.clone());
-    clonedReceipts[index] = receipt;
+    const clonedReceipts = this.getCashUp().receipts.map(till => till.inputs.clone());
+    clonedReceipts[index] = receipt.inputs;
     this.formUpdate({receipts: clonedReceipts});
   }
 

@@ -6,7 +6,8 @@ import {
 } from "./Denominations/SafeFloatDenominationsTypes";
 import {TillDenominations} from "./Denominations/TillDenominations";
 import {TillDenominationsApiType, TillDenominationsUpdateType} from "./Denominations/TillDenominationsTypes";
-import {IReceiptApiObject, IReceiptUpdateObject, Receipt} from "./Receipt";
+import {Receipt} from "./Receipt";
+import {ReceiptApiType, ReceiptUpdateType} from "./ReceiptTypes";
 
 export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly date: string;
@@ -92,7 +93,7 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   }
 }
 
-export type CashUpEntityApiType = ApiType<CashUpEntityAbstract<number, TillDenominationsApiType, SafeFloatDenominationsApiType, IReceiptApiObject>>;
-export type CashUpEntityUpdateType = UpdateType<CashUpEntityAbstract<string, TillDenominationsUpdateType, SafeFloatDenominationsUpdateType, IReceiptUpdateObject>>;
+export type CashUpEntityApiType = ApiType<CashUpEntityAbstract<number, TillDenominationsApiType, SafeFloatDenominationsApiType, ReceiptApiType>>;
+export type CashUpEntityUpdateType = UpdateType<CashUpEntityAbstract<string, TillDenominationsUpdateType, SafeFloatDenominationsUpdateType, ReceiptUpdateType>>;
 export type CashUpEntityInputType = InputType<CashUpEntityAbstract<string, undefined, undefined, undefined>>;
 export type CashUpEntityType = EntityType<CashUpEntityAbstract<number, TillDenominations, SafeFloatDenominations, Receipt>, CashUpEntityAbstract<string, undefined, undefined, undefined>>;

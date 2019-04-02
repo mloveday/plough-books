@@ -39,7 +39,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
       obj.comoInDrawer,
       obj.amexTots,
       obj.visaMcTots,
-      obj.receipts.map(receipt => Receipt.default().with(receipt)),
+      obj.receipts.map(receipt => Receipt.parseApiResponse(receipt)),
       obj.spendStaffPts,
       obj.comoDiscAsset,
       obj.takeDry,

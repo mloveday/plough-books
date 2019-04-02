@@ -1,31 +1,32 @@
-export interface IReceiptUpdateObject {
-  id?: number;
-  description?: string;
-  amount?: number;
-}
+import {validateCash} from "../../../Util/Validation";
+import {ReceiptInput} from "./ReceiptInput";
+import {ReceiptAbstract, ReceiptApiType, ReceiptType, ReceiptUpdateType} from "./ReceiptTypes";
 
-export interface IReceiptApiObject {
-  id: number;
-  description: string;
-  amount: number;
-}
+export class Receipt extends ReceiptAbstract<number> implements ReceiptType {
+  public static parseApiResponse(obj: ReceiptApiType) {
+    return new Receipt(obj.description, obj.amount, ReceiptInput.parseApiResponse(obj), obj.id);
+  }
 
-export class Receipt {
   public static default() {
-    return new Receipt('',0);
+    return new Receipt('',0, ReceiptInput.default());
   }
 
   public readonly id?: number;
-  public readonly description: string;
-  public readonly amount: number;
+  public readonly inputs: ReceiptInput;
 
-  constructor(description: string, amount: number) {
-    this.description = description;
-    this.amount = amount;
+  constructor(description: string, amount: number, inputs: ReceiptInput, id?: number) {
+    super(description, amount);
+    this.inputs = inputs;
+    this.id = id;
   }
 
-  public with(obj: IReceiptUpdateObject): Receipt {
-    return Object.assign(new Receipt(this.description, this.amount), obj);
+  public with(obj: ReceiptUpdateType): Receipt {
+    return new Receipt(
+      obj.description ? obj.description : this.description,
+      obj.amount ? validateCash(obj.amount, this.amount) : this.amount,
+      this.inputs.with(obj),
+      this.id,
+    );
   }
 
   public clone(): Receipt {
