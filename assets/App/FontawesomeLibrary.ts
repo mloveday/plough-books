@@ -1,6 +1,7 @@
 import {library} from '@fortawesome/fontawesome-svg-core';
 import {
   faBan,
+  faBars,
   faBookDead,
   faCalendar,
   faCalendarAlt,
@@ -55,4 +56,5 @@ library.add(
   faCalendarAlt,
   faCalendarDay,
   faBookDead,
+  faBars,
 );

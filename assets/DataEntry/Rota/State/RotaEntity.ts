@@ -3,7 +3,9 @@ import {RotaStatus} from "../../../Enum/RotaStatus";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
+import {momentFromDateAndTime} from "../../../Util/DateUtils";
 import {Constants, IConstantsApiObject, IConstantsUpdateObject} from "../../Constants/State/Constants";
+import {RotaTemplate} from "./RotaTemplate";
 import {IShiftApiObject, IShiftUpdateObject, Shift} from "./Shift";
 
 export interface IRotaApiObject {
@@ -96,6 +98,8 @@ export class RotaEntity {
 
   public readonly id: number;
   public readonly date: string;
+  public readonly barRotaTemplate: RotaTemplate;
+  public readonly kitchenRotaTemplate: RotaTemplate;
   public readonly forecastRevenue: number;
   public readonly targetLabourRate: number;
   public readonly constants: Constants;
@@ -106,6 +110,8 @@ export class RotaEntity {
 
   constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, id?: number) {
     this.date = date.format(DateFormats.API);
+    this.barRotaTemplate = RotaTemplate.templateFor(date.day(), forecastRevenue, WorkTypes.BAR);
+    this.kitchenRotaTemplate = RotaTemplate.templateFor(date.day(), forecastRevenue, WorkTypes.KITCHEN);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
     this.constants = constants;
@@ -247,6 +253,14 @@ export class RotaEntity {
       case RotaStatus.IMPORTED: return 'Imported';
     }
     return '-';
+  }
+
+  public getPlannedNumberWorkingAtTime(time: string, type: string): number {
+    const dateTime = momentFromDateAndTime(this.date, time);
+    if (dateTime.isBefore(momentFromDateAndTime(this.date, '06:00'))) {
+      dateTime.add(1, 'days');
+    }
+    return this.plannedShifts.filter(shift => shift.type === type && shift.isWorkingAtTime(dateTime)).length;
   }
 
   private getProportionOfForecastRevenue(type: string) {

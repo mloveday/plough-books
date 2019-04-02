@@ -18,6 +18,10 @@ class SignInComponent extends RotaAbstractComponent {
     return true;
   }
 
+  protected showStaffLevels(): boolean {
+    return false;
+  }
+
   protected canAutoPopulateFromRota(): boolean {
     return true;
   }

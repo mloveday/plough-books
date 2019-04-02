@@ -65,7 +65,7 @@ export class StateHelpers {
     return {
       authState: AuthState.cleared(),
       cashUpExternalState: new CashUpExternalState(),
-      cashUpLocalStates: new CashUpsForWeek(),
+      cashUpLocalStates: new CashUpsForWeek([]),
       constantsExternalState: (new ConstantsExternalState()).with(new ConstantsLocalState(), new Map<string, FetchStatus>()),
       constantsLocalState: new ConstantsLocalState(),
       rotaExternalState: new RotaExternalState(),

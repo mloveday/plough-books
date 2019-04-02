@@ -5,6 +5,7 @@ import {DateFormats} from "../Util/DateFormats";
 export interface IUiStateUpdateObject {
   cashUpSection?: CashUpSection;
   currentDateString?: string;
+  showingNav?: boolean;
 }
 
 export class UiState {
@@ -13,6 +14,7 @@ export class UiState {
   }
 
   public readonly cashUpSection: CashUpSection = CashUpSection.TILLS;
+  public readonly showingNav: boolean = false;
   private readonly currentDateString: string = moment.utc().format(DateFormats.API);
 
   public get currentDate(): moment.Moment {
@@ -29,6 +31,10 @@ export class UiState {
 
   public withCashUpSection(cashUpSection: CashUpSection) {
     return this.with({cashUpSection});
+  }
+
+  public withShouldShowNav(shouldShowNav: boolean) {
+    return this.with({showingNav: shouldShowNav});
   }
 
   private with(obj: IUiStateUpdateObject): UiState {

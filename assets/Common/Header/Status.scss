@@ -1,3 +1,5 @@
+@import '../../Styling/Global';
+
 .status-bar {
   font-size: 1rem;
   cursor: pointer;
@@ -12,6 +14,8 @@
   }
 
   .status-list {
+    height: 20px;
+    overflow: hidden;
     grid-column: 1 / 3;
     grid-row: 2;
   }
@@ -19,21 +23,32 @@
   .all-statuses {
     display: none;
   }
-  &:hover .all-statuses {
-    display: grid;
-    grid-auto-flow: row;
-    position: absolute;
-    z-index: 1000;
-    background: white;
-    color: black;
-    padding: 8px;
-    border-radius: 8px;
-    width: 200px;
-    right: 8px;
-    top: 40px;
-    pointer-events: none;
+  @include r-desktop {
+    &:hover .all-statuses {
+      display: grid;
+      grid-auto-flow: row;
+      position: absolute;
+      z-index: 1000;
+      background: white;
+      color: black;
+      padding: 8px;
+      border-radius: 8px;
+      width: 200px;
+      right: 8px;
+      top: 40px;
+      pointer-events: none;
+    }
   }
   .status {
     font-size: 1rem;
+  }
+
+  .summary, .status-list, .all-statuses {
+    @include r-mobile {
+      display: none;
+    }
+    @include r-tablet {
+      display: none;
+    }
   }
 }

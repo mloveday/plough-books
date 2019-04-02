@@ -1,3 +1,5 @@
+@import "../../Styling/Global";
+
 .App-overlay {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -14,23 +16,8 @@
   }
 
   .App-nav-anchor, .Auth-button {
-    font-size: 1.4rem;
-    border: 0;
-    outline: none;
-    text-decoration: none;
+    @include std-link;
     flex: 1;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #222;
-    color: #fff;
-    box-sizing: border-box;
-    cursor: pointer;
-    &:hover {
-      background-color: #fff;
-      color: darkslategrey;
-    }
   }
 }
 

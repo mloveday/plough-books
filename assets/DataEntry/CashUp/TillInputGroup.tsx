@@ -1,14 +1,15 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
-import {validateCash} from "../../Util/Validation";
-import {TillDenominations} from "./State/TillDenominations";
+import {currencyPattern} from "../../Util/Validation";
+import {CashUpEntityUpdateType} from "./State/CashUpEntityTypes";
+import {TillDenominations} from "./State/Denominations/TillDenominations";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];
   tillProperty: string;
   friendlyName: string;
-  formUpdate: (obj: {}) => void;
+  formUpdate: (obj: CashUpEntityUpdateType) => void;
   groupIdentifier: string;
 }
 
@@ -41,18 +42,18 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
   private tillInput(index: number) {
     const id = this.props.tillProperty+'_'+index;
     return (
-      <div className="label-and-input" key={index}>
+      <div className="till-label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
-        <input id={id} type="number" step="0.01"
-               value={this.props.tills[index][this.props.tillProperty].toFixed(2)}
-               onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: validateCash(ev.target.value, this.props.tills[index][this.props.tillProperty])}))}/>
+        <input id={id} type="tel" pattern={currencyPattern}
+               value={this.props.tills[index].inputs[this.props.tillProperty]}
+               onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: ev.target.value}))}/>
       </div>
     );
   }
 
   private updateTill(tillNo: number, denoms: TillDenominations) {
     this.props.formUpdate({
-      tills: this.props.tills.map((till, index) => index === tillNo ? denoms : till.clone())
+      tills: this.props.tills.map((till, index) => index === tillNo ? denoms.inputs : till.inputs.clone())
     });
   }
 }

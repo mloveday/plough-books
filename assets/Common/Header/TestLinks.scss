@@ -1,6 +1,16 @@
+@import '../../Styling/Global';
+
 .test-links {
-  display: grid;
-  grid-auto-flow: row;
+  @include r-mobile {
+    display: none;
+  }
+  @include r-tablet {
+    display: none;
+  }
+  @include r-desktop {
+    display: grid;
+    grid-auto-flow: row;
+  }
   a {
     font-size: 1.2rem;
     color: white;

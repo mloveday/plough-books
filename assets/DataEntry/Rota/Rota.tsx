@@ -18,6 +18,10 @@ class RotaComponent extends RotaAbstractComponent {
     return true;
   }
 
+  protected showStaffLevels(): boolean {
+    return true;
+  }
+
   protected canAutoPopulateFromRota(): boolean {
     return false;
   }
