@@ -101,9 +101,14 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
               <input className="planning-rota-item" type='number' value={rota.forecastRevenue} onChange={ev => this.updateRota(rota.update({forecastRevenue: validateCash(ev.target.value, rota.forecastRevenue)}))} />
               <input className="planning-rota-item" type='number' value={rota.targetLabourRate * 100} onChange={ev => this.updateRota(rota.update({targetLabourRate: validateCash(ev.target.value, rota.targetLabourRate) / 100}))} />
               <ConstantsWithHover constants={rota.constants}>
-              <select className="planning-rota-item" value={rota.constants.id} onChange={ev => this.updateRota(rota.update({constants: this.props.constantsExternalState.externalState.entities.find(constants => constants.id === Number(ev.target.value))}))}>
+              <select className="planning-rota-item" value={rota.constants.id} onChange={ev => {
+                const c = this.props.constantsExternalState.externalState.entities.find(constants => constants.id === Number(ev.target.value));
+                if (c !== undefined) {
+                  this.updateRota(rota.update({constants: c.inputs}))
+                }
+              }}>
                 {this.props.constantsExternalState.externalState.entities.map((constants, cKey) => (
-                  <option key={cKey} value={constants.id}>{constants.date.format(DateFormats.READABLE_WITH_YEAR)}</option>
+                  <option key={cKey} value={constants.id}>{moment.utc(constants.date).format(DateFormats.READABLE_WITH_YEAR)}</option>
                 ))}
               </select>
               </ConstantsWithHover>
@@ -153,7 +158,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded()) {
       this.props.rotaLocalStates.getRotasForWeek(date).forEach(r => {
         if (!r.constants.id) {
-          this.updateRota(r.update({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}));
+          this.updateRota(r.update({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0].inputs : Constants.default().inputs}));
           return;
         }
       });

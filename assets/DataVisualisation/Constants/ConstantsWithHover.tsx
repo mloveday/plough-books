@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Constants} from "../../DataEntry/Constants/State/Constants";
@@ -31,10 +32,10 @@ class ConstantsWithHoverComponent extends React.Component<ConstantsWithHoverProp
     return (
       <div>
         <div className="constants-identifier">
-          {this.props.children ? this.props.children : this.props.constants.date.format(DateFormats.DMY_SLASHES)}
+          {this.props.children ? this.props.children : moment.utc(this.props.constants.date).format(DateFormats.DMY_SLASHES)}
         </div>
         <div className="constants-hover">
-          <div>Created: {this.props.constants.date.format(DateFormats.DMY_SLASHES)}</div>
+          <div>Created: {moment.utc(this.props.constants.date).format(DateFormats.DMY_SLASHES)}</div>
           <div>Fixed costs: {Formatting.formatCash(this.props.constants.fixedCosts)}</div>
           <div>Labour rate: {Formatting.formatPercent(this.props.constants.labourRate)}</div>
           <div>VAT multiplier: {Formatting.formatPercent(this.props.constants.vatMultiplier)}</div>

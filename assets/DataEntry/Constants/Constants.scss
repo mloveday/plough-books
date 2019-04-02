@@ -12,6 +12,20 @@
     &.title {
       font-weight: bold;
     }
+    .constants-input-wrapper {
+      display: flex;
+      align-items: center;
+      background: #eee;
+      border-radius: 4px;
+      padding: 2px;
+    }
+    span {
+      margin: 0 4px;
+    }
+    input {
+      flex-grow: 1;
+      width: 1px;
+    }
   }
 
   .constants-edit-buttons {

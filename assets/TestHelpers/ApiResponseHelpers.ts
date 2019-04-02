@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {CashUpEntityApiType} from "../DataEntry/CashUp/State/CashUpEntityTypes";
+import {IRotaApiObject} from "../DataEntry/Rota/State/RotaEntity";
 import {DateFormats} from "../Util/DateFormats";
 
 export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
@@ -64,4 +65,33 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     floorClosedBy: 'floorClosedBy',
     nextDoorBy: 'nextDoorBy',
   };
+};
+
+export const rotaObject = (date: moment.Moment): IRotaApiObject => {
+  return {
+    id: 0,
+    date: date.format(DateFormats.API),
+    forecastRevenue: 0,
+    targetLabourRate: 0,
+    constants: {
+      id: 1,
+      date: '2019-04-01',
+      fixedCosts: 0,
+      labourRate: 0,
+      vatMultiplier: 0,
+      barProportionOfRevenue: 0,
+      hoursPerShortBreak: 0,
+      shortBreakDuration: 0,
+      hoursPerLongBreak: 0,
+      longBreakDuration: 0,
+      ersThreshold: 0,
+      ersPercentAboveThreshold: 0,
+      holidayLinearPercent: 0,
+      pensionLinearPercent: 0,
+    },
+    status: '',
+    plannedShifts: [],
+    actualShifts: [],
+    touched: false,
+  }
 };

@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {Action, ActionFunction1} from "redux-actions";
+import {rotaObject} from "../../../TestHelpers/ApiResponseHelpers";
 import {Constants} from "../../Constants/State/Constants";
 import {IRotaApiObject, RotaEntity} from "./RotaEntity";
 import {
@@ -43,13 +44,13 @@ describe('RotaRedux internal reducer', () => {
   describe('fetch success actions', () => {
     it('Parses date & API response into new rota', () => {
       const existingState = RotasForWeek.default();
-      const newRota = RotaEntity.default(moment.utc());
+      const newRota = rotaObject(moment.utc());
 
       const testSuccessFunction = (fn: ActionFunction1<{date: moment.Moment, response: IRotaApiObject[]}, Action<{date: moment.Moment, response: IRotaApiObject[]}>>) => {
-        const modified = rotaInternalReducers(existingState, fn({date: newRota.getDate(), response: [newRota]}));
+        const modified = rotaInternalReducers(existingState, fn({date: moment.utc(newRota.date), response: [newRota]}));
 
-        expect(modified.hasRotaForDate(newRota.getDate())).toBeTruthy();
-        expect(modified.getRotaForDate(newRota.getDate())).toEqual(newRota);
+        expect(modified.hasRotaForDate(moment.utc(newRota.date))).toBeTruthy();
+        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(newRota);
       };
       testSuccessFunction(rotaCreateSuccess);
       testSuccessFunction(rotaFetchSuccess);
@@ -58,19 +59,19 @@ describe('RotaRedux internal reducer', () => {
     it('Parses date & API response into new rota', () => {
       const existingDate = moment.utc();
       const newDate = moment.utc().add(1, 'day');
-      const existingRota = RotaEntity.default(existingDate).update({id: 3, forecastRevenue: 5, constants: Constants.placeholder()});
-      const newRota = RotaEntity.default(newDate).update({id: 4, forecastRevenue: 6, constants: Constants.placeholder()});
+      const existingRota = RotaEntity.default(existingDate).update({id: 3, forecastRevenue: 5, constants: Constants.default().inputs});
+      const newRota = Object.assign(rotaObject(newDate), {id: 4, forecastRevenue: 6});
       const existingState = RotasForWeek.default().update([existingRota]);
       expect(existingState.hasRotaForDate(existingRota.getDate()));
 
       const testSuccessFunction = (fn: ActionFunction1<{date: moment.Moment, response: IRotaApiObject[]}, Action<{date: moment.Moment, response: IRotaApiObject[]}>>) => {
-        const modified = rotaInternalReducers(existingState, fn({date: newRota.getDate(), response: [newRota]}));
+        const modified = rotaInternalReducers(existingState, fn({date: moment.utc(newRota.date), response: [newRota]}));
 
         expect(modified.hasRotaForDate(existingRota.getDate())).toBeTruthy();
         expect(modified.getRotaForDate(existingRota.getDate())).toEqual(existingRota);
 
-        expect(modified.hasRotaForDate(newRota.getDate())).toBeTruthy();
-        expect(modified.getRotaForDate(newRota.getDate())).toEqual(newRota);
+        expect(modified.hasRotaForDate(moment.utc(newRota.date))).toBeTruthy();
+        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(newRota);
 
       };
       testSuccessFunction(rotaCreateSuccess);

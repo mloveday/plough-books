@@ -10,4 +10,16 @@ function limitDecimalsToCurrency(num: string, previous: number): string {
   return (matches && matches.length) ? matches[0] : `${previous}`;
 }
 
+export function validatePercentageToDecimal(amount: string, previous: number) {
+  const castAmount = Number(amount);
+  return (castAmount || castAmount === 0) ? castAmount/100 : previous;
+}
+
+export function validateDecimal(amount: string, previous: number) {
+  const castAmount = Number(amount);
+  return (castAmount || castAmount === 0) ? castAmount : previous;
+}
+
 export const currencyPattern = `\\d*(\\.\\d{1,2})?`;
+export const percentagePattern = `\\d*(\\.\\d{0,3})?`;
+export const decimalPattern = `\\d*(\\.\\d{0,3})?`;

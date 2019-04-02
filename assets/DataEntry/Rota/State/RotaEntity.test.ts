@@ -22,7 +22,7 @@ describe('RotaEntity', () => {
 
   it('calling fromPartial() using constants returns an object fromPartial a string as a date', () => {
     const date = moment.utc();
-    const modified = RotaEntity.fromPartial({constants: Constants.default()});
+    const modified = RotaEntity.fromPartial({constants: Constants.default().inputs});
 
     expect(modified.date).toEqual(RotaEntity.default(date).date);
   });

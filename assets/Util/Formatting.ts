@@ -4,7 +4,7 @@ export class Formatting {
     const sign = isNegative ? '-' : '';
     return `${sign} £${Math.abs(value).toLocaleString('en', {maximumFractionDigits: 2})}`;
   }
-  public static formatPercent(value: number): string {
-    return (100*value).toLocaleString('en', {maximumFractionDigits: 2})+'%';
+  public static formatPercent(value: number, decimals: number = 2, includePercent: boolean = true): string {
+    return (100*value).toLocaleString('en', {maximumFractionDigits: decimals})+(includePercent ? '%' : '');
   }
 }

@@ -4,7 +4,8 @@ import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
-import {Constants, IConstantsApiObject, IConstantsUpdateObject} from "../../Constants/State/Constants";
+import {Constants} from "../../Constants/State/Constants";
+import {ConstantsApiType, ConstantsUpdateType} from "../../Constants/State/ConstantsTypes";
 import {RotaTemplate} from "./RotaTemplate";
 import {IShiftApiObject, IShiftUpdateObject, Shift} from "./Shift";
 
@@ -13,7 +14,7 @@ export interface IRotaApiObject {
   date: string;
   forecastRevenue: number;
   targetLabourRate: number;
-  constants: IConstantsApiObject;
+  constants: ConstantsApiType;
   status: string;
   plannedShifts: IShiftApiObject[];
   actualShifts: IShiftApiObject[];
@@ -25,7 +26,7 @@ export interface IRotaUpdateObject {
   date?: string;
   forecastRevenue?: number;
   targetLabourRate?: number;
-  constants?: IConstantsUpdateObject;
+  constants?: ConstantsUpdateType;
   status?: RotaStatus;
   plannedShifts?: IShiftUpdateObject[];
   actualShifts?: IShiftUpdateObject[];
@@ -68,7 +69,7 @@ export class RotaEntity {
       date,
       obj.forecastRevenue ? obj.forecastRevenue : rota.forecastRevenue,
       obj.targetLabourRate ? obj.targetLabourRate : rota.targetLabourRate,
-      obj.constants ? Constants.placeholder().with(obj.constants) : rota.constants.with({}),
+      obj.constants ? Constants.default().with(obj.constants) : rota.constants.with({}),
       obj.status ? obj.status : rota.status,
       plannedShifts,
       actualShifts,
@@ -142,7 +143,7 @@ export class RotaEntity {
   }
 
   public update(obj: IRotaUpdateObject): RotaEntity {
-    const constants = obj.constants ? Constants.placeholder().with(obj.constants) : this.constants.with({});
+    const constants = obj.constants ? Constants.default().with(obj.constants) : this.constants.with({});
     const plannedShifts = (obj.plannedShifts
       ? obj.plannedShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? shift.type as WorkTypes : WorkTypes.BAR, this.date))
       : this.plannedShifts.map((shift: Shift) => shift.clone()))

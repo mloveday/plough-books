@@ -1,8 +1,8 @@
+import * as moment from "moment";
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 import {Constants} from "./Constants";
-import {ConstantsNotPersisted} from "./ConstantsNotPersisted";
 
-export class ConstantsLocalState extends EditableLocalState<ConstantsNotPersisted, Constants> {
+export class ConstantsLocalState extends EditableLocalState<Constants, Constants> {
   public static default() {
     return new ConstantsLocalState();
   }
@@ -10,11 +10,11 @@ export class ConstantsLocalState extends EditableLocalState<ConstantsNotPersiste
   public constructor() {
     super(
       obj => Constants.fromResponse(obj),
-      (a: Constants, b: Constants) => a.date < b.date ? 1 : -1
+      (a: Constants, b: Constants) => moment.utc(a.date) < moment.utc(b.date) ? 1 : -1
     );
   }
   
-  public with(obj: IApiEditableLocalState<ConstantsNotPersisted, Constants>) {
+  public with(obj: IApiEditableLocalState<Constants, Constants>) {
     return Object.assign(
       new ConstantsLocalState(),
       this,

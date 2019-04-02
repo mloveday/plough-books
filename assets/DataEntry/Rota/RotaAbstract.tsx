@@ -142,7 +142,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
             </div>
-          {this.showStats() && <div className="rota-stat">Constants: {this.getRota().constants.date.format(DateFormats.API)}</div>}
+          {this.showStats() && <div className="rota-stat">Constants: {moment.utc(this.getRota().constants.date).format(DateFormats.API)}</div>}
           {this.showStats() && <div className="rota-stat">Forecast revenue: {this.getRota().forecastRevenue}</div>}
           {this.showStats() && <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.getRota().getTotalPredictedLabourCost(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))}</div>}
           {this.showStats() && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.getRota().getPredictedLabourRate(this.props.rotaLocalStates.getTotalForecastRevenue(today), this.props.match.params.type))} (aiming for &lt; {Formatting.formatPercent(this.getRota().targetLabourRate)})</div>}
@@ -339,7 +339,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && this.getRota().constants.id === undefined && this.props.constantsExternalState.externalState) {
-      this.formUpdate({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}, false);
+      this.formUpdate({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0].inputs : Constants.default().inputs}, false);
     }
   }
 
