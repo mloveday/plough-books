@@ -3,7 +3,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
 import {AppState} from "../../redux";
-import {validateCash} from "../../Util/Validation";
+import {currencyPattern} from "../../Util/Validation";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import "./StaffMembers.scss";
@@ -124,7 +124,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
                 <option value={StaffMemberStatus.ACTIVE}>Active</option>
                 <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
               </select>}
-              <input disabled={!isEditingMember} type='number' value={member.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : validateCash(ev.target.value, member.currentHourlyRate)}))} />
+              <input disabled={!isEditingMember} type='text' pattern={currencyPattern} value={member.currentHourlyRateInput} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRateInput' : ev.target.value}))} />
               <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
                 {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
                     <option key={roleKey} value={role.id}>{role.role}</option>
@@ -145,7 +145,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               <option value={StaffMemberStatus.ACTIVE}>Active</option>
               <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
           </select>}
-          {isCreatingNewMember && <input type='number' value={newMember.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : validateCash(ev.target.value, newMember.currentHourlyRate)}))}/>}
+          {isCreatingNewMember && <input type='text' pattern={currencyPattern} value={newMember.currentHourlyRateInput} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRateInput' : ev.target.value}))}/>}
           {isCreatingNewMember &&
           <select value={newMember.role.entityId} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.id.toString() === ev.target.value)}))}>
             {!newMember.role.isValid() && <option value={undefined}>Choose a role...</option>}
