@@ -2,7 +2,7 @@ var path = require('path');
 const Encore = require('@symfony/webpack-encore');
 
 Encore
-    .setOutputPath('public/build/')
+    .setOutputPath('../public_html/build/')
     .setPublicPath('/build')
 
     .addEntry('app', './assets/index.tsx')

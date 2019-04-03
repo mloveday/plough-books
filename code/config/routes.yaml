@@ -51,6 +51,9 @@ staff-members:
 constants:
   path: /api/constants
   controller: App\Controller\ConstantsController::constantsAction
+logs:
+  path: /api/logs
+  controller: App\Controller\AdminController::logAction
 index:
   path: /{foo}
   controller: App\Controller\IndexController::indexAction

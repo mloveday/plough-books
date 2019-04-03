@@ -1,0 +1,15 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="shortcut icon" href="{{ absolute_url(asset('favicon.png')) }}">
+    {% block stylesheets %}
+        {#{{ encore_entry_link_tags('logs') }}#}
+    {% endblock %}
+    <title>Logs</title>
+</head>
+<body>
+{% for entry in entries %}
+    <div class="entry">{{ entry }}</div>
+{% endfor %}
+</body>

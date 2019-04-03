@@ -9,6 +9,7 @@ import {ConstantsApiType, ConstantsUpdateType} from "../../Constants/State/Const
 import {RotaTemplate} from "./RotaTemplate";
 import {IShiftApiObject, IShiftUpdateObject, Shift} from "./Shift";
 
+// TODO replace this with types
 export interface IRotaApiObject {
   id?: number;
   date: string;
@@ -21,6 +22,7 @@ export interface IRotaApiObject {
   touched: boolean;
 }
 
+// TODO replace this with types
 export interface IRotaUpdateObject {
   id?: number;
   date?: string;
@@ -33,7 +35,7 @@ export interface IRotaUpdateObject {
   touched?: boolean;
 }
 
-export class RotaEntity {
+export class RotaEntity { // TODO needs to use typing system to include inputs property for numerical inputs
 
   public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
   
@@ -101,8 +103,8 @@ export class RotaEntity {
   public readonly date: string;
   public readonly barRotaTemplate: RotaTemplate;
   public readonly kitchenRotaTemplate: RotaTemplate;
-  public readonly forecastRevenue: number;
-  public readonly targetLabourRate: number;
+  public readonly forecastRevenue: number; // TODO needs separate input field
+  public readonly targetLabourRate: number; // TODO needs separate input field
   public readonly constants: Constants;
   public readonly status: RotaStatus;
   public readonly plannedShifts: Shift[];
