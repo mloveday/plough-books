@@ -54,6 +54,6 @@ export class StaffRole extends StaffRoleNotPersisted {
   }
 
   public isValid() {
-    return true;
+    return this.id !== -1;
   }
 }

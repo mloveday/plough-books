@@ -1,14 +1,15 @@
+import * as log from "loglevel";
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {EditableEntity} from "../../../State/EditableEntity";
 import {validateCash} from "../../../Util/Validation";
-import {IStaffRoleUpdateObject} from "../../StaffRoles/State/StaffRole";
+import {IStaffRoleApiObject, StaffRole} from "../../StaffRoles/State/StaffRole";
 import {StaffRoleNotPersisted} from "../../StaffRoles/State/StaffRoleNotPersisted";
 
 export interface IStaffMemberNotPersistedUpdateObject {
   name?: string;
   currentHourlyRate?: number;
   currentHourlyRateInput?: string; // todo replace with proper typing
-  role?: IStaffRoleUpdateObject;
+  role?: IStaffRoleApiObject;
   status?: string;
 }
 
@@ -34,11 +35,12 @@ export class StaffMemberNotPersisted extends EditableEntity {
   }
 
   public with(obj: IStaffMemberNotPersistedUpdateObject) {
+    if (obj.role) { log.error(StaffRole.fromResponse(obj.role)); }
     return new StaffMemberNotPersisted(
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? obj.currentHourlyRate : (obj.currentHourlyRateInput ? validateCash(obj.currentHourlyRateInput, this.currentHourlyRate) : this.currentHourlyRate),
       obj.currentHourlyRateInput ? obj.currentHourlyRateInput : this.currentHourlyRateInput,
-      obj.role ? this.role.with(obj.role) : this.role,
+      obj.role ? StaffRole.fromResponse(obj.role) : this.role,
       obj.status ? obj.status : this.status,
     );
   }

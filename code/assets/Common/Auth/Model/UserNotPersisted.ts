@@ -1,25 +1,25 @@
 import {EditableEntity} from "../../../State/EditableEntity";
-import {IRoleNotPersistedUpdateObject, RoleNotPersisted} from "./RoleNotPersisted";
+import {IRoleApiObject, Role} from "./Role";
 
 export interface IApiUserNotPersistedObject {
   email?: string;
   whitelisted?: boolean;
   blacklisted?: boolean;
-  role?: IRoleNotPersistedUpdateObject;
+  role?: IRoleApiObject;
 }
 
 export class UserNotPersisted extends EditableEntity {
 
   public static default() {
-    return new UserNotPersisted('', false, false, RoleNotPersisted.default());
+    return new UserNotPersisted('', false, false, Role.default());
   }
 
   public readonly email: string;
   public readonly whitelisted: boolean;
   public readonly blacklisted: boolean;
-  public readonly role: RoleNotPersisted;
+  public readonly role: Role;
 
-  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: RoleNotPersisted) {
+  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: Role) {
     super();
     this.email = email;
     this.whitelisted = whitelisted;

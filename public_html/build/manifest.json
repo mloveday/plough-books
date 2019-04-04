@@ -1,7 +1,7 @@
 {
-  "build/app.css": "/build/app.59fd711d.css",
-  "build/app.js": "/build/app.465dfb24.js",
-  "build/runtime.js": "/build/runtime.be789d2f.js",
+  "build/app.css": "/build/app.css",
+  "build/app.js": "/build/app.js",
+  "build/runtime.js": "/build/runtime.js",
   "build/images/plough-icon.png": "/build/images/plough-icon.bef660a3.png",
-  "build/plough-icon.png": "/build/plough-icon.bef660a3.png"
+  "build/plough-icon.png": "/build/plough-icon.png"
 }

@@ -1,11 +1,11 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {validateCash} from "../../../Util/Validation";
-import {IStaffRoleApiObject, IStaffRoleUpdateObject, StaffRole} from "../../StaffRoles/State/StaffRole";
+import {IStaffRoleApiObject, StaffRole} from "../../StaffRoles/State/StaffRole";
 import {IStaffMemberNotPersistedUpdateObject, StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
 
 export interface IStaffMemberUpdateObject extends IStaffMemberNotPersistedUpdateObject {
   id?: number;
-  role?: IStaffRoleUpdateObject;
+  role?: IStaffRoleApiObject;
 }
 
 export interface IStaffMemberApiObject {
@@ -39,7 +39,7 @@ export class StaffMember extends StaffMemberNotPersisted {
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? obj.currentHourlyRate : (obj.currentHourlyRateInput ? validateCash(obj.currentHourlyRateInput, this.currentHourlyRate) : this.currentHourlyRate),
       obj.currentHourlyRateInput ? obj.currentHourlyRateInput : this.currentHourlyRateInput,
-      obj.role ? this.role.with(obj.role) : this.role,
+      obj.role ? StaffRole.fromResponse(obj.role) : this.role,
       obj.status ? obj.status : this.status,
       obj.id ? obj.id : this.id
     );

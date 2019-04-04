@@ -11,6 +11,9 @@ export interface IRoleApiObject {
 
 export class Role extends RoleNotPersisted {
 
+  public static default() {
+    return new Role('', false, -1);
+  }
   public static fromResponse(json: IRoleApiObject): Role {
     return new Role(json.role, json.managesUsers, json.id);
   }
@@ -41,6 +44,6 @@ export class Role extends RoleNotPersisted {
   }
 
   public isValid() {
-    return true;
+    return this.id !== -1;
   }
 }
