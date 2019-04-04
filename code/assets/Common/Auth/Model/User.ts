@@ -1,44 +1,35 @@
-import {IRoleApiObject, Role} from "./Role";
-import {IApiUserNotPersistedObject, UserNotPersisted} from "./UserNotPersisted";
+import {UserAbstract, UserApiType, UserType, UserUpdateType} from "../../../DataEntry/User/State/UserTypes";
+import {EditableEntity} from "../../../State/EditableEntity";
+import {Role} from "./Role";
+import {UserInputs} from "./UserInputs";
 
-export interface IUserApiObject {
-  id: number;
-  role: IRoleApiObject;
-  email: string;
-  whitelisted: boolean;
-  blacklisted: boolean;
-}
-
-export interface IUserUpdateObject extends IApiUserNotPersistedObject {
-  id?: number;
-  role?: IRoleApiObject;
-}
-
-export class User extends UserNotPersisted {
-
-  public static fromResponse(json: IUserApiObject): User {
+export class User extends UserAbstract<number, Role> implements EditableEntity, UserType {
+  public static default() {
+    return new User('', false, false, Role.default());
+  }
+  public static fromResponse(json: UserApiType): User {
     return new User(json.email, json.whitelisted, json.blacklisted, Role.fromResponse(json.role), json.id);
   }
 
-  public readonly role: Role;
-  public readonly id: number;
+  public readonly id?: number;
+  public readonly inputs: UserInputs;
 
-  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: Role, id: number) {
+  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: Role, id?: number) {
     super(email, whitelisted, blacklisted, role);
     this.id = id;
   }
 
-  public with(obj: IUserUpdateObject) {
+  public with(obj: UserUpdateType) {
     return new User(
       obj.email ? obj.email : this.email,
-      obj.whitelisted ? obj.whitelisted : this.whitelisted,
-      obj.blacklisted ? obj.blacklisted : this.blacklisted,
-      obj.role ? this.role.with(obj.role) : this.role.clone(),
-      obj.id ? obj.id : this.id,
+      obj.whitelisted !== undefined ? obj.whitelisted : this.whitelisted,
+      obj.blacklisted !== undefined ? obj.blacklisted : this.blacklisted,
+      obj.role ? obj.role : this.role.clone(),
+      this.id,
     );
   }
 
   public get entityId(): number {
-    return this.id;
+    return this.id ? this.id : -1;
   }
 }

@@ -1,8 +1,9 @@
+import {UserApiType} from "../../../DataEntry/User/State/UserTypes";
 import {Domain, IDomainApiObject} from "./Domain";
-import {IUserApiObject, User} from "./User";
+import {User} from "./User";
 
 export interface IUserManagementApiObject {
-    users: IUserApiObject[];
+    users: UserApiType[];
     domains: IDomainApiObject[];
 }
 

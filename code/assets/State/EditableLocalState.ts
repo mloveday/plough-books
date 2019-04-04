@@ -17,7 +17,7 @@ export abstract class EditableLocalState<N extends EditableEntity, T extends N> 
   public readonly newEntity: N;
   public readonly entities: T[] = [];
 
-  private readonly fromObjFn: (obj: any) => T;
+  protected readonly fromObjFn: (obj: any) => T;
   private readonly compareFn: (a: T, b: T) => number;
 
   protected constructor(cloneFn: (obj: any) => T, compareFn: (a: T, b: T) => number) {
@@ -36,7 +36,7 @@ export abstract class EditableLocalState<N extends EditableEntity, T extends N> 
   public withEntities(obj: any[], editingEntityId: number = EditableLocalState.NOT_EDITING_ID) {
     const newEntities = new Map<number, T>();
     obj.forEach(v => {
-      newEntities.set(v.id, this.fromObjFn(v))
+      newEntities.set(v.id ? v.id : (v.entityId ? v.entityId : -1), this.fromObjFn(v)) // TODO yuck. We need to be more specific about types in this function once all classes use the proper API typings
     });
     const entities = new Map<number, T>();
     this.entities.forEach(v => {
@@ -51,6 +51,15 @@ export abstract class EditableLocalState<N extends EditableEntity, T extends N> 
         entities: Array.from(entities.values()).sort(this.compareFn)
       }
     );
+  }
+
+  public updateEntity(obj: T) {
+    const entities = this.entities.map(entity => entity.entityId === obj.entityId ? obj : entity.with({}));
+    return this.with({
+      isCreatingEntity: false,
+      editingEntityId: obj.entityId,
+      entities: entities.sort(this.compareFn)
+    })
   }
 
   public isEditing() {

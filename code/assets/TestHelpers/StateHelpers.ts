@@ -87,7 +87,7 @@ export class StateHelpers {
     return Object.assign({}, this.blankAppState(), obj);
   }
 
-  public static authState(user: User = User.fromResponse(this.adminUser())) {
+  public static authState(user: User = this.adminUser()) {
     return AuthState.cleared().withAuthentication(AuthenticatedUserResponse.fromResponse({
       El: '115549802405448388321',
       Zi: {

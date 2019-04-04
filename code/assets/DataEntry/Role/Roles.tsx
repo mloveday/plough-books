@@ -2,7 +2,6 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Role} from "../../Common/Auth/Model/Role";
-import {RoleNotPersisted} from "../../Common/Auth/Model/RoleNotPersisted";
 import {AppState} from "../../redux";
 import './Roles.scss';
 import {RolesExternalState} from "./State/RolesExternalState";
@@ -26,7 +25,7 @@ const mapStateToProps = (state: AppState, ownProps: RolesOwnProps): RolesStatePr
 
 interface RolesDispatchProps {
   fetchRoles: () => void,
-  saveRole: (role: RoleNotPersisted) => void,
+  saveRole: (role: Role) => void,
   updateRoles: (state: RolesLocalState) => void,
 }
 
@@ -59,7 +58,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
           <div className="role-value">Manages users</div>
         </div>
         {this.props.rolesLocalState.entities.map((role, key) => {
-          const editing = this.props.rolesLocalState.isEditing();
+          const editing = this.props.rolesLocalState.isEditing() && this.props.rolesLocalState.editingEntityId === role.entityId;
           return (
             <div className="role-entity" key={key}>
               <input disabled={!editing} className="role-value" value={role.role}
@@ -91,15 +90,15 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private newRole() {
-    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(RoleNotPersisted.default()));
+    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(Role.default()));
   }
 
-  private dataEntryNewRole(role: RoleNotPersisted) {
+  private dataEntryNewRole(role: Role) {
     this.props.updateRoles(this.props.rolesLocalState.withNewEntity(role));
   }
 
   private editRole(role: Role) {
-    this.props.updateRoles(this.props.rolesLocalState.withEntities([], role.entityId));
+    this.props.updateRoles(this.props.rolesLocalState.updateEntity(role));
   }
 
   private cancelEdit() {
@@ -107,7 +106,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private dataEntry(role: Role) {
-    this.props.updateRoles(this.props.rolesLocalState.withEntities([role], role.entityId));
+    this.props.updateRoles(this.props.rolesLocalState.updateEntity(role));
   }
 
   private maintainState() {

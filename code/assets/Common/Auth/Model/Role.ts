@@ -1,49 +1,40 @@
-import {IRoleNotPersistedUpdateObject, RoleNotPersisted} from "./RoleNotPersisted";
+import {EditableEntity} from "../../../State/EditableEntity";
+import {RoleAbstract, RoleApiType, RoleInputType, RoleType, RoleUpdateType} from "./RoleTypes";
 
-export interface IRoleUpdateObject extends IRoleNotPersistedUpdateObject {
-  id?: number;
-}
-export interface IRoleApiObject {
-  id: number;
-  role: string;
-  managesUsers: boolean;
-}
-
-export class Role extends RoleNotPersisted {
-
+export class Role extends RoleAbstract<number> implements RoleType, EditableEntity {
   public static default() {
-    return new Role('', false, -1);
+    return new Role('', false);
   }
-  public static fromResponse(json: IRoleApiObject): Role {
+  public static fromResponse(json: RoleApiType): Role {
     return new Role(json.role, json.managesUsers, json.id);
   }
 
-  public readonly role: string;
-  public readonly managesUsers: boolean;
-  public readonly id: number;
+  public readonly id?: number;
+  public readonly inputs: RoleInputType; // todo set this
 
-  constructor(role: string, managesUsers: boolean, id: number) {
+  constructor(role: string, managesUsers: boolean, id?: number) {
     super(role, managesUsers);
     this.id = id;
+    this.inputs
   }
 
   public clone(): Role {
     return new Role(this.role, this.managesUsers, this.id);
   }
 
-  public with(obj: IRoleUpdateObject): Role {
+  public with(obj: RoleUpdateType): Role {
     return new Role(
       obj.role ? obj.role : this.role,
-      obj.managesUsers ? obj.managesUsers : this.managesUsers,
-      obj.id ? obj.id : this.id
+      obj.managesUsers !== undefined ? obj.managesUsers : this.managesUsers,
+      this.id
     );
   }
 
   public get entityId(): number {
-    return this.id;
+    return this.id ? this.id : -1;
   }
 
   public isValid() {
-    return this.id !== -1;
+    return this.id !== undefined;
   }
 }
