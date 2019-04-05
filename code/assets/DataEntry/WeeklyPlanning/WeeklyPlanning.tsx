@@ -11,6 +11,7 @@ import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
+import {currencyPattern} from "../../Util/Validation";
 import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
 import {cashUpFetchWithPrevious} from "../CashUp/State/CashUpRedux";
 import {Constants} from "../Constants/State/Constants";
@@ -97,8 +98,8 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
           {this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek).map((rota, rotaKey) => (
             <div className="planning-rota" key={rotaKey}>
               <div className="planning-rota-item">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)} ({rota.getReadableStatus()})</div>
-              <input className="planning-rota-item" type='number' value={rota.inputs.forecastRevenue} onChange={ev => this.updateRota(rota.update({forecastRevenue: ev.target.value}))} />
-              <input className="planning-rota-item" type='number' value={rota.inputs.targetLabourRate} onChange={ev => this.updateRota(rota.update({targetLabourRate: ev.target.value}))} />
+              <input className="planning-rota-item" type="text" pattern={currencyPattern} value={rota.inputs.forecastRevenue} onChange={ev => this.updateRota(rota.update({forecastRevenue: ev.target.value}))} />
+              <input className="planning-rota-item" type="text" pattern={currencyPattern} value={rota.inputs.targetLabourRate} onChange={ev => this.updateRota(rota.update({targetLabourRate: ev.target.value}))} />
               <ConstantsWithHover constants={rota.constants}>
               <select className="planning-rota-item" value={rota.constants.id} onChange={ev => {
                 const c = this.props.constantsExternalState.externalState.entities.find(constants => constants.id === Number(ev.target.value));

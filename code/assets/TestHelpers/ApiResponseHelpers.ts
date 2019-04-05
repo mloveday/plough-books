@@ -29,7 +29,7 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     takeCoffee: 0,
     takeGiftCard: 0,
     takeDepositPaid: 0,
-    paidOutAmnt: 0,
+    paidOutAmount: 0,
     paidOutTo: 'paidOutTo',
     banked: 0,
     cashAdvantageBag: 'cashAdvantageBag',

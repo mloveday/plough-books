@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
+import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
 import {StaffMember} from "../../StaffMembers/State/StaffMember";
 import {StaffMemberApiType} from "../../StaffMembers/State/StaffMemberTypes";
@@ -90,8 +91,8 @@ export class Shift {
     this.status = status;
     this.hourlyRate = hourlyRate;
     this.date = date;
-    this.startTime = startTime;
-    this.endTime = endTime;
+    this.startTime = momentFromDateAndTime(date, startTime, true).format(DateFormats.TIME_LEADING_ZERO);
+    this.endTime = momentFromDateAndTime(date, endTime, true).format(DateFormats.TIME_LEADING_ZERO);
     this.totalBreaks = totalBreaks;
     this.startTimeInputValue = startTimeInputValue ? startTimeInputValue : startTime;
     this.endTimeInputValue = endTimeInputValue ? endTimeInputValue : endTime;
@@ -113,8 +114,8 @@ export class Shift {
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
       date,
-      obj.startTime ? momentFromDateAndTime(date, obj.startTime).format('HH:mm') : this.startTime,
-      obj.endTime ? momentFromDateAndTime(date, obj.endTime).format('HH:mm') : this.endTime,
+      obj.startTime ? obj.startTime : this.startTime,
+      obj.endTime ? obj.endTime : this.endTime,
       obj.totalBreaks ? obj.totalBreaks : this.totalBreaks,
       obj.type ? obj.type : this.type,
       obj.startTimeInputValue ? obj.startTimeInputValue : this.startTimeInputValue,

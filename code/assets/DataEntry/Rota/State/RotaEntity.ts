@@ -4,7 +4,7 @@ import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
-import {validateCash} from "../../../Util/Validation";
+import {validateCash, validatePercentageToDecimal} from "../../../Util/Validation";
 import {Constants} from "../../Constants/State/Constants";
 import {RotaEntityInputs} from "./RotaEntityInputs";
 import {RotaTemplate} from "./RotaTemplate";
@@ -95,7 +95,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     return new RotaEntity(
       obj.date ? moment.utc(obj.date) : this.getDate(),
       obj.forecastRevenue ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue,
-      obj.targetLabourRate ? validateCash(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate,
+      obj.targetLabourRate ? validatePercentageToDecimal(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate,
       constants,
       obj.status ? obj.status : this.status,
       plannedShifts,

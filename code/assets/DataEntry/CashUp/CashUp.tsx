@@ -193,7 +193,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="form-row">
             <h4 className="group-label till_float_label">Till float</h4>
             <TillInputGroup formUpdate={obj => this.formUpdate(obj)} friendlyName={'Till float'}
-                            groupIdentifier={'till_float_tills'} tillProperty={'float'}
+                            groupIdentifier={'till_float_tills'} tillProperty={'float_amnt'}
                             tills={this.getCashUp().tills}/>
             </div>
 
@@ -418,8 +418,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className="label-and-input paid_out_amnt">
               <label htmlFor="paid_out_amnt">Paid out</label>
               <input id="paid_out_amnt" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.paidOutAmnt}
-                     onChange={ev => this.formUpdate({paidOutAmnt: ev.target.value})}/>
+                     value={this.getCashUp().inputs.paidOutAmount}
+                     onChange={ev => this.formUpdate({paidOutAmount: ev.target.value})}/>
             </div>
             <div className="label-and-input paid_out_to">
               <label htmlFor="paid_out_to">Paid out to</label>

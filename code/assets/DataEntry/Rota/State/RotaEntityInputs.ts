@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {RotaStatus} from "../../../Enum/RotaStatus";
 import {DateFormats} from "../../../Util/DateFormats";
+import {Formatting} from "../../../Util/Formatting";
 import {RotaEntity} from "./RotaEntity";
 import {RotaAbstract, RotaApiType, RotaUpdateType} from "./RotaTypes";
 
@@ -11,7 +12,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
     return new RotaEntityInputs(
       date.format(DateFormats.API),
       '',
-      RotaEntity.DEFAULT_LABOUR_RATES[date.isoWeekday()-1].toString(),
+      Formatting.formatPercent(RotaEntity.DEFAULT_LABOUR_RATES[date.isoWeekday()-1], 2, false),
       undefined,
       RotaStatus.NEW,
       [],

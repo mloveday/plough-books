@@ -40,7 +40,7 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly takeGiftCard: T;
   public readonly takeDepositPaid: T;
 
-  public readonly paidOutAmnt: T;
+  public readonly paidOutAmount: T;
   public readonly paidOutTo: string;
   public readonly banked: T;
   public readonly cashAdvantageBag: string;
@@ -78,7 +78,7 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
     this.takeCoffee = takeCoffee;
     this.takeGiftCard = takeGiftCard;
     this.takeDepositPaid = takeDepositPaid;
-    this.paidOutAmnt = paidOutAmnt;
+    this.paidOutAmount = paidOutAmnt;
     this.paidOutTo = paidOutTo;
     this.banked = banked;
     this.cashAdvantageBag = cashAdvantageBag;

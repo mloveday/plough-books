@@ -4,7 +4,8 @@
     "jsx-no-lambda": false,
     "no-empty-interface": false,
     "interface-name": false,
-    "object-literal-sort-keys": false
+    "object-literal-sort-keys": false,
+    "variable-name": false
   },
   "linterOptions": {
     "exclude": [
