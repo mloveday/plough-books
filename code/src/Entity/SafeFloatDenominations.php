@@ -199,7 +199,7 @@ class SafeFloatDenominations {
             'twentyPence' => $this->twentyPence,
             'tenPence' => $this->tenPence,
             'fivePence' => $this->fivePence,
-            'float_amnt' => $this->initials,
+            'initials' => $this->initials,
         ];
     }
 

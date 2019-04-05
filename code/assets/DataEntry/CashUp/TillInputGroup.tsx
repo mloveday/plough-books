@@ -53,7 +53,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
 
   private updateTill(tillNo: number, denoms: TillDenominations) {
     this.props.formUpdate({
-      tills: this.props.tills.map((till, index) => index === tillNo ? denoms.inputs : till.inputs.clone())
+      tills: this.props.tills.map((till, index) => index === tillNo ? denoms : till.clone())
     });
   }
 }

@@ -43,7 +43,7 @@ class SafeFloatDenomComponent extends React.Component<SafeFloatDenomProps, {}> {
         {this.sfdInput('fivePence', '5p')}
         <div className="label-and-input">
           <label htmlFor={"sfd_"+this.props.friendlyTimeName.toLowerCase()+"_initial"}>Initial</label>
-          <input id={"sfd_"+this.props.friendlyTimeName.toLowerCase()+"_initial"} type="text"
+          <input id={"sfd_"+this.props.friendlyTimeName.toLowerCase()+"_initial"} type="text" pattern={"\\w+"}
                  value={this.props.safeFloatObj.initials}
                  onChange={ev => this.props.formUpdate({[this.props.cashUpPropName]: this.props.safeFloatObj.with({initials: ev.target.value})})} />
         </div>

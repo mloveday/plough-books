@@ -1,13 +1,10 @@
 import {ApiType, EntityType, InputType, UpdateType} from "../../../State/TypeWithNumericalInputs";
 import {SafeFloatDenominations} from "./Denominations/SafeFloatDenominations";
-import {
-  SafeFloatDenominationsApiType,
-  SafeFloatDenominationsUpdateType
-} from "./Denominations/SafeFloatDenominationsTypes";
+import {SafeFloatDenominationsApiType} from "./Denominations/SafeFloatDenominationsTypes";
 import {TillDenominations} from "./Denominations/TillDenominations";
-import {TillDenominationsApiType, TillDenominationsUpdateType} from "./Denominations/TillDenominationsTypes";
+import {TillDenominationsApiType} from "./Denominations/TillDenominationsTypes";
 import {Receipt} from "./Receipt";
-import {ReceiptApiType, ReceiptUpdateType} from "./ReceiptTypes";
+import {ReceiptApiType} from "./ReceiptTypes";
 
 export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly date: string;
@@ -94,6 +91,6 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
 }
 
 export type CashUpEntityApiType = ApiType<CashUpEntityAbstract<number, TillDenominationsApiType, SafeFloatDenominationsApiType, ReceiptApiType>>;
-export type CashUpEntityUpdateType = UpdateType<CashUpEntityAbstract<string, TillDenominationsUpdateType, SafeFloatDenominationsUpdateType, ReceiptUpdateType>>;
+export type CashUpEntityUpdateType = UpdateType<CashUpEntityAbstract<string, TillDenominations, SafeFloatDenominations, Receipt>>;
 export type CashUpEntityInputType = InputType<CashUpEntityAbstract<string, undefined, undefined, undefined>>;
 export type CashUpEntityType = EntityType<CashUpEntityAbstract<number, TillDenominations, SafeFloatDenominations, Receipt>, CashUpEntityAbstract<string, undefined, undefined, undefined>>;

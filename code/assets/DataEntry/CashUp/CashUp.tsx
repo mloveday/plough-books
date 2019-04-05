@@ -19,7 +19,6 @@ import {CashUpExternalState} from "./State/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
 import {CashUpsForWeek} from "./State/CashUpsForWeek";
 import {Receipt} from "./State/Receipt";
-import {ReceiptInput} from "./State/ReceiptInput";
 import {SectionPosition} from "./State/SectionPosition";
 import {TillInputGroup} from "./TillInputGroup";
 
@@ -362,8 +361,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <button className='receipt_add_button' type='button' onClick={ev => {
               this.formUpdate({
                 receipts: this.getCashUp().receipts
-                  .map(r => r.inputs)
-                  .concat([ReceiptInput.default()])
+                  .map(r => r.clone())
+                  .concat([Receipt.default()])
               });
             }}>+
             </button>
@@ -542,8 +541,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   private updateReceipt(index: number, receipt: Receipt) {
-    const clonedReceipts = this.getCashUp().receipts.map(till => till.inputs.clone());
-    clonedReceipts[index] = receipt.inputs;
+    const clonedReceipts = this.getCashUp().receipts.map(till => till.clone());
+    clonedReceipts[index] = receipt;
     this.formUpdate({receipts: clonedReceipts});
   }
 

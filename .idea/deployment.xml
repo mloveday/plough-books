@@ -12,7 +12,8 @@
       <paths name="dashboard.theploughharborne.co.uk">
         <serverdata>
           <mappings>
-            <mapping deploy="/public_html/build" local="$PROJECT_DIR$/public/build" web="/" />
+            <mapping deploy="/code" local="$PROJECT_DIR$/code" web="" />
+            <mapping deploy="/public_html" local="$PROJECT_DIR$/public_html" web="/" />
           </mappings>
         </serverdata>
       </paths>
