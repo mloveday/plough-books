@@ -4,38 +4,14 @@ import {WorkTypes} from "../../../Enum/WorkTypes";
 import {CashManipulation} from "../../../Util/CashManipulation";
 import {DateFormats} from "../../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
+import {validateCash} from "../../../Util/Validation";
 import {Constants} from "../../Constants/State/Constants";
-import {ConstantsApiType, ConstantsUpdateType} from "../../Constants/State/ConstantsTypes";
+import {RotaEntityInputs} from "./RotaEntityInputs";
 import {RotaTemplate} from "./RotaTemplate";
-import {IShiftApiObject, IShiftUpdateObject, Shift} from "./Shift";
+import {RotaAbstract, RotaApiType, RotaType, RotaUpdateType} from "./RotaTypes";
+import {IShiftUpdateObject, Shift} from "./Shift";
 
-// TODO replace this with types
-export interface IRotaApiObject {
-  id?: number;
-  date: string;
-  forecastRevenue: number;
-  targetLabourRate: number;
-  constants: ConstantsApiType;
-  status: string;
-  plannedShifts: IShiftApiObject[];
-  actualShifts: IShiftApiObject[];
-  touched: boolean;
-}
-
-// TODO replace this with types
-export interface IRotaUpdateObject {
-  id?: number;
-  date?: string;
-  forecastRevenue?: number;
-  targetLabourRate?: number;
-  constants?: ConstantsUpdateType;
-  status?: RotaStatus;
-  plannedShifts?: IShiftUpdateObject[];
-  actualShifts?: IShiftUpdateObject[];
-  touched?: boolean;
-}
-
-export class RotaEntity { // TODO needs to use typing system to include inputs property for numerical inputs
+export class RotaEntity extends RotaAbstract<number, Constants, Shift> implements RotaType {
 
   public static DEFAULT_LABOUR_RATES = [0.32, 0.32, 0.28, 0.27, 0.25, 0.26, 0.29];
   
@@ -49,38 +25,12 @@ export class RotaEntity { // TODO needs to use typing system to include inputs p
       RotaStatus.NEW,
       [],
       [],
-      false
-    );
-  }
-
-  public static fromPartial(obj: IRotaUpdateObject): RotaEntity {
-    const date = obj.date ? moment.utc(obj.date) : moment.utc();
-    const rota = RotaEntity.default(date);
-    const plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map(plannedShift => Shift.fromPartial(plannedShift, WorkTypes.BAR, date.format(DateFormats.API)))
-      : [])
-      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    const actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map(actualShift => Shift.fromPartial(actualShift, WorkTypes.BAR, date.format(DateFormats.API)))
-      : [])
-      .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    if (!obj.targetLabourRate) {
-      obj.targetLabourRate = RotaEntity.DEFAULT_LABOUR_RATES[moment.utc(obj.date).isoWeekday()-1];
-    }
-    return new RotaEntity(
-      date,
-      obj.forecastRevenue ? obj.forecastRevenue : rota.forecastRevenue,
-      obj.targetLabourRate ? obj.targetLabourRate : rota.targetLabourRate,
-      obj.constants ? Constants.default().with(obj.constants) : rota.constants.with({}),
-      obj.status ? obj.status : rota.status,
-      plannedShifts,
-      actualShifts,
       false,
-      obj.id ? obj.id : rota.id,
+      RotaEntityInputs.default(date),
     );
   }
 
-  public static fromApi(obj: IRotaApiObject): RotaEntity {
+  public static fromApi(obj: RotaApiType): RotaEntity {
     const date = moment.utc(obj.date);
     const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromResponse(plannedShift, date.format(DateFormats.API)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
@@ -95,38 +45,25 @@ export class RotaEntity { // TODO needs to use typing system to include inputs p
       plannedShifts,
       actualShifts,
       false,
+      RotaEntityInputs.fromApi(obj),
       obj.id,
     );
   }
 
-  public readonly id: number;
-  public readonly date: string;
+  public readonly id?: number;
+  public readonly inputs: RotaEntityInputs;
   public readonly barRotaTemplate: RotaTemplate;
   public readonly kitchenRotaTemplate: RotaTemplate;
-  public readonly forecastRevenue: number; // TODO needs separate input field
-  public readonly targetLabourRate: number; // TODO needs separate input field
-  public readonly constants: Constants;
-  public readonly status: RotaStatus;
-  public readonly plannedShifts: Shift[];
-  public readonly actualShifts: Shift[];
-  public readonly touched: boolean = false;
 
-  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, id?: number) {
-    this.date = date.format(DateFormats.API);
-    this.barRotaTemplate = RotaTemplate.templateFor(date.day(), forecastRevenue, WorkTypes.BAR);
-    this.kitchenRotaTemplate = RotaTemplate.templateFor(date.day(), forecastRevenue, WorkTypes.KITCHEN);
-    this.forecastRevenue = forecastRevenue;
-    this.targetLabourRate = targetLabourRate;
-    this.constants = constants;
-    this.status = status;
-    this.plannedShifts = plannedShifts;
-    this.actualShifts = actualShifts;
-    if (id !== undefined) {
-      this.id = id;
-    }
+  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, inputs: RotaEntityInputs, id?: number) {
+    super(date.format(DateFormats.API), forecastRevenue, targetLabourRate, constants, status, plannedShifts, actualShifts, touched);
+    this.id = id;
+    this.inputs = inputs;
+    this.barRotaTemplate = RotaTemplate.templateFor(moment.utc(this.date).day(), validateCash(String(forecastRevenue), 0), WorkTypes.BAR);
+    this.kitchenRotaTemplate = RotaTemplate.templateFor(moment.utc(this.date).day(), validateCash(String(forecastRevenue), 0), WorkTypes.KITCHEN);
   }
 
-  public updateTouched(o: IRotaUpdateObject): RotaEntity {
+  public updateTouched(o: RotaUpdateType): RotaEntity {
     return this.update(Object.assign({touched: true}, o));
   }
 
@@ -140,12 +77,13 @@ export class RotaEntity { // TODO needs to use typing system to include inputs p
       this.plannedShifts.map(shift => shift.clone()),
       this.actualShifts.map(shift => shift.clone()),
       this.touched,
+      this.inputs.clone(),
       this.id,
     )
   }
 
-  public update(obj: IRotaUpdateObject): RotaEntity {
-    const constants = obj.constants ? Constants.default().with(obj.constants) : this.constants.with({});
+  public update(obj: RotaUpdateType): RotaEntity {
+    const constants = obj.constants ? obj.constants : this.constants.with({});
     const plannedShifts = (obj.plannedShifts
       ? obj.plannedShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? shift.type as WorkTypes : WorkTypes.BAR, this.date))
       : this.plannedShifts.map((shift: Shift) => shift.clone()))
@@ -156,14 +94,15 @@ export class RotaEntity { // TODO needs to use typing system to include inputs p
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(
       obj.date ? moment.utc(obj.date) : this.getDate(),
-      obj.forecastRevenue ? obj.forecastRevenue : this.forecastRevenue,
-      obj.targetLabourRate ? obj.targetLabourRate : this.targetLabourRate,
+      obj.forecastRevenue ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue,
+      obj.targetLabourRate ? validateCash(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate,
       constants,
       obj.status ? obj.status : this.status,
       plannedShifts,
       actualShifts,
       obj.touched ? obj.touched : this.touched,
-      obj.id ? obj.id : this.id,
+      this.inputs.update(obj),
+      this.id,
     );
   }
 

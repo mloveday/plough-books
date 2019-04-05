@@ -1,5 +1,4 @@
 import * as moment from 'moment';
-import {DateFormats} from "../../../Util/DateFormats";
 import {RotaEntity} from "./RotaEntity";
 import {RotasForWeek} from "./RotasForWeek";
 
@@ -21,7 +20,7 @@ describe('RotasForWeek', () => {
     ];
     datesInWeek.forEach(dateInWeek => {
       expect(modified.hasRotaForDate(dateInWeek)).toBeTruthy();
-      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.fromPartial({date: dateInWeek.format(DateFormats.API)}));
+      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.default(dateInWeek));
     });
   });
 
@@ -42,7 +41,7 @@ describe('RotasForWeek', () => {
     ];
     datesInWeek.forEach(dateInWeek => {
       expect(modified.hasRotaForDate(dateInWeek)).toBeTruthy();
-      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.fromPartial({date: dateInWeek.format(DateFormats.API)}));
+      expect(modified.getRotaForDate(dateInWeek)).toEqual(RotaEntity.default(dateInWeek));
     });
   });
   // it('', () => {});

@@ -5,9 +5,10 @@ import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
-import {IRotaApiObject, RotaEntity} from "./RotaEntity";
+import {RotaEntity} from "./RotaEntity";
 import {RotaExternalState} from "./RotaExternalState";
 import {RotasForWeek} from "./RotasForWeek";
+import {RotaApiType} from "./RotaTypes";
 
 const ROTA_DATA_ENTRY = 'ROTA_DATA_ENTRY';
 
@@ -26,15 +27,15 @@ const WEEKLY_ROTAS_CREATE_ERROR = 'WEEKLY_ROTAS_CREATE_ERROR';
 export const rotaDataEntry = createAction<RotaEntity[]>(ROTA_DATA_ENTRY);
 
 export const rotaFetchStart = createAction<moment.Moment>(ROTA_FETCH_START);
-export const rotaFetchSuccess = createAction<{date: moment.Moment, response: IRotaApiObject[]}>(ROTA_FETCH_SUCCESS);
+export const rotaFetchSuccess = createAction<{date: moment.Moment, response: RotaApiType[]}>(ROTA_FETCH_SUCCESS);
 export const rotaFetchError = createAction(ROTA_FETCH_ERROR);
 
 export const rotaCreateStart = createAction<RotaEntity>(ROTA_CREATE_START);
-export const rotaCreateSuccess = createAction<{date: moment.Moment, response: IRotaApiObject[]}>(ROTA_CREATE_SUCCESS);
+export const rotaCreateSuccess = createAction<{date: moment.Moment, response: RotaApiType[]}>(ROTA_CREATE_SUCCESS);
 export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
 
 export const weeklyRotasCreateStart = createAction<{date: moment.Moment, response: RotaEntity[]}>(WEEKLY_ROTAS_CREATE_START);
-export const weeklyRotasCreateSuccess = createAction<{date: moment.Moment, response: IRotaApiObject[]}>(WEEKLY_ROTAS_CREATE_SUCCESS);
+export const weeklyRotasCreateSuccess = createAction<{date: moment.Moment, response: RotaApiType[]}>(WEEKLY_ROTAS_CREATE_SUCCESS);
 export const weeklyRotasCreateError = createAction(WEEKLY_ROTAS_CREATE_ERROR);
 
 export const rotaFetchWithPrevious = (date: moment.Moment) => {
@@ -93,7 +94,7 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
   }
 };
 
-const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: IRotaApiObject[]}): RotasForWeek => {
+const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: RotaApiType[]}): RotasForWeek => {
   return state.populateWeekFromApi(moment.utc(payload.date), payload.response);
 };
 

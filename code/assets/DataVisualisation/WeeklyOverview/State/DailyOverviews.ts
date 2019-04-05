@@ -4,7 +4,6 @@ import {PlaceholderCashUp} from "../../../DataEntry/CashUp/State/PlaceholderCash
 import {RotaEntity} from "../../../DataEntry/Rota/State/RotaEntity";
 import {RotasForWeek} from "../../../DataEntry/Rota/State/RotasForWeek";
 import {WorkTypes} from "../../../Enum/WorkTypes";
-import {DateFormats} from "../../../Util/DateFormats";
 import {DailyOverview} from "./DailyOverview";
 
 export class DailyOverviews {
@@ -108,13 +107,13 @@ export class DailyOverviews {
       } else if (!cashUp.isDefault){
         overviews.push(new DailyOverview(
           cashUp,
-          RotaEntity.fromPartial({date: day.format(DateFormats.API)}),
+          RotaEntity.default(day),
           day
         ));
       } else {
         overviews.push(new DailyOverview(
           PlaceholderCashUp.default(day),
-          RotaEntity.fromPartial({date: day.format(DateFormats.API)}),
+          RotaEntity.default(day),
           day
         ));
       }

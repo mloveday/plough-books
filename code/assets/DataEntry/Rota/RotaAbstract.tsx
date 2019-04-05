@@ -24,10 +24,11 @@ import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalSta
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.scss';
-import {IRotaUpdateObject, RotaEntity} from "./State/RotaEntity";
+import {RotaEntity} from "./State/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
 import {RotasForWeek} from "./State/RotasForWeek";
+import {RotaUpdateType} from "./State/RotaTypes";
 import {Shift} from "./State/Shift";
 
 export interface RotaAbstractOwnProps {
@@ -260,7 +261,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
     return localState === undefined ? RotaEntity.default(date) : localState;
   }
 
-  protected formUpdate(obj: IRotaUpdateObject, touched: boolean = true) {
+  protected formUpdate(obj: RotaUpdateType, touched: boolean = true) {
     if (touched) {
       this.props.updateRotaLocalState(
         [this.getRota().updateTouched(obj)]
@@ -339,7 +340,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.rotaExternalState.isLoaded() && this.getRota().constants.id === undefined && this.props.constantsExternalState.externalState) {
-      this.formUpdate({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0].inputs : Constants.default().inputs}, false);
+      this.formUpdate({constants: this.props.constantsExternalState.externalState.entities.length > 0 ? this.props.constantsExternalState.externalState.entities.slice(0,1)[0] : Constants.default()}, false);
     }
   }
 

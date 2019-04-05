@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {CashUpEntityApiType} from "../DataEntry/CashUp/State/CashUpEntityTypes";
-import {IRotaApiObject} from "../DataEntry/Rota/State/RotaEntity";
+import {RotaApiType} from "../DataEntry/Rota/State/RotaTypes";
+import {RotaStatus} from "../Enum/RotaStatus";
 import {DateFormats} from "../Util/DateFormats";
 
 export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
@@ -67,7 +68,7 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
   };
 };
 
-export const rotaObject = (date: moment.Moment): IRotaApiObject => {
+export const rotaObject = (date: moment.Moment): RotaApiType => {
   return {
     id: 0,
     date: date.format(DateFormats.API),
@@ -89,7 +90,7 @@ export const rotaObject = (date: moment.Moment): IRotaApiObject => {
       holidayLinearPercent: 0,
       pensionLinearPercent: 0,
     },
-    status: '',
+    status: RotaStatus.NEW,
     plannedShifts: [],
     actualShifts: [],
     touched: false,
