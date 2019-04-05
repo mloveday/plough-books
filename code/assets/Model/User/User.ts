@@ -1,20 +1,20 @@
 import {UserAbstract, UserApiType, UserType, UserUpdateType} from "./UserTypes";
 import {EditableEntity} from "../../State/EditableEntity";
-import {Role} from "../UserRole/Role";
+import {UserRole} from "../UserRole/UserRole";
 import {UserInputs} from "./UserInputs";
 
-export class User extends UserAbstract<number, Role> implements EditableEntity, UserType {
+export class User extends UserAbstract<number, UserRole> implements EditableEntity, UserType {
   public static default() {
-    return new User('', false, false, Role.default());
+    return new User('', false, false, UserRole.default());
   }
   public static fromResponse(json: UserApiType): User {
-    return new User(json.email, json.whitelisted, json.blacklisted, Role.fromResponse(json.role), json.id);
+    return new User(json.email, json.whitelisted, json.blacklisted, UserRole.fromResponse(json.role), json.id);
   }
 
   public readonly id?: number;
   public readonly inputs: UserInputs;
 
-  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: Role, id?: number) {
+  constructor(email: string, whitelisted: boolean, blacklisted: boolean, role: UserRole, id?: number) {
     super(email, whitelisted, blacklisted, role);
     this.id = id;
   }

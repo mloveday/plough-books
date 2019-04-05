@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Role} from "../../Model/UserRole/Role";
+import {UserRole} from "../../Model/UserRole/UserRole";
 import {AppState} from "../../redux";
 import './Roles.scss';
 import {RolesExternalState} from "./State/RolesExternalState";
@@ -25,7 +25,7 @@ const mapStateToProps = (state: AppState, ownProps: RolesOwnProps): RolesStatePr
 
 interface RolesDispatchProps {
   fetchRoles: () => void,
-  saveRole: (role: Role) => void,
+  saveRole: (role: UserRole) => void,
   updateRoles: (state: RolesLocalState) => void,
 }
 
@@ -90,14 +90,14 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private newRole() {
-    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(Role.default()));
+    this.props.updateRoles(this.props.rolesLocalState.withNewEntity(UserRole.default()));
   }
 
-  private dataEntryNewRole(role: Role) {
+  private dataEntryNewRole(role: UserRole) {
     this.props.updateRoles(this.props.rolesLocalState.withNewEntity(role));
   }
 
-  private editRole(role: Role) {
+  private editRole(role: UserRole) {
     this.props.updateRoles(this.props.rolesLocalState.updateEntity(role));
   }
 
@@ -105,7 +105,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
     this.props.updateRoles((this.props.rolesExternalState.externalState));
   }
 
-  private dataEntry(role: Role) {
+  private dataEntry(role: UserRole) {
     this.props.updateRoles(this.props.rolesLocalState.updateEntity(role));
   }
 

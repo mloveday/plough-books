@@ -1,5 +1,5 @@
 import {createAction, handleActions} from "redux-actions";
-import {Role} from "../../../Model/UserRole/Role";
+import {UserRole} from "../../../Model/UserRole/UserRole";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
@@ -22,7 +22,7 @@ export const rolesFetchStart = createAction(ROLES_FETCH_START);
 export const rolesFetchSuccess = createAction<RolesExternalState>(ROLES_FETCH_SUCCESS);
 export const rolesFetchError = createAction(ROLES_FETCH_ERROR);
 
-export const rolesCreateStart = createAction<Role>(ROLES_CREATE_START);
+export const rolesCreateStart = createAction<UserRole>(ROLES_CREATE_START);
 export const rolesCreateSuccess = createAction<RolesExternalState>(ROLES_CREATE_SUCCESS);
 export const rolesCreateError = createAction(ROLES_CREATE_ERROR);
 
@@ -37,7 +37,7 @@ export const rolesFetch = () => {
   }
 };
 
-export const rolesCreate = (role: Role) => {
+export const rolesCreate = (role: UserRole) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(rolesCreate(role));
     dispatch(rolesCreateStart(role));

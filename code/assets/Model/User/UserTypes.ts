@@ -1,5 +1,5 @@
-import {Role} from "../UserRole/Role";
-import {RoleApiType} from "../UserRole/RoleTypes";
+import {UserRole} from "../UserRole/UserRole";
+import {UserRoleApiType} from "../UserRole/UserRoleTypes";
 import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNumericalInputs";
 
 export abstract class UserAbstract<T, R> {
@@ -15,7 +15,7 @@ export abstract class UserAbstract<T, R> {
     this.role = role;
   }
 }
-export type UserApiType = ApiType<UserAbstract<number, RoleApiType>>;
-export type UserUpdateType = UpdateType<UserAbstract<string, Role>>;
+export type UserApiType = ApiType<UserAbstract<number, UserRoleApiType>>;
+export type UserUpdateType = UpdateType<UserAbstract<string, UserRole>>;
 export type UserInputType = InputType<UserAbstract<string, undefined>>;
-export type UserType = EntityType<UserAbstract<number, Role>, UserAbstract<string, undefined>>;
+export type UserType = EntityType<UserAbstract<number, UserRole>, UserAbstract<string, undefined>>;
