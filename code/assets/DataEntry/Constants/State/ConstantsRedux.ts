@@ -1,7 +1,9 @@
+import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {DefinedAction} from "../../../State/DefinedAction";
 import {Constants} from "./Constants";
 import {ConstantsExternalState} from "./ConstantsExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
@@ -19,11 +21,11 @@ const CONSTANTS_CREATE_ERROR = 'CONSTANTS_CREATE_ERROR';
 export const constantsDataEntry = createAction<ConstantsLocalState>(CONSTANTS_DATA_ENTRY);
 
 export const constantsFetchStart = createAction(CONSTANTS_FETCH_START);
-export const constantsFetchSuccess = createAction<ConstantsExternalState>(CONSTANTS_FETCH_SUCCESS);
+export const constantsFetchSuccess = createAction<Constants[]>(CONSTANTS_FETCH_SUCCESS);
 export const constantsFetchError = createAction(CONSTANTS_FETCH_ERROR);
 
 export const constantsCreateStart = createAction<Constants>(CONSTANTS_CREATE_START);
-export const constantsCreateSuccess = createAction<ConstantsExternalState>(CONSTANTS_CREATE_SUCCESS);
+export const constantsCreateSuccess = createAction<Constants[]>(CONSTANTS_CREATE_SUCCESS);
 export const constantsCreateError = createAction(CONSTANTS_CREATE_ERROR);
 
 export const constantsFetch = () => {
@@ -55,34 +57,36 @@ export const constantsCreate = (constants: Constants) => {
 };
 
 export const constantsInternalReducers = handleActions<ConstantsLocalState, any>({
-  [CONSTANTS_DATA_ENTRY]: (state, action) => {
+  [CONSTANTS_DATA_ENTRY]: (state, action: DefinedAction<ConstantsLocalState>) => {
     return state.with(action.payload);
   },
-  [CONSTANTS_FETCH_SUCCESS]: (state, action) => {
+  [CONSTANTS_FETCH_SUCCESS]: (state, action: DefinedAction<Constants[]>) => {
     return ConstantsLocalState.default().withEntities(action.payload);
   },
-  [CONSTANTS_CREATE_SUCCESS]: (state, action) => {
+  [CONSTANTS_CREATE_SUCCESS]: (state, action: DefinedAction<Constants[]>) => {
     return ConstantsLocalState.default().withEntities(action.payload);
   }
 }, ConstantsLocalState.default());
 
 export const constantsExternalReducers = handleActions<ConstantsExternalState, any>({
-  [CONSTANTS_FETCH_START]: (state, action) => {
+  [CONSTANTS_FETCH_START]: (state, action: DefinedAction<void>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [CONSTANTS_FETCH_SUCCESS]: (state, action) => {
+  [CONSTANTS_FETCH_SUCCESS]: (state, action: DefinedAction<Constants[]>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [CONSTANTS_FETCH_ERROR]: (state, action) => {
+  [CONSTANTS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
+    log.error(action.payload);
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
-  [CONSTANTS_CREATE_START]: (state, action) => {
+  [CONSTANTS_CREATE_START]: (state, action: DefinedAction<void>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [CONSTANTS_CREATE_SUCCESS]: (state, action) => {
+  [CONSTANTS_CREATE_SUCCESS]: (state, action: DefinedAction<Constants[]>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [CONSTANTS_CREATE_ERROR]: (state, action) => {
+  [CONSTANTS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
+    log.error(action.payload);
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
