@@ -22,18 +22,18 @@ const CASH_UP_CREATE_START = 'CASH_UP_CREATE_START';
 const CASH_UP_CREATE_SUCCESS = 'CASH_UP_CREATE_SUCCESS';
 const CASH_UP_CREATE_ERROR = 'CASH_UP_CREATE_ERROR';
 
-interface IFetchResponse {date: moment.Moment, response: CashUpEntityApiType[]}
-interface IFetchErrorResponse {date: moment.Moment, error: any}
+interface FetchResponsePayload {date: moment.Moment, response: CashUpEntityApiType[]}
+interface FetchErrorPayload {date: moment.Moment, error: any}
 
 export const cashUpDataEntry = createAction<CashUpEntity[]>(CASH_UP_DATA_ENTRY);
 
 export const cashUpFetchStart = createAction<moment.Moment>(CASH_UP_FETCH_START);
-export const cashUpFetchSuccess = createAction<IFetchResponse>(CASH_UP_FETCH_SUCCESS);
-export const cashUpFetchError = createAction<IFetchErrorResponse>(CASH_UP_FETCH_ERROR);
+export const cashUpFetchSuccess = createAction<FetchResponsePayload>(CASH_UP_FETCH_SUCCESS);
+export const cashUpFetchError = createAction<FetchErrorPayload>(CASH_UP_FETCH_ERROR);
 
 export const cashUpCreateStart = createAction<CashUpEntity>(CASH_UP_CREATE_START);
-export const cashUpCreateSuccess = createAction<IFetchResponse>(CASH_UP_CREATE_SUCCESS);
-export const cashUpCreateError = createAction<IFetchErrorResponse>(CASH_UP_CREATE_ERROR);
+export const cashUpCreateSuccess = createAction<FetchResponsePayload>(CASH_UP_CREATE_SUCCESS);
+export const cashUpCreateError = createAction<FetchErrorPayload>(CASH_UP_CREATE_ERROR);
 
 export const cashUpFetchWithPrevious = (date: moment.Moment) => {
   return (dispatch: any) => {
@@ -75,35 +75,35 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
 };
 
 export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
-  [CASH_UP_DATA_ENTRY]: (state, action) => {
+  [CASH_UP_DATA_ENTRY]: (state, action: DefinedAction<CashUpEntity[]>) => {
     return state.update(action.payload);
   },
-  [CASH_UP_FETCH_SUCCESS]: (state: CashUpsForWeek, action: DefinedAction<IFetchResponse>) => {
+  [CASH_UP_FETCH_SUCCESS]: (state: CashUpsForWeek, action: DefinedAction<FetchResponsePayload>) => {
     return state.update(CashUpsForWeek.defaultForWeek(action.payload.date).cashUps).fromApi(action.payload.response);
   },
-  [CASH_UP_CREATE_SUCCESS]: (state: CashUpsForWeek, action: DefinedAction<IFetchResponse>) => {
+  [CASH_UP_CREATE_SUCCESS]: (state: CashUpsForWeek, action: DefinedAction<FetchResponsePayload>) => {
     return state.fromApi(action.payload.response);
   }
 }, CashUpsForWeek.default());
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
-  [CASH_UP_FETCH_START]: (state, action) => {
+  [CASH_UP_FETCH_START]: (state, action: DefinedAction<moment.Moment>) => {
     return state.with(state.cashUpsForWeek.update(CashUpsForWeek.defaultForWeek(action.payload).cashUps), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
   },
-  [CASH_UP_FETCH_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
+  [CASH_UP_FETCH_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
-  [CASH_UP_FETCH_ERROR]: (state, action: DefinedAction<IFetchErrorResponse>) => {
+  [CASH_UP_FETCH_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
     log.error(action.payload.error);
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
-  [CASH_UP_CREATE_START]: (state, action) => {
-    return state.with(state.cashUpsForWeek.update(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload.date)));
+  [CASH_UP_CREATE_START]: (state, action: DefinedAction<CashUpEntity>) => {
+    return state.with(state.cashUpsForWeek.update([action.payload]), state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload.date))));
   },
-  [CASH_UP_CREATE_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
+  [CASH_UP_CREATE_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
-  [CASH_UP_CREATE_ERROR]: (state, action: DefinedAction<IFetchErrorResponse>) => {
+  [CASH_UP_CREATE_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
     log.error(action.payload.error);
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
