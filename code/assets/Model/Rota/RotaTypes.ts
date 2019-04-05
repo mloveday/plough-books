@@ -4,7 +4,8 @@ import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNu
 import {DateFormats} from "../../Util/DateFormats";
 import {Constants} from "../Constants/Constants";
 import {ConstantsApiType} from "../Constants/ConstantsTypes";
-import {IShiftApiObject, Shift} from "../Shift/Shift";
+import {Shift} from "../Shift/Shift";
+import {ShiftApiType} from "../Shift/ShiftTypes";
 
 export abstract class RotaAbstract<T extends string|number, C,S> {
   public readonly date: string;
@@ -28,7 +29,7 @@ export abstract class RotaAbstract<T extends string|number, C,S> {
   }
 }
 
-export type RotaApiType = ApiType<RotaAbstract<number, ConstantsApiType, IShiftApiObject>>;
+export type RotaApiType = ApiType<RotaAbstract<number, ConstantsApiType, ShiftApiType>>;
 export type RotaUpdateType = UpdateType<RotaAbstract<string, Constants, Shift>>;
 export type RotaInputType = InputType<RotaAbstract<string, undefined, undefined>>;
 export type RotaType = EntityType<RotaAbstract<number, Constants, Shift>, RotaAbstract<string, undefined, undefined>>;

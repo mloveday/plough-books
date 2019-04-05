@@ -5,40 +5,40 @@ import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {Shift} from "./Shift";
 
-const defaultShift = () => Shift.defaultFor(StaffMember.default(), WorkTypes.BAR, moment.utc().format(DateFormats.API));
+const defaultShift = () => Shift.default(StaffMember.default(), WorkTypes.BAR, moment.utc().format(DateFormats.API));
 
 describe('Shift', () => {
   it('stores the raw time input for start time', () => {
     const expected = '00:01';
     const plannedShift = defaultShift();
 
-    const modified = plannedShift.update({startTimeInputValue: expected});
+    const modified = plannedShift.with({startTime: expected});
 
-    expect(modified.startTimeInputValue).toEqual(expected);
+    expect(modified.inputs.startTime).toEqual(expected);
   });
 
   it('stores the raw time input for end time', () => {
     const expected = '00:01';
     const plannedShift = defaultShift();
 
-    const modified = plannedShift.update({endTimeInputValue: expected});
+    const modified = plannedShift.with({endTime: expected});
 
-    expect(modified.endTimeInputValue).toEqual(expected);
+    expect(modified.inputs.endTime).toEqual(expected);
   });
 
   it('does not change the input times when editing another field', () => {
-    const plannedShift = defaultShift().update({startTimeInputValue: '9:00', endTimeInputValue: '17:00'});
+    const plannedShift = defaultShift().with({startTime: '9:00', endTime: '17:00'});
 
-    const modified = plannedShift.update({hourlyRate: 1});
+    const modified = plannedShift.with({hourlyRate: 1});
 
-    expect(modified.startTimeInputValue).toEqual(plannedShift.startTimeInputValue);
-    expect(modified.endTimeInputValue).toEqual(plannedShift.endTimeInputValue);
+    expect(modified.inputs.startTime).toEqual(plannedShift.inputs.startTime);
+    expect(modified.inputs.endTime).toEqual(plannedShift.inputs.endTime);
   });
 
   it('getStartTime() returns a moment including correct date for time after 06:00 and before midnight', () => {
     const today = moment.utc().format(DateFormats.API);
     const time = `23:45`;
-    const plannedShift = defaultShift().update({date: today, startTime: time});
+    const plannedShift = defaultShift().with({date: today, startTime: time});
 
     expect(plannedShift.getStartTime().isSame(momentFromDateAndTime(today, time))).toBeTruthy();
   });
@@ -47,7 +47,7 @@ describe('Shift', () => {
     const today = moment.utc().format(DateFormats.API);
     const tomorrow = moment.utc().add(1, 'day').format(DateFormats.API);
     const time = `03:45`;
-    const plannedShift = defaultShift().update({date: today, startTime: time});
+    const plannedShift = defaultShift().with({date: today, startTime: time});
 
     expect(plannedShift.getStartTime().isSame(momentFromDateAndTime(tomorrow, time))).toBeTruthy();
   });
@@ -55,7 +55,7 @@ describe('Shift', () => {
   it('getEndTime() returns a moment including correct date for time after 06:00 and before midnight', () => {
     const today = moment.utc().format(DateFormats.API);
     const time = `23:45`;
-    const plannedShift = defaultShift().update({date: today, endTime: time});
+    const plannedShift = defaultShift().with({date: today, endTime: time});
 
     expect(plannedShift.getEndTime().isSame(momentFromDateAndTime(today, time))).toBeTruthy();
   });
@@ -64,7 +64,7 @@ describe('Shift', () => {
     const today = moment.utc().format(DateFormats.API);
     const tomorrow = moment.utc().add(1, 'day').format(DateFormats.API);
     const time = `03:45`;
-    const plannedShift = defaultShift().update({date: today, endTime: time});
+    const plannedShift = defaultShift().with({date: today, endTime: time});
 
     expect(plannedShift.getEndTime().isSame(momentFromDateAndTime(tomorrow, time))).toBeTruthy();
   });

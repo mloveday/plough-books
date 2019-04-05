@@ -6,10 +6,10 @@ import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {validateCash, validatePercentageToDecimal} from "../../Util/Validation";
 import {Constants} from "../Constants/Constants";
+import {Shift} from "../Shift/Shift";
 import {RotaEntityInputs} from "./RotaEntityInputs";
 import {RotaTemplate} from "./RotaTemplate";
 import {RotaAbstract, RotaApiType, RotaType, RotaUpdateType} from "./RotaTypes";
-import {IShiftUpdateObject, Shift} from "../Shift/Shift";
 
 export class RotaEntity extends RotaAbstract<number, Constants, Shift> implements RotaType {
 
@@ -84,13 +84,9 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
 
   public update(obj: RotaUpdateType): RotaEntity {
     const constants = obj.constants ? obj.constants : this.constants.with({});
-    const plannedShifts = (obj.plannedShifts
-      ? obj.plannedShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? shift.type as WorkTypes : WorkTypes.BAR, this.date))
-      : this.plannedShifts.map((shift: Shift) => shift.clone()))
+    const plannedShifts = (obj.plannedShifts ? obj.plannedShifts : this.plannedShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    const actualShifts = (obj.actualShifts
-      ? obj.actualShifts.map((shift: IShiftUpdateObject) => Shift.fromPartial(shift, shift.type ? shift.type as WorkTypes : WorkTypes.BAR, this.date))
-      : this.actualShifts.map((shift: Shift) => shift.clone()))
+    const actualShifts = (obj.actualShifts ? obj.actualShifts : this.actualShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(
       obj.date ? moment.utc(obj.date) : this.getDate(),
