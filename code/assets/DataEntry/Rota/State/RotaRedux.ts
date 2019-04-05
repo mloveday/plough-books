@@ -1,8 +1,10 @@
+import * as log from "loglevel";
 import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
+import {DefinedAction} from "../../../State/DefinedAction";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
 import {RotaEntity} from "./RotaEntity";
@@ -24,15 +26,18 @@ const WEEKLY_ROTAS_CREATE_START = 'WEEKLY_ROTAS_CREATE_START';
 const WEEKLY_ROTAS_CREATE_SUCCESS = 'WEEKLY_ROTAS_CREATE_SUCCESS';
 const WEEKLY_ROTAS_CREATE_ERROR = 'WEEKLY_ROTAS_CREATE_ERROR';
 
+interface IFetchResponse {date: moment.Moment, response: RotaApiType[]}
+interface IFetchErrorResponse {date: moment.Moment, error: any}
+
 export const rotaDataEntry = createAction<RotaEntity[]>(ROTA_DATA_ENTRY);
 
 export const rotaFetchStart = createAction<moment.Moment>(ROTA_FETCH_START);
-export const rotaFetchSuccess = createAction<{date: moment.Moment, response: RotaApiType[]}>(ROTA_FETCH_SUCCESS);
-export const rotaFetchError = createAction(ROTA_FETCH_ERROR);
+export const rotaFetchSuccess = createAction<IFetchResponse>(ROTA_FETCH_SUCCESS);
+export const rotaFetchError = createAction<IFetchErrorResponse>(ROTA_FETCH_ERROR);
 
 export const rotaCreateStart = createAction<RotaEntity>(ROTA_CREATE_START);
-export const rotaCreateSuccess = createAction<{date: moment.Moment, response: RotaApiType[]}>(ROTA_CREATE_SUCCESS);
-export const rotaCreateError = createAction(ROTA_CREATE_ERROR);
+export const rotaCreateSuccess = createAction<IFetchResponse>(ROTA_CREATE_SUCCESS);
+export const rotaCreateError = createAction<IFetchErrorResponse>(ROTA_CREATE_ERROR);
 
 export const weeklyRotasCreateStart = createAction<{date: moment.Moment, response: RotaEntity[]}>(WEEKLY_ROTAS_CREATE_START);
 export const weeklyRotasCreateSuccess = createAction<{date: moment.Moment, response: RotaApiType[]}>(WEEKLY_ROTAS_CREATE_SUCCESS);
@@ -55,7 +60,7 @@ export const rotaFetch = (date: moment.Moment) => {
     dispatch(rotaFetchStart(date));
     return authenticatedFetch(`/rota/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(rotaFetchSuccess({date, response: d})))
-      .catch(e => dispatch(rotaFetchError(e)))
+      .catch(e => dispatch(rotaFetchError({date, error: e})))
       ;
   }
 };
@@ -72,7 +77,7 @@ export const rotaCreate = (rota: RotaEntity) => {
       method: 'POST',
     })
       .then(d => dispatch(rotaCreateSuccess({date: rota.getDate(), response: d})))
-      .catch(e => dispatch(rotaCreateError(e)))
+      .catch(e => dispatch(rotaCreateError({date: rota.getDate(), error: e})))
       ;
   }
 };
@@ -89,12 +94,12 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
       method: 'POST',
     })
       .then(d => dispatch(weeklyRotasCreateSuccess({date: Array.from(rotas.values())[0].getDate(), response: d})))
-      .catch(e => dispatch(weeklyRotasCreateError(e)))
+      .catch(e => dispatch(weeklyRotasCreateError({date: Array.from(rotas.values())[0].getDate(), error: e})))
       ;
   }
 };
 
-const handleRotaPayload = (state: RotasForWeek, payload: {date: moment.Moment, response: RotaApiType[]}): RotasForWeek => {
+const handleRotaPayload = (state: RotasForWeek, payload: IFetchResponse): RotasForWeek => {
   return state.populateWeekFromApi(moment.utc(payload.date), payload.response);
 };
 
@@ -117,29 +122,32 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
   [ROTA_FETCH_START]: (state, action) => {
     return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload))));
   },
-  [ROTA_FETCH_SUCCESS]: (state, action) => {
+  [ROTA_FETCH_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
-  [ROTA_FETCH_ERROR]: (state, action) => {
-    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload))));
+  [ROTA_FETCH_ERROR]: (state, action: DefinedAction<IFetchErrorResponse>) => {
+    log.error(action.payload.error);
+    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));
   },
   [ROTA_CREATE_START]: (state, action) => {
     return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload.date))));
   },
-  [ROTA_CREATE_SUCCESS]: (state, action) => {
+  [ROTA_CREATE_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
-  [ROTA_CREATE_ERROR]: (state, action) => {
-    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload))));
+  [ROTA_CREATE_ERROR]: (state, action: DefinedAction<IFetchErrorResponse>) => {
+    log.error(action.payload.error);
+    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));
   },
   [WEEKLY_ROTAS_CREATE_START]: (state, action) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
-  [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action) => {
+  [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action: DefinedAction<IFetchResponse>) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
-  [WEEKLY_ROTAS_CREATE_ERROR]: (state, action) => {
-    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload))));
+  [WEEKLY_ROTAS_CREATE_ERROR]: (state, action: DefinedAction<IFetchErrorResponse>) => {
+    log.error(action.payload.error);
+    return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));
   },
 
   }, new RotaExternalState());
