@@ -9,10 +9,6 @@ export class RoleInputs extends RoleAbstract<number> implements RoleInputType, E
     return new RoleInputs(json.role, json.managesUsers);
   }
 
-  constructor(role: string, managesUsers: boolean) {
-    super(role, managesUsers);
-  }
-
   public with(obj: RoleUpdateType): RoleInputs {
     return new RoleInputs(
       obj.role ? obj.role : this.role,
