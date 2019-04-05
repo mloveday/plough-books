@@ -12,8 +12,8 @@ import {uiUpdate} from "../../State/UiRedux";
 import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
-import "./WeeklyRota.scss";
 import {RotaGridComponent} from "./RotaGrid";
+import "./WeeklyRota.scss";
 
 interface WeeklyRotaOwnProps {
   match: match<{
@@ -67,8 +67,8 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
     this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
       .forEach(rota => rota.plannedShifts
         .forEach(shift => {
-          if (!allStaff.has(shift.staffMember.id)) {
-            allStaff.set(shift.staffMember.id, shift.staffMember);
+          if (!allStaff.has(shift.staffMember.entityId)) {
+            allStaff.set(shift.staffMember.entityId, shift.staffMember);
           }
         })
       );

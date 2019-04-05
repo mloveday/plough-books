@@ -1,20 +1,20 @@
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
-import {IStaffMemberApiObject, StaffMember} from "./StaffMember";
-import {StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
+import {StaffMember} from "./StaffMember";
+import {StaffMemberApiType} from "./StaffMemberTypes";
 
-export class StaffMembersLocalState extends EditableLocalState<StaffMemberNotPersisted, StaffMember> {
+export class StaffMembersLocalState extends EditableLocalState<StaffMember, StaffMember> {
   public static default() {
     return new StaffMembersLocalState();
   }
 
   public constructor() {
     super(
-      (obj: IStaffMemberApiObject) => StaffMember.fromResponse(obj),
+      (obj: StaffMemberApiType) => StaffMember.fromResponse(obj),
       (a: StaffMember, b: StaffMember) => a.name > b.name ? 1 : -1
     );
   }
 
-  public with(obj: IApiEditableLocalState<StaffMemberNotPersisted, StaffMember>) {
+  public with(obj: IApiEditableLocalState<StaffMember, StaffMember>) {
     return Object.assign(
       new StaffMembersLocalState(),
       this,

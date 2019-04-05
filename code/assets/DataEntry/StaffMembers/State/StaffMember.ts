@@ -1,52 +1,41 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
+import {EditableEntity} from "../../../State/EditableEntity";
 import {validateCash} from "../../../Util/Validation";
-import {IStaffRoleApiObject, StaffRole} from "../../StaffRoles/State/StaffRole";
-import {IStaffMemberNotPersistedUpdateObject, StaffMemberNotPersisted} from "./StaffMemberNotPersisted";
+import {StaffRole} from "../../StaffRoles/State/StaffRole";
+import {StaffMemberInputs} from "./StaffMemberInputs";
+import {StaffMemberAbstract, StaffMemberApiType, StaffMemberType, StaffMemberUpdateType} from "./StaffMemberTypes";
 
-export interface IStaffMemberUpdateObject extends IStaffMemberNotPersistedUpdateObject {
-  id?: number;
-  role?: IStaffRoleApiObject;
-}
-
-export interface IStaffMemberApiObject {
-  name: string;
-  currentHourlyRate: number;
-  role: IStaffRoleApiObject;
-  status: string;
-  id: number;
-}
-
-export class StaffMember extends StaffMemberNotPersisted {
-
-  public static fromResponse(obj: IStaffMemberApiObject) {
-    return new StaffMember(obj.name, obj.currentHourlyRate, obj.currentHourlyRate.toString(), StaffRole.fromResponse(obj.role), obj.status, obj.id);
+export class StaffMember extends StaffMemberAbstract<number, StaffRole> implements EditableEntity, StaffMemberType {
+  public static default() {
+    return new StaffMember('', 0, StaffRole.default(), '', StaffMemberInputs.default(), -1);
   }
 
-  public static placeholder() {
-    return new StaffMember('', 0, '', StaffRole.placeholder(), '', -1);
+  public static fromResponse(obj: StaffMemberApiType) {
+    return new StaffMember(obj.name, obj.currentHourlyRate, StaffRole.fromResponse(obj.role), obj.status, StaffMemberInputs.fromResponse(obj), obj.id);
   }
 
-  public readonly id: number;
-  public readonly role: StaffRole;
+  public readonly id?: number;
+  public readonly inputs: StaffMemberInputs;
 
-  constructor(name: string, currentHourlyRate: number, currentHourlyRateInput: string, role: StaffRole, status: string, id: number) {
-    super(name, currentHourlyRate, currentHourlyRateInput, role, status);
+  constructor(name: string, currentHourlyRate: number, role: StaffRole, status: string, inputs: StaffMemberInputs, id?: number) {
+    super(name, currentHourlyRate, role, status);
+    this.inputs = inputs;
     this.id = id;
   }
 
-  public with(obj: IStaffMemberUpdateObject) {
+  public with(obj: StaffMemberUpdateType) {
     return new StaffMember(
       obj.name ? obj.name : this.name,
-      obj.currentHourlyRate ? obj.currentHourlyRate : (obj.currentHourlyRateInput ? validateCash(obj.currentHourlyRateInput, this.currentHourlyRate) : this.currentHourlyRate),
-      obj.currentHourlyRateInput ? obj.currentHourlyRateInput : this.currentHourlyRateInput,
-      obj.role ? StaffRole.fromResponse(obj.role) : this.role,
+      obj.currentHourlyRate ? validateCash(obj.currentHourlyRate, this.currentHourlyRate) : this.currentHourlyRate,
+      obj.role ? obj.role : this.role,
       obj.status ? obj.status : this.status,
-      obj.id ? obj.id : this.id
+      this.inputs.with(obj),
+      this.id
     );
   }
 
   public get entityId() {
-    return this.id;
+    return this.id ? this.id : -1;
   }
 
   public isActive() {

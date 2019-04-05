@@ -1,13 +1,20 @@
 import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
 import {StaffRole} from "../../StaffRoles/State/StaffRole";
-import {IStaffMemberApiObject, StaffMember} from "./StaffMember";
+import {StaffMember} from "./StaffMember";
+import {StaffMemberApiType} from "./StaffMemberTypes";
 
 describe('StaffMember', () => {
-  const object: IStaffMemberApiObject = {
+  const object: StaffMemberApiType = {
     name: 'foo',
     currentHourlyRate: 6,
     status: 'inactive',
-    role: StaffRole.placeholder(),
+    role: {
+      id: 8,
+      role:'baz',
+      orderInRota:4,
+      status:'active',
+      type:'bar',
+    },
     id: 9,
   };
   const defaultStaffMember = () => StaffMember.fromResponse(object);
@@ -24,7 +31,7 @@ describe('StaffMember', () => {
   });
   it('with parses role in object correctly', () => {
     const actual = defaultStaffMember();
-    const expectedRole = StaffRole.placeholder().with({role: 'bar'});
+    const expectedRole = StaffRole.default().with({role: 'bar'});
 
     const modified = actual.with({role: expectedRole});
 
@@ -69,7 +76,7 @@ describe('StaffMember', () => {
     const actual = defaultStaffMember();
     const expectedHourlyRate = 5.43;
 
-    const modified = actual.with({currentHourlyRate: expectedHourlyRate});
+    const modified = actual.with({currentHourlyRate: expectedHourlyRate.toString()});
 
     expect(modified.name).toEqual(object.name);
     expect(modified.role).toEqual(object.role);
@@ -78,19 +85,5 @@ describe('StaffMember', () => {
     expect(modified.isActive()).toBeFalsy();
 
     expect(modified.currentHourlyRate).toEqual(expectedHourlyRate);
-  });
-  it('with parses id in object correctly', () => {
-    const actual = defaultStaffMember();
-    const expectedId = 10;
-
-    const modified = actual.with({id: expectedId});
-
-    expect(modified.name).toEqual(object.name);
-    expect(modified.role).toEqual(object.role);
-    expect(modified.currentHourlyRate).toEqual(object.currentHourlyRate);
-    expect(modified.isActive()).toBeFalsy();
-
-    expect(modified.id).toEqual(expectedId);
-    expect(modified.entityId).toEqual(expectedId);
   });
 });

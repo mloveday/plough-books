@@ -5,7 +5,7 @@ import {momentFromDateAndTime} from "../../../Util/DateUtils";
 import {StaffMember} from "../../StaffMembers/State/StaffMember";
 import {Shift} from "./Shift";
 
-const defaultShift = () => Shift.defaultFor(StaffMember.placeholder(), WorkTypes.BAR, moment.utc().format(DateFormats.API));
+const defaultShift = () => Shift.defaultFor(StaffMember.default(), WorkTypes.BAR, moment.utc().format(DateFormats.API));
 
 describe('Shift', () => {
   it('stores the raw time input for start time', () => {

@@ -53,7 +53,7 @@ describe('StaffRole', () => {
     const actual = StaffRole.fromResponse(object);
     const expectedOrderInRota = 7;
 
-    const modified = actual.with({orderInRota: expectedOrderInRota});
+    const modified = actual.with({orderInRota: expectedOrderInRota.toString()});
 
     expect(modified.role).toEqual(object.role);
     expect(modified.status).toEqual(object.status);
@@ -107,27 +107,5 @@ describe('StaffRole', () => {
     expect(modified.isValid()).toBeTruthy();
 
     expect(modified.type).toEqual(expectedType);
-  });
-  it('with parses id in object correctly', () => {
-    const object = {
-      role: 'foo',
-      orderInRota: 6,
-      status: 'active',
-      type: 'bar',
-      id: 9,
-    };
-    const actual = StaffRole.fromResponse(object);
-    const expectedId = 10;
-
-    const modified = actual.with({id: expectedId});
-
-    expect(modified.role).toEqual(object.role);
-    expect(modified.orderInRota).toEqual(object.orderInRota);
-    expect(modified.status).toEqual(object.status);
-    expect(modified.type).toEqual(object.type);
-    expect(modified.isValid()).toBeTruthy();
-
-    expect(modified.id).toEqual(expectedId);
-    expect(modified.entityId).toEqual(expectedId);
   });
 });

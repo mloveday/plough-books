@@ -61,8 +61,8 @@ class WeeklySignInComponent extends React.Component<WeeklySignInProps, {}> {
     this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
       .forEach(rota => rota.actualShifts
         .forEach(shift => {
-          if (!allStaff.has(shift.staffMember.id)) {
-            allStaff.set(shift.staffMember.id, shift.staffMember);
+          if (!allStaff.has(shift.staffMember.entityId)) {
+            allStaff.set(shift.staffMember.entityId, shift.staffMember);
           }
         })
       );

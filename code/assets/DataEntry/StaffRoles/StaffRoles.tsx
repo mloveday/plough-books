@@ -5,9 +5,8 @@ import {StaffRoleStatus} from "../../Enum/StaffRoleStatus";
 import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {getStaffRoleOrder} from "../../Util/SortingUtils";
-import {StaffRole} from "./State/StaffRole";
 import "./StaffRoles.scss";
-import {StaffRoleNotPersisted} from "./State/StaffRoleNotPersisted";
+import {StaffRole} from "./State/StaffRole";
 import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";
@@ -29,7 +28,7 @@ const mapStateToProps = (state: AppState, ownProps: StaffRolesOwnProps): StaffRo
 
 interface StaffRolesDispatchProps {
   fetchStaffRoles: () => void;
-  saveStaffRole: (staffRole: StaffRoleNotPersisted) => void;
+  saveStaffRole: (staffRole: StaffRole) => void;
   updateStaffRole: (staffRolesLocalState: StaffRolesLocalState) => void;
 }
 
@@ -73,7 +72,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
                   <option value={StaffRoleStatus.ACTIVE}>Active</option>
                   <option value={StaffRoleStatus.INACTIVE}>Inactive</option>
                 </select>}
-                <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': parseInt(ev.target.value, 10)}))}/>
+                <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': ev.target.value}))}/>
                 <select disabled={!isEditingThisRole} value={role.type} onChange={ev => this.updateStaffRole(role.with({type: ev.target.value}))}>
                     <option value='bar'>Bar</option>
                     <option value='kitchen'>Kitchen</option>
@@ -98,7 +97,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
               <option value={StaffRoleStatus.ACTIVE}>Active</option>
               <option value={StaffRoleStatus.INACTIVE}>Inactive</option>
           </select>}
-          {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newEntity.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'orderInRota': parseInt(ev.target.value, 10)}))}/>}
+          {isCreatingNewRole && <input type='number' value={this.props.staffRolesLocalState.newEntity.orderInRota} step={1} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({'orderInRota': ev.target.value}))}/>}
           {isCreatingNewRole &&
             <select value={this.props.staffRolesLocalState.newEntity.type} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({type: ev.target.value}))}>
             <option value={WorkTypes.BAR}>Bar</option>
@@ -115,7 +114,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
     )
   }
 
-  private newStaffRole(staffRole: StaffRoleNotPersisted = StaffRoleNotPersisted.default()) {
+  private newStaffRole(staffRole: StaffRole = StaffRole.default()) {
     this.props.updateStaffRole(this.props.staffRolesLocalState.withNewEntity(staffRole));
   }
 
@@ -127,7 +126,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
     this.props.updateStaffRole(this.props.staffRolesLocalState.withEntities([]));
   }
 
-  private saveStaffRole(staffRole: StaffRoleNotPersisted) {
+  private saveStaffRole(staffRole: StaffRole) {
     this.props.saveStaffRole(staffRole);
   }
 

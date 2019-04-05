@@ -1,13 +1,15 @@
 import * as moment from "moment";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {momentFromDateAndTime} from "../../../Util/DateUtils";
-import {IStaffMemberApiObject, IStaffMemberUpdateObject, StaffMember} from "../../StaffMembers/State/StaffMember";
-import {IStaffRoleApiObject, IStaffRoleUpdateObject, StaffRole} from "../../StaffRoles/State/StaffRole";
+import {StaffMember} from "../../StaffMembers/State/StaffMember";
+import {StaffMemberApiType} from "../../StaffMembers/State/StaffMemberTypes";
+import {StaffRole} from "../../StaffRoles/State/StaffRole";
+import {StaffRoleApiType} from "../../StaffRoles/State/StaffRoleTypes";
 
 export interface IShiftApiObject {
   id?: number;
-  staffMember: IStaffMemberApiObject;
-  staffRole: IStaffRoleApiObject;
+  staffMember: StaffMemberApiType;
+  staffRole: StaffRoleApiType;
   status: string;
   hourlyRate: number;
   date: string;
@@ -21,8 +23,8 @@ export interface IShiftApiObject {
 
 export interface IShiftUpdateObject {
   id?: number;
-  staffMember?: IStaffMemberUpdateObject;
-  staffRole?: IStaffRoleUpdateObject;
+  staffMember?: StaffMember;
+  staffRole?: StaffRole;
   status?: string;
   hourlyRate?: number;
   date?: string;
@@ -46,7 +48,7 @@ export class Shift {
 
   public static fromPartial(obj: IShiftUpdateObject, type: WorkTypes, date: string): Shift {
     return Shift.defaultFor(
-      StaffMember.placeholder(),
+      StaffMember.default(),
       type,
       date
     ).update(obj);
@@ -106,8 +108,8 @@ export class Shift {
   public update(obj: IShiftUpdateObject): Shift {
     const date = obj.date ? obj.date : this.date;
     return new Shift(
-      obj.staffMember ? this.staffMember.with(obj.staffMember) : this.staffMember,
-      obj.staffRole ? this.staffRole.with(obj.staffRole) : this.staffRole.with({}),
+      obj.staffMember ? obj.staffMember : this.staffMember,
+      obj.staffRole ? obj.staffRole : this.staffRole.with({}),
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
       date,

@@ -1,56 +1,46 @@
-import {IStaffRoleNotPersistedUpdateObject, StaffRoleNotPersisted} from "./StaffRoleNotPersisted";
+import {EditableEntity} from "../../../State/EditableEntity";
+import {StaffRoleInputs} from "./StaffRoleInputs";
+import {StaffRoleAbstract, StaffRoleApiType, StaffRoleType, StaffRoleUpdateType} from "./StaffRoleTypes";
 
-export interface IStaffRoleUpdateObject extends IStaffRoleNotPersistedUpdateObject {
-  id?: number;
-}
-
-export interface IStaffRoleApiObject {
-  id: number;
-  role: string;
-  orderInRota: number;
-  status: string;
-  type: string;
-}
-
-export class StaffRole extends StaffRoleNotPersisted {
+export class StaffRole extends StaffRoleAbstract<number> implements EditableEntity, StaffRoleType {
   
-  public static fromResponse(obj: IStaffRoleApiObject) {
+  public static fromResponse(obj: StaffRoleApiType) {
     return new StaffRole(
       obj.role,
       obj.orderInRota,
       obj.status,
       obj.type,
+      StaffRoleInputs.fromResponse(obj),
       obj.id,
     );
   }
 
-  public static placeholder() {
-    return new StaffRole('',-1,'','',-1);
+  public static default() {
+    return new StaffRole('',-1,'','',StaffRoleInputs.default(), -1);
   }
   
-  public readonly id: number;
-  public readonly role: string;
-  public readonly orderInRota: number;
-  public readonly status: string;
-  public readonly type: string;
+  public readonly id?: number;
+  public readonly inputs: StaffRoleInputs;
 
-  constructor(role: string, orderInRota: number, status: string, type: string, id: number) {
+  constructor(role: string, orderInRota: number, status: string, type: string, inputs: StaffRoleInputs, id?: number) {
     super(role, orderInRota, status, type);
+    this.inputs = inputs;
     this.id = id;
   }
 
-  public with(obj: IStaffRoleUpdateObject) {
+  public with(obj: StaffRoleUpdateType) {
     return new StaffRole(
       obj.role ? obj.role : this.role,
-      obj.orderInRota ? obj.orderInRota : this.orderInRota,
+      obj.orderInRota ? parseInt(obj.orderInRota, 10) : this.orderInRota,
       obj.status ? obj.status : this.status,
       obj.type ? obj.type : this.type,
-      obj.id ? obj.id : this.id,
+      this.inputs.with(obj),
+      this.id,
     );
   }
 
   public get entityId(): number {
-    return this.id;
+    return this.id ? this.id : -1;
   }
 
   public isValid() {
