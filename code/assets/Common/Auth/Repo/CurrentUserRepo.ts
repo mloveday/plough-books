@@ -1,4 +1,4 @@
-import {User} from "../Model/User";
+import {User} from "../../../Model/User/User";
 import {authenticatedFetch} from "./AuthenticatedFetch";
 
 export function getCurrentUser(onAuthError: () => void): Promise<User> {

@@ -1,6 +1,6 @@
 import {createAction} from "redux-actions";
 import {AuthenticatedUserResponse} from '../Model/AuthenticatedUserResponse';
-import {User} from "../Model/User";
+import {User} from "../../../Model/User/User";
 import {getCurrentUser} from "../Repo/CurrentUserRepo";
 import {getResponseFromLocalStorage, removeAuthFromLocalStorage, storeAuthInLocalStorage} from './AuthStorage';
 

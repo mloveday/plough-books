@@ -1,6 +1,6 @@
 import * as moment from 'moment';
-import {CashUpEntity} from "../../../DataEntry/CashUp/State/CashUpEntity";
-import {RotaEntity} from "../../../DataEntry/Rota/State/RotaEntity";
+import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
+import {RotaEntity} from "../../../Model/Rota/RotaEntity";
 
 export class DailyOverview {
   public readonly cashUp: CashUpEntity;

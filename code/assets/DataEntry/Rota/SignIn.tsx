@@ -7,7 +7,7 @@ import {
   RotaAbstractOwnProps,
   RotaAbstractStateProps
 } from "./RotaAbstract";
-import {Shift} from "./State/Shift";
+import {Shift} from "../../Model/Shift/Shift";
 
 class SignInComponent extends RotaAbstractComponent {
   protected getName(): string {

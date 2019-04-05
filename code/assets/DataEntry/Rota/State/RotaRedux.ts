@@ -7,10 +7,10 @@ import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DefinedAction} from "../../../State/DefinedAction";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
-import {RotaEntity} from "./RotaEntity";
+import {RotaEntity} from "../../../Model/Rota/RotaEntity";
 import {RotaExternalState} from "./RotaExternalState";
-import {RotasForWeek} from "./RotasForWeek";
-import {RotaApiType} from "./RotaTypes";
+import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
+import {RotaApiType} from "../../../Model/Rota/RotaTypes";
 
 const ROTA_DATA_ENTRY = 'ROTA_DATA_ENTRY';
 

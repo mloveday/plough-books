@@ -1,5 +1,5 @@
-import {Role} from "../../../Common/Auth/Model/Role";
-import {RoleApiType} from "../../../Common/Auth/Model/RoleTypes";
+import {Role} from "../../../Model/UserRole/Role";
+import {RoleApiType} from "../../../Model/UserRole/RoleTypes";
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
 
 export class RolesLocalState extends EditableLocalState<Role, Role> {

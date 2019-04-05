@@ -5,7 +5,7 @@ import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import "./Constants.scss";
 import {currencyPattern, decimalPattern, percentagePattern} from "../../Util/Validation";
-import {Constants} from "./State/Constants";
+import {Constants} from "../../Model/Constants/Constants";
 import {ConstantsExternalState} from "./State/ConstantsExternalState";
 import {ConstantsLocalState} from "./State/ConstantsLocalState";
 import {constantsCreate, constantsDataEntry, constantsFetch} from "./State/ConstantsRedux";

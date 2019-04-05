@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Role} from "../../Common/Auth/Model/Role";
+import {Role} from "../../Model/UserRole/Role";
 import {AppState} from "../../redux";
 import './Roles.scss';
 import {RolesExternalState} from "./State/RolesExternalState";

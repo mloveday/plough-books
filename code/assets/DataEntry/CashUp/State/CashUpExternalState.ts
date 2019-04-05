@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {ExternalState} from "../../../State/ExternalState";
-import {CashUpsForWeek} from "./CashUpsForWeek";
+import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
 
 export class CashUpExternalState extends ExternalState {
     public readonly cashUpsForWeek: CashUpsForWeek = CashUpsForWeek.default();

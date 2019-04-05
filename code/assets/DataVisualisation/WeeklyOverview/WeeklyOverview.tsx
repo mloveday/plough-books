@@ -10,7 +10,7 @@ import {ConstantsExternalState} from "../../DataEntry/Constants/State/ConstantsE
 import {constantsFetch} from "../../DataEntry/Constants/State/ConstantsRedux";
 import {RotaExternalState} from "../../DataEntry/Rota/State/RotaExternalState";
 import {rotaFetch} from "../../DataEntry/Rota/State/RotaRedux";
-import {RotasForWeek} from "../../DataEntry/Rota/State/RotasForWeek";
+import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {StaffMembersExternalState} from "../../DataEntry/StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../../DataEntry/StaffMembers/State/StaffMembersLocalState";
 import {staffMembersFetch} from "../../DataEntry/StaffMembers/State/StaffMembersRedux";

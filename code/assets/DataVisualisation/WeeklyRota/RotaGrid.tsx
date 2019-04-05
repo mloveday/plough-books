@@ -1,7 +1,7 @@
 import * as React from "react";
-import {RotaEntity} from "../../DataEntry/Rota/State/RotaEntity";
-import {StaffMember} from "../../DataEntry/StaffMembers/State/StaffMember";
-import {StaffRole} from "../../DataEntry/StaffRoles/State/StaffRole";
+import {RotaEntity} from "../../Model/Rota/RotaEntity";
+import {StaffMember} from "../../Model/StaffMember/StaffMember";
+import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {DateFormats} from "../../Util/DateFormats";
 
 interface RotaGridOwnProps {

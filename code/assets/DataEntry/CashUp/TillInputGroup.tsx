@@ -2,8 +2,8 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
 import {currencyPattern} from "../../Util/Validation";
-import {CashUpEntityUpdateType} from "./State/CashUpEntityTypes";
-import {TillDenominations} from "./State/Denominations/TillDenominations";
+import {CashUpEntityUpdateType} from "../../Model/CashUp/CashUpEntityTypes";
+import {TillDenominations} from "../../Model/Denominations/TillDenominations";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];

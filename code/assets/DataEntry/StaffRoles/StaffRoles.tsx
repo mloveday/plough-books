@@ -6,7 +6,7 @@ import {WorkTypes} from "../../Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {getStaffRoleOrder} from "../../Util/SortingUtils";
 import "./StaffRoles.scss";
-import {StaffRole} from "./State/StaffRole";
+import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";

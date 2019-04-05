@@ -12,24 +12,24 @@ import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
-import {Constants} from "../Constants/State/Constants";
+import {Constants} from "../../Model/Constants/Constants";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
-import {StaffMember} from "../StaffMembers/State/StaffMember";
+import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../StaffMembers/State/StaffMembersLocalState";
 import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
-import {StaffRole} from "../StaffRoles/State/StaffRole";
+import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
 import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
 import './Rota.scss';
-import {RotaEntity} from "./State/RotaEntity";
+import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotaExternalState} from "./State/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
-import {RotasForWeek} from "./State/RotasForWeek";
-import {RotaUpdateType} from "./State/RotaTypes";
-import {Shift} from "./State/Shift";
+import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
+import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
+import {Shift} from "../../Model/Shift/Shift";
 
 export interface RotaAbstractOwnProps {
   match: match<{

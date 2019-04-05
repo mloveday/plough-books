@@ -14,13 +14,13 @@ import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
 import {cashUpFetchWithPrevious} from "../CashUp/State/CashUpRedux";
-import {Constants} from "../Constants/State/Constants";
+import {Constants} from "../../Model/Constants/Constants";
 import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
 import {constantsFetch} from "../Constants/State/ConstantsRedux";
-import {RotaEntity} from "../Rota/State/RotaEntity";
+import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotaExternalState} from "../Rota/State/RotaExternalState";
 import {rotaDataEntry, rotaFetchWithPrevious, weeklyRotasCreate} from "../Rota/State/RotaRedux";
-import {RotasForWeek} from "../Rota/State/RotasForWeek";
+import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {PriorWeekOverview} from "./PriorWeekOverview";
 import './WeeklyPlanning.scss';
 

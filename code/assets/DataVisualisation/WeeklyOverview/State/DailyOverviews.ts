@@ -1,8 +1,8 @@
 import * as moment from 'moment';
-import {CashUpsForWeek} from "../../../DataEntry/CashUp/State/CashUpsForWeek";
+import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
 import {PlaceholderCashUp} from "../../../DataEntry/CashUp/State/PlaceholderCashUp";
-import {RotaEntity} from "../../../DataEntry/Rota/State/RotaEntity";
-import {RotasForWeek} from "../../../DataEntry/Rota/State/RotasForWeek";
+import {RotaEntity} from "../../../Model/Rota/RotaEntity";
+import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
 import {WorkTypes} from "../../../Enum/WorkTypes";
 import {DailyOverview} from "./DailyOverview";
 

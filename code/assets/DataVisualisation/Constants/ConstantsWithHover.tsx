@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {Constants} from "../../DataEntry/Constants/State/Constants";
+import {Constants} from "../../Model/Constants/Constants";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";

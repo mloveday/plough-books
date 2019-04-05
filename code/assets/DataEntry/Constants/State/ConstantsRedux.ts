@@ -4,7 +4,7 @@ import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DefinedAction} from "../../../State/DefinedAction";
-import {Constants} from "./Constants";
+import {Constants} from "../../../Model/Constants/Constants";
 import {ConstantsExternalState} from "./ConstantsExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";
 

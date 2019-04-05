@@ -1,4 +1,4 @@
-import {StaffRole} from "../DataEntry/StaffRoles/State/StaffRole";
+import {StaffRole} from "../Model/StaffRole/StaffRole";
 import {WorkTypes} from "../Enum/WorkTypes";
 
 export const getStaffRoleOrder = (role: StaffRole) => {

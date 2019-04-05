@@ -13,12 +13,12 @@ import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
-import {CashUpEntity} from "./State/CashUpEntity";
-import {CashUpEntityUpdateType} from "./State/CashUpEntityTypes";
+import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
+import {CashUpEntityUpdateType} from "../../Model/CashUp/CashUpEntityTypes";
 import {CashUpExternalState} from "./State/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "./State/CashUpRedux";
-import {CashUpsForWeek} from "./State/CashUpsForWeek";
-import {Receipt} from "./State/Receipt";
+import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
+import {Receipt} from "../../Model/Receipt/Receipt";
 import {SectionPosition} from "./State/SectionPosition";
 import {TillInputGroup} from "./TillInputGroup";
 

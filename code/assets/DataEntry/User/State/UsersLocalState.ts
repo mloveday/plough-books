@@ -1,6 +1,6 @@
-import {User} from "../../../Common/Auth/Model/User";
+import {User} from "../../../Model/User/User";
 import {EditableLocalState} from "../../../State/EditableLocalState";
-import {UserApiType} from "./UserTypes";
+import {UserApiType} from "../../../Model/User/UserTypes";
 
 export class UsersLocalState extends EditableLocalState<User, User> {
   public static default() {

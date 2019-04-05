@@ -1,6 +1,6 @@
 import * as moment from "moment";
-import {CashUpEntityApiType} from "../DataEntry/CashUp/State/CashUpEntityTypes";
-import {RotaApiType} from "../DataEntry/Rota/State/RotaTypes";
+import {CashUpEntityApiType} from "../Model/CashUp/CashUpEntityTypes";
+import {RotaApiType} from "../Model/Rota/RotaTypes";
 import {RotaStatus} from "../Enum/RotaStatus";
 import {DateFormats} from "../Util/DateFormats";
 

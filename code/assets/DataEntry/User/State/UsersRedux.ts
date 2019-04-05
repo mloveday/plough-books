@@ -1,5 +1,5 @@
 import {createAction, handleActions} from "redux-actions";
-import {User} from "../../../Common/Auth/Model/User";
+import {User} from "../../../Model/User/User";
 import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
 import {invalidUser} from "../../../Common/Auth/State/AuthActions";
 import {FetchStatus} from "../../../Enum/FetchStatus";

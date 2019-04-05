@@ -1,4 +1,4 @@
-import {Constants} from "../DataEntry/Constants/State/Constants";
+import {Constants} from "../Model/Constants/Constants";
 import {WorkTypes} from "../Enum/WorkTypes";
 
 export class CashManipulation {

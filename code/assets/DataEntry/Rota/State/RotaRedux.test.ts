@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {Action, ActionFunction1} from "redux-actions";
 import {rotaObject} from "../../../TestHelpers/ApiResponseHelpers";
-import {RotaEntity} from "./RotaEntity";
+import {RotaEntity} from "../../../Model/Rota/RotaEntity";
 import {
   rotaCreateSuccess,
   rotaDataEntry,
@@ -9,8 +9,8 @@ import {
   rotaInternalReducers,
   weeklyRotasCreateSuccess
 } from "./RotaRedux";
-import {RotasForWeek} from "./RotasForWeek";
-import {RotaApiType} from "./RotaTypes";
+import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
+import {RotaApiType} from "../../../Model/Rota/RotaTypes";
 
 describe('RotaRedux internal reducer', () => {
   describe('data entry action', () => {

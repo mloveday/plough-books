@@ -7,10 +7,10 @@ import {FetchStatus} from "../../../Enum/FetchStatus";
 import {DefinedAction} from "../../../State/DefinedAction";
 import {DateFormats} from "../../../Util/DateFormats";
 import {weeksDataKey} from "../../../Util/DateUtils";
-import {CashUpEntity} from "./CashUpEntity";
-import {CashUpEntityApiType} from "./CashUpEntityTypes";
+import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
+import {CashUpEntityApiType} from "../../../Model/CashUp/CashUpEntityTypes";
 import {CashUpExternalState} from "./CashUpExternalState";
-import {CashUpsForWeek} from "./CashUpsForWeek";
+import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
 
 const CASH_UP_DATA_ENTRY = 'CASH_UP_DATA_ENTRY';
 

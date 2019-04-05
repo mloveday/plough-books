@@ -1,6 +1,6 @@
 import {EditableLocalState, IApiEditableLocalState} from "../../../State/EditableLocalState";
-import {StaffMember} from "./StaffMember";
-import {StaffMemberApiType} from "./StaffMemberTypes";
+import {StaffMember} from "../../../Model/StaffMember/StaffMember";
+import {StaffMemberApiType} from "../../../Model/StaffMember/StaffMemberTypes";
 
 export class StaffMembersLocalState extends EditableLocalState<StaffMember, StaffMember> {
   public static default() {
