@@ -1,3 +1,5 @@
+import * as moment from "moment";
+import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
@@ -22,8 +24,8 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined> imp
       obj.status,
       obj.hourlyRate,
       date,
-      obj.startTime,
-      obj.endTime,
+      moment.utc(obj.startTime).format(DateFormats.TIME_LEADING_ZERO),
+      moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO),
       Formatting.formatCash(obj.totalBreaks),
       obj.type,
     );
