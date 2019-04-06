@@ -1,22 +1,22 @@
 import {AuthenticatedUserResponse} from "../Common/Auth/Model/AuthenticatedUserResponse";
 import {User} from "../Model/User/User";
 import {AuthState} from '../Common/Auth/State/AuthState';
-import {CashUpExternalState} from "../DataEntry/CashUp/State/CashUpExternalState";
+import {CashUpExternalState} from "../Redux/CashUp/CashUpExternalState";
 import {CashUpsForWeek} from "../Model/CashUp/CashUpsForWeek";
 import {Constants} from '../Model/Constants/Constants';
-import {ConstantsExternalState} from '../DataEntry/Constants/State/ConstantsExternalState';
-import {ConstantsLocalState} from "../DataEntry/Constants/State/ConstantsLocalState";
-import {RolesExternalState} from "../DataEntry/Role/State/RolesExternalState";
-import {RolesLocalState} from "../DataEntry/Role/State/RolesLocalState";
-import {RotaExternalState} from "../DataEntry/Rota/State/RotaExternalState";
+import {ConstantsExternalState} from '../Redux/Constants/ConstantsExternalState';
+import {ConstantsLocalState} from "../Redux/Constants/ConstantsLocalState";
+import {UserRolesExternalState} from "../Redux/UserRole/UserRolesExternalState";
+import {UserRolesLocalState} from "../Redux/UserRole/UserRolesLocalState";
+import {RotaExternalState} from "../Redux/Rota/RotaExternalState";
 import {RotasForWeek} from "../Model/Rota/RotasForWeek";
 import {StaffMemberFilters} from "../DataEntry/StaffMembers/State/StaffMemberFilters";
-import {StaffMembersExternalState} from "../DataEntry/StaffMembers/State/StaffMembersExternalState";
-import {StaffMembersLocalState} from "../DataEntry/StaffMembers/State/StaffMembersLocalState";
-import {StaffRolesExternalState} from "../DataEntry/StaffRoles/State/StaffRolesExternalState";
-import {StaffRolesLocalState} from '../DataEntry/StaffRoles/State/StaffRolesLocalState';
-import {UsersExternalState} from "../DataEntry/User/State/UsersExternalState";
-import {UsersLocalState} from "../DataEntry/User/State/UsersLocalState";
+import {StaffMembersExternalState} from "../Redux/StaffMember/StaffMembersExternalState";
+import {StaffMembersLocalState} from "../Redux/StaffMember/StaffMembersLocalState";
+import {StaffRolesExternalState} from "../Redux/StaffRole/StaffRolesExternalState";
+import {StaffRolesLocalState} from '../Redux/StaffRole/StaffRolesLocalState';
+import {UsersExternalState} from "../Redux/User/UsersExternalState";
+import {UsersLocalState} from "../Redux/User/UsersLocalState";
 import {FetchStatus} from "../Enum/FetchStatus";
 import {AppState} from "../redux";
 import {UiState} from "../State/UiState";
@@ -36,8 +36,8 @@ export interface AppStateUpdate {
   staffRolesLocalState?: StaffRolesLocalState;
   usersExternalState?: UsersExternalState;
   usersLocalState?: UsersLocalState;
-  rolesExternalState?: RolesExternalState;
-  rolesLocalState?: RolesLocalState;
+  rolesExternalState?: UserRolesExternalState;
+  rolesLocalState?: UserRolesLocalState;
   uiState?: UiState;
 }
 
@@ -77,8 +77,8 @@ export class StateHelpers {
       staffRolesLocalState: new StaffRolesLocalState(),
       usersExternalState: new UsersExternalState(),
       usersLocalState: new UsersLocalState(),
-      rolesExternalState: new RolesExternalState(),
-      rolesLocalState: new RolesLocalState(),
+      rolesExternalState: new UserRolesExternalState(),
+      rolesLocalState: new UserRolesLocalState(),
       uiState: new UiState()
     };
   }

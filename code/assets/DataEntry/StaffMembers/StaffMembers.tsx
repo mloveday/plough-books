@@ -4,19 +4,19 @@ import {connect} from "react-redux";
 import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
 import {AppState} from "../../redux";
 import {currencyPattern} from "../../Util/Validation";
-import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
-import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
+import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
+import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
 import "./StaffMembers.scss";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {StaffMemberFilters} from "./State/StaffMemberFilters";
-import {StaffMembersExternalState} from "./State/StaffMembersExternalState";
-import {StaffMembersLocalState} from "./State/StaffMembersLocalState";
+import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
+import {StaffMembersLocalState} from "../../Redux/StaffMember/StaffMembersLocalState";
 import {
   staffMembersCreate,
   staffMembersDataEntry,
   staffMembersFetch,
   staffMembersFilter
-} from "./State/StaffMembersRedux";
+} from "../../Redux/StaffMember/StaffMembersRedux";
 
 interface StaffMembersOwnProps {
 }

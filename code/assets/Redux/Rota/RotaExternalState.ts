@@ -1,8 +1,8 @@
 import * as moment from "moment";
-import {FetchStatus} from "../../../Enum/FetchStatus";
-import {ExternalState} from "../../../State/ExternalState";
-import {weeksDataKey} from "../../../Util/DateUtils";
-import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
+import {FetchStatus} from "../../Enum/FetchStatus";
+import {ExternalState} from "../../State/ExternalState";
+import {weeksDataKey} from "../../Util/DateUtils";
+import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 
 export class RotaExternalState extends ExternalState {
   public readonly rotasForWeek: RotasForWeek = RotasForWeek.default();

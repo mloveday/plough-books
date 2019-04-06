@@ -7,9 +7,9 @@ import {AppState} from "../../redux";
 import {getStaffRoleOrder} from "../../Util/SortingUtils";
 import "./StaffRoles.scss";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
-import {StaffRolesExternalState} from "./State/StaffRolesExternalState";
-import {StaffRolesLocalState} from "./State/StaffRolesLocalState";
-import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "./State/StaffRolesRedux";
+import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
+import {StaffRolesLocalState} from "../../Redux/StaffRole/StaffRolesLocalState";
+import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
 
 interface StaffRolesOwnProps {
 }

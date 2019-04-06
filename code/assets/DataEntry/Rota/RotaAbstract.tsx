@@ -19,17 +19,17 @@ import {UiState} from "../../State/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
-import {ConstantsExternalState} from "../Constants/State/ConstantsExternalState";
-import {constantsFetch} from "../Constants/State/ConstantsRedux";
-import {StaffMembersExternalState} from "../StaffMembers/State/StaffMembersExternalState";
-import {StaffMembersLocalState} from "../StaffMembers/State/StaffMembersLocalState";
-import {staffMembersFetch} from "../StaffMembers/State/StaffMembersRedux";
-import {StaffRolesExternalState} from "../StaffRoles/State/StaffRolesExternalState";
-import {StaffRolesLocalState} from "../StaffRoles/State/StaffRolesLocalState";
-import {staffRolesFetch} from "../StaffRoles/State/StaffRolesRedux";
+import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
+import {constantsFetch} from "../../Redux/Constants/ConstantsRedux";
+import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
+import {StaffMembersLocalState} from "../../Redux/StaffMember/StaffMembersLocalState";
+import {staffMembersFetch} from "../../Redux/StaffMember/StaffMembersRedux";
+import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
+import {StaffRolesLocalState} from "../../Redux/StaffRole/StaffRolesLocalState";
+import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
 import './Rota.scss';
-import {RotaExternalState} from "./State/RotaExternalState";
-import {rotaCreate, rotaDataEntry, rotaFetch} from "./State/RotaRedux";
+import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
+import {rotaCreate, rotaDataEntry, rotaFetch} from "../../Redux/Rota/RotaRedux";
 
 export interface RotaAbstractOwnProps {
   match: match<{

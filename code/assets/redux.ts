@@ -1,31 +1,31 @@
 import {authReducer} from "./Common/Auth/State/AuthReducer";
 import {AuthState} from "./Common/Auth/State/AuthState";
-import {CashUpExternalState} from "./DataEntry/CashUp/State/CashUpExternalState";
-import {cashUpExternalReducers, cashUpInternalReducers} from "./DataEntry/CashUp/State/CashUpRedux";
+import {CashUpExternalState} from "./Redux/CashUp/CashUpExternalState";
+import {cashUpExternalReducers, cashUpInternalReducers} from "./Redux/CashUp/CashUpRedux";
 import {CashUpsForWeek} from "./Model/CashUp/CashUpsForWeek";
-import {ConstantsExternalState} from "./DataEntry/Constants/State/ConstantsExternalState";
-import {ConstantsLocalState} from "./DataEntry/Constants/State/ConstantsLocalState";
-import {constantsExternalReducers, constantsInternalReducers} from "./DataEntry/Constants/State/ConstantsRedux";
-import {RolesExternalState} from "./DataEntry/Role/State/RolesExternalState";
-import {RolesLocalState} from "./DataEntry/Role/State/RolesLocalState";
-import {rolesExternalReducers, rolesInternalReducers} from "./DataEntry/Role/State/RolesRedux";
-import {RotaExternalState} from "./DataEntry/Rota/State/RotaExternalState";
-import {rotaExternalReducers, rotaInternalReducers} from "./DataEntry/Rota/State/RotaRedux";
+import {ConstantsExternalState} from "./Redux/Constants/ConstantsExternalState";
+import {ConstantsLocalState} from "./Redux/Constants/ConstantsLocalState";
+import {constantsExternalReducers, constantsInternalReducers} from "./Redux/Constants/ConstantsRedux";
+import {UserRolesExternalState} from "./Redux/UserRole/UserRolesExternalState";
+import {UserRolesLocalState} from "./Redux/UserRole/UserRolesLocalState";
+import {userRolesExternalReducers, userRolesInternalReducers} from "./Redux/UserRole/UserRolesRedux";
+import {RotaExternalState} from "./Redux/Rota/RotaExternalState";
+import {rotaExternalReducers, rotaInternalReducers} from "./Redux/Rota/RotaRedux";
 import {RotasForWeek} from "./Model/Rota/RotasForWeek";
 import {StaffMemberFilters} from "./DataEntry/StaffMembers/State/StaffMemberFilters";
-import {StaffMembersExternalState} from "./DataEntry/StaffMembers/State/StaffMembersExternalState";
-import {StaffMembersLocalState} from "./DataEntry/StaffMembers/State/StaffMembersLocalState";
+import {StaffMembersExternalState} from "./Redux/StaffMember/StaffMembersExternalState";
+import {StaffMembersLocalState} from "./Redux/StaffMember/StaffMembersLocalState";
 import {
   staffMemberFiltersReducer,
   staffMembersExternalReducers,
   staffMembersInternalReducers
-} from "./DataEntry/StaffMembers/State/StaffMembersRedux";
-import {StaffRolesExternalState} from "./DataEntry/StaffRoles/State/StaffRolesExternalState";
-import {StaffRolesLocalState} from "./DataEntry/StaffRoles/State/StaffRolesLocalState";
-import {staffRolesExternalReducers, staffRolesInternalReducers} from "./DataEntry/StaffRoles/State/StaffRolesRedux";
-import {UsersExternalState} from "./DataEntry/User/State/UsersExternalState";
-import {UsersLocalState} from "./DataEntry/User/State/UsersLocalState";
-import {usersExternalReducers, usersInternalReducers} from "./DataEntry/User/State/UsersRedux";
+} from "./Redux/StaffMember/StaffMembersRedux";
+import {StaffRolesExternalState} from "./Redux/StaffRole/StaffRolesExternalState";
+import {StaffRolesLocalState} from "./Redux/StaffRole/StaffRolesLocalState";
+import {staffRolesExternalReducers, staffRolesInternalReducers} from "./Redux/StaffRole/StaffRolesRedux";
+import {UsersExternalState} from "./Redux/User/UsersExternalState";
+import {UsersLocalState} from "./Redux/User/UsersLocalState";
+import {usersExternalReducers, usersInternalReducers} from "./Redux/User/UsersRedux";
 import {uiReducers} from "./State/UiRedux";
 import {UiState} from "./State/UiState";
 
@@ -44,8 +44,8 @@ export interface AppState {
   staffRolesLocalState: StaffRolesLocalState;
   usersExternalState: UsersExternalState;
   usersLocalState: UsersLocalState;
-  rolesExternalState: RolesExternalState;
-  rolesLocalState: RolesLocalState;
+  rolesExternalState: UserRolesExternalState;
+  rolesLocalState: UserRolesLocalState;
   uiState: UiState;
 }
 
@@ -64,7 +64,7 @@ export const reducers = {
   staffRolesLocalState: staffRolesInternalReducers,
   usersExternalState: usersExternalReducers,
   usersLocalState: usersInternalReducers,
-  rolesExternalState: rolesExternalReducers,
-  rolesLocalState: rolesInternalReducers,
+  rolesExternalState: userRolesExternalReducers,
+  rolesLocalState: userRolesInternalReducers,
   uiState: uiReducers,
 };

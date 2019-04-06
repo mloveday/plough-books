@@ -1,5 +1,5 @@
-import {FetchStatus} from "../../../Enum/FetchStatus";
-import {ExternalState} from "../../../State/ExternalState";
+import {FetchStatus} from "../../Enum/FetchStatus";
+import {ExternalState} from "../../State/ExternalState";
 import {UsersLocalState} from "./UsersLocalState";
 
 export class UsersExternalState extends ExternalState {

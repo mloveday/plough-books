@@ -1,9 +1,9 @@
 import * as moment from "moment";
-import {cashUpObject} from '../../../TestHelpers/ApiResponseHelpers';
-import {DateFormats} from "../../../Util/DateFormats";
-import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
+import {cashUpObject} from '../../TestHelpers/ApiResponseHelpers';
+import {DateFormats} from "../../Util/DateFormats";
+import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
 import {cashUpCreateSuccess, cashUpDataEntry, cashUpFetchSuccess, cashUpInternalReducers} from "./CashUpRedux";
-import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
+import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
 
 describe('CashUpRedux', () => {
   describe('internal reducer', () => {

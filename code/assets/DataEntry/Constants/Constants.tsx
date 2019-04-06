@@ -6,9 +6,9 @@ import {DateFormats} from "../../Util/DateFormats";
 import "./Constants.scss";
 import {currencyPattern, decimalPattern, percentagePattern} from "../../Util/Validation";
 import {Constants} from "../../Model/Constants/Constants";
-import {ConstantsExternalState} from "./State/ConstantsExternalState";
-import {ConstantsLocalState} from "./State/ConstantsLocalState";
-import {constantsCreate, constantsDataEntry, constantsFetch} from "./State/ConstantsRedux";
+import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
+import {ConstantsLocalState} from "../../Redux/Constants/ConstantsLocalState";
+import {constantsCreate, constantsDataEntry, constantsFetch} from "../../Redux/Constants/ConstantsRedux";
 
 interface ConstantsDataEntryOwnProps {
 }

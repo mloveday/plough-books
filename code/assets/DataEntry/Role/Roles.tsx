@@ -4,16 +4,16 @@ import {connect} from "react-redux";
 import {UserRole} from "../../Model/UserRole/UserRole";
 import {AppState} from "../../redux";
 import './Roles.scss';
-import {RolesExternalState} from "./State/RolesExternalState";
-import {RolesLocalState} from "./State/RolesLocalState";
-import {rolesCreate, rolesDataEntry, rolesFetch} from "./State/RolesRedux";
+import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
+import {UserRolesLocalState} from "../../Redux/UserRole/UserRolesLocalState";
+import {userRolesCreate, userRolesDataEntry, userRolesFetch} from "../../Redux/UserRole/UserRolesRedux";
 
 interface RolesOwnProps {
 }
 
 interface RolesStateProps {
-  rolesExternalState: RolesExternalState,
-  rolesLocalState: RolesLocalState,
+  rolesExternalState: UserRolesExternalState,
+  rolesLocalState: UserRolesLocalState,
 }
 
 const mapStateToProps = (state: AppState, ownProps: RolesOwnProps): RolesStateProps => {
@@ -26,14 +26,14 @@ const mapStateToProps = (state: AppState, ownProps: RolesOwnProps): RolesStatePr
 interface RolesDispatchProps {
   fetchRoles: () => void,
   saveRole: (role: UserRole) => void,
-  updateRoles: (state: RolesLocalState) => void,
+  updateRoles: (state: UserRolesLocalState) => void,
 }
 
 const mapDispatchToProps = (dispatch: any, ownProps: RolesOwnProps): RolesDispatchProps => {
   return {
-    fetchRoles: () => dispatch(rolesFetch()),
-    saveRole: role => dispatch(rolesCreate(role)),
-    updateRoles: state => dispatch(rolesDataEntry(state)),
+    fetchRoles: () => dispatch(userRolesFetch()),
+    saveRole: role => dispatch(userRolesCreate(role)),
+    updateRoles: state => dispatch(userRolesDataEntry(state)),
   };
 };
 

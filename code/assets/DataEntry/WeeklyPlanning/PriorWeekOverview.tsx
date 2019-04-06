@@ -7,8 +7,8 @@ import {RevenueOverview} from "../../DataVisualisation/WeeklyOverview/RevenueOve
 import {DailyOverviews} from "../../DataVisualisation/WeeklyOverview/State/DailyOverviews";
 import {SummaryOverview} from "../../DataVisualisation/WeeklyOverview/SummaryOverview";
 import {AppState} from "../../redux";
-import {CashUpExternalState} from "../CashUp/State/CashUpExternalState";
-import {RotaExternalState} from "../Rota/State/RotaExternalState";
+import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
+import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
 import "./PriorWeekOverview.scss";
 
 interface PriorWeekOverviewOwnProps {

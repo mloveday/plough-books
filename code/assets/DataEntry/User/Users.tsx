@@ -3,18 +3,18 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {User} from "../../Model/User/User";
 import {AppState} from "../../redux";
-import {RolesExternalState} from "../Role/State/RolesExternalState";
-import {rolesFetch} from "../Role/State/RolesRedux";
-import {UsersExternalState} from "./State/UsersExternalState";
-import {UsersLocalState} from "./State/UsersLocalState";
-import {usersCreate, usersDataEntry, usersFetch} from "./State/UsersRedux";
+import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
+import {userRolesFetch} from "../../Redux/UserRole/UserRolesRedux";
+import {UsersExternalState} from "../../Redux/User/UsersExternalState";
+import {UsersLocalState} from "../../Redux/User/UsersLocalState";
+import {usersCreate, usersDataEntry, usersFetch} from "../../Redux/User/UsersRedux";
 import './Users.scss';
 
 interface UsersOwnProps {
 }
 
 interface UsersStateProps {
-  rolesExternalState: RolesExternalState,
+  rolesExternalState: UserRolesExternalState,
   usersExternalState: UsersExternalState,
   usersLocalState: UsersLocalState,
 }
@@ -37,7 +37,7 @@ interface UsersDispatchProps {
 const mapDispatchToProps = (dispatch: any, ownProps: UsersOwnProps): UsersDispatchProps => {
   return {
     fetchUsers: () => dispatch(usersFetch()),
-    fetchRoles: () => dispatch(rolesFetch()),
+    fetchRoles: () => dispatch(userRolesFetch()),
     saveUser: user => dispatch(usersCreate(user)),
     updateUsers: state => dispatch(usersDataEntry(state)),
   };

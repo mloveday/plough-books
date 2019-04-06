@@ -1,16 +1,16 @@
 import * as log from "loglevel";
 import * as moment from "moment";
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../../../Common/Auth/Repo/AuthenticatedFetch";
-import {invalidUser} from "../../../Common/Auth/State/AuthActions";
-import {FetchStatus} from "../../../Enum/FetchStatus";
-import {DefinedAction} from "../../../State/DefinedAction";
-import {DateFormats} from "../../../Util/DateFormats";
-import {weeksDataKey} from "../../../Util/DateUtils";
-import {RotaEntity} from "../../../Model/Rota/RotaEntity";
+import {authenticatedFetch} from "../../Common/Auth/Repo/AuthenticatedFetch";
+import {invalidUser} from "../../Common/Auth/State/AuthActions";
+import {FetchStatus} from "../../Enum/FetchStatus";
+import {DefinedAction} from "../../State/DefinedAction";
+import {DateFormats} from "../../Util/DateFormats";
+import {weeksDataKey} from "../../Util/DateUtils";
+import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotaExternalState} from "./RotaExternalState";
-import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
-import {RotaApiType} from "../../../Model/Rota/RotaTypes";
+import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
+import {RotaApiType} from "../../Model/Rota/RotaTypes";
 
 const ROTA_DATA_ENTRY = 'ROTA_DATA_ENTRY';
 
