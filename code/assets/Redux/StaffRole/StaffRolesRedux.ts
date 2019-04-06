@@ -3,6 +3,7 @@ import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
+import {DefinedAction} from "../DefinedAction";
 import {StaffRolesExternalState} from "./StaffRolesExternalState";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
@@ -55,34 +56,34 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
 };
 
 export const staffRolesInternalReducers = handleActions<StaffRolesLocalState, any>({
-  [STAFF_ROLES_DATA_ENTRY]: (state, action) => {
+  [STAFF_ROLES_DATA_ENTRY]: (state, action: DefinedAction<any>) => {
     return state.with(action.payload);
   },
-  [STAFF_ROLES_FETCH_SUCCESS]: (state, action) => {
+  [STAFF_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return StaffRolesLocalState.default().withEntities(action.payload);
   },
-  [STAFF_ROLES_CREATE_SUCCESS]: (state, action) => {
+  [STAFF_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return StaffRolesLocalState.default().withEntities(action.payload);
   }
 }, StaffRolesLocalState.default());
 
 export const staffRolesExternalReducers = handleActions<StaffRolesExternalState, any>({
-  [STAFF_ROLES_FETCH_START]: (state, action) => {
+  [STAFF_ROLES_FETCH_START]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [STAFF_ROLES_FETCH_SUCCESS]: (state, action) => {
+  [STAFF_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [STAFF_ROLES_FETCH_ERROR]: (state, action) => {
+  [STAFF_ROLES_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
-  [STAFF_ROLES_CREATE_START]: (state, action) => {
+  [STAFF_ROLES_CREATE_START]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities([action.payload]), state.updatedState(FetchStatus.STARTED));
   },
-  [STAFF_ROLES_CREATE_SUCCESS]: (state, action) => {
+  [STAFF_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [STAFF_ROLES_CREATE_ERROR]: (state, action) => {
+  [STAFF_ROLES_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 

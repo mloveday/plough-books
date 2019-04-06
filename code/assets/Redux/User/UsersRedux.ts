@@ -3,6 +3,7 @@ import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {User} from "../../Model/User/User";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
+import {DefinedAction} from "../DefinedAction";
 import {UsersExternalState} from "./UsersExternalState";
 import {UsersLocalState} from "./UsersLocalState";
 
@@ -55,34 +56,34 @@ export const usersCreate = (user: User) => {
 };
 
 export const usersInternalReducers = handleActions<UsersLocalState, any>({
-  [USERS_DATA_ENTRY]: (state, action) => {
+  [USERS_DATA_ENTRY]: (state, action: DefinedAction<any>) => {
     return state.with(action.payload);
   },
-  [USERS_FETCH_SUCCESS]: (state, action) => {
+  [USERS_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return UsersLocalState.default().withEntities(action.payload);
   },
-  [USERS_CREATE_SUCCESS]: (state, action) => {
+  [USERS_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return UsersLocalState.default().withEntities(action.payload);
   }
 }, UsersLocalState.default());
 
 export const usersExternalReducers = handleActions<UsersExternalState, any>({
-  [USERS_FETCH_START]: (state, action) => {
+  [USERS_FETCH_START]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [USERS_FETCH_SUCCESS]: (state, action) => {
+  [USERS_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [USERS_FETCH_ERROR]: (state, action) => {
+  [USERS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
-  [USERS_CREATE_START]: (state, action) => {
+  [USERS_CREATE_START]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [USERS_CREATE_SUCCESS]: (state, action) => {
+  [USERS_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [USERS_CREATE_ERROR]: (state, action) => {
+  [USERS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 

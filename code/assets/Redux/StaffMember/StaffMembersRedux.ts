@@ -4,6 +4,7 @@ import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
+import {DefinedAction} from "../DefinedAction";
 import {StaffMembersExternalState} from "./StaffMembersExternalState";
 import {StaffMembersLocalState} from "./StaffMembersLocalState";
 
@@ -60,41 +61,41 @@ export const staffMembersCreate = (staffMember: StaffMember) => {
 };
 
 export const staffMembersInternalReducers = handleActions<StaffMembersLocalState, any>({
-  [STAFF_MEMBERS_DATA_ENTRY]: (state, action) => {
+  [STAFF_MEMBERS_DATA_ENTRY]: (state, action: DefinedAction<any>) => {
     return state.with(action.payload);
   },
-  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
+  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return StaffMembersLocalState.default().withEntities(action.payload);
   },
-  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
+  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return StaffMembersLocalState.default().withEntities(action.payload);
   }
 }, StaffMembersLocalState.default());
 
 export const staffMembersExternalReducers = handleActions<StaffMembersExternalState, any>({
-  [STAFF_MEMBERS_FETCH_START]: (state, action) => {
+  [STAFF_MEMBERS_FETCH_START]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action) => {
+  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [STAFF_MEMBERS_FETCH_ERROR]: (state, action) => {
+  [STAFF_MEMBERS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
-  [STAFF_MEMBERS_CREATE_START]: (state, action) => {
+  [STAFF_MEMBERS_CREATE_START]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action) => {
+  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [STAFF_MEMBERS_CREATE_ERROR]: (state, action) => {
+  [STAFF_MEMBERS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
   }, new StaffMembersExternalState());
 
 export const staffMemberFiltersReducer = handleActions<StaffMemberFilters, any>({
-  [STAFF_MEMBERS_FILTER]: (state, action) => {
+  [STAFF_MEMBERS_FILTER]: (state, action: DefinedAction<any>) => {
     return state.with(action.payload);
   }
 }, new StaffMemberFilters());
