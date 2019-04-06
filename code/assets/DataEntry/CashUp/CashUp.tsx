@@ -19,6 +19,7 @@ import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
+import {sectionOrder} from "./State/AllSections";
 import {SectionPosition} from "./State/SectionPosition";
 import {TillInputGroup} from "./TillInputGroup";
 
@@ -61,18 +62,6 @@ const mapDispatchToProps = (dispatch: any, ownProps: CashUpOwnProps): CashUpDisp
 type CashUpProps = CashUpOwnProps & CashUpLocalStateProps & CashUpDispatchProps;
 
 class CashUpComponent extends React.Component<CashUpProps, {}> {
-  private sectionOrder = new Map([
-    [CashUpSection.TILLS, new SectionPosition(CashUpSection.TILLS, CashUpSection.DISCOUNTS, CashUpSection.SUMMARY)],
-    [CashUpSection.DISCOUNTS, new SectionPosition(CashUpSection.DISCOUNTS, CashUpSection.CARDS, CashUpSection.TILLS)],
-    [CashUpSection.CARDS, new SectionPosition(CashUpSection.CARDS, CashUpSection.RECEIPTS, CashUpSection.DISCOUNTS)],
-    [CashUpSection.RECEIPTS, new SectionPosition(CashUpSection.RECEIPTS, CashUpSection.SPEND_STAFF_PTS_COMO, CashUpSection.CARDS)],
-    [CashUpSection.SPEND_STAFF_PTS_COMO, new SectionPosition(CashUpSection.SPEND_STAFF_PTS_COMO, CashUpSection.NETT_TAKES, CashUpSection.RECEIPTS)],
-    [CashUpSection.NETT_TAKES, new SectionPosition(CashUpSection.NETT_TAKES, CashUpSection.BANKING, CashUpSection.SPEND_STAFF_PTS_COMO)],
-    [CashUpSection.BANKING, new SectionPosition(CashUpSection.BANKING, CashUpSection.SAFE_FLOAT, CashUpSection.NETT_TAKES)],
-    [CashUpSection.SAFE_FLOAT, new SectionPosition(CashUpSection.SAFE_FLOAT, CashUpSection.SUMMARY, CashUpSection.BANKING)],
-    [CashUpSection.SUMMARY, new SectionPosition(CashUpSection.SUMMARY, CashUpSection.TILLS, CashUpSection.SAFE_FLOAT)],
-  ]);
-
   public componentDidMount() {
     this.maintainStateWithUrl();
   }
@@ -149,7 +138,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           </div>
 
           <ul className='cash-up-link-list'>
-            {Array.from(this.sectionOrder.values()).map((sectionPosition, key) => (
+            {Array.from(sectionOrder.values()).map((sectionPosition, key) => (
               <li className='cash-up-link-item' key={key}>
                 <button className={`cash-up-link-button${sectionPosition.section === currentSectionPosition.section ? ' selected' : ''}`} type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.section))}>{sectionPosition.section}</button>
               </li>
@@ -547,9 +536,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   private getSectionPosition(): SectionPosition {
-    if (this.sectionOrder.has(this.props.uiState.cashUpSection)) {
+    if (sectionOrder.has(this.props.uiState.cashUpSection)) {
       // @ts-ignore
-      return this.sectionOrder.get(this.props.uiState.cashUpSection);
+      return sectionOrder.get(this.props.uiState.cashUpSection);
     }
     return new SectionPosition(CashUpSection.TILLS, CashUpSection.SUMMARY, CashUpSection.DISCOUNTS);
   }
