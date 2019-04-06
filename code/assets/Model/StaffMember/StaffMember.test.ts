@@ -18,11 +18,18 @@ describe('StaffMember', () => {
     id: 9,
   };
   const defaultStaffMember = () => StaffMember.fromResponse(object);
+  const testRoleIsEqualToObject = (role: StaffRole) => {
+    expect(role.id).toEqual(object.role.id);
+    expect(role.role).toEqual(object.role.role);
+    expect(role.status).toEqual(object.role.status);
+    expect(role.type).toEqual(object.role.type);
+  };
+
   it('fromResponse parses object correctly', () => {
     const actual = defaultStaffMember();
 
     expect(actual.name).toEqual(object.name);
-    expect(actual.role).toEqual(object.role);
+    testRoleIsEqualToObject(actual.role);
     expect(actual.currentHourlyRate).toEqual(object.currentHourlyRate);
     expect(actual.status).toEqual(object.status);
     expect(actual.id).toEqual(object.id);
@@ -49,7 +56,7 @@ describe('StaffMember', () => {
 
     const modified = actual.with({name: expectedName});
 
-    expect(modified.role).toEqual(object.role);
+    testRoleIsEqualToObject(actual.role);
     expect(modified.currentHourlyRate).toEqual(object.currentHourlyRate);
     expect(modified.id).toEqual(object.id);
     expect(modified.entityId).toEqual(object.id);
@@ -64,7 +71,7 @@ describe('StaffMember', () => {
     const modified = actual.with({status: expectedStatus});
 
     expect(modified.name).toEqual(object.name);
-    expect(modified.role).toEqual(object.role);
+    testRoleIsEqualToObject(actual.role);
     expect(modified.currentHourlyRate).toEqual(object.currentHourlyRate);
     expect(modified.id).toEqual(object.id);
     expect(modified.entityId).toEqual(object.id);
@@ -79,7 +86,7 @@ describe('StaffMember', () => {
     const modified = actual.with({currentHourlyRate: expectedHourlyRate.toString()});
 
     expect(modified.name).toEqual(object.name);
-    expect(modified.role).toEqual(object.role);
+    testRoleIsEqualToObject(actual.role);
     expect(modified.id).toEqual(object.id);
     expect(modified.entityId).toEqual(object.id);
     expect(modified.isActive()).toBeFalsy();
