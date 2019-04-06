@@ -72,7 +72,7 @@ class RotaParsingService {
             $rota->setForecastRevenue((float)$request[self::PARAM__FORECAST_REVENUE]);
             $rota->setTargetLabourRate((float)$request[self::PARAM__TARGET_LABOUR_RATE]);
         }
-        if ($this->shouldUpdateField(self::UPDATE__BASE, $updateFields) !== false || array_search(self::PARAM__STATUS, $updateFields)) {
+        if ($this->shouldUpdateField(self::UPDATE__BASE, $updateFields) !== false || array_search(self::UPDATE__STATUS, $updateFields) !== false) {
             $rota->setStatus($request[self::PARAM__STATUS]);
         }
 

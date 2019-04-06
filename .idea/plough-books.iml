@@ -7,7 +7,7 @@
       <excludeFolder url="file://$MODULE_DIR$/code/test/output" />
       <excludeFolder url="file://$MODULE_DIR$/code/var" />
       <excludeFolder url="file://$MODULE_DIR$/code/vendor" />
-      <excludeFolder url="file://$MODULE_DIR$/public_html" />
+      <excludeFolder url="file://$MODULE_DIR$/public_html/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
