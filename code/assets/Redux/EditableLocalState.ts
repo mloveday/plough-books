@@ -22,8 +22,8 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IE
   protected readonly fromObjFn: (obj: any) => T;
   private readonly compareFn: (a: T, b: T) => number;
 
-  protected constructor(cloneFn: (obj: any) => T, compareFn: (a: T, b: T) => number) {
-    this.fromObjFn = cloneFn;
+  protected constructor(fromObjFn: (obj: T) => T, compareFn: (a: T, b: T) => number) {
+    this.fromObjFn = fromObjFn;
     this.compareFn = compareFn;
   }
 

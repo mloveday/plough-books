@@ -10,7 +10,7 @@ export class UserRolesLocalState extends EditableLocalState<UserRole> {
 
   public constructor() {
     super(
-      (obj: UserRoleApiType) => UserRole.fromResponse(obj),
+      (obj: UserRole) => obj.clone(),
       (a: UserRole, b: UserRole) => a.role > b.role ? 1 : -1
     );
   }
