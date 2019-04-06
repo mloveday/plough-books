@@ -1,6 +1,7 @@
 import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {Constants} from "../../Model/Constants/Constants";
+import {ConstantsApiType} from "../../Model/Constants/ConstantsTypes";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
@@ -33,6 +34,7 @@ export const constantsFetch = () => {
     const thisDispatchable = () => dispatch(constantsFetch());
     dispatch(constantsFetchStart());
     return authenticatedFetch(`/constants`, () => dispatch(invalidUser([thisDispatchable])))
+      .then((d: ConstantsApiType[]) => d.map(obj => Constants.fromApi(obj)))
       .then(d => dispatch(constantsFetchSuccess(d)))
       .catch(e => dispatch(constantsFetchError(e)))
       ;
@@ -50,6 +52,7 @@ export const constantsCreate = (constants: Constants) => {
       },
       method: 'POST',
     })
+      .then((d: ConstantsApiType[]) => d.map(obj => Constants.fromApi(obj)))
       .then(d => dispatch(constantsCreateSuccess(d)))
       .catch(e => dispatch(constantsCreateError(e)))
       ;
