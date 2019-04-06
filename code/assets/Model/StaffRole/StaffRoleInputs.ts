@@ -1,3 +1,5 @@
+import {StaffRoleStatus} from "../Enum/StaffRoleStatus";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffRoleAbstract, StaffRoleApiType, StaffRoleInputType, StaffRoleUpdateType} from "./StaffRoleTypes";
 
 export class StaffRoleInputs extends StaffRoleAbstract<string> implements StaffRoleInputType {
@@ -12,7 +14,7 @@ export class StaffRoleInputs extends StaffRoleAbstract<string> implements StaffR
   }
 
   public static default() {
-    return new StaffRoleInputs('','-1','','');
+    return new StaffRoleInputs('','-1', StaffRoleStatus.INACTIVE, WorkTypes.BAR,);
   }
 
   public with(obj: StaffRoleUpdateType) {

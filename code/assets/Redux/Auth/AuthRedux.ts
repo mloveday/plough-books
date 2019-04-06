@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {User} from "../../Model/User/User";
 import {authenticatedFetch} from "../AuthenticatedFetch";
@@ -64,6 +65,7 @@ export const authReducer = handleActions<AuthState, any>({
     return AuthState.cleared();
   },
   [AUTH_INVALID]: (state, action) => {
+    log.error("User not authorised");
     return state.withUnauthorisedUser(action.payload);
   },
   [AUTH_SET]: (state, action) => {

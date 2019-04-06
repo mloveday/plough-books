@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
@@ -45,7 +46,7 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
     const thisDispatchable = () => dispatch(staffRolesCreate(staffRole));
     dispatch(staffRolesCreateStart(staffRole));
     return authenticatedFetch('/staff/roles', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(staffRole),
+      body: JSON.stringify(staffRole.entityId === -1 ? Object.assign(staffRole, {id: undefined}) : staffRole),
       headers: {
         ['content-type']: 'application/json',
       },
@@ -78,6 +79,7 @@ export const staffRolesExternalReducers = handleActions<StaffRolesExternalState,
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_ROLES_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
+    log.error(action.payload);
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [STAFF_ROLES_CREATE_START]: (state, action: DefinedAction<any>) => {
@@ -87,6 +89,7 @@ export const staffRolesExternalReducers = handleActions<StaffRolesExternalState,
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_ROLES_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
+    log.error(action.payload);
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 

@@ -1,3 +1,4 @@
+import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {StaffMemberFilters} from "../../DataEntry/StaffMembers/State/StaffMemberFilters";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
@@ -83,6 +84,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
+    log.error(action.payload);
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [STAFF_MEMBERS_CREATE_START]: (state, action: DefinedAction<void>) => {
@@ -92,6 +94,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
+    log.error(action.payload);
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
