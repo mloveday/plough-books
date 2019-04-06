@@ -92,6 +92,21 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
     );
   }
 
+  public duplicate(): Shift {
+    return new Shift(
+      this.staffMember,
+      this.staffRole,
+      this.status,
+      this.hourlyRate,
+      this.date,
+      this.startTime,
+      this.endTime,
+      this.totalBreaks,
+      this.type,
+      this.inputs
+    );
+  }
+
   public isWorkingAtTime(time: moment.Moment) {
     return (time.isSameOrAfter(this.getStartTime()) && time.isBefore(this.getEndTime()));
   }

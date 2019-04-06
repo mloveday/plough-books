@@ -347,7 +347,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   }
 
   private autoPopulateShifts() {
-    const clonedPlannedShifts = this.getRota().plannedShifts.map(shift => shift.clone());
+    const clonedPlannedShifts = this.getRota().plannedShifts.map(shift => shift.duplicate());
     this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 }
