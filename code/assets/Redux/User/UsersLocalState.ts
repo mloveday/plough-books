@@ -1,5 +1,4 @@
 import {User} from "../../Model/User/User";
-import {UserApiType} from "../../Model/User/UserTypes";
 import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
 export class UsersLocalState extends EditableLocalState<User> {
@@ -8,10 +7,7 @@ export class UsersLocalState extends EditableLocalState<User> {
   }
 
   public constructor() {
-    super(
-      (obj: UserApiType) => User.fromResponse(obj),
-      (a: User, b: User) => a.email > b.email ? 1 : -1
-    );
+    super((a: User, b: User) => a.email > b.email ? 1 : -1);
   }
 
   public with(obj: IApiEditableLocalState<User>): UsersLocalState {

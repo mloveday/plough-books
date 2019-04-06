@@ -34,6 +34,10 @@ export class StaffMember extends StaffMemberAbstract<number, StaffRole> implemen
     );
   }
 
+  public clone(): StaffMember {
+    return this.with({});
+  }
+
   public get entityId() {
     return this.id ? this.id : -1;
   }

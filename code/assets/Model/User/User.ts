@@ -29,6 +29,10 @@ export class User extends UserAbstract<number, UserRole> implements EditableEnti
     );
   }
 
+  public clone(): User {
+    return this.with({});
+  }
+
   public get entityId(): number {
     return this.id ? this.id : -1;
   }

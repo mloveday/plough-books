@@ -39,6 +39,10 @@ export class StaffRole extends StaffRoleAbstract<number> implements EditableEnti
     );
   }
 
+  public clone(): StaffRole {
+    return this.with({});
+  }
+
   public get entityId(): number {
     return this.id ? this.id : -1;
   }

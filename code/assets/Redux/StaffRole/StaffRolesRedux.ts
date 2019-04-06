@@ -1,6 +1,7 @@
 import {createAction, handleActions} from "redux-actions";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
+import {StaffRoleApiType} from "../../Model/StaffRole/StaffRoleTypes";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
@@ -20,11 +21,11 @@ const STAFF_ROLES_CREATE_ERROR = 'STAFF_ROLES_CREATE_ERROR';
 export const staffRolesDataEntry = createAction<StaffRolesLocalState>(STAFF_ROLES_DATA_ENTRY);
 
 export const staffRolesFetchStart = createAction(STAFF_ROLES_FETCH_START);
-export const staffRolesFetchSuccess = createAction<StaffRolesExternalState>(STAFF_ROLES_FETCH_SUCCESS);
+export const staffRolesFetchSuccess = createAction<StaffRole[]>(STAFF_ROLES_FETCH_SUCCESS);
 export const staffRolesFetchError = createAction(STAFF_ROLES_FETCH_ERROR);
 
 export const staffRolesCreateStart = createAction<StaffRole>(STAFF_ROLES_CREATE_START);
-export const staffRolesCreateSuccess = createAction<StaffRolesExternalState>(STAFF_ROLES_CREATE_SUCCESS);
+export const staffRolesCreateSuccess = createAction<StaffRole[]>(STAFF_ROLES_CREATE_SUCCESS);
 export const staffRolesCreateError = createAction(STAFF_ROLES_CREATE_ERROR);
 
 export const staffRolesFetch = () => {
@@ -32,6 +33,7 @@ export const staffRolesFetch = () => {
     const thisDispatchable = () => dispatch(staffRolesFetch());
     dispatch(staffRolesFetchStart());
     return authenticatedFetch(`/staff/roles`, () => dispatch(invalidUser([thisDispatchable])))
+      .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromResponse(obj)))
       .then(d => dispatch(staffRolesFetchSuccess(d)))
       .catch(e => dispatch(staffRolesFetchError(e)))
       ;
@@ -49,6 +51,7 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
       },
       method: 'POST',
     })
+      .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromResponse(obj)))
       .then(d => dispatch(staffRolesCreateSuccess(d)))
       .catch(e => dispatch(staffRolesCreateError(e)))
       ;
@@ -59,10 +62,10 @@ export const staffRolesInternalReducers = handleActions<StaffRolesLocalState, an
   [STAFF_ROLES_DATA_ENTRY]: (state, action: DefinedAction<any>) => {
     return state.with(action.payload);
   },
-  [STAFF_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
+  [STAFF_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<StaffRole[]>) => {
     return StaffRolesLocalState.default().withEntities(action.payload);
   },
-  [STAFF_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
+  [STAFF_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<StaffRole[]>) => {
     return StaffRolesLocalState.default().withEntities(action.payload);
   }
 }, StaffRolesLocalState.default());

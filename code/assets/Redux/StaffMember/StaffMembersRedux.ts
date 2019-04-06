@@ -2,6 +2,7 @@ import {createAction, handleActions} from "redux-actions";
 import {StaffMemberFilters} from "../../DataEntry/StaffMembers/State/StaffMemberFilters";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
+import {StaffMemberApiType} from "../../Model/StaffMember/StaffMemberTypes";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
@@ -23,11 +24,11 @@ const STAFF_MEMBERS_FILTER = 'STAFF_MEMBERS_FILTER';
 export const staffMembersDataEntry = createAction<StaffMembersLocalState>(STAFF_MEMBERS_DATA_ENTRY);
 
 export const staffMembersFetchStart = createAction(STAFF_MEMBERS_FETCH_START);
-export const staffMembersFetchSuccess = createAction<StaffMembersExternalState>(STAFF_MEMBERS_FETCH_SUCCESS);
+export const staffMembersFetchSuccess = createAction<StaffMember[]>(STAFF_MEMBERS_FETCH_SUCCESS);
 export const staffMembersFetchError = createAction(STAFF_MEMBERS_FETCH_ERROR);
 
 export const staffMembersCreateStart = createAction<StaffMember>(STAFF_MEMBERS_CREATE_START);
-export const staffMembersCreateSuccess = createAction<StaffMembersExternalState>(STAFF_MEMBERS_CREATE_SUCCESS);
+export const staffMembersCreateSuccess = createAction<StaffMember[]>(STAFF_MEMBERS_CREATE_SUCCESS);
 export const staffMembersCreateError = createAction(STAFF_MEMBERS_CREATE_ERROR);
 
 export const staffMembersFilter = createAction<StaffMemberFilters>(STAFF_MEMBERS_FILTER);
@@ -37,6 +38,7 @@ export const staffMembersFetch = () => {
     const thisDispatchable = () => dispatch(staffMembersFetch());
     dispatch(staffMembersFetchStart());
     return authenticatedFetch(`/staff/members`, () => dispatch(invalidUser([thisDispatchable])))
+      .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromResponse(obj)))
       .then(d => dispatch(staffMembersFetchSuccess(d)))
       .catch(e => dispatch(staffMembersFetchError(e)))
       ;
@@ -54,6 +56,7 @@ export const staffMembersCreate = (staffMember: StaffMember) => {
       },
       method: 'POST',
     })
+      .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromResponse(obj)))
       .then(d => dispatch(staffMembersCreateSuccess(d)))
       .catch(e => dispatch(staffMembersCreateError(e)))
       ;
@@ -61,31 +64,31 @@ export const staffMembersCreate = (staffMember: StaffMember) => {
 };
 
 export const staffMembersInternalReducers = handleActions<StaffMembersLocalState, any>({
-  [STAFF_MEMBERS_DATA_ENTRY]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_DATA_ENTRY]: (state, action: DefinedAction<StaffMembersLocalState>) => {
     return state.with(action.payload);
   },
-  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
     return StaffMembersLocalState.default().withEntities(action.payload);
   },
-  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
     return StaffMembersLocalState.default().withEntities(action.payload);
   }
 }, StaffMembersLocalState.default());
 
 export const staffMembersExternalReducers = handleActions<StaffMembersExternalState, any>({
-  [STAFF_MEMBERS_FETCH_START]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_FETCH_START]: (state, action: DefinedAction<void>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
-  [STAFF_MEMBERS_CREATE_START]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_CREATE_START]: (state, action: DefinedAction<void>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
-  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
     return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
@@ -95,7 +98,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
   }, new StaffMembersExternalState());
 
 export const staffMemberFiltersReducer = handleActions<StaffMemberFilters, any>({
-  [STAFF_MEMBERS_FILTER]: (state, action: DefinedAction<any>) => {
+  [STAFF_MEMBERS_FILTER]: (state, action: DefinedAction<StaffMemberFilters>) => {
     return state.with(action.payload);
   }
 }, new StaffMemberFilters());

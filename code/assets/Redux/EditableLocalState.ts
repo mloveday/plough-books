@@ -19,11 +19,9 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IE
   public readonly newEntity: T;
   public readonly entities: T[] = [];
 
-  protected readonly fromObjFn: (obj: any) => T;
   private readonly compareFn: (a: T, b: T) => number;
 
-  protected constructor(fromObjFn: (obj: T) => T, compareFn: (a: T, b: T) => number) {
-    this.fromObjFn = fromObjFn;
+  protected constructor(compareFn: (a: T, b: T) => number) {
     this.compareFn = compareFn;
   }
 
@@ -40,7 +38,7 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IE
   protected getUpdatedEntitiesObject(obj: T[], editingEntityId: number): IApiEditableLocalState<T> {
     const newEntities = new Map<number, T>();
     obj.forEach(v => {
-      newEntities.set(v.entityId, this.fromObjFn(v))
+      newEntities.set(v.entityId, v.clone())
     });
     const entities = new Map<number, T>();
     this.entities.forEach(v => {

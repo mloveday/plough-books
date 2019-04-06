@@ -9,10 +9,7 @@ export class UserRolesLocalState extends EditableLocalState<UserRole> {
   protected readonly fromObjFn: (obj: UserRoleApiType) => UserRole;
 
   public constructor() {
-    super(
-      (obj: UserRole) => obj.clone(),
-      (a: UserRole, b: UserRole) => a.role > b.role ? 1 : -1
-    );
+    super((a: UserRole, b: UserRole) => a.role > b.role ? 1 : -1);
   }
 
   public with(obj: IApiEditableLocalState<UserRole>): UserRolesLocalState {

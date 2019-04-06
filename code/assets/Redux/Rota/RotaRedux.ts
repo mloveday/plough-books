@@ -60,6 +60,7 @@ export const rotaFetch = (date: moment.Moment) => {
     const thisDispatchable = () => dispatch(rotaFetch(date));
     dispatch(rotaFetchStart(date));
     return authenticatedFetch(`/rota/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
+    // TODO parse the data here into models before dispatching action
       .then(d => dispatch(rotaFetchSuccess({date, response: d})))
       .catch(e => dispatch(rotaFetchError({date, error: e})))
       ;
@@ -77,6 +78,7 @@ export const rotaCreate = (rota: RotaEntity) => {
       },
       method: 'POST',
     })
+    // TODO parse the data here into models before dispatching action
       .then(d => dispatch(rotaCreateSuccess({date: rota.getDate(), response: d})))
       .catch(e => dispatch(rotaCreateError({date: rota.getDate(), error: e})))
       ;
@@ -94,6 +96,7 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
       },
       method: 'POST',
     })
+    // TODO parse the data here into models before dispatching action
       .then(d => dispatch(weeklyRotasCreateSuccess({date: Array.from(rotas.values())[0].getDate(), response: d})))
       .catch(e => dispatch(weeklyRotasCreateError({date: Array.from(rotas.values())[0].getDate(), error: e})))
       ;

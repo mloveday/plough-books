@@ -1,4 +1,6 @@
 export interface EditableEntity {
   readonly entityId: number;
-  with(obj: any): any; // we really want this to return the class extending EditableEntity
+  // we really want these methods to return the class extending EditableEntity
+  with(obj: any): any;
+  clone(): any;
 }

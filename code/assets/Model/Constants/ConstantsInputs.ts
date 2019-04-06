@@ -1,10 +1,9 @@
 import * as moment from "moment";
-import {EditableEntity} from "../EditableEntity";
 import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";
 import {ConstantsAbstract, ConstantsApiType, ConstantsUpdateType} from "./ConstantsTypes";
 
-export class ConstantsInputs extends ConstantsAbstract<string> implements EditableEntity {
+export class ConstantsInputs extends ConstantsAbstract<string> {
   public static default() {
     return new ConstantsInputs(moment.utc().format(DateFormats.API), '', '', '', '', '', '', '', '', '', '', '', '');
   }
@@ -43,9 +42,5 @@ export class ConstantsInputs extends ConstantsAbstract<string> implements Editab
       obj.holidayLinearPercent ? obj.holidayLinearPercent : this.holidayLinearPercent,
       obj.pensionLinearPercent ? obj.pensionLinearPercent : this.pensionLinearPercent
     );
-  }
-
-  public get entityId() {
-    return -1;
   }
 }

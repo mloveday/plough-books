@@ -8,10 +8,7 @@ export class ConstantsLocalState extends EditableLocalState<Constants> {
   }
 
   public constructor() {
-    super(
-      obj => Constants.fromResponse(obj),
-      (a: Constants, b: Constants) => moment.utc(a.date) < moment.utc(b.date) ? 1 : -1
-    );
+    super((a: Constants, b: Constants) => moment.utc(a.date) < moment.utc(b.date) ? 1 : -1);
   }
   
   public with(obj: IApiEditableLocalState<Constants>): ConstantsLocalState {

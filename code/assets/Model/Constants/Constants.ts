@@ -60,6 +60,10 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
       );
   }
 
+  public clone(): Constants {
+    return this.with({});
+  }
+
   public get entityId() {
     return this.id ? this.id : -1;
   }
