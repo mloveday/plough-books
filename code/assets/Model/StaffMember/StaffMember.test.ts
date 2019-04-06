@@ -1,4 +1,4 @@
-import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
+import {StaffMemberStatus} from "../Enum/StaffMemberStatus";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffMember} from "./StaffMember";
 import {StaffMemberApiType} from "./StaffMemberTypes";

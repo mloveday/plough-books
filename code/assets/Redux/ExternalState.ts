@@ -1,4 +1,4 @@
-import {FetchStatus} from "../Enum/FetchStatus";
+import {FetchStatus} from "../Model/Enum/FetchStatus";
 
 export abstract class ExternalState {
   public readonly states: Map<string, FetchStatus> = new Map();

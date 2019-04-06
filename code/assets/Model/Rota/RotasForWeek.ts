@@ -1,5 +1,5 @@
 import * as moment from "moment";
-import {WorkTypes} from "../../Enum/WorkTypes";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {CashManipulation} from "../../Util/CashManipulation";
 import {DateFormats} from "../../Util/DateFormats";
 import {RotaEntity} from "./RotaEntity";

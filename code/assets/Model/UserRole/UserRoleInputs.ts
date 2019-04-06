@@ -1,4 +1,4 @@
-import {EditableEntity} from "../../State/EditableEntity";
+import {EditableEntity} from "../EditableEntity";
 import {UserRoleAbstract, UserRoleApiType, UserRoleInputType, UserRoleUpdateType} from "./UserRoleTypes";
 
 export class UserRoleInputs extends UserRoleAbstract<number> implements UserRoleInputType, EditableEntity {

@@ -1,6 +1,6 @@
 import * as moment from "moment";
-import {RotaStatus} from "../../Enum/RotaStatus";
-import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNumericalInputs";
+import {RotaStatus} from "../Enum/RotaStatus";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {DateFormats} from "../../Util/DateFormats";
 import {Constants} from "../Constants/Constants";
 import {ConstantsApiType} from "../Constants/ConstantsTypes";

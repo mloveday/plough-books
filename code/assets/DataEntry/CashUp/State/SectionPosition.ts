@@ -1,4 +1,4 @@
-import {CashUpSection} from "../../../Enum/CashUpSection";
+import {CashUpSection} from "../../../Model/Enum/CashUpSection";
 
 export class SectionPosition {
   public readonly section: CashUpSection;

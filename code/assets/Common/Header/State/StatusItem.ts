@@ -1,4 +1,4 @@
-import {FetchStatus} from "../../../Enum/FetchStatus";
+import {FetchStatus} from "../../../Model/Enum/FetchStatus";
 
 export class StatusItem {
   public readonly state: string;

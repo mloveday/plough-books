@@ -1,4 +1,4 @@
-import {EditableEntity} from "../../State/EditableEntity";
+import {EditableEntity} from "../EditableEntity";
 import {StaffRoleInputs} from "./StaffRoleInputs";
 import {StaffRoleAbstract, StaffRoleApiType, StaffRoleType, StaffRoleUpdateType} from "./StaffRoleTypes";
 

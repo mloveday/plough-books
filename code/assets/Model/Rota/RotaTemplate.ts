@@ -1,4 +1,4 @@
-import {WorkTypes} from "../../Enum/WorkTypes";
+import {WorkTypes} from "../Enum/WorkTypes";
 
 export class RotaTemplate {
   public static templateFor(day: number, forecastRevenue: number, workType: WorkTypes): RotaTemplate {

@@ -1,4 +1,4 @@
-@import '../../Styling/Global';
+@import '../Global';
 
 .show-menu .App-nav .App-nav-list {
   @include r-not-desktop {

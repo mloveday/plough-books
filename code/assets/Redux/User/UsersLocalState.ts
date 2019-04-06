@@ -1,5 +1,5 @@
 import {User} from "../../Model/User/User";
-import {EditableLocalState} from "../../State/EditableLocalState";
+import {EditableLocalState} from "../EditableLocalState";
 import {UserApiType} from "../../Model/User/UserTypes";
 
 export class UsersLocalState extends EditableLocalState<User, User> {

@@ -1,10 +1,10 @@
 import * as log from "loglevel";
 import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../../Common/Auth/Repo/AuthenticatedFetch";
-import {invalidUser} from "../../Common/Auth/State/AuthActions";
-import {FetchStatus} from "../../Enum/FetchStatus";
-import {DefinedAction} from "../../State/DefinedAction";
+import {authenticatedFetch} from "../AuthenticatedFetch";
+import {invalidUser} from "../Auth/AuthRedux";
+import {FetchStatus} from "../../Model/Enum/FetchStatus";
+import {DefinedAction} from "../DefinedAction";
 import {DateFormats} from "../../Util/DateFormats";
 import {weeksDataKey} from "../../Util/DateUtils";
 import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";

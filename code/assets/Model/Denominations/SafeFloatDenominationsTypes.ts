@@ -1,4 +1,4 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNumericalInputs";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {DenominationsAbstract} from "./DenominationsAbstract";
 
 export abstract class SafeFloatDenominationsAbstract<T> extends DenominationsAbstract<T> {

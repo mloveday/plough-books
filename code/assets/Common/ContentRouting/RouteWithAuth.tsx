@@ -2,8 +2,8 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {Redirect, Route, RouteProps} from "react-router";
 import {AppState} from "../../redux";
-import {AuthState} from "../Auth/State/AuthState";
-import {getResponseFromLocalStorage} from "../Auth/State/AuthStorage";
+import {AuthState} from "../../Redux/Auth/AuthState";
+import {getResponseFromLocalStorage} from "../../Redux/Auth/AuthStorage";
 
 interface RouteWithAuthOwnProps {
   managesUsers?: boolean;

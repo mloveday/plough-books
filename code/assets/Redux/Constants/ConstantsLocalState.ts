@@ -1,5 +1,5 @@
 import * as moment from "moment";
-import {EditableLocalState, IApiEditableLocalState} from "../../State/EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 import {Constants} from "../../Model/Constants/Constants";
 
 export class ConstantsLocalState extends EditableLocalState<Constants, Constants> {

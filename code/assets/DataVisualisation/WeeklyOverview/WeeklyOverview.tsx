@@ -18,8 +18,8 @@ import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalS
 import {StaffRolesLocalState} from "../../Redux/StaffRole/StaffRolesLocalState";
 import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
 import {AppState} from "../../redux";
-import {uiUpdate} from "../../State/UiRedux";
-import {UiState} from "../../State/UiState";
+import {uiUpdate} from "../../Redux/UI/UiRedux";
+import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {LabourCostOverview} from "./LabourCostOverview";

@@ -1,4 +1,4 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNumericalInputs";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {SafeFloatDenominations} from "../Denominations/SafeFloatDenominations";
 import {SafeFloatDenominationsApiType} from "../Denominations/SafeFloatDenominationsTypes";
 import {TillDenominations} from "../Denominations/TillDenominations";

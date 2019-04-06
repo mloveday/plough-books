@@ -1,5 +1,5 @@
 import {StaffRole} from "../Model/StaffRole/StaffRole";
-import {WorkTypes} from "../Enum/WorkTypes";
+import {WorkTypes} from "../Model/Enum/WorkTypes";
 
 export const getStaffRoleOrder = (role: StaffRole) => {
   switch (role.type) {

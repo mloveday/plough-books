@@ -1,5 +1,5 @@
-import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
-import {EditableEntity} from "../../State/EditableEntity";
+import {StaffMemberStatus} from "../Enum/StaffMemberStatus";
+import {EditableEntity} from "../EditableEntity";
 import {validateCash} from "../../Util/Validation";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffMemberInputs} from "./StaffMemberInputs";

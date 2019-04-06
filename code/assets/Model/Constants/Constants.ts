@@ -1,5 +1,5 @@
 import * as moment from "moment";
-import {EditableEntity} from "../../State/EditableEntity";
+import {EditableEntity} from "../EditableEntity";
 import {DateFormats} from "../../Util/DateFormats";
 import {validateCash, validateDecimal, validatePercentageToDecimal} from "../../Util/Validation";
 import {ConstantsInputs} from "./ConstantsInputs";

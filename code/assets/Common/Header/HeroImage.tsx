@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
-import {AuthState} from "../Auth/State/AuthState";
+import {AuthState} from "../../Redux/Auth/AuthState";
 
 interface HeroImageOwnProps {
 }

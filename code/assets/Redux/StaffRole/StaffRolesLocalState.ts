@@ -1,4 +1,4 @@
-import {EditableLocalState, IApiEditableLocalState} from "../../State/EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {StaffRoleApiType} from "../../Model/StaffRole/StaffRoleTypes";
 

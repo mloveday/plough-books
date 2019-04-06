@@ -1,4 +1,4 @@
-import {EditableEntity} from "./EditableEntity";
+import {EditableEntity} from "../Model/EditableEntity";
 
 export interface IApiEditableLocalState<N extends EditableEntity, T extends N> {
   editingEntityId?: number;

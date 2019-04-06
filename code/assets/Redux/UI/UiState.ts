@@ -1,6 +1,6 @@
 import * as moment from "moment";
-import {CashUpSection} from "../Enum/CashUpSection";
-import {DateFormats} from "../Util/DateFormats";
+import {CashUpSection} from "../../Model/Enum/CashUpSection";
+import {DateFormats} from "../../Util/DateFormats";
 
 export interface IUiStateUpdateObject {
   cashUpSection?: CashUpSection;

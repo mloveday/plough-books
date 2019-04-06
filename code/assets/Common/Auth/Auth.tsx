@@ -9,9 +9,9 @@ import {
   clearAuthentication,
   fetchCurrentUser,
   handleAuthenticationResponse
-} from './State/AuthActions';
-import {AuthState} from './State/AuthState';
-import {getResponseFromLocalStorage} from './State/AuthStorage';
+} from "../../Redux/Auth/AuthRedux";
+import {AuthState} from '../../Redux/Auth/AuthState';
+import {getResponseFromLocalStorage} from '../../Redux/Auth/AuthStorage';
 
 interface AuthOwnProps {
 }

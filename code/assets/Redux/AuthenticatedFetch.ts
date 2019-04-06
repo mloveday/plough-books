@@ -1,6 +1,6 @@
 // @ts-ignore
 import {backendApiDomain, tokenQueryParam} from "env/Config";
-import {getAuthTokenFromLocalStorage} from "../State/AuthStorage";
+import {getAuthTokenFromLocalStorage} from "./Auth/AuthStorage";
 
 export function authenticatedFetch(url: string, onAuthError: () => void, init?: RequestInit): Promise<any> {
     const prefixedUrl = '/api' + url;

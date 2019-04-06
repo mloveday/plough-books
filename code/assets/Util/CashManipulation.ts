@@ -1,5 +1,5 @@
 import {Constants} from "../Model/Constants/Constants";
-import {WorkTypes} from "../Enum/WorkTypes";
+import {WorkTypes} from "../Model/Enum/WorkTypes";
 
 export class CashManipulation {
   public static calculateVatAdjustedRevenue(revenue: number, vatMultiplier: number) {

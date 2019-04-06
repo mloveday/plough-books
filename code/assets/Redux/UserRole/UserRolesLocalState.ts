@@ -1,6 +1,6 @@
 import {UserRole} from "../../Model/UserRole/UserRole";
 import {UserRoleApiType} from "../../Model/UserRole/UserRoleTypes";
-import {EditableLocalState, IApiEditableLocalState} from "../../State/EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
 export class UserRolesLocalState extends EditableLocalState<UserRole, UserRole> {
   public static default() {

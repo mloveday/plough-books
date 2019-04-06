@@ -2,9 +2,9 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
-import {WorkTypes} from "../../Enum/WorkTypes";
+import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
-import {AuthState} from "../Auth/State/AuthState";
+import {AuthState} from "../../Redux/Auth/AuthState";
 import {Routes} from "../Routing/Routes";
 import './LandingPage.scss';
 

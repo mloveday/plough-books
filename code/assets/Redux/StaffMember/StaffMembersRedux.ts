@@ -1,7 +1,7 @@
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../../Common/Auth/Repo/AuthenticatedFetch";
-import {invalidUser} from "../../Common/Auth/State/AuthActions";
-import {FetchStatus} from "../../Enum/FetchStatus";
+import {authenticatedFetch} from "../AuthenticatedFetch";
+import {invalidUser} from "../Auth/AuthRedux";
+import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {StaffMemberFilters} from "../../DataEntry/StaffMembers/State/StaffMemberFilters";
 import {StaffMembersExternalState} from "./StaffMembersExternalState";

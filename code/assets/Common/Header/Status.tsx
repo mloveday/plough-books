@@ -8,7 +8,7 @@ import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
 import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
 import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
 import {UsersExternalState} from "../../Redux/User/UsersExternalState";
-import {FetchStatus} from "../../Enum/FetchStatus";
+import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {AppState} from "../../redux";
 import {StatusItem} from "./State/StatusItem";
 import './Status.scss';

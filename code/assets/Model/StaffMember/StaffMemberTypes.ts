@@ -1,4 +1,4 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNumericalInputs";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffRoleApiType} from "../StaffRole/StaffRoleTypes";
 

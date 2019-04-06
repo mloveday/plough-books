@@ -1,4 +1,4 @@
-import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
+import {StaffMemberStatus} from "../Enum/StaffMemberStatus";
 import {StaffMemberAbstract, StaffMemberApiType, StaffMemberInputType, StaffMemberUpdateType} from "./StaffMemberTypes";
 
 export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> implements StaffMemberInputType {

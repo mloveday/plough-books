@@ -1,4 +1,4 @@
-import {StaffMemberStatus} from "../../../Enum/StaffMemberStatus";
+import {StaffMemberStatus} from "../../../Model/Enum/StaffMemberStatus";
 
 export interface IStaffMemberFiltersUpdateObject {
   status?: StaffMemberStatus;

@@ -1,9 +1,9 @@
 import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../../Common/Auth/Repo/AuthenticatedFetch";
-import {invalidUser} from "../../Common/Auth/State/AuthActions";
-import {FetchStatus} from "../../Enum/FetchStatus";
-import {DefinedAction} from "../../State/DefinedAction";
+import {authenticatedFetch} from "../AuthenticatedFetch";
+import {invalidUser} from "../Auth/AuthRedux";
+import {FetchStatus} from "../../Model/Enum/FetchStatus";
+import {DefinedAction} from "../DefinedAction";
 import {Constants} from "../../Model/Constants/Constants";
 import {ConstantsExternalState} from "./ConstantsExternalState";
 import {ConstantsLocalState} from "./ConstantsLocalState";

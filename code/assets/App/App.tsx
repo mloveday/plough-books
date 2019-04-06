@@ -6,7 +6,7 @@ import {Header} from "../Common/Header/Header";
 import {Nav} from "../Common/Nav/Nav";
 import {UnauthorisedUserOverlay} from "../Common/Overlay/UnauthorisedUserOverlay";
 import {AppState} from "../redux";
-import {UiState} from "../State/UiState";
+import {UiState} from "../Redux/UI/UiState";
 import './App.scss';
 import './FontawesomeLibrary';
 

@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
-import {StaffMemberStatus} from "../../Enum/StaffMemberStatus";
+import {StaffMemberStatus} from "../../Model/Enum/StaffMemberStatus";
 import {AppState} from "../../redux";
 import {currencyPattern} from "../../Util/Validation";
 import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";

@@ -1,4 +1,4 @@
-import {EditableEntity} from "../../State/EditableEntity";
+import {EditableEntity} from "../EditableEntity";
 import {UserAbstract, UserApiType, UserInputType, UserUpdateType} from "./UserTypes";
 
 export class UserInputs extends UserAbstract<string, undefined> implements UserInputType, EditableEntity {

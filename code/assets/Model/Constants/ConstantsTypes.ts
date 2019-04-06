@@ -1,4 +1,4 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../../State/TypeWithNumericalInputs";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class ConstantsAbstract<T> {
   public readonly date: string;

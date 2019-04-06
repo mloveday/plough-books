@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {WorkTypes} from "../../Enum/WorkTypes";
+import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {CostRateCompare} from "../ForecastVsActual/CostRateCompare";
 import {DailyOverviews} from "./State/DailyOverviews";
