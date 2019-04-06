@@ -22,7 +22,7 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
       obj.ersPercentAboveThreshold,
       obj.holidayLinearPercent,
       obj.pensionLinearPercent,
-      ConstantsInputs.fromBackend(obj),
+      ConstantsInputs.fromApi(obj),
       obj.id,
     );
   }

@@ -8,7 +8,7 @@ export class ConstantsInputs extends ConstantsAbstract<string> {
     return new ConstantsInputs(moment.utc().format(DateFormats.API), '', '', '', '', '', '', '', '', '', '', '', '');
   }
   
-  public static fromBackend(obj: ConstantsApiType) {
+  public static fromApi(obj: ConstantsApiType) {
     return new ConstantsInputs(
       obj.date,
       obj.fixedCosts.toString(),

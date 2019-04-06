@@ -33,7 +33,7 @@ export class CashUpsForWeek {
   }
 
   public fromApi(obj: CashUpEntityApiType[]): CashUpsForWeek {
-    const newCashUps = obj.map(apiCashUp => CashUpEntity.fromBackend(apiCashUp));
+    const newCashUps = obj.map(apiCashUp => CashUpEntity.fromApi(apiCashUp));
     return this.updateCashUps(newCashUps);
   }
 

@@ -12,7 +12,7 @@ export class CashUpEntityInputs extends CashUpEntityAbstract<string, undefined, 
     return new CashUpEntityInputs(moment.utc(date).format(DateFormats.API), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
   }
 
-  public static fromBackend(obj: CashUpEntityApiType): CashUpEntityInputs {
+  public static fromApi(obj: CashUpEntityApiType): CashUpEntityInputs {
     return new CashUpEntityInputs(
       obj.date,
       obj.mod,

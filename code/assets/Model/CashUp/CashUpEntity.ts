@@ -20,7 +20,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
     ], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, [], 0, 0, 0, 0, 0, 0, 0, '', 0, '', '', SafeFloatDenominations.default(), SafeFloatDenominations.default(), '', '', '', '', '', true, undefined, CashUpEntityInputs.default(date));
   }
 
-  public static fromBackend(obj: CashUpEntityApiType): CashUpEntity {
+  public static fromApi(obj: CashUpEntityApiType): CashUpEntity {
     const date = moment.utc(obj.date);
     return new CashUpEntity(
       date.format(DateFormats.API),
@@ -60,7 +60,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
       obj.nextDoorBy,
       false,
       obj.id,
-      CashUpEntityInputs.fromBackend(obj),
+      CashUpEntityInputs.fromApi(obj),
     );
   }
 
