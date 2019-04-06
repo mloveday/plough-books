@@ -7,7 +7,7 @@ import {StaffMemberAbstract, StaffMemberApiType, StaffMemberType, StaffMemberUpd
 
 export class StaffMember extends StaffMemberAbstract<number, StaffRole> implements EditableEntity, StaffMemberType {
   public static default() {
-    return new StaffMember('', 0, StaffRole.default(), '', StaffMemberInputs.default(), -1);
+    return new StaffMember('', 0, StaffRole.default(), StaffMemberStatus.INACTIVE, StaffMemberInputs.default());
   }
 
   public static fromApi(obj: StaffMemberApiType) {

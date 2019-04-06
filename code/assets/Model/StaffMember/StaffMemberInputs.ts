@@ -3,7 +3,7 @@ import {StaffMemberAbstract, StaffMemberApiType, StaffMemberInputType, StaffMemb
 
 export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> implements StaffMemberInputType {
   public static default() {
-    return new StaffMemberInputs('', '', undefined, '');
+    return new StaffMemberInputs('', '', undefined, StaffMemberStatus.INACTIVE);
   }
 
   public static fromApi(obj: StaffMemberApiType) {
@@ -17,10 +17,6 @@ export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> im
       undefined,
       obj.status ? obj.status : this.status,
     );
-  }
-
-  public get entityId() {
-    return -1;
   }
 
   public isActive() {
