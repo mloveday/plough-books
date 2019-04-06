@@ -46,7 +46,7 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
     const thisDispatchable = () => dispatch(staffRolesCreate(staffRole));
     dispatch(staffRolesCreateStart(staffRole));
     return authenticatedFetch('/staff/roles', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(staffRole.entityId === -1 ? Object.assign(staffRole, {id: undefined}) : staffRole),
+      body: JSON.stringify(staffRole),
       headers: {
         ['content-type']: 'application/json',
       },

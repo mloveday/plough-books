@@ -18,7 +18,7 @@ export class StaffRole extends StaffRoleAbstract<number> implements EditableEnti
   }
 
   public static default() {
-    return new StaffRole('',-1, StaffRoleStatus.INACTIVE, WorkTypes.BAR, StaffRoleInputs.default(), -1);
+    return new StaffRole('',-1, StaffRoleStatus.INACTIVE, WorkTypes.BAR, StaffRoleInputs.default());
   }
   
   public readonly id?: number;
