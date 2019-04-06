@@ -1,9 +1,9 @@
 import {createAction, handleActions} from "redux-actions";
 import {User} from "../../Model/User/User";
-import {AuthenticatedUserResponse} from "./Model/AuthenticatedUserResponse";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {AuthState} from "./AuthState";
 import {getResponseFromLocalStorage, removeAuthFromLocalStorage, storeAuthInLocalStorage} from "./AuthStorage";
+import {AuthenticatedUserResponse} from "./Model/AuthenticatedUserResponse";
 
 export const AUTH_CLEAR = "AUTH_CLEAR";
 export const AUTH_INVALID = "AUTH_INVALID";

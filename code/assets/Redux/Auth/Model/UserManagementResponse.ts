@@ -1,6 +1,6 @@
+import {User} from "../../../Model/User/User";
 import {UserApiType} from "../../../Model/User/UserTypes";
 import {Domain, IDomainApiObject} from "./Domain";
-import {User} from "../../../Model/User/User";
 
 export interface IUserManagementApiObject {
     users: UserApiType[];

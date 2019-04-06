@@ -1,16 +1,16 @@
 import * as log from "loglevel";
 import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../AuthenticatedFetch";
-import {invalidUser} from "../Auth/AuthRedux";
-import {FetchStatus} from "../../Model/Enum/FetchStatus";
-import {DefinedAction} from "../DefinedAction";
-import {DateFormats} from "../../Util/DateFormats";
-import {weeksDataKey} from "../../Util/DateUtils";
 import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
 import {CashUpEntityApiType} from "../../Model/CashUp/CashUpEntityTypes";
-import {CashUpExternalState} from "./CashUpExternalState";
 import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
+import {FetchStatus} from "../../Model/Enum/FetchStatus";
+import {DateFormats} from "../../Util/DateFormats";
+import {weeksDataKey} from "../../Util/DateUtils";
+import {invalidUser} from "../Auth/AuthRedux";
+import {authenticatedFetch} from "../AuthenticatedFetch";
+import {DefinedAction} from "../DefinedAction";
+import {CashUpExternalState} from "./CashUpExternalState";
 
 const CASH_UP_DATA_ENTRY = 'CASH_UP_DATA_ENTRY';
 

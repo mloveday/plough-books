@@ -1,16 +1,16 @@
 import * as log from "loglevel";
 import * as moment from "moment";
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../AuthenticatedFetch";
-import {invalidUser} from "../Auth/AuthRedux";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
-import {DefinedAction} from "../DefinedAction";
-import {DateFormats} from "../../Util/DateFormats";
-import {weeksDataKey} from "../../Util/DateUtils";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
-import {RotaExternalState} from "./RotaExternalState";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaApiType} from "../../Model/Rota/RotaTypes";
+import {DateFormats} from "../../Util/DateFormats";
+import {weeksDataKey} from "../../Util/DateUtils";
+import {invalidUser} from "../Auth/AuthRedux";
+import {authenticatedFetch} from "../AuthenticatedFetch";
+import {DefinedAction} from "../DefinedAction";
+import {RotaExternalState} from "./RotaExternalState";
 
 const ROTA_DATA_ENTRY = 'ROTA_DATA_ENTRY';
 

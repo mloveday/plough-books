@@ -1,8 +1,8 @@
 import * as moment from "moment";
-import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 import {Constants} from "../../Model/Constants/Constants";
+import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
-export class ConstantsLocalState extends EditableLocalState<Constants, Constants> {
+export class ConstantsLocalState extends EditableLocalState<Constants> {
   public static default() {
     return new ConstantsLocalState();
   }
@@ -14,7 +14,7 @@ export class ConstantsLocalState extends EditableLocalState<Constants, Constants
     );
   }
   
-  public with(obj: IApiEditableLocalState<Constants, Constants>) {
+  public with(obj: IApiEditableLocalState<Constants>) {
     return Object.assign(
       new ConstantsLocalState(),
       this,

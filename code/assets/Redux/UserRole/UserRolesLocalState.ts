@@ -2,7 +2,7 @@ import {UserRole} from "../../Model/UserRole/UserRole";
 import {UserRoleApiType} from "../../Model/UserRole/UserRoleTypes";
 import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
-export class UserRolesLocalState extends EditableLocalState<UserRole, UserRole> {
+export class UserRolesLocalState extends EditableLocalState<UserRole> {
   public static default() {
     return new UserRolesLocalState();
   }
@@ -15,7 +15,7 @@ export class UserRolesLocalState extends EditableLocalState<UserRole, UserRole> 
     );
   }
 
-  public with(obj: IApiEditableLocalState<UserRole, UserRole>): UserRolesLocalState {
+  public with(obj: IApiEditableLocalState<UserRole>): UserRolesLocalState {
     return Object.assign(
       new UserRolesLocalState(),
       this,

@@ -1,8 +1,8 @@
-import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {StaffRoleApiType} from "../../Model/StaffRole/StaffRoleTypes";
+import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
-export class StaffRolesLocalState extends EditableLocalState<StaffRole, StaffRole> {
+export class StaffRolesLocalState extends EditableLocalState<StaffRole> {
   public static default() {
     return new StaffRolesLocalState();
   }
@@ -14,7 +14,7 @@ export class StaffRolesLocalState extends EditableLocalState<StaffRole, StaffRol
     );
   }
 
-  public with(obj: IApiEditableLocalState<StaffRole, StaffRole>): StaffRolesLocalState {
+  public with(obj: IApiEditableLocalState<StaffRole>): StaffRolesLocalState {
     return Object.assign(
       new StaffRolesLocalState(),
       this,

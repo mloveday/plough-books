@@ -1,8 +1,8 @@
 import {User} from "../../Model/User/User";
-import {EditableLocalState} from "../EditableLocalState";
 import {UserApiType} from "../../Model/User/UserTypes";
+import {EditableLocalState} from "../EditableLocalState";
 
-export class UsersLocalState extends EditableLocalState<User, User> {
+export class UsersLocalState extends EditableLocalState<User> {
   public static default() {
     return new UsersLocalState();
   }
@@ -14,7 +14,7 @@ export class UsersLocalState extends EditableLocalState<User, User> {
     );
   }
 
-  public with(obj: EditableLocalState<User, User>) {
+  public with(obj: EditableLocalState<User>) {
     return Object.assign(
       new UsersLocalState(),
       this,

@@ -1,8 +1,8 @@
 import {createAction, handleActions} from "redux-actions";
-import {authenticatedFetch} from "../AuthenticatedFetch";
-import {invalidUser} from "../Auth/AuthRedux";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
+import {invalidUser} from "../Auth/AuthRedux";
+import {authenticatedFetch} from "../AuthenticatedFetch";
 import {StaffRolesExternalState} from "./StaffRolesExternalState";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
