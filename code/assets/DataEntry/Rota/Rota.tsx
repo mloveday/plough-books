@@ -14,6 +14,14 @@ class RotaComponent extends RotaAbstractComponent {
     return "Rota";
   }
 
+  protected showingRota(): boolean {
+    return true;
+  }
+
+  protected showingSignIn(): boolean {
+    return false;
+  }
+
   protected showStats(): boolean {
     return true;
   }

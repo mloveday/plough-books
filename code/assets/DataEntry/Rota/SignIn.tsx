@@ -14,6 +14,14 @@ class SignInComponent extends RotaAbstractComponent {
     return "Sign-in";
   }
 
+  protected showingRota(): boolean {
+    return false;
+  }
+
+  protected showingSignIn(): boolean {
+    return true;
+  }
+
   protected showStats(): boolean {
     return true;
   }

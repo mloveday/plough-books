@@ -119,7 +119,7 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
       }
     });
     const sortedRoles = visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
-    const editingDisabled = !this.getRota().canEditRota();
+    const editingDisabled = !((this.showingRota() && this.getRota().canEditRota()) || (this.showingSignIn() && this.getRota().canEditSignIn()));
     if (!this.props.staffRolesExternalState.isLoaded()
       || !this.getRota()
       || !this.props.staffMembersExternalState.isLoaded()) {
@@ -247,6 +247,8 @@ export abstract class RotaAbstractComponent extends React.Component<RotaAbstract
   }
 
   protected abstract getName(): string;
+  protected abstract showingRota(): boolean;
+  protected abstract showingSignIn(): boolean;
   protected abstract showStats(): boolean;
   protected abstract showStaffLevels(): boolean;
   protected abstract canAutoPopulateFromRota(): boolean;
