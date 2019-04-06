@@ -5,12 +5,14 @@ export interface IApiEditableLocalState<T extends EditableEntity> {
   isCreatingEntity?: boolean;
   newEntity?: T;
   entities?: T[];
-
-  with(obj: IApiEditableLocalState<T>): IApiEditableLocalState<T>; // we really want this to return the class extending EditableLocalState
 }
 
-export abstract class EditableLocalState<T extends EditableEntity> implements IApiEditableLocalState<T> {
-  private static NOT_EDITING_ID = -1;
+export interface IEditableLocalState<T extends EditableEntity> extends IApiEditableLocalState<T> {
+  with(obj: IApiEditableLocalState<T>): IEditableLocalState<T>; // we really want this to return the class extending EditableLocalState
+}
+
+export abstract class EditableLocalState<T extends EditableEntity> implements IEditableLocalState<T> {
+  protected static NOT_EDITING_ID = -1;
 
   public readonly editingEntityId: number = EditableLocalState.NOT_EDITING_ID;
   public readonly isCreatingEntity: boolean = false;
@@ -25,15 +27,17 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IA
     this.compareFn = compareFn;
   }
 
-  public withNewEntity(entity: T) {
-    return this.with({
-      isCreatingEntity: true,
-      newEntity: entity,
-      entities: this.entities.map(r => r.with({})),
-    })
+  public isEditing() {
+    return this.editingEntityId !== EditableLocalState.NOT_EDITING_ID;
   }
 
-  public withEntities(obj: any[], editingEntityId: number = EditableLocalState.NOT_EDITING_ID) {
+  // TODO we really want these to return the class extending EditableLocalState
+  public abstract with(obj: IApiEditableLocalState<T>): IEditableLocalState<T>;
+  public abstract withEntities(obj: T[], editingEntityId: number): IEditableLocalState<T>;
+  public abstract withEntity(obj: T): IEditableLocalState<T>;
+  public abstract withNewEntity(obj: T): IEditableLocalState<T>;
+
+  protected getUpdatedEntitiesObject(obj: T[], editingEntityId: number): IApiEditableLocalState<T> {
     const newEntities = new Map<number, T>();
     obj.forEach(v => {
       newEntities.set(v.entityId, this.fromObjFn(v))
@@ -44,27 +48,27 @@ export abstract class EditableLocalState<T extends EditableEntity> implements IA
       entities.set(v.entityId, entity ? entity : v.with({}));
     });
     newEntities.forEach((v,k) => entities.set(k, v));
-    return this.with(
-      {
-        isCreatingEntity: false,
-        editingEntityId,
-        entities: Array.from(entities.values()).sort(this.compareFn)
-      }
-    );
+    return {
+      isCreatingEntity: false,
+      editingEntityId,
+      entities: Array.from(entities.values()).sort(this.compareFn)
+    };
   }
 
-  public updateEntity(obj: T) {
+  protected getNewEntityObject(entity: T): IApiEditableLocalState<T> {
+    return {
+      isCreatingEntity: true,
+      newEntity: entity,
+      entities: this.entities.map(r => r.with({})),
+    };
+  }
+
+  protected getUpdatedEntityObject(obj: T): IApiEditableLocalState<T> {
     const entities = this.entities.map(entity => entity.entityId === obj.entityId ? obj : entity.with({}));
-    return this.with({
+    return {
       isCreatingEntity: false,
       editingEntityId: obj.entityId,
       entities: entities.sort(this.compareFn)
-    })
+    };
   }
-
-  public isEditing() {
-    return this.editingEntityId !== EditableLocalState.NOT_EDITING_ID;
-  }
-
-  public abstract with(obj: any): any; // we really want this to return the class extending EditableLocalState
 }

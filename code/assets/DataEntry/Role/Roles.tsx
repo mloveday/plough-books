@@ -98,7 +98,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private editRole(role: UserRole) {
-    this.props.updateRoles(this.props.rolesLocalState.updateEntity(role));
+    this.props.updateRoles(this.props.rolesLocalState.withEntity(role));
   }
 
   private cancelEdit() {
@@ -106,7 +106,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
   }
 
   private dataEntry(role: UserRole) {
-    this.props.updateRoles(this.props.rolesLocalState.updateEntity(role));
+    this.props.updateRoles(this.props.rolesLocalState.withEntity(role));
   }
 
   private maintainState() {

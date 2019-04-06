@@ -22,4 +22,14 @@ export class UserRolesLocalState extends EditableLocalState<UserRole> {
       obj,
     );
   }
+
+  public withEntities(obj: UserRole[], editingEntityId: number = EditableLocalState.NOT_EDITING_ID): UserRolesLocalState {
+    return this.with(this.getUpdatedEntitiesObject(obj, editingEntityId));
+  }
+  public withEntity(obj: UserRole, editingEntityId: number = EditableLocalState.NOT_EDITING_ID): UserRolesLocalState {
+    return this.with(this.getUpdatedEntityObject(obj));
+  }
+  public withNewEntity(obj: UserRole): UserRolesLocalState {
+    return this.with(this.getNewEntityObject(obj));
+  }
 }

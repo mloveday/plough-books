@@ -21,4 +21,14 @@ export class StaffMembersLocalState extends EditableLocalState<StaffMember> {
       obj,
     );
   }
+
+  public withEntities(obj: StaffMember[], editingEntityId: number = EditableLocalState.NOT_EDITING_ID): StaffMembersLocalState {
+    return this.with(this.getUpdatedEntitiesObject(obj, editingEntityId));
+  }
+  public withEntity(obj: StaffMember, editingEntityId: number = EditableLocalState.NOT_EDITING_ID): StaffMembersLocalState {
+    return this.with(this.getUpdatedEntityObject(obj));
+  }
+  public withNewEntity(obj: StaffMember): StaffMembersLocalState {
+    return this.with(this.getNewEntityObject(obj));
+  }
 }

@@ -3,6 +3,7 @@ import {CashUpsForWeek} from "../Model/CashUp/CashUpsForWeek";
 import {Constants} from '../Model/Constants/Constants';
 import {FetchStatus} from "../Model/Enum/FetchStatus";
 import {RotasForWeek} from "../Model/Rota/RotasForWeek";
+import {StaffRole} from "../Model/StaffRole/StaffRole";
 import {User} from "../Model/User/User";
 import {AppState} from "../redux";
 import {AuthState} from '../Redux/Auth/AuthState';
@@ -157,19 +158,12 @@ export class StateHelpers {
   }
 
   public static staffRolesState() {
-    return (new StaffRolesLocalState()).withEntities([{role: 'Bar back', orderInRota: 4, status: 'active', type: 'bar', id: 3}, {
-        role: 'Barista',
-        orderInRota: 3,
-        status: 'active',
-        type: 'bar',
-        id: 4
-      }, {role: 'Ops Manager', orderInRota: 2, status: 'active', type: 'bar', id: 5}, {
-        role: 'bar import',
-        orderInRota: 0,
-        status: 'imported',
-        type: 'bar',
-        id: 1
-      }, {role: 'kitchen import', orderInRota: 0, status: 'imported', type: 'kitchen', id: 2}]
+    return (new StaffRolesLocalState()).withEntities([
+      StaffRole.fromResponse({role: 'Bar back', orderInRota: 4, status: 'active', type: 'bar', id: 3}),
+      StaffRole.fromResponse({role: 'Barista', orderInRota: 3, status: 'active', type: 'bar', id: 4}),
+      StaffRole.fromResponse({role: 'Ops Manager', orderInRota: 2, status: 'active', type: 'bar', id: 5}),
+      StaffRole.fromResponse({role: 'bar import', orderInRota: 0, status: 'imported', type: 'bar', id: 1}),
+      StaffRole.fromResponse({role: 'kitchen import', orderInRota: 0, status: 'imported', type: 'kitchen', id: 2})]
     );
   }
 }

@@ -1,6 +1,6 @@
 import {User} from "../../Model/User/User";
 import {UserApiType} from "../../Model/User/UserTypes";
-import {EditableLocalState} from "../EditableLocalState";
+import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
 export class UsersLocalState extends EditableLocalState<User> {
   public static default() {
@@ -14,11 +14,21 @@ export class UsersLocalState extends EditableLocalState<User> {
     );
   }
 
-  public with(obj: EditableLocalState<User>) {
+  public with(obj: IApiEditableLocalState<User>): UsersLocalState {
     return Object.assign(
       new UsersLocalState(),
       this,
       obj,
     );
+  }
+
+  public withEntities(obj: User[], editingEntityId: number = EditableLocalState.NOT_EDITING_ID): UsersLocalState {
+    return this.with(this.getUpdatedEntitiesObject(obj, editingEntityId));
+  }
+  public withEntity(obj: User, editingEntityId: number = EditableLocalState.NOT_EDITING_ID): UsersLocalState {
+    return this.with(this.getUpdatedEntityObject(obj));
+  }
+  public withNewEntity(obj: User): UsersLocalState {
+    return this.with(this.getNewEntityObject(obj));
   }
 }
