@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {PlaceholderCashUp} from "../../../DataEntry/CashUp/State/PlaceholderCashUp";
+import {PlaceholderCashUp} from "../../../Model/CashUp/PlaceholderCashUp";
 import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
 import {WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../../Model/Rota/RotaEntity";
