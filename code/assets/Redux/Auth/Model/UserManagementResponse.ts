@@ -8,10 +8,10 @@ export interface IUserManagementApiObject {
 }
 
 export class UserManagementResponse {
-    public static fromResponse(json: IUserManagementApiObject): UserManagementResponse {
+    public static fromApi(json: IUserManagementApiObject): UserManagementResponse {
         return new UserManagementResponse(
-          json.users.map(user => User.fromResponse(user)),
-          json.domains.map(domain => Domain.fromResponse(domain))
+          json.users.map(user => User.fromApi(user)),
+          json.domains.map(domain => Domain.fromApi(domain))
         );
     }
     public readonly users: User[];

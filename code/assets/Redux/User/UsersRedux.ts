@@ -34,7 +34,7 @@ export const usersFetch = () => {
     const thisDispatchable = () => dispatch(usersFetch());
     dispatch(usersFetchStart());
     return authenticatedFetch(`/users`, () => dispatch(invalidUser([thisDispatchable])))
-      .then((d: UserApiType[]) => d.map(obj => User.fromResponse(obj)))
+      .then((d: UserApiType[]) => d.map(obj => User.fromApi(obj)))
       .then(d => dispatch(usersFetchSuccess(d)))
       .catch(e => dispatch(usersFetchError(e)))
       ;
@@ -52,7 +52,7 @@ export const usersCreate = (user: User) => {
       },
       method: 'POST',
     })
-      .then((d: UserApiType[]) => d.map(obj => User.fromResponse(obj)))
+      .then((d: UserApiType[]) => d.map(obj => User.fromApi(obj)))
       .then(d => dispatch(usersCreateSuccess(d)))
       .catch(e => dispatch(usersCreateError(e)))
       ;

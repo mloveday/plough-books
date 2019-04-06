@@ -38,7 +38,7 @@ export const staffMembersFetch = () => {
     const thisDispatchable = () => dispatch(staffMembersFetch());
     dispatch(staffMembersFetchStart());
     return authenticatedFetch(`/staff/members`, () => dispatch(invalidUser([thisDispatchable])))
-      .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromResponse(obj)))
+      .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromApi(obj)))
       .then(d => dispatch(staffMembersFetchSuccess(d)))
       .catch(e => dispatch(staffMembersFetchError(e)))
       ;
@@ -56,7 +56,7 @@ export const staffMembersCreate = (staffMember: StaffMember) => {
       },
       method: 'POST',
     })
-      .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromResponse(obj)))
+      .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromApi(obj)))
       .then(d => dispatch(staffMembersCreateSuccess(d)))
       .catch(e => dispatch(staffMembersCreateError(e)))
       ;

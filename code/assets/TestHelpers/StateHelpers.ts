@@ -44,7 +44,7 @@ export interface AppStateUpdate {
 
 export class StateHelpers {
   public static normalUser() {
-    return User.fromResponse({
+    return User.fromApi({
       email: 'user@theploughharborne.co.uk',
       whitelisted: true,
       blacklisted: false,
@@ -53,7 +53,7 @@ export class StateHelpers {
     });
   }
   public static adminUser() {
-    return User.fromResponse({
+    return User.fromApi({
       email: 'admin@theploughharborne.co.uk',
       whitelisted: true,
       blacklisted: false,
@@ -89,7 +89,7 @@ export class StateHelpers {
   }
 
   public static authState(user: User = this.adminUser()) {
-    return AuthState.cleared().withAuthentication(AuthenticatedUserResponse.fromResponse({
+    return AuthState.cleared().withAuthentication(AuthenticatedUserResponse.fromApi({
       El: '115549802405448388321',
       Zi: {
         token_type: 'Bearer',
@@ -139,7 +139,7 @@ export class StateHelpers {
   }
 
   public static constantsState() {
-    return (new ConstantsExternalState()).externalState.withEntities([Constants.fromResponse({
+    return (new ConstantsExternalState()).externalState.withEntities([Constants.fromApi({
       date: '2014-04-21T00:00:00.000Z',
       fixedCosts: 4946.23,
       labourRate: 0.28,
@@ -159,11 +159,11 @@ export class StateHelpers {
 
   public static staffRolesState() {
     return (new StaffRolesLocalState()).withEntities([
-      StaffRole.fromResponse({role: 'Bar back', orderInRota: 4, status: 'active', type: 'bar', id: 3}),
-      StaffRole.fromResponse({role: 'Barista', orderInRota: 3, status: 'active', type: 'bar', id: 4}),
-      StaffRole.fromResponse({role: 'Ops Manager', orderInRota: 2, status: 'active', type: 'bar', id: 5}),
-      StaffRole.fromResponse({role: 'bar import', orderInRota: 0, status: 'imported', type: 'bar', id: 1}),
-      StaffRole.fromResponse({role: 'kitchen import', orderInRota: 0, status: 'imported', type: 'kitchen', id: 2})]
+      StaffRole.fromApi({role: 'Bar back', orderInRota: 4, status: 'active', type: 'bar', id: 3}),
+      StaffRole.fromApi({role: 'Barista', orderInRota: 3, status: 'active', type: 'bar', id: 4}),
+      StaffRole.fromApi({role: 'Ops Manager', orderInRota: 2, status: 'active', type: 'bar', id: 5}),
+      StaffRole.fromApi({role: 'bar import', orderInRota: 0, status: 'imported', type: 'bar', id: 1}),
+      StaffRole.fromApi({role: 'kitchen import', orderInRota: 0, status: 'imported', type: 'kitchen', id: 2})]
     );
   }
 }

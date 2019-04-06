@@ -32,15 +32,15 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
 
   public static fromApi(obj: RotaApiType): RotaEntity {
     const date = moment.utc(obj.date);
-    const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromResponse(plannedShift, date.format(DateFormats.API)))
+    const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromApi(plannedShift, date.format(DateFormats.API)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    const actualShifts = obj.actualShifts.map(actualShift => Shift.fromResponse(actualShift, date.format(DateFormats.API)))
+    const actualShifts = obj.actualShifts.map(actualShift => Shift.fromApi(actualShift, date.format(DateFormats.API)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(
       date,
       obj.forecastRevenue,
       obj.targetLabourRate,
-      Constants.fromResponse(obj.constants),
+      Constants.fromApi(obj.constants),
       obj.status as RotaStatus,
       plannedShifts,
       actualShifts,

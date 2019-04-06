@@ -20,7 +20,7 @@ const setCurrentLoginRights = createAction<User>(CURRENT_USER_RIGHTS);
 export const handleAuthenticationResponse = (response: any, onLoginDispatch: Array<() => void>) => {
   return (dispatch: any) => {
     storeAuthInLocalStorage(response);
-    dispatch(setAuthentication(AuthenticatedUserResponse.fromResponse(response)));
+    dispatch(setAuthentication(AuthenticatedUserResponse.fromApi(response)));
     dispatch(clearLoginDispatch());
     dispatch(fetchCurrentUser(onLoginDispatch));
   }
@@ -30,7 +30,7 @@ export const bootstrapFromLocalStorage = () => {
   return (dispatch: any) => {
     const response = getResponseFromLocalStorage();
     if (response) {
-      dispatch(setAuthentication(AuthenticatedUserResponse.fromResponse(response)));
+      dispatch(setAuthentication(AuthenticatedUserResponse.fromApi(response)));
     }
   }
 };
@@ -51,7 +51,7 @@ export const invalidUser = (onLoginDispatch: Array<() => void>) => {
 export const fetchCurrentUser = (onLoginDispatch: Array<() => void>) => {
   return (dispatch: any) => {
     authenticatedFetch(`/users/user`, () => dispatch(invalidUser(onLoginDispatch)))
-      .then((data: any) => User.fromResponse(data))
+      .then((data: any) => User.fromApi(data))
       .then((user: User) => {
         dispatch(setCurrentLoginRights(user));
         onLoginDispatch.forEach(f => f());

@@ -33,7 +33,7 @@ export const staffRolesFetch = () => {
     const thisDispatchable = () => dispatch(staffRolesFetch());
     dispatch(staffRolesFetchStart());
     return authenticatedFetch(`/staff/roles`, () => dispatch(invalidUser([thisDispatchable])))
-      .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromResponse(obj)))
+      .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromApi(obj)))
       .then(d => dispatch(staffRolesFetchSuccess(d)))
       .catch(e => dispatch(staffRolesFetchError(e)))
       ;
@@ -51,7 +51,7 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
       },
       method: 'POST',
     })
-      .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromResponse(obj)))
+      .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromApi(obj)))
       .then(d => dispatch(staffRolesCreateSuccess(d)))
       .catch(e => dispatch(staffRolesCreateError(e)))
       ;

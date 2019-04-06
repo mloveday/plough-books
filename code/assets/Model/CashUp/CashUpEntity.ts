@@ -26,7 +26,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
       date.format(DateFormats.API),
       obj.mod,
       obj.dailyNotes,
-      obj.tills.map(till => TillDenominations.parseApiResponse(till))
+      obj.tills.map(till => TillDenominations.fromApi(till))
         .filter((value: TillDenominations, index: number) => index < 7),
       obj.chargeToAccount,
       obj.depositRedeemed,
@@ -39,7 +39,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
       obj.comoInDrawer,
       obj.amexTots,
       obj.visaMcTots,
-      obj.receipts.map(receipt => Receipt.parseApiResponse(receipt)),
+      obj.receipts.map(receipt => Receipt.fromApi(receipt)),
       obj.spendStaffPts,
       obj.comoDiscAsset,
       obj.takeDry,
@@ -51,8 +51,8 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
       obj.banked,
       obj.cashAdvantageBag,
       obj.cashAdvantageBagSeenBy,
-      SafeFloatDenominations.parseApiResponse(obj.sfdAm),
-      SafeFloatDenominations.parseApiResponse(obj.sfdPm),
+      SafeFloatDenominations.fromApi(obj.sfdAm),
+      SafeFloatDenominations.fromApi(obj.sfdPm),
       obj.sfdNotes,
       obj.pubSecuredBy,
       obj.barClosedBy,

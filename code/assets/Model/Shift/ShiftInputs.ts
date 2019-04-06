@@ -17,7 +17,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined> imp
     );
   }
 
-  public static fromResponse(obj: ShiftApiType, date: string): ShiftInputs {
+  public static fromApi(obj: ShiftApiType, date: string): ShiftInputs {
     return new ShiftInputs(
       obj.status,
       obj.hourlyRate,

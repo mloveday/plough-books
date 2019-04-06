@@ -8,7 +8,7 @@ import {
 } from "./TillDenominationsTypes";
 
 export class TillDenominations extends TillDenominationsAbstract<number> implements TillDenominationsType {
-  public static parseApiResponse(obj: TillDenominationsApiType): TillDenominations {
+  public static fromApi(obj: TillDenominationsApiType): TillDenominations {
     return new TillDenominations(obj.id, obj.visa, obj.amex, obj.fiftyPounds, obj.twentyPounds, obj.tenPounds, obj.fivePounds, obj.pounds, obj.fiftyPence, obj.twentyPence, obj.tenPence, obj.fivePence, obj.float_amnt, obj.zRead, new TillDenominationsInputs(obj.visa.toString(), obj.amex.toString(), obj.fiftyPounds.toString(), obj.twentyPounds.toString(), obj.tenPounds.toString(), obj.fivePounds.toString(), obj.pounds.toString(), obj.fiftyPence.toString(), obj.twentyPence.toString(), obj.tenPence.toString(), obj.fivePence.toString(), obj.float_amnt.toString(), obj.zRead.toString()));
   }
   

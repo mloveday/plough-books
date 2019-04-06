@@ -6,8 +6,8 @@ export class UserRole extends UserRoleAbstract<number> implements UserRoleType, 
   public static default() {
     return new UserRole('', false, UserRoleInputs.default());
   }
-  public static fromResponse(json: UserRoleApiType): UserRole {
-    return new UserRole(json.role, json.managesUsers, UserRoleInputs.fromResponse(json), json.id);
+  public static fromApi(json: UserRoleApiType): UserRole {
+    return new UserRole(json.role, json.managesUsers, UserRoleInputs.fromApi(json), json.id);
   }
 
   public readonly id?: number;

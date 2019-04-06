@@ -10,8 +10,8 @@ export class StaffMember extends StaffMemberAbstract<number, StaffRole> implemen
     return new StaffMember('', 0, StaffRole.default(), '', StaffMemberInputs.default(), -1);
   }
 
-  public static fromResponse(obj: StaffMemberApiType) {
-    return new StaffMember(obj.name, obj.currentHourlyRate, StaffRole.fromResponse(obj.role), obj.status, StaffMemberInputs.fromResponse(obj), obj.id);
+  public static fromApi(obj: StaffMemberApiType) {
+    return new StaffMember(obj.name, obj.currentHourlyRate, StaffRole.fromApi(obj.role), obj.status, StaffMemberInputs.fromApi(obj), obj.id);
   }
 
   public readonly id?: number;

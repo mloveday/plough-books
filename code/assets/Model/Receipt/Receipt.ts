@@ -3,8 +3,8 @@ import {ReceiptInput} from "./ReceiptInput";
 import {ReceiptAbstract, ReceiptApiType, ReceiptType, ReceiptUpdateType} from "./ReceiptTypes";
 
 export class Receipt extends ReceiptAbstract<number> implements ReceiptType {
-  public static parseApiResponse(obj: ReceiptApiType) {
-    return new Receipt(obj.description, obj.amount, ReceiptInput.parseApiResponse(obj), obj.id);
+  public static fromApi(obj: ReceiptApiType) {
+    return new Receipt(obj.description, obj.amount, ReceiptInput.fromApi(obj), obj.id);
   }
 
   public static default() {

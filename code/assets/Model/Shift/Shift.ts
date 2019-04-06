@@ -25,10 +25,10 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
     );
   }
 
-  public static fromResponse(obj: ShiftApiType, date: string): Shift {
+  public static fromApi(obj: ShiftApiType, date: string): Shift {
     return new Shift(
-      StaffMember.fromResponse(obj.staffMember),
-      StaffRole.fromResponse(obj.staffRole),
+      StaffMember.fromApi(obj.staffMember),
+      StaffRole.fromApi(obj.staffRole),
       obj.status,
       obj.hourlyRate,
       date,
@@ -36,7 +36,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
       obj.endTime,
       obj.totalBreaks,
       obj.type,
-      ShiftInputs.fromResponse(obj, date),
+      ShiftInputs.fromApi(obj, date),
       obj.id,
     );
   }

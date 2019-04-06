@@ -4,7 +4,7 @@ export class UserRoleInputs extends UserRoleAbstract<number> implements UserRole
   public static default() {
     return new UserRoleInputs('', false);
   }
-  public static fromResponse(json: UserRoleApiType): UserRoleInputs {
+  public static fromApi(json: UserRoleApiType): UserRoleInputs {
     return new UserRoleInputs(json.role, json.managesUsers);
   }
 

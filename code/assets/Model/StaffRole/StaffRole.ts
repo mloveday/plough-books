@@ -4,13 +4,13 @@ import {StaffRoleAbstract, StaffRoleApiType, StaffRoleType, StaffRoleUpdateType}
 
 export class StaffRole extends StaffRoleAbstract<number> implements EditableEntity, StaffRoleType {
   
-  public static fromResponse(obj: StaffRoleApiType) {
+  public static fromApi(obj: StaffRoleApiType) {
     return new StaffRole(
       obj.role,
       obj.orderInRota,
       obj.status,
       obj.type,
-      StaffRoleInputs.fromResponse(obj),
+      StaffRoleInputs.fromApi(obj),
       obj.id,
     );
   }

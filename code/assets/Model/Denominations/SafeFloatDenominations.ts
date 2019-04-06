@@ -8,7 +8,7 @@ import {
 } from "./SafeFloatDenominationsTypes";
 
 export class SafeFloatDenominations extends SafeFloatDenominationsAbstract<number> implements SafeFloatDenominationsType {
-  public static parseApiResponse(obj: SafeFloatDenominationsApiType): SafeFloatDenominations {
+  public static fromApi(obj: SafeFloatDenominationsApiType): SafeFloatDenominations {
     return new SafeFloatDenominations(obj.id, obj.fiftyPounds, obj.twentyPounds, obj.tenPounds, obj.fivePounds, obj.pounds, obj.fiftyPence, obj.twentyPence, obj.tenPence, obj.fivePence, obj.initials,
       new SafeFloatDenominationsInputs(obj.fiftyPounds.toString(), obj.twentyPounds.toString(), obj.tenPounds.toString(), obj.fivePounds.toString(), obj.pounds.toString(), obj.fiftyPence.toString(), obj.twentyPence.toString(), obj.tenPence.toString(), obj.fivePence.toString(), obj.initials)
     );

@@ -2,7 +2,7 @@ import {ProfileObj} from "./ProfileObj";
 import {TokenObj} from "./TokenObj";
 
 export class AuthenticatedUserResponse {
-    public static fromResponse(response: any): AuthenticatedUserResponse {
+    public static fromApi(response: any): AuthenticatedUserResponse {
         return Object.assign(new AuthenticatedUserResponse(), response);
     }
     public accessToken: string;

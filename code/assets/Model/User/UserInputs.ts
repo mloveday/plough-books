@@ -4,7 +4,7 @@ export class UserInputs extends UserAbstract<string, undefined> implements UserI
   public static default() {
     return new UserInputs('', false, false);
   }
-  public static fromResponse(json: UserApiType): UserInputs {
+  public static fromApi(json: UserApiType): UserInputs {
     return new UserInputs(json.email, json.whitelisted, json.blacklisted);
   }
 

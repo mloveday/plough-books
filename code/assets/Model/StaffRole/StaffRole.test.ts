@@ -1,7 +1,7 @@
 import {StaffRole} from "./StaffRole";
 
 describe('StaffRole', () => {
-  it('fromResponse parses object correctly', () => {
+  it('fromApi parses object correctly', () => {
     const object = {
       role: 'foo',
       orderInRota: 6,
@@ -10,7 +10,7 @@ describe('StaffRole', () => {
       id: 9,
     };
 
-    const actual = StaffRole.fromResponse(object);
+    const actual = StaffRole.fromApi(object);
 
     expect(actual.role).toEqual(object.role);
     expect(actual.orderInRota).toEqual(object.orderInRota);
@@ -28,7 +28,7 @@ describe('StaffRole', () => {
       type: 'bar',
       id: 9,
     };
-    const actual = StaffRole.fromResponse(object);
+    const actual = StaffRole.fromApi(object);
     const expectedRole = 'bar';
 
     const modified = actual.with({role: expectedRole});
@@ -50,7 +50,7 @@ describe('StaffRole', () => {
       type: 'bar',
       id: 9,
     };
-    const actual = StaffRole.fromResponse(object);
+    const actual = StaffRole.fromApi(object);
     const expectedOrderInRota = 7;
 
     const modified = actual.with({orderInRota: expectedOrderInRota.toString()});
@@ -72,7 +72,7 @@ describe('StaffRole', () => {
       type: 'bar',
       id: 9,
     };
-    const actual = StaffRole.fromResponse(object);
+    const actual = StaffRole.fromApi(object);
     const expectedStatus = 'inactive';
 
     const modified = actual.with({status: expectedStatus});
@@ -94,7 +94,7 @@ describe('StaffRole', () => {
       type: 'bar',
       id: 9,
     };
-    const actual = StaffRole.fromResponse(object);
+    const actual = StaffRole.fromApi(object);
     const expectedType = 'kitchen';
 
     const modified = actual.with({type: expectedType});

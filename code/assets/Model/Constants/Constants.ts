@@ -7,7 +7,7 @@ import {ConstantsAbstract, ConstantsApiType, ConstantsType, ConstantsUpdateType}
 
 export class Constants extends ConstantsAbstract<number> implements ConstantsType, EditableEntity {
 
-  public static fromResponse(obj: ConstantsApiType): Constants {
+  public static fromApi(obj: ConstantsApiType): Constants {
     return new Constants(
       obj.date,
       obj.fixedCosts,

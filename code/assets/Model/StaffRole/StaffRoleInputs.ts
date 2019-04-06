@@ -2,7 +2,7 @@ import {StaffRoleAbstract, StaffRoleApiType, StaffRoleInputType, StaffRoleUpdate
 
 export class StaffRoleInputs extends StaffRoleAbstract<string> implements StaffRoleInputType {
   
-  public static fromResponse(obj: StaffRoleApiType) {
+  public static fromApi(obj: StaffRoleApiType) {
     return new StaffRoleInputs(
       obj.role,
       obj.orderInRota.toString(),

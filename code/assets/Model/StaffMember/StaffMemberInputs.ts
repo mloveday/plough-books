@@ -6,7 +6,7 @@ export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> im
     return new StaffMemberInputs('', '', undefined, '');
   }
 
-  public static fromResponse(obj: StaffMemberApiType) {
+  public static fromApi(obj: StaffMemberApiType) {
     return new StaffMemberInputs(obj.name, obj.currentHourlyRate.toString(), undefined, obj.status);
   }
 

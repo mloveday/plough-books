@@ -1,7 +1,7 @@
 import {ReceiptAbstract, ReceiptApiType, ReceiptUpdateType} from "./ReceiptTypes";
 
 export class ReceiptInput extends ReceiptAbstract<string> {
-  public static parseApiResponse(obj: ReceiptApiType) {
+  public static fromApi(obj: ReceiptApiType) {
     return new ReceiptInput(obj.description, obj.amount.toString());
   }
 

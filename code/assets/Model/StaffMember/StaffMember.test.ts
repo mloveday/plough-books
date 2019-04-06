@@ -17,7 +17,7 @@ describe('StaffMember', () => {
     },
     id: 9,
   };
-  const defaultStaffMember = () => StaffMember.fromResponse(object);
+  const defaultStaffMember = () => StaffMember.fromApi(object);
   const testRoleIsEqualToObject = (role: StaffRole) => {
     expect(role.id).toEqual(object.role.id);
     expect(role.role).toEqual(object.role.role);
@@ -25,7 +25,7 @@ describe('StaffMember', () => {
     expect(role.type).toEqual(object.role.type);
   };
 
-  it('fromResponse parses object correctly', () => {
+  it('fromApi parses object correctly', () => {
     const actual = defaultStaffMember();
 
     expect(actual.name).toEqual(object.name);

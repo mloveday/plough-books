@@ -7,8 +7,8 @@ export class User extends UserAbstract<number, UserRole> implements EditableEnti
   public static default() {
     return new User('', false, false, UserRole.default());
   }
-  public static fromResponse(json: UserApiType): User {
-    return new User(json.email, json.whitelisted, json.blacklisted, UserRole.fromResponse(json.role), json.id);
+  public static fromApi(json: UserApiType): User {
+    return new User(json.email, json.whitelisted, json.blacklisted, UserRole.fromApi(json.role), json.id);
   }
 
   public readonly id?: number;

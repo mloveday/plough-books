@@ -34,7 +34,7 @@ export const userRolesFetch = () => {
     const thisDispatchable = () => dispatch(userRolesFetch());
     dispatch(userRolesFetchStart());
     return authenticatedFetch(`/users/roles`, () => dispatch(invalidUser([thisDispatchable])))
-      .then((d: UserRoleApiType[]) => dispatch(userRolesFetchSuccess(d.map(obj => UserRole.fromResponse(obj)))))
+      .then((d: UserRoleApiType[]) => dispatch(userRolesFetchSuccess(d.map(obj => UserRole.fromApi(obj)))))
       .catch(e => dispatch(userRolesFetchError(e)))
       ;
   }
@@ -51,7 +51,7 @@ export const userRolesCreate = (role: UserRole) => {
       },
       method: 'POST',
     })
-      .then((d: UserRoleApiType[]) => dispatch(userRolesFetchSuccess(d.map(obj => UserRole.fromResponse(obj)))))
+      .then((d: UserRoleApiType[]) => dispatch(userRolesFetchSuccess(d.map(obj => UserRole.fromApi(obj)))))
       .catch(e => dispatch(userRolesCreateError(e)))
       ;
   }
