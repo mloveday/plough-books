@@ -1,7 +1,7 @@
-import {UserAbstract, UserApiType, UserType, UserUpdateType} from "./UserTypes";
 import {EditableEntity} from "../../State/EditableEntity";
 import {UserRole} from "../UserRole/UserRole";
 import {UserInputs} from "./UserInputs";
+import {UserAbstract, UserApiType, UserType, UserUpdateType} from "./UserTypes";
 
 export class User extends UserAbstract<number, UserRole> implements EditableEntity, UserType {
   public static default() {
@@ -19,7 +19,7 @@ export class User extends UserAbstract<number, UserRole> implements EditableEnti
     this.id = id;
   }
 
-  public with(obj: UserUpdateType) {
+  public with(obj: UserUpdateType): User {
     return new User(
       obj.email ? obj.email : this.email,
       obj.whitelisted !== undefined ? obj.whitelisted : this.whitelisted,

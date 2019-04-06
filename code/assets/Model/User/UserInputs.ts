@@ -1,5 +1,5 @@
-import {UserAbstract, UserApiType, UserInputType, UserUpdateType} from "./UserTypes";
 import {EditableEntity} from "../../State/EditableEntity";
+import {UserAbstract, UserApiType, UserInputType, UserUpdateType} from "./UserTypes";
 
 export class UserInputs extends UserAbstract<string, undefined> implements UserInputType, EditableEntity {
   public static default() {
@@ -13,7 +13,7 @@ export class UserInputs extends UserAbstract<string, undefined> implements UserI
     super(email, whitelisted, blacklisted, undefined);
   }
 
-  public with(obj: UserUpdateType) {
+  public with(obj: UserUpdateType): UserInputs {
     return new UserInputs(
       obj.email ? obj.email : this.email,
       obj.whitelisted ? obj.whitelisted : this.whitelisted,

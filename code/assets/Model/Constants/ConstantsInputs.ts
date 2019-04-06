@@ -27,7 +27,7 @@ export class ConstantsInputs extends ConstantsAbstract<string> implements Editab
     );
   }
   
-  public with(obj: ConstantsUpdateType) {
+  public with(obj: ConstantsUpdateType): ConstantsInputs {
     return new ConstantsInputs(
       obj.date ? obj.date : this.date,
       obj.fixedCosts ? obj.fixedCosts : this.fixedCosts,

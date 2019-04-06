@@ -28,7 +28,7 @@ export class StaffRole extends StaffRoleAbstract<number> implements EditableEnti
     this.id = id;
   }
 
-  public with(obj: StaffRoleUpdateType) {
+  public with(obj: StaffRoleUpdateType): StaffRole {
     return new StaffRole(
       obj.role ? obj.role : this.role,
       obj.orderInRota ? parseInt(obj.orderInRota, 10) : this.orderInRota,

@@ -23,7 +23,7 @@ export class StaffMember extends StaffMemberAbstract<number, StaffRole> implemen
     this.id = id;
   }
 
-  public with(obj: StaffMemberUpdateType) {
+  public with(obj: StaffMemberUpdateType): StaffMember {
     return new StaffMember(
       obj.name ? obj.name : this.name,
       obj.currentHourlyRate ? validateCash(obj.currentHourlyRate, this.currentHourlyRate) : this.currentHourlyRate,
