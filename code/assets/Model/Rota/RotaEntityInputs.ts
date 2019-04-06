@@ -25,7 +25,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
     return new RotaEntityInputs(
       obj.date,
       obj.forecastRevenue.toString(),
-      obj.targetLabourRate.toString(),
+      Formatting.formatPercent(obj.targetLabourRate, 2, false),
       undefined,
       obj.status as RotaStatus,
       [],
