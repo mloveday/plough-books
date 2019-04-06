@@ -133,7 +133,7 @@ class CashUpParsingService {
         $tillDenominations->setFivePence((float) $requestObject['fivePence']);
         $tillDenominations->setAmex((float) $requestObject['amex']);
         $tillDenominations->setVisa((float) $requestObject['visa']);
-        $tillDenominations->setFloatAmnt((float) $requestObject['float']);
+        $tillDenominations->setFloatAmnt((float) $requestObject['float_amnt']);
         $tillDenominations->setZRead((float) $requestObject['zRead']);
         return $tillDenominations;
     }
