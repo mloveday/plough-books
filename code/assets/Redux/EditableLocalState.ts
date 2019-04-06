@@ -36,7 +36,7 @@ export abstract class EditableLocalState<N extends EditableEntity, T extends N> 
   public withEntities(obj: any[], editingEntityId: number = EditableLocalState.NOT_EDITING_ID) {
     const newEntities = new Map<number, T>();
     obj.forEach(v => {
-      newEntities.set(v.id ? v.id : (v.entityId ? v.entityId : -1), this.fromObjFn(v)) // TODO yuck. We need to be more specific about types in this function once all classes use the proper API typings
+      newEntities.set(v.entityId, this.fromObjFn(v))
     });
     const entities = new Map<number, T>();
     this.entities.forEach(v => {
