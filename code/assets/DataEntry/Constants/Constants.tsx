@@ -1,14 +1,14 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {AppState} from "../../redux";
-import {DateFormats} from "../../Util/DateFormats";
-import "./Constants.scss";
-import {currencyPattern, decimalPattern, percentagePattern} from "../../Util/Validation";
 import {Constants} from "../../Model/Constants/Constants";
+import {AppState} from "../../redux";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
 import {ConstantsLocalState} from "../../Redux/Constants/ConstantsLocalState";
 import {constantsCreate, constantsDataEntry, constantsFetch} from "../../Redux/Constants/ConstantsRedux";
+import {DateFormats} from "../../Util/DateFormats";
+import {currencyPattern, decimalPattern, percentagePattern} from "../../Util/Validation";
+import "./Constants.scss";
 
 interface ConstantsDataEntryOwnProps {
 }

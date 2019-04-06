@@ -1,11 +1,11 @@
 import * as moment from "moment";
-import {RotaStatus} from "../Enum/RotaStatus";
-import {WorkTypes} from "../Enum/WorkTypes";
 import {CashManipulation} from "../../Util/CashManipulation";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {validateCash, validatePercentageToDecimal} from "../../Util/Validation";
 import {Constants} from "../Constants/Constants";
+import {RotaStatus} from "../Enum/RotaStatus";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {Shift} from "../Shift/Shift";
 import {RotaEntityInputs} from "./RotaEntityInputs";
 import {RotaTemplate} from "./RotaTemplate";

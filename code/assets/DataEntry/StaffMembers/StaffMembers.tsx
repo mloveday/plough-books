@@ -2,13 +2,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
 import {StaffMemberStatus} from "../../Model/Enum/StaffMemberStatus";
-import {AppState} from "../../redux";
-import {currencyPattern} from "../../Util/Validation";
-import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
-import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
-import "./StaffMembers.scss";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
-import {StaffMemberFilters} from "./State/StaffMemberFilters";
+import {AppState} from "../../redux";
 import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../../Redux/StaffMember/StaffMembersLocalState";
 import {
@@ -17,6 +12,11 @@ import {
   staffMembersFetch,
   staffMembersFilter
 } from "../../Redux/StaffMember/StaffMembersRedux";
+import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
+import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
+import {currencyPattern} from "../../Util/Validation";
+import "./StaffMembers.scss";
+import {StaffMemberFilters} from "./State/StaffMemberFilters";
 
 interface StaffMembersOwnProps {
 }

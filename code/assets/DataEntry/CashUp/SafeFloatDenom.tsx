@@ -1,8 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {SafeFloatDenominations} from "../../Model/Denominations/SafeFloatDenominations";
 import {AppState} from "../../redux";
 import {currencyPattern} from "../../Util/Validation";
-import {SafeFloatDenominations} from "../../Model/Denominations/SafeFloatDenominations";
 
 interface SafeFloatDenomOwnProps {
   cashUpPropName: string;

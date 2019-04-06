@@ -1,6 +1,8 @@
 import {StaffMemberFilters} from "./DataEntry/StaffMembers/State/StaffMemberFilters";
 import {CashUpsForWeek} from "./Model/CashUp/CashUpsForWeek";
 import {RotasForWeek} from "./Model/Rota/RotasForWeek";
+import {authReducer} from "./Redux/Auth/AuthRedux";
+import {AuthState} from "./Redux/Auth/AuthState";
 import {CashUpExternalState} from "./Redux/CashUp/CashUpExternalState";
 import {cashUpExternalReducers, cashUpInternalReducers} from "./Redux/CashUp/CashUpRedux";
 import {ConstantsExternalState} from "./Redux/Constants/ConstantsExternalState";
@@ -18,8 +20,6 @@ import {
 import {StaffRolesExternalState} from "./Redux/StaffRole/StaffRolesExternalState";
 import {StaffRolesLocalState} from "./Redux/StaffRole/StaffRolesLocalState";
 import {staffRolesExternalReducers, staffRolesInternalReducers} from "./Redux/StaffRole/StaffRolesRedux";
-import {authReducer} from "./Redux/Auth/AuthRedux";
-import {AuthState} from "./Redux/Auth/AuthState";
 import {uiReducers} from "./Redux/UI/UiRedux";
 import {UiState} from "./Redux/UI/UiState";
 import {UsersExternalState} from "./Redux/User/UsersExternalState";

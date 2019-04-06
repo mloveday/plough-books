@@ -1,11 +1,11 @@
 import * as moment from "moment";
-import {RotaStatus} from "../Enum/RotaStatus";
-import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {DateFormats} from "../../Util/DateFormats";
 import {Constants} from "../Constants/Constants";
 import {ConstantsApiType} from "../Constants/ConstantsTypes";
+import {RotaStatus} from "../Enum/RotaStatus";
 import {Shift} from "../Shift/Shift";
 import {ShiftApiType} from "../Shift/ShiftTypes";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class RotaAbstract<T extends string|number, C,S> {
   public readonly date: string;

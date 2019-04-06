@@ -1,6 +1,6 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffRoleApiType} from "../StaffRole/StaffRoleTypes";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class StaffMemberAbstract<T, R> {
   public readonly name: string;

@@ -1,8 +1,8 @@
 import * as moment from "moment";
-import {WorkTypes} from "../Enum/WorkTypes";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {validateDecimal} from "../../Util/Validation";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {ShiftInputs} from "./ShiftInputs";

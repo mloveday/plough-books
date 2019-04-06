@@ -1,9 +1,9 @@
 import * as moment from 'moment';
-import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
 import {PlaceholderCashUp} from "../../../DataEntry/CashUp/State/PlaceholderCashUp";
+import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
+import {WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
-import {WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {DailyOverview} from "./DailyOverview";
 
 export class DailyOverviews {

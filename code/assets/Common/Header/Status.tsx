@@ -1,15 +1,15 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
+import {FetchStatus} from "../../Model/Enum/FetchStatus";
+import {AppState} from "../../redux";
 import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
-import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
 import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
 import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
 import {UsersExternalState} from "../../Redux/User/UsersExternalState";
-import {FetchStatus} from "../../Model/Enum/FetchStatus";
-import {AppState} from "../../redux";
+import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
 import {StatusItem} from "./State/StatusItem";
 import './Status.scss';
 

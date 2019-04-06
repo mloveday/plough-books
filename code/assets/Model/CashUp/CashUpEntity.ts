@@ -1,11 +1,11 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../Util/DateFormats";
 import {validateCash} from "../../Util/Validation";
-import {CashUpEntityInputs} from "./CashUpEntityInputs";
-import {CashUpEntityAbstract, CashUpEntityApiType, CashUpEntityUpdateType} from "./CashUpEntityTypes";
 import {SafeFloatDenominations} from "../Denominations/SafeFloatDenominations";
 import {TillDenominations} from "../Denominations/TillDenominations";
 import {Receipt} from "../Receipt/Receipt";
+import {CashUpEntityInputs} from "./CashUpEntityInputs";
+import {CashUpEntityAbstract, CashUpEntityApiType, CashUpEntityUpdateType} from "./CashUpEntityTypes";
 
 export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations, SafeFloatDenominations, Receipt> {
   public static default(date: moment.Moment): CashUpEntity {

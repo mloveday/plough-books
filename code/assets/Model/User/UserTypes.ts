@@ -1,6 +1,6 @@
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {UserRole} from "../UserRole/UserRole";
 import {UserRoleApiType} from "../UserRole/UserRoleTypes";
-import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class UserAbstract<T, R> {
   public readonly email: string;

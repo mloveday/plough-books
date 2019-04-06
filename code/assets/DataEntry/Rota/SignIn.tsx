@@ -1,4 +1,5 @@
 import {connect} from "react-redux";
+import {Shift} from "../../Model/Shift/Shift";
 import {
   mapDispatchToProps,
   mapStateToProps,
@@ -7,7 +8,6 @@ import {
   RotaAbstractOwnProps,
   RotaAbstractStateProps
 } from "./RotaAbstract";
-import {Shift} from "../../Model/Shift/Shift";
 
 class SignInComponent extends RotaAbstractComponent {
   protected getName(): string {

@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {CashUpEntityApiType} from "../Model/CashUp/CashUpEntityTypes";
-import {RotaApiType} from "../Model/Rota/RotaTypes";
 import {RotaStatus} from "../Model/Enum/RotaStatus";
+import {RotaApiType} from "../Model/Rota/RotaTypes";
 import {DateFormats} from "../Util/DateFormats";
 
 export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {

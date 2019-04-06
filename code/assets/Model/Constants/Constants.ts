@@ -1,7 +1,7 @@
 import * as moment from "moment";
-import {EditableEntity} from "../EditableEntity";
 import {DateFormats} from "../../Util/DateFormats";
 import {validateCash, validateDecimal, validatePercentageToDecimal} from "../../Util/Validation";
+import {EditableEntity} from "../EditableEntity";
 import {ConstantsInputs} from "./ConstantsInputs";
 import {ConstantsAbstract, ConstantsApiType, ConstantsType, ConstantsUpdateType} from "./ConstantsTypes";
 

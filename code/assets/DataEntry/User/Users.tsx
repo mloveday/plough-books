@@ -3,11 +3,11 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {User} from "../../Model/User/User";
 import {AppState} from "../../redux";
-import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
-import {userRolesFetch} from "../../Redux/UserRole/UserRolesRedux";
 import {UsersExternalState} from "../../Redux/User/UsersExternalState";
 import {UsersLocalState} from "../../Redux/User/UsersLocalState";
 import {usersCreate, usersDataEntry, usersFetch} from "../../Redux/User/UsersRedux";
+import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
+import {userRolesFetch} from "../../Redux/UserRole/UserRolesRedux";
 import './Users.scss';
 
 interface UsersOwnProps {

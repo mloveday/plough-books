@@ -1,6 +1,6 @@
-import {StaffMemberStatus} from "../Enum/StaffMemberStatus";
-import {EditableEntity} from "../EditableEntity";
 import {validateCash} from "../../Util/Validation";
+import {EditableEntity} from "../EditableEntity";
+import {StaffMemberStatus} from "../Enum/StaffMemberStatus";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffMemberInputs} from "./StaffMemberInputs";
 import {StaffMemberAbstract, StaffMemberApiType, StaffMemberType, StaffMemberUpdateType} from "./StaffMemberTypes";

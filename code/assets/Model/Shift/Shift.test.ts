@@ -1,7 +1,7 @@
 import * as moment from 'moment';
-import {WorkTypes} from "../Enum/WorkTypes";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {Shift} from "./Shift";
 

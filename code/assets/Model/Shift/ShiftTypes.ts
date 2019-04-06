@@ -1,8 +1,8 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {StaffMemberApiType} from "../StaffMember/StaffMemberTypes";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffRoleApiType} from "../StaffRole/StaffRoleTypes";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class ShiftAbstract<T, SM, SR> {
   public readonly staffMember: SM;

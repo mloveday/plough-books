@@ -1,5 +1,5 @@
-import {Routes} from "../Routing/Routes";
 import {User} from "../../Model/User/User";
+import {Routes} from "../Routing/Routes";
 
 export const routeAllowed = (route: string, user: User): boolean => {
   switch (route) {

@@ -3,7 +3,6 @@ import * as React from "react";
 import GoogleLogin from 'react-google-login';
 import {connect} from "react-redux";
 import {AppState} from "../../redux";
-import './Auth.scss';
 import {
   bootstrapFromLocalStorage,
   clearAuthentication,
@@ -12,6 +11,7 @@ import {
 } from "../../Redux/Auth/AuthRedux";
 import {AuthState} from '../../Redux/Auth/AuthState';
 import {getResponseFromLocalStorage} from '../../Redux/Auth/AuthStorage';
+import './Auth.scss';
 
 interface AuthOwnProps {
 }

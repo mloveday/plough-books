@@ -1,10 +1,10 @@
-import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 import {SafeFloatDenominations} from "../Denominations/SafeFloatDenominations";
 import {SafeFloatDenominationsApiType} from "../Denominations/SafeFloatDenominationsTypes";
 import {TillDenominations} from "../Denominations/TillDenominations";
 import {TillDenominationsApiType} from "../Denominations/TillDenominationsTypes";
 import {Receipt} from "../Receipt/Receipt";
 import {ReceiptApiType} from "../Receipt/ReceiptTypes";
+import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly date: string;

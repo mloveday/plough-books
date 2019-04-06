@@ -5,10 +5,10 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
+import {AuthState} from "../../Redux/Auth/AuthState";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {routeAllowed} from "../Auth/AuthNavService";
-import {AuthState} from "../../Redux/Auth/AuthState";
 import {Routes} from "../Routing/Routes";
 import './Nav.scss';
 

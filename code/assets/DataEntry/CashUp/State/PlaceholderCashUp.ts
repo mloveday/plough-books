@@ -1,9 +1,9 @@
 import * as moment from "moment";
-import {DateFormats} from "../../../Util/DateFormats";
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
 import {CashUpEntityInputs} from "../../../Model/CashUp/CashUpEntityInputs";
 import {SafeFloatDenominations} from "../../../Model/Denominations/SafeFloatDenominations";
 import {TillDenominations} from "../../../Model/Denominations/TillDenominations";
+import {DateFormats} from "../../../Util/DateFormats";
 
 export class PlaceholderCashUp extends CashUpEntity {
   public static default(date: moment.Moment): PlaceholderCashUp {

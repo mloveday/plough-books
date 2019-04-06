@@ -1,7 +1,7 @@
 import * as moment from "moment";
-import {RotaStatus} from "../Enum/RotaStatus";
 import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";
+import {RotaStatus} from "../Enum/RotaStatus";
 import {RotaEntity} from "./RotaEntity";
 import {RotaAbstract, RotaApiType, RotaUpdateType} from "./RotaTypes";
 

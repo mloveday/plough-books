@@ -1,5 +1,5 @@
-import {WorkTypes} from "../Enum/WorkTypes";
 import {Formatting} from "../../Util/Formatting";
+import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {ShiftAbstract, ShiftApiType, ShiftInputType, ShiftUpdateType} from "./ShiftTypes";
 

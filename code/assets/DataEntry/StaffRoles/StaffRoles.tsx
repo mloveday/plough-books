@@ -3,13 +3,13 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {StaffRoleStatus} from "../../Model/Enum/StaffRoleStatus";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
-import {AppState} from "../../redux";
-import {getStaffRoleOrder} from "../../Util/SortingUtils";
-import "./StaffRoles.scss";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
+import {AppState} from "../../redux";
 import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
 import {StaffRolesLocalState} from "../../Redux/StaffRole/StaffRolesLocalState";
 import {staffRolesCreate, staffRolesDataEntry, staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
+import {getStaffRoleOrder} from "../../Util/SortingUtils";
+import "./StaffRoles.scss";
 
 interface StaffRolesOwnProps {
 }

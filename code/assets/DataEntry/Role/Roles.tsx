@@ -3,10 +3,10 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {UserRole} from "../../Model/UserRole/UserRole";
 import {AppState} from "../../redux";
-import './Roles.scss';
 import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
 import {UserRolesLocalState} from "../../Redux/UserRole/UserRolesLocalState";
 import {userRolesCreate, userRolesDataEntry, userRolesFetch} from "../../Redux/UserRole/UserRolesRedux";
+import './Roles.scss';
 
 interface RolesOwnProps {
 }
