@@ -163,7 +163,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     )
   }
   
-  private newStaffMember(staffMember: StaffMember = StaffMember.default()) {
+  private newStaffMember(staffMember: StaffMember = StaffMember.default().with({role: this.props.staffRolesExternalState.externalState.entities.slice(0,1)[0]})) {
     this.props.updateStaffMember(this.props.staffMembersLocalState.withNewEntity(staffMember));
   }
 
