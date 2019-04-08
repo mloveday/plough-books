@@ -81,7 +81,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
-    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return state.with(StaffMembersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
     log.error(action.payload);
@@ -91,7 +91,7 @@ export const staffMembersExternalReducers = handleActions<StaffMembersExternalSt
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
-    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return state.with(StaffMembersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
     log.error(action.payload);

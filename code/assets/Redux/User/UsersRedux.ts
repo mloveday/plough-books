@@ -76,7 +76,7 @@ export const usersExternalReducers = handleActions<UsersExternalState, any>({
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [USERS_FETCH_SUCCESS]: (state, action: DefinedAction<User[]>) => {
-    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return state.with(UsersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [USERS_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
     log.error(action.payload);
@@ -86,7 +86,7 @@ export const usersExternalReducers = handleActions<UsersExternalState, any>({
     return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [USERS_CREATE_SUCCESS]: (state, action: DefinedAction<User[]>) => {
-    return state.with(state.externalState.withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return state.with(UsersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [USERS_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
     log.error(action.payload);
