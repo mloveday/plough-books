@@ -66,17 +66,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   public render() {
     const today = moment.utc(this.props.date);
     const timePeriods = this.getTimePeriods();
-    const unusedMembers = this.props.staffMembers
-      .filter(member => member.isActive()
-        && this.props.shifts.filter(shift => shift.staffMember.id === member.id).length === 0
-    );
-    const visibleRoles: StaffRole[] = [];
-    this.props.staffMembers.forEach(member => {
-      if (member.role.type === this.props.workType && member.isActive() && visibleRoles.find(role => member.role.entityId === role.entityId) === undefined) {
-        visibleRoles.push(member.role);
-      }
-    });
-    const sortedRoles = visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
     return (
       <div>
@@ -126,74 +115,93 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             })}
           </div>}
           <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
-          {sortedRoles.map((role, roleKey) => {
-            const shifts = this.props.shifts
-              .filter(shift => shift.staffRole.id === role.id && shift.type === this.props.workType);
-            if (shifts.length > 0 || !editingDisabled) {
-              return (
-                <div className="rota-role-group" key={roleKey}>
-                  <div className="rota-role-header">{role.role}</div>
-                  {shifts.map((shift, shiftKey) => (
-                    <div className="rota-shift" key={shiftKey}>
-                      <div className="rota-staff-name">{shift.staffMember.name}</div>
-                      <div className="rota-remove-shift">
-                        {!editingDisabled && <button className="rota-remove-shift-button" type='button'
-                                                     onClick={() => this.props.removeShift(shift)}>
-                          <FontAwesomeIcon icon="trash"/></button>}
-                      </div>
-                      <div className="rota-start-time">
-                        {editingDisabled ? (
-                          <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-                        ) : (
-                          <input disabled={editingDisabled} type='time' className="rota-time-input"
-                                 value={shift.inputs.startTime}
-                                 onChange={ev => this.startTimeHandler(ev.target.value, shift)}
-                          />
-                        )}
-                      </div>
-                      <div className="rota-end-time">
-                        {editingDisabled ? (
-                          <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-                        ) : (
-                          <input type='time' className="rota-time-input"
-                                 value={shift.inputs.endTime}
-                                 onChange={ev => this.endTimeHandler(ev.target.value, shift)}
-                          />
-                        )}
-                      </div>
-                      <div className="rota-breaks">{shift.totalBreaks * 60} mins</div>
-                      {timePeriods.map((timePeriod, periodKey) => (
-                        <div
-                          className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"}
-                          key={periodKey}/>
-                      ))}
-                    </div>
-                  ))}
-                  <div className="rota-horizontal-spacer"/>
-                  {!editingDisabled && unusedMembers
-                    .filter(member => member.role.id === role.id)
-                    .map((member, shiftKey) => (
-                      <div className="rota-shift no-shift" key={shiftKey}>
-                        <div className="rota-staff-name">{member.name}</div>
-                        <div className="rota-remove-shift"/>
-                        <div className="rota-new-shift">
-                          <button onClick={() => this.newShiftHandler(member)} type="button"><FontAwesomeIcon
-                            icon="plus-circle"/></button>
-                        </div>
-                        <div className="rota-new-shift-spacer"/>
-                        <div className="rota-new-shift-spacer"/>
-                        {timePeriods.map((timePeriod, periodKey) => (
-                          <div className="rota-time" key={periodKey}/>
-                        ))}
-                      </div>
-                    ))}
-                </div>);
-            }
-            return null;
-            }
+          {this.getRolesToDisplay().map((role, roleKey) =>
+            <div className="rota-role-group" key={roleKey}>
+              <div className="rota-role-header">{role.role}</div>
+              {this.props.staffMembers
+                .filter(staffMember => staffMember.role.id === role.id)
+                .map((staffMember, key) => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled, key))
+              }
+            </div>
+            )}
+        </div>
+      </div>
+    );
+  }
+
+  private getRolesToDisplay() {
+    const visibleRoles: StaffRole[] = [];
+    this.props.staffMembers.forEach(member => {
+      if (member.role.type === this.props.workType && member.isActive() && visibleRoles.find(role => member.role.entityId === role.entityId) === undefined) {
+        visibleRoles.push(member.role);
+      }
+    });
+    return visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
+  }
+
+  private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
+    const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
+    return shift === undefined
+      ? this.getEmptyShift(staffMember, timePeriods, key)
+      : this.getShift(shift, timePeriods, editingDisabled, key);
+  }
+
+  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], key: number) {
+    return (
+      <div className="rota-shift no-shift" key={key}>
+        <div className="rota-staff-name">{staffMember.name}</div>
+        <div className="rota-remove-shift"/>
+        <div className="rota-new-shift">
+          <button onClick={() => this.newShiftHandler(staffMember)} type="button"><FontAwesomeIcon icon="plus-circle"/></button>
+        </div>
+        <div className="rota-new-shift-spacer"/>
+        <div className="rota-new-shift-spacer"/>
+        {timePeriods.map((timePeriod, periodKey) => (
+          <div className="rota-time" key={periodKey}/>
+        ))}
+      </div>
+    );
+  }
+
+  private getShift(shift: Shift, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
+    return (
+      <div className="rota-shift" key={key}>
+        <div className="rota-staff-name">{shift.staffMember.name}</div>
+        <div className="rota-remove-shift">
+          {!editingDisabled &&
+          <button className="rota-remove-shift-button" type='button' onClick={() => this.props.removeShift(shift)}>
+            <FontAwesomeIcon icon="trash"/>
+          </button>}
+        </div>
+        <div className="rota-start-time">
+          {editingDisabled ? (
+            <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
+          ) : (
+            <input disabled={editingDisabled}
+                   type='time'
+                   className="rota-time-input"
+                   value={shift.inputs.startTime}
+                   onChange={ev => this.startTimeHandler(ev.target.value, shift)}
+            />
           )}
         </div>
-      </div>)
+        <div className="rota-end-time">
+          {editingDisabled ? (
+            <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
+          ) : (
+            <input type='time'
+                   className="rota-time-input"
+                   value={shift.inputs.endTime}
+                   onChange={ev => this.endTimeHandler(ev.target.value, shift)}
+            />
+          )}
+        </div>
+        <div className="rota-breaks">{shift.totalBreaks * 60} mins</div>
+        {timePeriods.map((timePeriod, periodKey) => (
+          <div className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
+        ))}
+      </div>
+    );
   }
 
   private getTimePeriods() {
