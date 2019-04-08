@@ -1,37 +1,36 @@
+import * as React from "react";
 import {connect} from "react-redux";
+import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {Shift} from "../../Model/Shift/Shift";
 import {
   mapDispatchToProps,
   mapStateToProps,
-  RotaAbstractComponent,
+  RotaAbstract,
   RotaAbstractDispatchProps,
   RotaAbstractOwnProps,
   RotaAbstractStateProps
 } from "./RotaAbstract";
+import {RotaEditor} from "./RotaEditor";
 
-class RotaComponent extends RotaAbstractComponent {
-  protected getName(): string {
-    return "Rota";
-  }
+class RotaComponent extends RotaAbstract {
 
-  protected showingRota(): boolean {
-    return true;
-  }
-
-  protected showingSignIn(): boolean {
-    return false;
-  }
-
-  protected showStats(): boolean {
-    return true;
-  }
-
-  protected showStaffLevels(): boolean {
-    return true;
-  }
-
-  protected canAutoPopulateFromRota(): boolean {
-    return false;
+  protected componentToRender() {
+    const rota = this.getRota();
+    return <RotaEditor
+      title={'Rota'}
+      workType={this.props.match.params.type as WorkTypes}
+      date={this.props.match.params.date}
+      editType={'rota'}
+      rota={rota}
+      rotasForWeek={this.props.rotaLocalStates}
+      shifts={rota.plannedShifts}
+      showStaffLevels={true}
+      showStats={true}
+      staffMembers={this.props.staffMembersExternalState.externalState.entities}
+      addShift={shift => this.addShift(shift)}
+      removeShift={shift => this.removeShift(shift)}
+      updateShift={shift => this.updateShift(shift)}
+    />;
   }
 
   protected getShifts() {
