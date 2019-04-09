@@ -1,24 +1,52 @@
-.error-retry-buttons {
-  grid-column: 1 / 4;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 16px;
-  grid-gap: 8px;
+.App-overlay.error {
+
+  .overlay-warning {
+    font-size: 2.6rem;
+    font-weight: bold;
+  }
+
+  .error-retry-buttons {
+    grid-column: 1 / 4;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 16px;
+    grid-gap: 8px;
+  }
 
   .error {
     display: flex;
     flex-direction: column;
     border: 1px solid lightgrey;
     padding: 4px;
+  }
+
+  .error-title {
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .error-log {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+  }
+
+  .error-clear {
+    grid-column: 1/4;
+    display: grid;
+    grid-template-areas: 'nowt title nada' 'nowt log nada' 'nowt button nada';
+    grid-template-columns: 1fr 1fr 1fr;
+    border: 1px solid lightgrey;
+    padding: 16px;
+    background: lightpink;
 
     .error-title {
-      font-weight: bold;
-      margin-bottom: 8px;
+      grid-area: title;
     }
-
     .error-log {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
+      grid-area: log;
+    }
+    .App-nav-anchor {
+      grid-area: button;
     }
   }
 }
