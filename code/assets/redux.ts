@@ -8,6 +8,7 @@ import {cashUpExternalReducers, cashUpInternalReducers} from "./Redux/CashUp/Cas
 import {ConstantsExternalState} from "./Redux/Constants/ConstantsExternalState";
 import {ConstantsLocalState} from "./Redux/Constants/ConstantsLocalState";
 import {constantsExternalReducers, constantsInternalReducers} from "./Redux/Constants/ConstantsRedux";
+import {errorReducers, ErrorState} from "./Redux/Error/ErrorRedux";
 import {RotaExternalState} from "./Redux/Rota/RotaExternalState";
 import {rotaExternalReducers, rotaInternalReducers} from "./Redux/Rota/RotaRedux";
 import {StaffMembersExternalState} from "./Redux/StaffMember/StaffMembersExternalState";
@@ -35,6 +36,7 @@ export interface AppState {
   cashUpLocalStates: CashUpsForWeek;
   constantsExternalState: ConstantsExternalState;
   constantsLocalState: ConstantsLocalState;
+  errors: ErrorState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotasForWeek;
   staffMembersExternalState: StaffMembersExternalState;
@@ -55,6 +57,7 @@ export const reducers = {
   cashUpLocalStates: cashUpInternalReducers,
   constantsExternalState: constantsExternalReducers,
   constantsLocalState: constantsInternalReducers,
+  errors: errorReducers,
   rotaExternalState: rotaExternalReducers,
   rotaLocalStates: rotaInternalReducers,
   staffMembersExternalState: staffMembersExternalReducers,

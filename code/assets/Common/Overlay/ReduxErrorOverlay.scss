@@ -1,0 +1,24 @@
+.error-retry-buttons {
+  grid-column: 1 / 4;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 16px;
+  grid-gap: 8px;
+
+  .error {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    padding: 4px;
+
+    .error-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .error-log {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+    }
+  }
+}

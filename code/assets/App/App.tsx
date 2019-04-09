@@ -4,6 +4,7 @@ import {Route} from "react-router";
 import {ContentRouting} from "../Common/ContentRouting/ContentRouting";
 import {Header} from "../Common/Header/Header";
 import {Nav} from "../Common/Nav/Nav";
+import {ReduxErrorOverlay} from "../Common/Overlay/ReduxErrorOverlay";
 import {UnauthorisedUserOverlay} from "../Common/Overlay/UnauthorisedUserOverlay";
 import {AppState} from "../redux";
 import {UiState} from "../Redux/UI/UiState";
@@ -36,6 +37,7 @@ class AppComponent extends React.Component<AppProps, {}> {
   public render() {
     return (
       <div className={`App${this.props.uiState.showingNav ? ' show-menu' : ''}`}>
+        <ReduxErrorOverlay/>
         <UnauthorisedUserOverlay/>
         <Header/>
         <Nav />

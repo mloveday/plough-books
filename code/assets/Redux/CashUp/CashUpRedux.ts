@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import * as moment from 'moment';
 import {createAction, handleActions} from "redux-actions";
 import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
@@ -10,20 +9,21 @@ import {weeksDataKey} from "../../Util/DateUtils";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
+import {ErrorPayload} from "../Error/ErrorRedux";
 import {CashUpExternalState} from "./CashUpExternalState";
 
 const CASH_UP_DATA_ENTRY = 'CASH_UP_DATA_ENTRY';
 
 const CASH_UP_FETCH_START = 'CASH_UP_FETCH_START';
 const CASH_UP_FETCH_SUCCESS = 'CASH_UP_FETCH_SUCCESS';
-const CASH_UP_FETCH_ERROR = 'CASH_UP_FETCH_ERROR';
+export const CASH_UP_FETCH_ERROR = 'CASH_UP_FETCH_ERROR';
 
 const CASH_UP_CREATE_START = 'CASH_UP_CREATE_START';
 const CASH_UP_CREATE_SUCCESS = 'CASH_UP_CREATE_SUCCESS';
-const CASH_UP_CREATE_ERROR = 'CASH_UP_CREATE_ERROR';
+export const CASH_UP_CREATE_ERROR = 'CASH_UP_CREATE_ERROR';
 
 interface FetchResponsePayload {date: moment.Moment, response: CashUpEntityApiType[]}
-interface FetchErrorPayload {date: moment.Moment, error: any}
+interface FetchErrorPayload extends ErrorPayload {date: moment.Moment}
 
 export const cashUpDataEntry = createAction<CashUpEntity[]>(CASH_UP_DATA_ENTRY);
 
@@ -52,7 +52,7 @@ export const cashUpFetch = (date: moment.Moment) => {
     dispatch(cashUpFetchStart(date));
     return authenticatedFetch(`/cash-up/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(cashUpFetchSuccess({date, response: d})))
-      .catch(e => dispatch(cashUpFetchError({error: e, date: date.clone()})))
+      .catch(e => dispatch(cashUpFetchError({error: e, date: date.clone(), appArea: 'Cash Up fetch', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -69,7 +69,7 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
       method: 'POST',
     })
       .then(d => dispatch(cashUpCreateSuccess({date: moment.utc(cashUp.date), response: d})))
-      .catch(e => dispatch(cashUpCreateError({error: e, date: moment.utc(cashUp.date)})))
+      .catch(e => dispatch(cashUpCreateError({error: e, date: moment.utc(cashUp.date), appArea: 'Cash Up post', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -94,7 +94,6 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_FETCH_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
-    log.error(action.payload.error);
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_START]: (state, action: DefinedAction<CashUpEntity>) => {
@@ -104,7 +103,6 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
-    log.error(action.payload.error);
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
 

@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {UserRole} from "../../Model/UserRole/UserRole";
@@ -6,6 +5,7 @@ import {UserRoleApiType} from "../../Model/UserRole/UserRoleTypes";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
+import {ErrorPayload} from "../Error/ErrorRedux";
 import {UserRolesExternalState} from "./UserRolesExternalState";
 import {UserRolesLocalState} from "./UserRolesLocalState";
 
@@ -13,21 +13,21 @@ const USER_ROLES_DATA_ENTRY = 'USER_ROLES_DATA_ENTRY';
 
 const USER_ROLES_FETCH_START = 'USER_ROLES_FETCH_START';
 const USER_ROLES_FETCH_SUCCESS = 'USER_ROLES_FETCH_SUCCESS';
-const USER_ROLES_FETCH_ERROR = 'USER_ROLES_FETCH_ERROR';
+export const USER_ROLES_FETCH_ERROR = 'USER_ROLES_FETCH_ERROR';
 
 const USER_ROLES_CREATE_START = 'USER_ROLES_CREATE_START';
 const USER_ROLES_CREATE_SUCCESS = 'USER_ROLES_CREATE_SUCCESS';
-const USER_ROLES_CREATE_ERROR = 'USER_ROLES_CREATE_ERROR';
+export const USER_ROLES_CREATE_ERROR = 'USER_ROLES_CREATE_ERROR';
 
 export const userRolesDataEntry = createAction<UserRolesLocalState>(USER_ROLES_DATA_ENTRY);
 
 export const userRolesFetchStart = createAction(USER_ROLES_FETCH_START);
 export const userRolesFetchSuccess = createAction<UserRole[]>(USER_ROLES_FETCH_SUCCESS);
-export const userRolesFetchError = createAction(USER_ROLES_FETCH_ERROR);
+export const userRolesFetchError = createAction<ErrorPayload>(USER_ROLES_FETCH_ERROR);
 
 export const userRolesCreateStart = createAction<UserRole>(USER_ROLES_CREATE_START);
 export const userRolesCreateSuccess = createAction<UserRole[]>(USER_ROLES_CREATE_SUCCESS);
-export const userRolesCreateError = createAction(USER_ROLES_CREATE_ERROR);
+export const userRolesCreateError = createAction<ErrorPayload>(USER_ROLES_CREATE_ERROR);
 
 export const userRolesFetch = () => {
   return (dispatch: any) => {
@@ -36,7 +36,7 @@ export const userRolesFetch = () => {
     return authenticatedFetch(`/users/roles`, () => dispatch(invalidUser([thisDispatchable])))
       .then((d: UserRoleApiType[]) => d.map(obj => UserRole.fromApi(obj)))
       .then(d => dispatch(userRolesFetchSuccess(d)))
-      .catch(e => dispatch(userRolesFetchError(e)))
+      .catch(e => dispatch(userRolesFetchError({error: e, appArea: 'User Roles fetch', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -54,7 +54,7 @@ export const userRolesCreate = (role: UserRole) => {
     })
       .then((d: UserRoleApiType[]) => d.map(obj => UserRole.fromApi(obj)))
       .then(d => dispatch(userRolesFetchSuccess(d)))
-      .catch(e => dispatch(userRolesCreateError(e)))
+      .catch(e => dispatch(userRolesCreateError({error: e, appArea: 'User Roles post', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -78,8 +78,7 @@ export const userRolesExternalReducers = handleActions<UserRolesExternalState, a
   [USER_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<UserRole[]>) => {
     return state.with(UserRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [USER_ROLES_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
-    log.error(action.payload);
+  [USER_ROLES_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [USER_ROLES_CREATE_START]: (state, action: DefinedAction<void>) => {
@@ -88,8 +87,7 @@ export const userRolesExternalReducers = handleActions<UserRolesExternalState, a
   [USER_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<UserRole[]>) => {
     return state.with(UserRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [USER_ROLES_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
-    log.error(action.payload);
+  [USER_ROLES_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 

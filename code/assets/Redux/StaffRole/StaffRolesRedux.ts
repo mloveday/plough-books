@@ -1,4 +1,3 @@
-import * as log from "loglevel";
 import {createAction, handleActions} from "redux-actions";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
@@ -6,6 +5,7 @@ import {StaffRoleApiType} from "../../Model/StaffRole/StaffRoleTypes";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
+import {ErrorPayload} from "../Error/ErrorRedux";
 import {StaffRolesExternalState} from "./StaffRolesExternalState";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
@@ -13,21 +13,21 @@ const STAFF_ROLES_DATA_ENTRY = 'STAFF_ROLES_DATA_ENTRY';
 
 const STAFF_ROLES_FETCH_START = 'STAFF_ROLES_FETCH_START';
 const STAFF_ROLES_FETCH_SUCCESS = 'STAFF_ROLES_FETCH_SUCCESS';
-const STAFF_ROLES_FETCH_ERROR = 'STAFF_ROLES_FETCH_ERROR';
+export const STAFF_ROLES_FETCH_ERROR = 'STAFF_ROLES_FETCH_ERROR';
 
 const STAFF_ROLES_CREATE_START = 'STAFF_ROLES_CREATE_START';
 const STAFF_ROLES_CREATE_SUCCESS = 'STAFF_ROLES_CREATE_SUCCESS';
-const STAFF_ROLES_CREATE_ERROR = 'STAFF_ROLES_CREATE_ERROR';
+export const STAFF_ROLES_CREATE_ERROR = 'STAFF_ROLES_CREATE_ERROR';
 
 export const staffRolesDataEntry = createAction<StaffRolesLocalState>(STAFF_ROLES_DATA_ENTRY);
 
 export const staffRolesFetchStart = createAction(STAFF_ROLES_FETCH_START);
 export const staffRolesFetchSuccess = createAction<StaffRole[]>(STAFF_ROLES_FETCH_SUCCESS);
-export const staffRolesFetchError = createAction(STAFF_ROLES_FETCH_ERROR);
+export const staffRolesFetchError = createAction<ErrorPayload>(STAFF_ROLES_FETCH_ERROR);
 
 export const staffRolesCreateStart = createAction<StaffRole>(STAFF_ROLES_CREATE_START);
 export const staffRolesCreateSuccess = createAction<StaffRole[]>(STAFF_ROLES_CREATE_SUCCESS);
-export const staffRolesCreateError = createAction(STAFF_ROLES_CREATE_ERROR);
+export const staffRolesCreateError = createAction<ErrorPayload>(STAFF_ROLES_CREATE_ERROR);
 
 export const staffRolesFetch = () => {
   return (dispatch: any) => {
@@ -36,7 +36,7 @@ export const staffRolesFetch = () => {
     return authenticatedFetch(`/staff/roles`, () => dispatch(invalidUser([thisDispatchable])))
       .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromApi(obj)))
       .then(d => dispatch(staffRolesFetchSuccess(d)))
-      .catch(e => dispatch(staffRolesFetchError(e)))
+      .catch(e => dispatch(staffRolesFetchError({error: e, appArea: 'Staff Roles fetch', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -54,7 +54,7 @@ export const staffRolesCreate = (staffRole: StaffRole) => {
     })
       .then((d: StaffRoleApiType[]) => d.map(obj => StaffRole.fromApi(obj)))
       .then(d => dispatch(staffRolesCreateSuccess(d)))
-      .catch(e => dispatch(staffRolesCreateError(e)))
+      .catch(e => dispatch(staffRolesCreateError({error: e, appArea: 'Staff Roles post', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -78,8 +78,7 @@ export const staffRolesExternalReducers = handleActions<StaffRolesExternalState,
   [STAFF_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(StaffRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [STAFF_ROLES_FETCH_ERROR]: (state, action: DefinedAction<any>) => {
-    log.error(action.payload);
+  [STAFF_ROLES_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [STAFF_ROLES_CREATE_START]: (state, action: DefinedAction<any>) => {
@@ -88,8 +87,7 @@ export const staffRolesExternalReducers = handleActions<StaffRolesExternalState,
   [STAFF_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
     return state.with(StaffRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
-  [STAFF_ROLES_CREATE_ERROR]: (state, action: DefinedAction<any>) => {
-    log.error(action.payload);
+  [STAFF_ROLES_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
     return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 

@@ -11,6 +11,7 @@ import {AuthenticatedUserResponse} from "../Redux/Auth/Model/AuthenticatedUserRe
 import {CashUpExternalState} from "../Redux/CashUp/CashUpExternalState";
 import {ConstantsExternalState} from '../Redux/Constants/ConstantsExternalState';
 import {ConstantsLocalState} from "../Redux/Constants/ConstantsLocalState";
+import {ErrorState} from "../Redux/Error/ErrorRedux";
 import {RotaExternalState} from "../Redux/Rota/RotaExternalState";
 import {StaffMembersExternalState} from "../Redux/StaffMember/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../Redux/StaffMember/StaffMembersLocalState";
@@ -69,6 +70,7 @@ export class StateHelpers {
       cashUpLocalStates: new CashUpsForWeek([]),
       constantsExternalState: (new ConstantsExternalState()).with(new ConstantsLocalState(), new Map<string, FetchStatus>()),
       constantsLocalState: new ConstantsLocalState(),
+      errors: ErrorState.default(),
       rotaExternalState: new RotaExternalState(),
       rotaLocalStates: new RotasForWeek([]),
       staffMembersExternalState: new StaffMembersExternalState(),
