@@ -2,6 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {Shift} from "../../Model/Shift/Shift";
+import {AncillaryRotaEditor, AncillaryRotaEditorOwnProps} from "./AncillaryRotaEditor";
 import {
   mapDispatchToProps,
   mapStateToProps,
@@ -10,27 +11,30 @@ import {
   RotaAbstractOwnProps,
   RotaAbstractStateProps
 } from "./RotaAbstract";
-import {RotaEditor} from "./RotaEditor";
+import {RotaEditor, RotaEditorOwnProps} from "./RotaEditor";
 
 class SignInComponent extends RotaAbstract {
 
   protected componentToRender(): JSX.Element {
     const rota = this.getRota();
-    return <RotaEditor
-      title={'Sign-in'}
-      workType={this.props.match.params.type as WorkTypes}
-      date={this.props.match.params.date}
-      editType={'sign-in'}
-      rota={rota}
-      rotasForWeek={this.props.rotaLocalStates}
-      shifts={rota.actualShifts}
-      showStaffLevels={false}
-      showStats={true}
-      staffMembers={this.props.staffMembersExternalState.externalState.entities}
-      addShift={shift => this.addShift(shift)}
-      removeShift={shift => this.removeShift(shift)}
-      updateShift={shift => this.updateShift(shift)}
-    />
+    const props: RotaEditorOwnProps|AncillaryRotaEditorOwnProps = {
+      title: 'Sign-in',
+      workType: this.props.match.params.type as WorkTypes,
+      date: this.props.match.params.date,
+      editType: 'sign-in',
+      rota,
+      rotasForWeek: this.props.rotaLocalStates,
+      shifts: rota.actualShifts,
+      showStaffLevels: false,
+      showStats: true,
+      staffMembers: this.props.staffMembersExternalState.externalState.entities,
+      addShift: (shift: Shift) => this.addShift(shift),
+      removeShift: (shift: Shift) => this.removeShift(shift),
+      updateShift: (shift: Shift) => this.updateShift(shift),
+    };
+    return this.props.match.params.type as WorkTypes === WorkTypes.ANCILLARY
+      ? <AncillaryRotaEditor {...props}/>
+      : <RotaEditor {...props}/>;
   }
 
   protected getShifts() {

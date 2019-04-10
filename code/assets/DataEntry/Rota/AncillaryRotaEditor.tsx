@@ -22,7 +22,7 @@ import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import './Rota.scss';
 
-export interface RotaEditorOwnProps {
+export interface AncillaryRotaEditorOwnProps {
   rota: RotaEntity;
   editType: 'rota'|'sign-in';
   workType: WorkTypes;
@@ -38,19 +38,19 @@ export interface RotaEditorOwnProps {
   removeShift(shiftToRemove: Shift): void;
 }
 
-export interface RotaEditorStateProps {}
+export interface AncillaryRotaEditorStateProps {}
 
-export const mapStateToProps = (state: AppState, ownProps: RotaEditorOwnProps): RotaEditorStateProps => {
+export const mapStateToProps = (state: AppState, ownProps: AncillaryRotaEditorOwnProps): AncillaryRotaEditorStateProps => {
   return {}
 };
 
-export interface RotaEditorDispatchProps {
+export interface AncillaryRotaEditorDispatchProps {
   createRota: (rota: RotaEntity) => void;
   updateRotaLocalState: (state: RotaEntity[]) => void;
   updateUi: (state: UiState) => void;
 }
 
-export const mapDispatchToProps = (dispatch: any, ownProps: RotaEditorOwnProps): RotaEditorDispatchProps => {
+export const mapDispatchToProps = (dispatch: any, ownProps: AncillaryRotaEditorOwnProps): AncillaryRotaEditorDispatchProps => {
   return {
     createRota: (rota: RotaEntity) => dispatch(rotaCreate(rota)),
     updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
@@ -58,9 +58,9 @@ export const mapDispatchToProps = (dispatch: any, ownProps: RotaEditorOwnProps):
   };
 };
 
-export type RotaEditorProps = RotaEditorOwnProps & RotaEditorStateProps & RotaEditorDispatchProps;
+export type AncillaryRotaEditorProps = AncillaryRotaEditorOwnProps & AncillaryRotaEditorStateProps & AncillaryRotaEditorDispatchProps;
 
-export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
+export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaEditorProps, {}> {
   private DAY_START_HOUR = 6;
 
   public render() {
@@ -81,7 +81,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               <option value={RotaStatus.SIGN_IN_COMPLETE}>Sign In Complete</option>
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
-            </div>
+          </div>
           {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API)}</div>}
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
@@ -89,16 +89,13 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           {this.props.editType === "sign-in" && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat"><button type="button" onClick={() => this.props.createRota(this.props.rota)}><FontAwesomeIcon icon="save" /> Save</button></div>
         </div>
-        <div className="rota-grid include-times">
+        <div className="rota-grid exclude-times">
           <div className="rota-times">
             <div className="rota-header rota-staff-name">Name</div>
             <div className="rota-header rota-remove-shift"/>
             <div className="rota-header rota-start-time">Start</div>
             <div className="rota-header rota-end-time">End</div>
             <div className="rota-header rota-breaks">Breaks</div>
-            {timePeriods.map((timePeriod, timeKey) => (
-              <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
-            ))}
           </div>
           {this.props.showStaffLevels && <div className="rota-staff-levels">
             <div className="rota-header rota-staff-name"/>
@@ -106,13 +103,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             <div className="rota-header rota-start-time"/>
             <div className="rota-header rota-end-time"/>
             <div className="rota-header rota-breaks"/>
-            {timePeriods.map((timePeriod, timeKey) => {
-              const numberWorking = this.props.rota.getPlannedNumberWorkingAtTime(timePeriod.format(DateFormats.TIME_LEADING_ZERO), this.props.workType);
-              const numberRequired = (this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate).staffRequired(timeKey);
-              const numberLeft = numberRequired - numberWorking;
-              const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
-              return <div className={`rota-time ${stylingClass}`} key={timeKey}>{numberLeft}</div>
-            })}
           </div>}
           <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
           {this.getRolesToDisplay().map((role, roleKey) =>
@@ -123,7 +113,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
                 .map((staffMember, key) => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled, key))
               }
             </div>
-            )}
+          )}
         </div>
       </div>
     );
@@ -156,9 +146,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         </div>
         <div className="rota-new-shift-spacer"/>
         <div className="rota-new-shift-spacer"/>
-        {timePeriods.map((timePeriod, periodKey) => (
-          <div className="rota-time" key={periodKey}/>
-        ))}
       </div>
     );
   }
@@ -197,9 +184,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           )}
         </div>
         <div className="rota-breaks">{shift.totalBreaks * 60} mins</div>
-        {timePeriods.map((timePeriod, periodKey) => (
-          <div className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
-        ))}
       </div>
     );
   }
@@ -274,7 +258,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   }
 }
 
-export const RotaEditor = connect<RotaEditorStateProps, RotaEditorDispatchProps, RotaEditorOwnProps>(
+export const AncillaryRotaEditor = connect<AncillaryRotaEditorStateProps, AncillaryRotaEditorDispatchProps, AncillaryRotaEditorOwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(RotaEditorComponent);
+)(AncillaryRotaEditorComponent);

@@ -11,43 +11,46 @@
 .rota-grid {
   display: grid;
   grid-gap: 1px;
-}
 
-@mixin rota-row-template {
-  display: grid;
-  grid-template-columns: 150px 25px 75px 75px 75px repeat(50, 1fr);
-  grid-gap: 1px;
-}
+  &.include-times {
+    .rota-times, .rota-shift, .rota-staff-levels {
+      display: grid;
+      grid-template-columns: 150px 25px 75px 75px 75px repeat(50, 1fr);
+      grid-gap: 1px;
+    }
 
-.rota-times {
-  @include rota-row-template;
-  grid-auto-rows: 50px;
-}
-
-.rota-shift {
-  @include rota-row-template;
-
-  &.no-shift {
-    color: #888;
+    .rota-staff-levels .rota-time {
+      &.staff-good {
+        background: greenyellow;
+      }
+      &.staff-ok {
+        background: yellow;
+      }
+      &.staff-mediocre {
+        background: orange;
+      }
+      &.staff-poor {
+        background: orangered;
+      }
+    }
   }
-}
 
-.rota-staff-levels {
-  @include rota-row-template;
-  grid-auto-rows: 26px;
+  &.exclude-times {
+    .rota-times, .rota-shift, .rota-staff-levels {
+      display: grid;
+      grid-template-columns: 150px 25px 75px 75px 75px;
+      grid-gap: 1px;
+    }
+  }
 
-  .rota-time {
-    &.staff-good {
-      background: greenyellow;
-    }
-    &.staff-ok {
-      background: yellow;
-    }
-    &.staff-mediocre {
-      background: orange;
-    }
-    &.staff-poor {
-      background: orangered;
+  .rota-times {
+    grid-auto-rows: 50px;
+  }
+
+  .rota-shift {
+
+    &.no-shift {
+      color: #888;
     }
   }
 }
