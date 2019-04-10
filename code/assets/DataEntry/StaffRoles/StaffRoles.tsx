@@ -74,8 +74,9 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
                 </select>}
                 <input disabled={!isEditingThisRole} type='number' value={role.orderInRota} step={1} onChange={ev => this.updateStaffRole(role.with({'orderInRota': ev.target.value}))}/>
                 <select disabled={!isEditingThisRole} value={role.type} onChange={ev => this.updateStaffRole(role.with({type: ev.target.value}))}>
-                    <option value='bar'>Bar</option>
-                    <option value='kitchen'>Kitchen</option>
+                  <option value={WorkTypes.BAR}>Bar</option>
+                  <option value={WorkTypes.KITCHEN}>Kitchen</option>
+                  <option value={WorkTypes.ANCILLARY}>Ancillary</option>
                 </select>
                 <div className="staff-role-edit-buttons">
                   {!isCreatingNewRole && !isEditingThisRole && !this.props.staffRolesLocalState.isEditing() &&
