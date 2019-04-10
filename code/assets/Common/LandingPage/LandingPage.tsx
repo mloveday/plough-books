@@ -39,7 +39,7 @@ class LandingPageComponent extends React.Component<LandingPageProps, {}> {
           <div className={'query-title'}>Create or edit a rota</div>
           <div className={'query-answers'}>
             <div className={'query-answer'}>Go to <Link className={'link'} to={Routes.weeklyPlanningUrl(moment.utc())}>weekly planning</Link> to input forecasts for revenue and targets for labour rate</div>
-            <div className={'query-answer'}>Go to <Link className={'link'} to={Routes.rotaUrl(moment.utc(), WorkTypes.BAR)}>Bar rota</Link> or <Link className={'link'} to={Routes.rotaUrl(moment.utc(), WorkTypes.KITCHEN)}>Kitchen rota</Link> to make a rota for a day</div>
+            <div className={'query-answer'}>Go to <Link className={'link'} to={Routes.rotaUrl(moment.utc(), WorkTypes.BAR)}>Bar rota</Link>, <Link className={'link'} to={Routes.rotaUrl(moment.utc(), WorkTypes.KITCHEN)}>Kitchen rota</Link> or <Link className={'link'} to={Routes.rotaUrl(moment.utc(), WorkTypes.ANCILLARY)}>Ancillary rota</Link> to make a rota for a day</div>
             <div className={'query-answer'}>Print the rotas off on the <Link className={'link'} to={Routes.weeklyRotaUrl(moment.utc())}>weekly rota page</Link> (literally just print the page)</div>
           </div>
           <div className={'query-tip'}>Tip: make sure your staff roles & staff are up to date first</div>
@@ -47,7 +47,7 @@ class LandingPageComponent extends React.Component<LandingPageProps, {}> {
         <div className={'query'}>
           <div className={'query-title'}>Fill in a sign in sheet</div>
           <div className={'query-answers'}>
-            <div className={'query-answer'}>Go to the <Link className={'link'} to={Routes.signInUrl(moment.utc(), WorkTypes.BAR)}>Bar sign in</Link> or <Link className={'link'} to={Routes.signInUrl(moment.utc(), WorkTypes.KITCHEN)}>Kitchen sign in</Link> page</div>
+            <div className={'query-answer'}>Go to the <Link className={'link'} to={Routes.signInUrl(moment.utc(), WorkTypes.BAR)}>Bar sign in</Link>, <Link className={'link'} to={Routes.signInUrl(moment.utc(), WorkTypes.KITCHEN)}>Kitchen sign in</Link> or <Link className={'link'} to={Routes.signInUrl(moment.utc(), WorkTypes.ANCILLARY)}>Ancillary sign in</Link> page</div>
           </div>
           <div className={'query-tip'}>Tip: It can auto-fill based on the hours from an existing rota</div>
         </div>

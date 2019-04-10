@@ -141,7 +141,9 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
 
   public getCombinedActualLabourRate(revenueToday: number, weeklyRevenue: number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR) + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN),
+      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR)
+      + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN)
+      + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY),
       revenueToday,
       this.constants.vatMultiplier
     );
@@ -156,7 +158,9 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
 
   public getCombinedRunningLabourRate(revenueToday: number, weeklyRevenue: number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR) + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN),
+      this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR)
+      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN)
+      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY),
       revenueToday,
       this.constants.vatMultiplier
     );

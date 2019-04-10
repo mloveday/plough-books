@@ -62,6 +62,11 @@ export class RotasForWeek {
       .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN) + prev, 0);
   }
 
+  public getTotalPredictedAncillaryLabour(date: moment.Moment, totalForecastAncillaryRevenue: number): number {
+    return this.getRotasForWeek(date)
+      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastAncillaryRevenue, WorkTypes.ANCILLARY) + prev, 0);
+  }
+
   public getTargetLabourRateForWeek(date: moment.Moment) {
     return this.getRotasForWeek(date)
       .reduce((prev, curr) => prev + curr.targetLabourRate*curr.forecastRevenue, 0) / this.getTotalForecastRevenue(date);

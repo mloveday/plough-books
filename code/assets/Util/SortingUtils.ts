@@ -7,7 +7,9 @@ export const getStaffRoleOrder = (role: StaffRole) => {
       return Number(`1.${role.orderInRota}`);
     case WorkTypes.KITCHEN:
       return Number(`2.${role.orderInRota}`);
-    default:
+    case WorkTypes.ANCILLARY:
       return Number(`3.${role.orderInRota}`);
+    default:
+      return Number(`4.${role.orderInRota}`);
   }
 };

@@ -58,6 +58,7 @@ class NavComponent extends React.Component<NavProps, {}> {
           <li className={routeCssDouble}>
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.BAR), "Bar Rota", 'planning', 'calendar-day', Routes.ROTA)}
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.KITCHEN), "Kitchen Rota", 'planning', 'calendar-day', Routes.ROTA)}
+          {this.routeItem(Routes.rotaUrl(date, WorkTypes.ANCILLARY), "Ancillary Rota", 'planning', 'calendar-day', Routes.ROTA)}
           </li>
           <li className={routeCssSingle}>
             {this.routeItem(Routes.cashUpUrl(date), "Cash up", 'recording', 'cash-register', Routes.CASH_UP)}
@@ -65,6 +66,7 @@ class NavComponent extends React.Component<NavProps, {}> {
           <li className={routeCssDouble}>
           {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
           {this.routeItem(Routes.signInUrl(date, WorkTypes.KITCHEN), "Sign-in kitchen", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
+          {this.routeItem(Routes.signInUrl(date, WorkTypes.ANCILLARY), "Sign-in ancillary", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}
           </li>
           <li className={routeCssDouble}>
             {this.routeItem(Routes.weeklyRotaUrl(date), "Weekly rota", 'planning', 'print', Routes.WEEKLY_ROTA)}

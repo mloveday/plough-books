@@ -32,7 +32,7 @@ export class Routes {
   }
 
   public static rotaRoute() {
-    return `${this.ROTA}/:date/:type(bar|kitchen)`;
+    return `${this.ROTA}/:date/:type(bar|kitchen|ancillary)`;
   }
 
   public static signInUrl(date: moment.Moment, type: string) {
@@ -40,7 +40,7 @@ export class Routes {
   }
 
   public static signInRoute() {
-    return `${this.SIGN_IN_SHEET}/:date/:type(bar|kitchen)`;
+    return `${this.SIGN_IN_SHEET}/:date/:type(bar|kitchen|ancillary)`;
   }
 
   public static weeklyOverviewUrl(date: moment.Moment) {

@@ -37,11 +37,22 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
                         actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), this.props.dailyOverviews.actualRevenue, WorkTypes.BAR)} />
         ))}
         <div className="overview-stat-title">Kitchen wage cost</div>
-        <div className="overview-stat"><CostsCompare label="Kitchen costs" showLabel={false} forecast={this.props.dailyOverviews.forecastKitchenLabour} actual={this.props.dailyOverviews.actualKitchenLabour} /></div>
+        <div className="overview-stat">
+          <CostsCompare label="Kitchen costs" showLabel={false} forecast={this.props.dailyOverviews.forecastKitchenLabour} actual={this.props.dailyOverviews.actualKitchenLabour} />
+        </div>
         {this.props.dailyOverviews.overviews.map((overview, key) => (
           <CostsCompare key={key} label="Kitchen labour cost" showLabel={false}
                         forecast={overview.rota.getTotalPredictedLabourCost(this.props.dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
                         actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), this.props.dailyOverviews.actualRevenue, WorkTypes.KITCHEN)} />
+        ))}
+        <div className="overview-stat-title">Ancillary wage cost</div>
+        <div className="overview-stat">
+          <CostsCompare label="Ancillary costs" showLabel={false} forecast={this.props.dailyOverviews.forecastAncillaryLabour} actual={this.props.dailyOverviews.actualAncillaryLabour} />
+        </div>
+        {this.props.dailyOverviews.overviews.map((overview, key) => (
+          <CostsCompare key={key} label="Ancillary labour cost" showLabel={false}
+                        forecast={overview.rota.getTotalPredictedLabourCost(this.props.dailyOverviews.forecastRevenue, WorkTypes.ANCILLARY)}
+                        actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), this.props.dailyOverviews.actualRevenue, WorkTypes.ANCILLARY)} />
         ))}
       </div>
     )

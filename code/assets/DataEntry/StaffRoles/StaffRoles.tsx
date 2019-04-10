@@ -102,6 +102,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
             <select value={this.props.staffRolesLocalState.newEntity.type} onChange={ev => this.newStaffRole(this.props.staffRolesLocalState.newEntity.with({type: ev.target.value}))}>
             <option value={WorkTypes.BAR}>Bar</option>
             <option value={WorkTypes.KITCHEN}>Kitchen</option>
+            <option value={WorkTypes.ANCILLARY}>Ancillary</option>
           </select>}
           <div className="staff-role-edit-buttons">
             {!isCreatingNewRole && !this.props.staffRolesLocalState.isEditing() &&
