@@ -65,7 +65,6 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
 
   public render() {
     const today = moment.utc(this.props.date);
-    const timePeriods = this.getTimePeriods();
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
     return (
       <div>
@@ -110,7 +109,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
               <div className="rota-role-header">{role.role}</div>
               {this.props.staffMembers
                 .filter(staffMember => staffMember.role.id === role.id)
-                .map((staffMember, key) => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled, key))
+                .map((staffMember, key) => this.getShiftForStaffMember(staffMember, editingDisabled, key))
               }
             </div>
           )}
@@ -129,14 +128,14 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
     return visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
   }
 
-  private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
+  private getShiftForStaffMember(staffMember: StaffMember, editingDisabled: boolean, key: number) {
     const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
     return shift === undefined
-      ? this.getEmptyShift(staffMember, timePeriods, key)
-      : this.getShift(shift, timePeriods, editingDisabled, key);
+      ? this.getEmptyShift(staffMember, key)
+      : this.getShift(shift, editingDisabled, key);
   }
 
-  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], key: number) {
+  private getEmptyShift(staffMember: StaffMember, key: number) {
     return (
       <div className="rota-shift no-shift" key={key}>
         <div className="rota-staff-name">{staffMember.name}</div>
@@ -150,7 +149,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
     );
   }
 
-  private getShift(shift: Shift, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
+  private getShift(shift: Shift, editingDisabled: boolean, key: number) {
     return (
       <div className="rota-shift" key={key}>
         <div className="rota-staff-name">{shift.staffMember.name}</div>
@@ -186,17 +185,6 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
         <div className="rota-breaks">{shift.totalBreaks * 60} mins</div>
       </div>
     );
-  }
-
-  private getTimePeriods() {
-    const startTime = momentFromDateAndTime(this.props.date, `0${this.DAY_START_HOUR}:00`);
-    const endTime = momentFromDateAndTime(this.props.date, `0${this.DAY_START_HOUR}:00`).add(1, 'day');
-    const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
-    const timePeriods: moment.Moment[] = [];
-    for (let i = 0; i < numberOfTimePeriods; i++) {
-      timePeriods.push(startTime.clone().add(i * 30, 'minutes'));
-    }
-    return timePeriods;
   }
 
   private formUpdate(obj: RotaUpdateType, touched: boolean = true) {
