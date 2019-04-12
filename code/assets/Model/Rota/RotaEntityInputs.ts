@@ -10,7 +10,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
   public static default(date: moment.Moment) {
     date = date.clone().startOf('day');
     return new RotaEntityInputs(
-      date.format(DateFormats.API),
+      date.format(DateFormats.API_DATE),
       '',
       Formatting.formatPercent(RotaEntity.DEFAULT_LABOUR_RATES[date.isoWeekday()-1], 2, false),
       undefined,

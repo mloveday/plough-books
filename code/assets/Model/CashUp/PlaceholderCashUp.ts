@@ -8,7 +8,7 @@ import {DateFormats} from "../../Util/DateFormats";
 export class PlaceholderCashUp extends CashUpEntity {
   public static default(date: moment.Moment): PlaceholderCashUp {
     return new PlaceholderCashUp(
-      moment.utc(date).format(DateFormats.API),
+      moment.utc(date).format(DateFormats.API_DATE),
       '',
       'No cash up for today',
       [

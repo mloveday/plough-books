@@ -9,7 +9,7 @@ import {
 
 export class CashUpEntityInputs extends CashUpEntityAbstract<string, undefined, undefined, undefined> implements CashUpEntityInputType {
   public static default(date: moment.Moment): CashUpEntityInputs {
-    return new CashUpEntityInputs(moment.utc(date).format(DateFormats.API), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
+    return new CashUpEntityInputs(moment.utc(date).format(DateFormats.API_DATE), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');
   }
 
   public static fromApi(obj: CashUpEntityApiType): CashUpEntityInputs {

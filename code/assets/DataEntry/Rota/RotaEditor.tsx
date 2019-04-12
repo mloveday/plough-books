@@ -82,7 +82,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
             </div>
-          {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API)}</div>}
+          {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}
@@ -180,7 +180,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             <input disabled={editingDisabled}
                    type='time'
                    className="rota-time-input"
-                   value={shift.inputs.startTime}
+                   value={shift.inputs.startTime.time}
                    onChange={ev => this.startTimeHandler(ev.target.value, shift)}
             />
           )}
@@ -191,7 +191,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           ) : (
             <input type='time'
                    className="rota-time-input"
-                   value={shift.inputs.endTime}
+                   value={shift.inputs.endTime.time}
                    onChange={ev => this.endTimeHandler(ev.target.value, shift)}
             />
           )}
@@ -238,9 +238,9 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     }
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrAfter(shift.getEndTime())) {
-      this.props.updateShift(shift.with({startTime: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
+      this.props.updateShift(shift.with({startTime: {date: shift.date, time: value}, endTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
     } else {
-      this.props.updateShift(shift.with({startTime: value, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
+      this.props.updateShift(shift.with({startTime: {date: shift.date, time: value}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
     }
   }
 
@@ -251,9 +251,9 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     }
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrBefore(shift.getStartTime())) {
-      this.props.updateShift(shift.with({endTime: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+      this.props.updateShift(shift.with({endTime: {date: shift.date, time: value}, startTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
     } else {
-      this.props.updateShift(shift.with({endTime: value, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+      this.props.updateShift(shift.with({endTime: {date: shift.date, time: value}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
     }
   }
 

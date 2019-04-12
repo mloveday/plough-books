@@ -39,7 +39,7 @@ export class RotasForWeek {
   }
 
   public getRotaForDate(date: moment.Moment): RotaEntity|undefined {
-    return this.rotas.find(rota => rota.date === date.format(DateFormats.API));
+    return this.rotas.find(rota => rota.date === date.format(DateFormats.API_DATE));
   }
 
   public getTotalForecastRevenue(date: moment.Moment): number {

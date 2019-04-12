@@ -9,7 +9,7 @@ import {CashUpEntityAbstract, CashUpEntityApiType, CashUpEntityUpdateType} from 
 
 export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations, SafeFloatDenominations, Receipt> {
   public static default(date: moment.Moment): CashUpEntity {
-    return new CashUpEntity(moment.utc(date).format(DateFormats.API), '', '', [
+    return new CashUpEntity(moment.utc(date).format(DateFormats.API_DATE), '', '', [
       TillDenominations.default(),
       TillDenominations.default(),
       TillDenominations.default(),
@@ -23,7 +23,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   public static fromApi(obj: CashUpEntityApiType): CashUpEntity {
     const date = moment.utc(obj.date);
     return new CashUpEntity(
-      date.format(DateFormats.API),
+      date.format(DateFormats.API_DATE),
       obj.mod,
       obj.dailyNotes,
       obj.tills.map(till => TillDenominations.fromApi(till))

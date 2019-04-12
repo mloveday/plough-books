@@ -20,7 +20,7 @@ export class Routes {
   public static readonly TEST_COVERAGE = "/test-coverage";
 
   public static cashUpUrl(date: moment.Moment) {
-    return `${this.CASH_UP}/${date.format(DateFormats.API)}`;
+    return `${this.CASH_UP}/${date.format(DateFormats.API_DATE)}`;
   }
 
   public static cashUpRoute() {
@@ -28,7 +28,7 @@ export class Routes {
   }
 
   public static rotaUrl(date: moment.Moment, type: string) {
-    return `${this.ROTA}/${date.format(DateFormats.API)}/${type}`;
+    return `${this.ROTA}/${date.format(DateFormats.API_DATE)}/${type}`;
   }
 
   public static rotaRoute() {
@@ -36,7 +36,7 @@ export class Routes {
   }
 
   public static signInUrl(date: moment.Moment, type: string) {
-    return `${this.SIGN_IN_SHEET}/${date.format(DateFormats.API)}/${type}`;
+    return `${this.SIGN_IN_SHEET}/${date.format(DateFormats.API_DATE)}/${type}`;
   }
 
   public static signInRoute() {

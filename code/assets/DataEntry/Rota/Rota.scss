@@ -38,7 +38,7 @@
   &.exclude-times {
     .rota-times, .rota-shift, .rota-staff-levels {
       display: grid;
-      grid-template-columns: 150px 25px 75px 75px 75px;
+      grid-template-columns: 150px 25px 120px 100px 120px 100px 75px;
       grid-gap: 1px;
     }
   }

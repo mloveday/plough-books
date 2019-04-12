@@ -3,17 +3,16 @@ import {DateFormats} from "../../Util/DateFormats";
 import {Formatting} from "../../Util/Formatting";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
-import {ShiftAbstract, ShiftApiType, ShiftInputType, ShiftUpdateType} from "./ShiftTypes";
+import {ShiftAbstract, ShiftApiType, ShiftDate, ShiftInputType, ShiftUpdateType} from "./ShiftTypes";
 
-export class ShiftInputs extends ShiftAbstract<string, undefined, undefined> implements ShiftInputType {
-
+export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, ShiftDate> implements ShiftInputType {
   public static default(staffMember: StaffMember, type: WorkTypes, date: string): ShiftInputs {
     return new ShiftInputs(
       'active',
       staffMember.currentHourlyRate,
       date,
-      '08:00',
-      '17:00',
+      {date, time: '08:00'},
+      {date, time: '17:00'},
       '0.5',
       type
     );
@@ -24,14 +23,14 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined> imp
       obj.status,
       obj.hourlyRate,
       date,
-      moment.utc(obj.startTime).format(DateFormats.TIME_LEADING_ZERO),
-      moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO),
+      {date: moment.utc(obj.startTime).format(DateFormats.API_DATE), time: moment.utc(obj.startTime).format(DateFormats.TIME_LEADING_ZERO)},
+      {date: moment.utc(obj.endTime).format(DateFormats.API_DATE), time: moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO)},
       Formatting.formatCash(obj.totalBreaks),
       obj.type,
     );
   }
 
-  private constructor(status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: string, type: string) {
+  private constructor(status: string, hourlyRate: number, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: string) {
     super(
       undefined,
       undefined,

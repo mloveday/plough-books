@@ -59,7 +59,7 @@ export const rotaFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(rotaFetch(date));
     dispatch(rotaFetchStart(date));
-    return authenticatedFetch(`/rota/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
+    return authenticatedFetch(`/rota/${date.format(DateFormats.API_DATE)}`, () => dispatch(invalidUser([thisDispatchable])))
     // TODO parse the data here into models before dispatching action
       .then(d => dispatch(rotaFetchSuccess({date, response: d})))
       .catch(e => dispatch(rotaFetchError({date, error: e, appArea: 'Rota fetch', dispatch: thisDispatchable})))

@@ -15,7 +15,7 @@ export class UiState {
 
   public readonly cashUpSection: CashUpSection = CashUpSection.TILLS;
   public readonly showingNav: boolean = false;
-  private readonly currentDateString: string = moment.utc().format(DateFormats.API);
+  private readonly currentDateString: string = moment.utc().format(DateFormats.API_DATE);
 
   public get currentDate(): moment.Moment {
     return moment.utc(this.currentDateString);
@@ -26,7 +26,7 @@ export class UiState {
   }
 
   public withCurrentDate(date: moment.Moment) {
-    return this.with({currentDateString: date.format(DateFormats.API)});
+    return this.with({currentDateString: date.format(DateFormats.API_DATE)});
   }
 
   public withCashUpSection(cashUpSection: CashUpSection) {

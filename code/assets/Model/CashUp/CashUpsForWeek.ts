@@ -42,7 +42,7 @@ export class CashUpsForWeek {
   }
 
   public getCashUpForDay(date: moment.Moment): CashUpEntity {
-    const day = date.format(DateFormats.API);
+    const day = date.format(DateFormats.API_DATE);
     const result = this.cashUps.find((cashUp) => day === cashUp.date);
     return result === undefined ? CashUpEntity.default(moment.utc(date)) : result;
   }

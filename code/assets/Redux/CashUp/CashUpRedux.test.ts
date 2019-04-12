@@ -87,7 +87,7 @@ describe('CashUpRedux', () => {
           date.clone().startOf('isoWeek').add(5, "days"),
           date.clone().startOf('isoWeek').add(6, "days"),
         ].forEach(dateInWeek => {
-          expect(outputState.cashUps.find(cashUp => cashUp.date === dateInWeek.format(DateFormats.API))).toBeTruthy();
+          expect(outputState.cashUps.find(cashUp => cashUp.date === dateInWeek.format(DateFormats.API_DATE))).toBeTruthy();
           const outputEntity = outputState.getCashUpForDay(dateInWeek.clone());
           if (outputEntity === undefined) {
             expect(outputEntity).toBeDefined();
@@ -128,7 +128,7 @@ describe('CashUpRedux', () => {
           date.clone().startOf('isoWeek').add(5, "days"),
           date.clone().startOf('isoWeek').add(6, "days"),
         ].forEach(dateInWeek => {
-          expect(outputState.cashUps.find(cashUp => cashUp.date === dateInWeek.format(DateFormats.API))).toBeTruthy();
+          expect(outputState.cashUps.find(cashUp => cashUp.date === dateInWeek.format(DateFormats.API_DATE))).toBeTruthy();
           const outputEntity = outputState.getCashUpForDay(dateInWeek.clone());
           if (outputEntity === undefined) {
             expect(outputEntity).toBeDefined();
@@ -171,7 +171,7 @@ describe('CashUpRedux', () => {
           date.clone().startOf('isoWeek').add(5, "days"),
           date.clone().startOf('isoWeek').add(6, "days"),
         ].forEach(dateInWeek => {
-          expect(outputState.cashUps.find(cashUp => cashUp.date === dateInWeek.format(DateFormats.API))).toBeTruthy();
+          expect(outputState.cashUps.find(cashUp => cashUp.date === dateInWeek.format(DateFormats.API_DATE))).toBeTruthy();
           const outputEntity = outputState.getCashUpForDay(dateInWeek.clone());
           if (outputEntity === undefined) {
             expect(outputEntity).toBeDefined();

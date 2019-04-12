@@ -5,7 +5,7 @@ import {ConstantsAbstract, ConstantsApiType, ConstantsUpdateType} from "./Consta
 
 export class ConstantsInputs extends ConstantsAbstract<string> {
   public static default() {
-    return new ConstantsInputs(moment.utc().format(DateFormats.API), '', '', '', '', '', '', '', '', '', '', '', '');
+    return new ConstantsInputs(moment.utc().format(DateFormats.API_DATE), '', '', '', '', '', '', '', '', '', '', '', '');
   }
   
   public static fromApi(obj: ConstantsApiType) {

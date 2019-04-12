@@ -61,8 +61,6 @@ export const mapDispatchToProps = (dispatch: any, ownProps: AncillaryRotaEditorO
 export type AncillaryRotaEditorProps = AncillaryRotaEditorOwnProps & AncillaryRotaEditorStateProps & AncillaryRotaEditorDispatchProps;
 
 export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaEditorProps, {}> {
-  private DAY_START_HOUR = 6;
-
   public render() {
     const today = moment.utc(this.props.date);
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
@@ -81,7 +79,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
           </div>
-          {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API)}</div>}
+          {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCash(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}
@@ -92,14 +90,18 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
           <div className="rota-times">
             <div className="rota-header rota-staff-name">Name</div>
             <div className="rota-header rota-remove-shift"/>
-            <div className="rota-header rota-start-time">Start</div>
-            <div className="rota-header rota-end-time">End</div>
+            <div className="rota-header rota-start-date">Start date</div>
+            <div className="rota-header rota-start-time">Start time</div>
+            <div className="rota-header rota-end-date">End date</div>
+            <div className="rota-header rota-end-time">End time</div>
             <div className="rota-header rota-breaks">Breaks</div>
           </div>
           {this.props.showStaffLevels && <div className="rota-staff-levels">
             <div className="rota-header rota-staff-name"/>
             <div className="rota-header rota-remove-shift"/>
+            <div className="rota-header rota-start-date"/>
             <div className="rota-header rota-start-time"/>
+            <div className="rota-header rota-end-date"/>
             <div className="rota-header rota-end-time"/>
             <div className="rota-header rota-breaks"/>
           </div>}
@@ -159,6 +161,18 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
             <FontAwesomeIcon icon="trash"/>
           </button>}
         </div>
+        <div className="rota-start-date">
+          {editingDisabled ? (
+            <div>{shift.getStartTime().format(DateFormats.API_DATE)}</div>
+          ) : (
+            <input disabled={editingDisabled}
+                   type='date'
+                   className="rota-time-input"
+                   value={shift.inputs.startTime.date}
+                   onChange={ev => this.startDateHandler(ev.target.value, shift)}
+            />
+          )}
+        </div>
         <div className="rota-start-time">
           {editingDisabled ? (
             <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
@@ -166,8 +180,20 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
             <input disabled={editingDisabled}
                    type='time'
                    className="rota-time-input"
-                   value={shift.inputs.startTime}
+                   value={shift.inputs.startTime.time}
                    onChange={ev => this.startTimeHandler(ev.target.value, shift)}
+            />
+          )}
+        </div>
+        <div className="rota-end-date">
+          {editingDisabled ? (
+            <div>{shift.getEndTime().format(DateFormats.API_DATE)}</div>
+          ) : (
+            <input disabled={editingDisabled}
+                   type='date'
+                   className="rota-time-input"
+                   value={shift.inputs.endTime.date}
+                   onChange={ev => this.endDateHandler(ev.target.value, shift)}
             />
           )}
         </div>
@@ -177,7 +203,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
           ) : (
             <input type='time'
                    className="rota-time-input"
-                   value={shift.inputs.endTime}
+                   value={shift.inputs.endTime.time}
                    onChange={ev => this.endTimeHandler(ev.target.value, shift)}
             />
           )}
@@ -204,28 +230,42 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
   }
 
   private startTimeHandler(value: string, shift: Shift) {
-    let time = momentFromDateAndTime(shift.date, value);
-    if (time.hour() < this.DAY_START_HOUR) {
-      time = momentFromDateAndTime(shift.date, '06:00');
-    }
-    const formattedTime = time.format(`HH:mm`);
+    const time = momentFromDateAndTime(shift.inputs.startTime.date, value);
+    const formattedTime = time.format(DateFormats.TIME_LEADING_ZERO);
     if (time.isSameOrAfter(shift.getEndTime())) {
-      this.props.updateShift(shift.with({startTime: value, endTime: formattedTime, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
+      this.props.updateShift(shift.with({startTime: {date: shift.inputs.startTime.date, time: value}, endTime: {date: shift.inputs.startTime.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
     } else {
-      this.props.updateShift(shift.with({startTime: value, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
+      this.props.updateShift(shift.with({startTime: {date: shift.inputs.startTime.date, time: value}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
     }
   }
 
   private endTimeHandler(value: string, shift: Shift) {
-    const time = momentFromDateAndTime(shift.date, value);
-    if (time.hour() < this.DAY_START_HOUR) {
-      time.add(1, 'day');
-    }
-    const formattedTime = time.format(`HH:mm`);
+    const time = momentFromDateAndTime(shift.inputs.endTime.date, value);
+    const formattedTime = time.format(DateFormats.TIME_LEADING_ZERO);
     if (time.isSameOrBefore(shift.getStartTime())) {
-      this.props.updateShift(shift.with({endTime: value, startTime: formattedTime, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+      this.props.updateShift(shift.with({endTime: {date: shift.inputs.endTime.date, time: value}, startTime: {date: shift.inputs.endTime.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
     } else {
-      this.props.updateShift(shift.with({endTime: value, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+      this.props.updateShift(shift.with({endTime: {date: shift.inputs.endTime.date, time: value}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+    }
+  }
+
+  private startDateHandler(value: string, shift: Shift) {
+    const time = momentFromDateAndTime(value, shift.inputs.startTime.time);
+    const formattedDate = time.format(DateFormats.API_DATE);
+    if (time.isSameOrAfter(shift.getEndTime())) {
+      this.props.updateShift(shift.with({startTime: {date: value, time: shift.inputs.startTime.time}, endTime: {date: formattedDate, time: shift.inputs.startTime.time}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
+    } else {
+      this.props.updateShift(shift.with({startTime: {date: value, time: shift.inputs.startTime.time}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
+    }
+  }
+
+  private endDateHandler(value: string, shift: Shift) {
+    const time = momentFromDateAndTime(value, shift.inputs.endTime.time);
+    const formattedDate = time.format(DateFormats.API_DATE);
+    if (time.isSameOrBefore(shift.getStartTime())) {
+      this.props.updateShift(shift.with({endTime: {date: value, time: shift.inputs.endTime.time}, startTime: {date: formattedDate, time: shift.inputs.endTime.time}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+    } else {
+      this.props.updateShift(shift.with({endTime: {date: value, time: shift.inputs.endTime.time}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
     }
   }
 

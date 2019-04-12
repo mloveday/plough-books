@@ -18,7 +18,7 @@ export abstract class RotaAbstract<T extends string|number, C,S> {
   public readonly touched: boolean = false;
 
   constructor(date: string, forecastRevenue: T, targetLabourRate: T, constants: C, status: RotaStatus, plannedShifts: S[], actualShifts: S[], touched: boolean) {
-    this.date = moment.utc(date).format(DateFormats.API);
+    this.date = moment.utc(date).format(DateFormats.API_DATE);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
     this.constants = constants;

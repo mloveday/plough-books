@@ -12,7 +12,7 @@ describe('RotaEntity', () => {
   });
 
   it('calling fromPartial() using a string date returns an object fromPartial a string as a date', () => {
-    const date = moment.utc().format(DateFormats.API);
+    const date = moment.utc().format(DateFormats.API_DATE);
 
     const modified = RotaEntity.default(moment.utc(date));
 

@@ -8,7 +8,7 @@ import {StaffRole} from "../StaffRole/StaffRole";
 import {ShiftInputs} from "./ShiftInputs";
 import {ShiftAbstract, ShiftApiType, ShiftType, ShiftUpdateType} from "./ShiftTypes";
 
-export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> implements ShiftType {
+export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string> implements ShiftType {
 
   public static default(staffMember: StaffMember, type: WorkTypes, date: string): Shift {
     return new Shift(
@@ -17,8 +17,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
       'active',
       staffMember.currentHourlyRate,
       date,
-      '08:00',
-      '17:00',
+      `${date} 08:00`,
+      `${date} 17:00`,
       0.5,
       type,
       ShiftInputs.default(staffMember, type, date)
@@ -51,8 +51,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
       status,
       hourlyRate,
       date,
-      momentFromDateAndTime(date, startTime, true).format(DateFormats.TIME_LEADING_ZERO),
-      momentFromDateAndTime(date, endTime, true).format(DateFormats.TIME_LEADING_ZERO),
+      startTime,
+      endTime,
       totalBreaks,
       type
     );
@@ -67,8 +67,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
       obj.status ? obj.status : this.status,
       obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
       obj.date ? obj.date : this.date,
-      obj.startTime ? obj.startTime : this.startTime,
-      obj.endTime ? obj.endTime : this.endTime,
+      obj.startTime ? momentFromDateAndTime(obj.startTime.date, obj.startTime.time).format(DateFormats.API_DATE_TIME) : this.startTime,
+      obj.endTime ? momentFromDateAndTime(obj.endTime.date, obj.endTime.time).format(DateFormats.API_DATE_TIME) : this.endTime,
       obj.totalBreaks ? validateDecimal(obj.totalBreaks, this.totalBreaks) : this.totalBreaks,
       obj.type ? obj.type : this.type,
       this.inputs.with(obj),
@@ -116,19 +116,11 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole> impleme
   }
 
   public getStartTime(): moment.Moment {
-    const timeAndDate = momentFromDateAndTime(this.date, this.startTime);
-    if (timeAndDate.hour() < 6) {
-      timeAndDate.add(1, 'day');
-    }
-    return timeAndDate;
+    return moment.utc(this.startTime);
   }
 
   public getEndTime(): moment.Moment {
-    const timeAndDate = momentFromDateAndTime(this.date, this.endTime);
-    if (timeAndDate.hour() < 6) {
-      timeAndDate.add(1, 'day');
-    }
-    return timeAndDate;
+    return moment.utc(this.endTime);
   }
 
   public forApi() {

@@ -50,7 +50,7 @@ export const cashUpFetch = (date: moment.Moment) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(cashUpFetch(date));
     dispatch(cashUpFetchStart(date));
-    return authenticatedFetch(`/cash-up/${date.format(DateFormats.API)}`, () => dispatch(invalidUser([thisDispatchable])))
+    return authenticatedFetch(`/cash-up/${date.format(DateFormats.API_DATE)}`, () => dispatch(invalidUser([thisDispatchable])))
       .then(d => dispatch(cashUpFetchSuccess({date, response: d})))
       .catch(e => dispatch(cashUpFetchError({error: e, date: date.clone(), appArea: 'Cash Up fetch', dispatch: thisDispatchable})))
       ;

@@ -34,7 +34,7 @@ export const accountingYearString = (date: moment.Moment): string => {
 };
 
 export const weeksDataKey = (date: moment.Moment) => {
-  return moment.utc(date).startOf('isoWeek').format(DateFormats.API);
+  return moment.utc(date).startOf('isoWeek').format(DateFormats.API_DATE);
 };
 
 export const momentFromDateAndTime = (date: string, time: string, silent: boolean = false) => {

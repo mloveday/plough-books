@@ -7,7 +7,7 @@ import {DateFormats} from "../Util/DateFormats";
 export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
   return {
     id: 1,
-    date: date.format(DateFormats.API),
+    date: date.format(DateFormats.API_DATE),
     mod: 'mod',
     dailyNotes: 'dailyNotes',
     tills: [],
@@ -71,7 +71,7 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
 export const rotaObject = (date: moment.Moment): RotaApiType => {
   return {
     id: 0,
-    date: date.format(DateFormats.API),
+    date: date.format(DateFormats.API_DATE),
     forecastRevenue: 0,
     targetLabourRate: 0,
     constants: {

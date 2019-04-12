@@ -32,9 +32,9 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
 
   public static fromApi(obj: RotaApiType): RotaEntity {
     const date = moment.utc(obj.date);
-    const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromApi(plannedShift, date.format(DateFormats.API)))
+    const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromApi(plannedShift, date.format(DateFormats.API_DATE)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    const actualShifts = obj.actualShifts.map(actualShift => Shift.fromApi(actualShift, date.format(DateFormats.API)))
+    const actualShifts = obj.actualShifts.map(actualShift => Shift.fromApi(actualShift, date.format(DateFormats.API_DATE)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(
       date,
@@ -56,7 +56,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   public readonly kitchenRotaTemplate: RotaTemplate;
 
   constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, inputs: RotaEntityInputs, id?: number) {
-    super(date.format(DateFormats.API), forecastRevenue, targetLabourRate, constants, status, plannedShifts, actualShifts, touched);
+    super(date.format(DateFormats.API_DATE), forecastRevenue, targetLabourRate, constants, status, plannedShifts, actualShifts, touched);
     this.id = id;
     this.inputs = inputs;
     this.barRotaTemplate = RotaTemplate.templateFor(moment.utc(this.date).day(), validateCash(String(forecastRevenue), 0), WorkTypes.BAR);

@@ -4,7 +4,7 @@ import {StaffRole} from "../StaffRole/StaffRole";
 import {StaffRoleApiType} from "../StaffRole/StaffRoleTypes";
 import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
-export abstract class ShiftAbstract<T, SM, SR> {
+export abstract class ShiftAbstract<T, SM, SR, D> {
   public readonly staffMember: SM;
   public readonly staffRole: SR;
   public readonly status: string;
@@ -12,10 +12,10 @@ export abstract class ShiftAbstract<T, SM, SR> {
   public readonly date: string;
   public readonly totalBreaks: T;
   public readonly type: string;
-  public readonly endTime: string;
-  public readonly startTime: string;
+  public readonly endTime: D;
+  public readonly startTime: D;
 
-  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: T, type: string, startTimeInputValue?: string, endTimeInputValue?: string, id?: number) {
+  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: number, date: string, startTime: D, endTime: D, totalBreaks: T, type: string) {
     this.staffMember = staffMember;
     this.staffRole = staffRole;
     this.status = status;
@@ -27,7 +27,9 @@ export abstract class ShiftAbstract<T, SM, SR> {
     this.type = type;
   }
 }
-export type ShiftApiType = ApiType<ShiftAbstract<number, StaffMemberApiType, StaffRoleApiType>>;
-export type ShiftUpdateType = UpdateType<ShiftAbstract<string, StaffMember, StaffRole>>;
-export type ShiftInputType = InputType<ShiftAbstract<string, undefined, undefined>>;
-export type ShiftType = EntityType<ShiftAbstract<number, StaffMember, StaffRole>, ShiftAbstract<string, undefined, undefined>>;
+export interface ShiftDate { date: string; time: string; }
+export type ShiftApiType = ApiType<ShiftAbstract<number, StaffMemberApiType, StaffRoleApiType, string>>;
+export type ShiftUpdateType = UpdateType<ShiftAbstract<string, StaffMember, StaffRole, ShiftDate>>;
+type Inputs = ShiftAbstract<string, undefined, undefined, ShiftDate>;
+export type ShiftInputType = InputType<Inputs>;
+export type ShiftType = EntityType<ShiftAbstract<number, StaffMember, StaffRole, string>, Inputs>;
