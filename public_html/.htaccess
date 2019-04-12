@@ -1,1 +1,4 @@
+RewriteRule ^(.*)/wlwmanifest.xml$ - [L,R=404]
+RewriteRule ^(.*).php$ - [L,R=404]
+
 FallbackResource /index.php
