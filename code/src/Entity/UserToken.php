@@ -29,7 +29,7 @@ class UserToken implements TokenInterface {
     }
 
     public function getRoles() {
-        return [];
+        return [new \Symfony\Component\Security\Core\Role\Role('user')];
     }
 
     public function getCredentials() {
@@ -37,11 +37,15 @@ class UserToken implements TokenInterface {
     }
 
     public function getUser() {
-        return $this->email;
+        if (is_null($this->email)) {
+            return null;
+        }
+        return new TokenUser($this->email);
     }
 
     public function setUser($user) {
         $this->email = $user;
+        return $this;
     }
 
     public function getUsername() {
@@ -53,7 +57,7 @@ class UserToken implements TokenInterface {
     }
 
     public function setAuthenticated($isAuthenticated) {
-        return;
+        return $this;
     }
 
     public function eraseCredentials() {
@@ -65,7 +69,7 @@ class UserToken implements TokenInterface {
     }
 
     public function setAttributes(array $attributes) {
-        return;
+        return $this;
     }
 
     public function hasAttribute($name) {
@@ -77,6 +81,6 @@ class UserToken implements TokenInterface {
     }
 
     public function setAttribute($name, $value) {
-        return;
+        return $this;
     }
 }

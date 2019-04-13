@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "^1.6",
+        "damienharper/doctrine-audit-bundle": "^2.1",
         "google/apiclient": "v2.2.2",
         "symfony/console": "*",
         "symfony/dotenv": "*",
