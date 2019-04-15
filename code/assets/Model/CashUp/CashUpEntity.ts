@@ -37,8 +37,8 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
       obj.dCustomersCoffee,
       obj.fwtWet,
       obj.comoInDrawer,
-      obj.amexTots,
-      obj.visaMcTots,
+      obj.amexTots, // as reported by worldpay - overrules what's taken by tills
+      obj.visaMcTots, // as reported by worldpay - overrules what's taken by tills
       obj.receipts.map(receipt => Receipt.fromApi(receipt)),
       obj.spendStaffPts,
       obj.comoDiscAsset,
@@ -128,8 +128,8 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   public getTotalRevenue(): number {
     return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0)
       - this.receipts.reduce((prev, curr) => prev + curr.amount, 0)
-      + this.amexTots - this.tills.reduce((prev, curr) => prev + curr.amex,0)
-      + this.visaMcTots - this.tills.reduce((prev, curr) => prev + curr.visa,0)
+      + this.getDiffBetweenAmexTotsAndSumOfTills()
+      + this.getDiffBetweenVisaTotsAndSumOfTills()
       + this.chargeToAccount + this.depositRedeemed;
   }
 
@@ -143,5 +143,13 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
 
   public getZReadVariance(): number {
     return this.getTotalComps() + this.getTotalRevenue() + this.comoInDrawer - this.getTotalZRead();
+  }
+
+  private getDiffBetweenAmexTotsAndSumOfTills(): number {
+    return this.amexTots === 0 ? 0 : this.amexTots - this.tills.reduce((prev, curr) => prev + curr.amex, 0);
+  }
+
+  private getDiffBetweenVisaTotsAndSumOfTills(): number {
+    return this.visaMcTots === 0 ? 0 : this.visaMcTots - this.tills.reduce((prev, curr) => prev + curr.visa, 0);
   }
 }
