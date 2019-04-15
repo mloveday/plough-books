@@ -18,7 +18,7 @@ export class RevenueCompare extends React.Component<ForecastVsActualOwnProps, {}
                         forecast={this.props.forecast}
                         actual={this.props.actual}
                         compareFn={ComparisonFunctions.biggerBetter}
-                        formatFn={v => Formatting.formatCash(v)} />
+                        formatFn={v => Formatting.formatCashForDisplay(v)} />
     )
   }
 }

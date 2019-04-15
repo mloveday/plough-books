@@ -8,19 +8,19 @@ import {
 export class TillDenominationsInputs extends TillDenominationsAbstract<string> implements TillDenominationsInputType {
   public static fromApi(obj: TillDenominationsApiType) {
     return new TillDenominationsInputs(
-      Formatting.formatCash(obj.fiftyPounds, false),
-      Formatting.formatCash(obj.twentyPounds, false),
-      Formatting.formatCash(obj.tenPounds, false),
-      Formatting.formatCash(obj.fivePounds, false),
-      Formatting.formatCash(obj.pounds, false),
-      Formatting.formatCash(obj.fiftyPence, false),
-      Formatting.formatCash(obj.twentyPence, false),
-      Formatting.formatCash(obj.tenPence, false),
-      Formatting.formatCash(obj.fivePence, false),
-      Formatting.formatCash(obj.float_amnt, false),
-      Formatting.formatCash(obj.visa, false),
-      Formatting.formatCash(obj.amex, false),
-      Formatting.formatCash(obj.zRead, false)
+      Formatting.formatCashForInput(obj.fiftyPounds),
+      Formatting.formatCashForInput(obj.twentyPounds),
+      Formatting.formatCashForInput(obj.tenPounds),
+      Formatting.formatCashForInput(obj.fivePounds),
+      Formatting.formatCashForInput(obj.pounds),
+      Formatting.formatCashForInput(obj.fiftyPence),
+      Formatting.formatCashForInput(obj.twentyPence),
+      Formatting.formatCashForInput(obj.tenPence),
+      Formatting.formatCashForInput(obj.fivePence),
+      Formatting.formatCashForInput(obj.float_amnt),
+      Formatting.formatCashForInput(obj.visa),
+      Formatting.formatCashForInput(obj.amex),
+      Formatting.formatCashForInput(obj.zRead)
     );
   }
 

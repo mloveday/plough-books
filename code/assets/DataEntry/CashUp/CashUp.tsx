@@ -99,41 +99,41 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           <div className={`z-read-summary`}>
             <div className={`summary-stat`}>
               <div>Total in drawer inc receipts</div>
-              <div>{Formatting.formatCash(this.getCashUp().getTotalRevenue())}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().getTotalRevenue())}</div>
             </div>
             <div className={`summary-stat`}>
               <div>Como in drawer</div>
-              <div>{Formatting.formatCash(this.getCashUp().comoInDrawer)}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().comoInDrawer)}</div>
             </div>
             <div className={`summary-stat`}>
               <div>Comps</div>
-              <div>{Formatting.formatCash(this.getCashUp().getTotalComps())}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().getTotalComps())}</div>
             </div>
 
             <div className={`summary-stat`}>
               <div>Expected z read</div>
-              <div>{Formatting.formatCash(this.getCashUp().getTotalComps() + this.getCashUp().getTotalRevenue() + this.getCashUp().comoInDrawer)}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().getTotalComps() + this.getCashUp().getTotalRevenue() + this.getCashUp().comoInDrawer)}</div>
             </div>
             <div className={`summary-stat`}>
               <div>Actual z read</div>
-              <div>{Formatting.formatCash(this.getCashUp().getTotalZRead())}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().getTotalZRead())}</div>
             </div>
             <div className={`summary-stat`}>
               <div>Variance</div>
-              <div>{Formatting.formatCash(this.getCashUp().getZReadVariance())}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().getZReadVariance())}</div>
             </div>
 
             <div className={`summary-stat`}>
               <div>Visa/Amex fill in total</div>
-              <div>{Formatting.formatCash(this.getCashUp().amexTots + this.getCashUp().visaMcTots)}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().amexTots + this.getCashUp().visaMcTots)}</div>
             </div>
             <div className={`summary-stat`}>
               <div>Visa/Amex in tills</div>
-              <div>{Formatting.formatCash(this.getCashUp().tills.reduce((prev, curr) => prev + curr.visa + curr.amex,0))}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().tills.reduce((prev, curr) => prev + curr.visa + curr.amex,0))}</div>
             </div>
             <div className={`summary-stat`}>
               <div>Variance</div>
-              <div>{Formatting.formatCash(this.getCashUp().amexTots + this.getCashUp().visaMcTots - this.getCashUp().tills.reduce((prev, curr) => prev + curr.visa + curr.amex,0))}</div>
+              <div>{Formatting.formatCashForDisplay(this.getCashUp().amexTots + this.getCashUp().visaMcTots - this.getCashUp().tills.reduce((prev, curr) => prev + curr.visa + curr.amex,0))}</div>
             </div>
           </div>
 
@@ -276,7 +276,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             <div className={`per-till diff`}>
               {this.getCashUp().tills.map((till, index) =>
                 <div className="till-label-and-input" key={index}>
-                  <div>{Formatting.formatCash(till.totalTaken() - till.zRead)}</div>
+                  <div>{Formatting.formatCashForDisplay(till.totalTaken() - till.zRead)}</div>
                 </div>
               )}
             </div>

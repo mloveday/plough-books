@@ -25,7 +25,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       date,
       {date: moment.utc(obj.startTime).format(DateFormats.API_DATE), time: moment.utc(obj.startTime).format(DateFormats.TIME_LEADING_ZERO)},
       {date: moment.utc(obj.endTime).format(DateFormats.API_DATE), time: moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO)},
-      Formatting.formatCash(obj.totalBreaks),
+      Formatting.formatCashForInput(obj.totalBreaks),
       obj.type,
     );
   }

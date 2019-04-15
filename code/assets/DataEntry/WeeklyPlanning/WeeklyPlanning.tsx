@@ -115,7 +115,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
             </div>
           ))}
           <div>
-            <div>Forecast revenue: {Formatting.formatCash(this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek))}</div>
+            <div>Forecast revenue: {Formatting.formatCashForDisplay(this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek))}</div>
             <div>Forecast labour rate: {Formatting.formatPercent(this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek))}</div>
           </div>
           <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
