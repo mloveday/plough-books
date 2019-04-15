@@ -20,6 +20,6 @@ export function validateDecimal(amount: string, previous: number) {
   return (castAmount || castAmount === 0) ? castAmount : previous;
 }
 
-export const currencyPattern = `\\d*(\\.\\d{1,2})?`;
+export const currencyPattern = `(-)?\\d*(\\.\\d{1,2})?`;
 export const percentagePattern = `\\d*(\\.\\d{0,3})?`;
 export const decimalPattern = `\\d*(\\.\\d{0,3})?`;
