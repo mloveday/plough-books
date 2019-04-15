@@ -51,8 +51,8 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
             <Link className="date-link" to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'week'))}><FontAwesomeIcon icon="chevron-left" /></Link>
           </li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
-            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(this.props.dateParam,'day') ? " selected" : "")}>
-              <Link className="date-link" to={this.props.urlFromDate(dayOfWeek)}>{dayOfWeek.format(DateFormats.READABLE_NO_YEAR)}</Link>
+            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(moment.utc(this.props.dateParam),'day') ? " selected" : "")}>
+              <Link className="date-link" to={this.props.urlFromDate(dayOfWeek.clone())}>{dayOfWeek.format(DateFormats.READABLE_NO_YEAR)}</Link>
             </li>
           })}
           <li className="date-list-item">
