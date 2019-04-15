@@ -1,10 +1,9 @@
 // @ts-ignore
-import {backendApiDomain, tokenQueryParam} from "env/Config";
-import {getAuthTokenFromLocalStorage} from "./Auth/AuthStorage";
+import {backendApiDomain} from "env/Config";
 
 export function authenticatedFetch(url: string, onAuthError: () => void, init?: RequestInit): Promise<any> {
     const prefixedUrl = '/api' + url;
-    return fetch(authenticatedUrl(prefixedUrl), init)
+    return fetch(backendApiDomain + prefixedUrl, init)
         .then(r => {
             if (r.ok) {
                 return r.json();
@@ -19,12 +18,4 @@ export function authenticatedFetch(url: string, onAuthError: () => void, init?: 
                 }
             }
         });
-}
-
-export function authenticatedUrl(url: string) {
-    try {
-        return backendApiDomain + url + tokenQueryParam(getAuthTokenFromLocalStorage());
-    } catch (e) {
-        throw new Error("Not signed in, will not fetch data");
-    }
 }

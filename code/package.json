@@ -64,6 +64,8 @@
     "coverage": "jest --coverage --watchAll --config ./jest.config.js"
   },
   "dependencies": {
+    "@types/js-cookie": "^2.2.2",
+    "js-cookie": "^2.2.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
