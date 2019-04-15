@@ -19,6 +19,13 @@ export class CashManipulation {
   };
 
   public static getProportionOfRevenue = (type: string, constants: Constants) => {
-    return type === WorkTypes.BAR ? constants.barProportionOfRevenue : 1 - constants.barProportionOfRevenue;
+    switch (type) {
+      case WorkTypes.BAR:
+        return constants.barProportionOfRevenue;
+      case WorkTypes.KITCHEN:
+        return 1 - constants.barProportionOfRevenue;
+      case WorkTypes.ANCILLARY:
+      default: return 0;
+    }
   };
 }
