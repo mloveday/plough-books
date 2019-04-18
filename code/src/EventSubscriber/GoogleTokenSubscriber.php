@@ -33,7 +33,7 @@ class GoogleTokenSubscriber implements EventSubscriberInterface
         if (in_array($event->getRequest()->getPathInfo(), self::NO_AUTH_ENDPOINTS) || stripos($event->getRequest()->getPathInfo(), '/_profiler') === 0) {
             return;
         }
-        $token = $event->getRequest()->cookies->get('token');
+        $token = $event->getRequest()->query->get('token');
         if (is_null($token)) {
             throw new UnauthorizedHttpException('','token is required for authentication');
         }

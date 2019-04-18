@@ -56,8 +56,7 @@ export const fetchCurrentUser = (onLoginDispatch: Array<() => void>) => {
       .then((user: User) => {
         dispatch(setCurrentLoginRights(user));
         onLoginDispatch.forEach(f => f());
-      })
-      .catch(() => dispatch(clearAuthentication()));
+      });
   }
 };
 

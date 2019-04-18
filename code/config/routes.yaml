@@ -54,10 +54,6 @@ constants:
 logs:
   path: /api/logs
   controller: App\Controller\AdminController::logAction
-dh_doctrine_audit:
-  resource: "@DHDoctrineAuditBundle/Controller/"
-  type: annotation
-
 index:
   path: /{foo}
   controller: App\Controller\IndexController::indexAction
