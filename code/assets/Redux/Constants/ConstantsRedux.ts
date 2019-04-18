@@ -45,13 +45,7 @@ export const constantsCreate = (constants: Constants) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(constantsCreate(constants));
     dispatch(constantsCreateStart(constants));
-    return authenticatedFetch('/constants', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(constants),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/constants', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(constants),'POST')
       .then((d: ConstantsApiType[]) => d.map(obj => Constants.fromApi(obj)))
       .then(d => dispatch(constantsCreateSuccess(d)))
       .catch(e => dispatch(constantsCreateError({error: e, appArea: 'Constants post', dispatch: thisDispatchable})))

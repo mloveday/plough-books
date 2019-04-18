@@ -61,13 +61,7 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(cashUpCreate(cashUp));
     dispatch(cashUpCreateStart(cashUp));
-    return authenticatedFetch('/cash-up', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(cashUp),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/cash-up', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(cashUp),'POST')
       .then(d => dispatch(cashUpCreateSuccess({date: moment.utc(cashUp.date), response: d})))
       .catch(e => dispatch(cashUpCreateError({error: e, date: moment.utc(cashUp.date), appArea: 'Cash Up post', dispatch: thisDispatchable})))
       ;

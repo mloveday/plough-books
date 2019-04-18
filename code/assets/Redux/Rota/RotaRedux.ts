@@ -71,13 +71,7 @@ export const rotaCreate = (rota: RotaEntity) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(rotaCreate(rota));
     dispatch(rotaCreateStart(rota));
-    return authenticatedFetch('/rota', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(rota.forApi()),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/rota', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(rota.forApi()),'POST')
     // TODO parse the data here into models before dispatching action
       .then(d => dispatch(rotaCreateSuccess({date: rota.getDate(), response: d})))
       .catch(e => dispatch(rotaCreateError({date: rota.getDate(), appArea: 'Rota post', error: e, dispatch: thisDispatchable})))
@@ -89,13 +83,7 @@ export const weeklyRotasCreate = (rotas: RotaEntity[]) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(weeklyRotasCreate(rotas));
     dispatch(weeklyRotasCreateStart({date: rotas[0].getDate(), response: rotas}));
-    return authenticatedFetch('/weekly-planning', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(rotas.map(rota => rota.forApi())),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/weekly-planning', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(rotas.map(rota => rota.forApi())),'POST')
     // TODO parse the data here into models before dispatching action
       .then(d => dispatch(weeklyRotasCreateSuccess({date: Array.from(rotas.values())[0].getDate(), response: d})))
       .catch(e => dispatch(weeklyRotasCreateError({date: Array.from(rotas.values())[0].getDate(), error: e, appArea: 'Weekly Rotas post', dispatch: thisDispatchable})))

@@ -45,13 +45,7 @@ export const usersCreate = (user: User) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(usersCreate(user));
     dispatch(usersCreateStart(user));
-    return authenticatedFetch('/users/user', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(user),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/users/user', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(user),'POST')
       .then((d: UserApiType[]) => d.map(obj => User.fromApi(obj)))
       .then(d => dispatch(usersCreateSuccess(d)))
       .catch(e => dispatch(usersCreateError({error: e, appArea: 'Users post', dispatch: thisDispatchable})))

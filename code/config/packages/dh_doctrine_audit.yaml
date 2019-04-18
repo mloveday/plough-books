@@ -1,0 +1,23 @@
+dh_doctrine_audit:
+    # Configuration reference available at:
+    # https://github.com/DamienHarper/DoctrineAuditBundle#configuration
+
+    entities:
+        App\Entity\ActualShift: ~
+        App\Entity\CashUp: ~
+        App\Entity\Constants: ~
+        App\Entity\Domain: ~
+        App\Entity\PlannedShift: ~
+        App\Entity\Receipt: ~
+        App\Entity\Role: ~
+        App\Entity\Rota: ~
+        App\Entity\SafeFloatDenomination: ~
+        App\Entity\StaffMember: ~
+        App\Entity\StaffRole: ~
+        App\Entity\TillDenomination: ~
+        App\Entity\User: ~
+#        MyBundle\Entity\MyAuditedEntity1: ~   # all MyAuditedEntity1 properties are audited
+#        MyBundle\Entity\MyAuditedEntity2:
+#            ignored_columns:                  # MyAuditedEntity2 properties to be ignored by the audit process
+#                - createdAt
+#                - updatedAt
