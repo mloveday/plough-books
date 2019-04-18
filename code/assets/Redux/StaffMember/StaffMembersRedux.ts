@@ -50,13 +50,7 @@ export const staffMembersCreate = (staffMember: StaffMember) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(staffMembersCreate(staffMember));
     dispatch(staffMembersCreateStart(staffMember));
-    return authenticatedFetch('/staff/members', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(staffMember),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/staff/members', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(staffMember),'POST')
       .then((d: StaffMemberApiType[]) => d.map(obj => StaffMember.fromApi(obj)))
       .then(d => dispatch(staffMembersCreateSuccess(d)))
       .catch(e => dispatch(staffMembersCreateError({error: e, appArea: 'Staff Members post', dispatch: thisDispatchable})))

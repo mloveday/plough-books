@@ -2,9 +2,9 @@
 import {backendApiDomain, tokenQueryParam} from "env/Config";
 import {getAuthTokenFromLocalStorage} from "./Auth/AuthStorage";
 
-export function authenticatedFetch(url: string, onAuthError: () => void, init?: RequestInit): Promise<any> {
-    const prefixedUrl = '/api' + url;
-    return fetch(authenticatedUrl(prefixedUrl), init)
+export function authenticatedFetch(url: string, onAuthError: () => void, body?: any, method: string = 'GET'): Promise<any> {
+    const prefixedUrl = '/api' + url + tokenQueryParam('');
+    return fetch(prefixedUrl, authenticatedInit(method, body))
         .then(r => {
             if (r.ok) {
                 return r.json();
@@ -21,10 +21,13 @@ export function authenticatedFetch(url: string, onAuthError: () => void, init?: 
         });
 }
 
-export function authenticatedUrl(url: string) {
-    try {
-        return backendApiDomain + url + tokenQueryParam(getAuthTokenFromLocalStorage());
-    } catch (e) {
-        throw new Error("Not signed in, will not fetch data");
+function authenticatedInit(method: string, body?: any): RequestInit {
+    return {
+        body,
+        headers: {
+            ['content-type']: 'application/json',
+            ['Authorization']: `Bearer ${getAuthTokenFromLocalStorage()}`,
+        },
+        method,
     }
 }

@@ -45,13 +45,7 @@ export const userRolesCreate = (role: UserRole) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(userRolesCreate(role));
     dispatch(userRolesCreateStart(role));
-    return authenticatedFetch('/users/role', () => dispatch(invalidUser([thisDispatchable])), {
-      body: JSON.stringify(role),
-      headers: {
-        ['content-type']: 'application/json',
-      },
-      method: 'POST',
-    })
+    return authenticatedFetch('/users/role', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(role),'POST')
       .then((d: UserRoleApiType[]) => d.map(obj => UserRole.fromApi(obj)))
       .then(d => dispatch(userRolesFetchSuccess(d)))
       .catch(e => dispatch(userRolesCreateError({error: e, appArea: 'User Roles post', dispatch: thisDispatchable})))

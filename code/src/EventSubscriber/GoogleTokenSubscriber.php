@@ -3,6 +3,7 @@ namespace App\EventSubscriber;
 
 use App\Entity\UserToken;
 use App\Service\UserLoginVerificationService;
+use App\Util\RequestAuthorization;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -33,17 +34,14 @@ class GoogleTokenSubscriber implements EventSubscriberInterface
         if (in_array($event->getRequest()->getPathInfo(), self::NO_AUTH_ENDPOINTS) || stripos($event->getRequest()->getPathInfo(), '/_profiler') === 0) {
             return;
         }
-        $token = $event->getRequest()->query->get('token');
-        if (is_null($token)) {
-            throw new UnauthorizedHttpException('','token is required for authentication');
-        }
+        $token = RequestAuthorization::getToken($event->getRequest());
 
         $payload = $this->userLoginVerificationService->getUserPayload($token);
 
         if (!$this->accessControlService->isAllowedAccess($payload['email'])) {
             throw new UnauthorizedHttpException('','email address not permitted');
         }
-        $this->tokenStorage->setToken(new UserToken($payload['email'], $token));
+        $this->tokenStorage->setToken(new UserToken($payload['email'], $token)); // todo replace with custom user provider?
 
         $this->verifyEndpointSpecificCredentials($event, $payload);
     }
