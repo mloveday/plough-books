@@ -77,6 +77,8 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
       .sort((a,b) => a.role.orderInRota > b.role.orderInRota ? 1 : (a.name > b.name ? 1 : -1));
     const kitchenStaff = Array.from(allStaff.values())
       .filter(staffMember => staffMember.role.type === WorkTypes.KITCHEN);
+    const ancillaryStaff = Array.from(allStaff.values())
+      .filter(staffMember => staffMember.role.type === WorkTypes.ANCILLARY);
 
     const visibleRoles: StaffRole[] = [];
     allStaff.forEach(member => {
@@ -94,6 +96,8 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
         <RotaGridComponent staff={barStaff} rotas={rotas} roles={sortedRoles}/>
         <div>Weekly kitchen rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
         <RotaGridComponent staff={kitchenStaff} rotas={rotas}  roles={sortedRoles}/>
+        <div>Weekly ancillary rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+        <RotaGridComponent staff={ancillaryStaff} rotas={rotas}  roles={sortedRoles}/>
       </div>
     )
   }
