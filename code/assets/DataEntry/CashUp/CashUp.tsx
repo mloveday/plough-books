@@ -93,7 +93,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                         value={this.getCashUp().dailyNotes}
                         onChange={ev => this.formUpdate({dailyNotes: ev.target.value})}/>
             </div>
-            <button className='submit-button' type='button' onClick={ev => this.updateBackEnd()}><FontAwesomeIcon icon="save" /> Save</button>
+            <button className='submit-button save' type='button' onClick={ev => this.updateBackEnd()}><FontAwesomeIcon icon="save" /> Save</button>
+            <button className='submit-button reset' type='button' onClick={ev => this.revert()}><FontAwesomeIcon icon="history" /> Reset</button>
           </div>
 
           <div className={`z-read-summary`}>
@@ -502,6 +503,12 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   private updateBackEnd() {
     this.props.updateBackEnd(this.getCashUp());
+  }
+
+  private revert() {
+    this.props.updateCashUpLocalState(
+      this.props.cashUpExternalState.cashUpsForWeek.cashUps
+    );
   }
 
   private receiptInput(receipt: Receipt) {

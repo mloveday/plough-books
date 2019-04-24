@@ -14,6 +14,7 @@ import {
   faCogs,
   faCoins,
   faEdit,
+  faHistory,
   faListAlt,
   faMagic,
   faPlusCircle,
@@ -57,4 +58,5 @@ library.add(
   faCalendarDay,
   faBookDead,
   faBars,
+  faHistory,
 );
