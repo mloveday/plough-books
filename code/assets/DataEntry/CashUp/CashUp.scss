@@ -104,9 +104,22 @@
     }
 
     .receipt {
-      border: 1px solid lightgrey;
       padding: 4px;
-      background: lightgoldenrodyellow;
+      border-radius: 4px;
+
+      // Should never be these colours, but default given just in case
+      border: 1px solid #bce8f1;
+      background: #d9edf7;
+
+      &.incoming {
+        border: 1px solid #d6e9c6;
+        background: #dff0d8;
+      }
+
+      &.outgoing {
+        border: 1px solid #ebccd1;
+        background: #f2dede;
+      }
     }
   }
 

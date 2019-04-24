@@ -507,7 +507,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   private receiptInput(receipt: Receipt) {
     const identifier = receipt.id ? receipt.id : receipt.timestamp;
     return (
-      <div className='receipt' key={identifier}>
+      <div className={`receipt${receipt.inputs.isOutgoing ? ' outgoing' : ' incoming'}`} key={identifier}>
         <div className="label-and-input receipt_desc">
           <label htmlFor={`receipt_desc_${identifier}`}>Description</label>
           <input id={`receipt_desc_${identifier}`} type="text"
