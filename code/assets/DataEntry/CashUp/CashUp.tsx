@@ -521,10 +521,14 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                  onChange={ev => this.updateReceipt(receipt.with({amount: ev.target.value}))}/>
         </div>
         <div className="label-and-input receipt_amnt">
-          <label htmlFor={`receipt_outgoing_${identifier}`}>Outgoing</label>
-          <input id={`receipt_outgoing_${identifier}`} type="checkbox"
-                 checked={receipt.inputs.isOutgoing}
-                 onChange={ev => {this.updateReceipt(receipt.with({isOutgoing: ev.target.checked}))}}/>
+          <label htmlFor={`receipt_outgoing_${identifier}_outgoing`}>Outgoing</label>
+          <input id={`receipt_outgoing_${identifier}_outgoing`} type="radio" name={`receipt_outgoing_${identifier}`}
+                 checked={receipt.inputs.isOutgoing} value={'outgoing'}
+                 onChange={ev => {this.updateReceipt(receipt.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
+          <label htmlFor={`receipt_outgoing_${identifier}_incoming`}>Incoming</label>
+          <input id={`receipt_outgoing_${identifier}_incoming`} type="radio" name={`receipt_outgoing_${identifier}`}
+                 checked={!receipt.inputs.isOutgoing} value={'incoming'}
+                 onChange={ev => {this.updateReceipt(receipt.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
         </div>
       </div>
     )
