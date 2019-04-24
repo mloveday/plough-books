@@ -1,6 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {EditButton} from "../../Common/Buttons/EditButton";
+import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {StaffRoleStatus} from "../../Model/Enum/StaffRoleStatus";
@@ -107,8 +108,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
             <option value={WorkTypes.ANCILLARY}>Ancillary</option>
           </select>}
           <div className="staff-role-edit-buttons">
-            {!isCreatingNewRole && !this.props.staffRolesLocalState.isEditing() &&
-            <EditButton mini={true} clickFn={() => this.newStaffRole()}/>}
+            {!isCreatingNewRole && !this.props.staffRolesLocalState.isEditing() && <NewButton mini={true} clickFn={() => this.newStaffRole()}/>}
             {isCreatingNewRole && <SaveButton mini={true} clickFn={() => this.saveStaffRole(this.props.staffRolesLocalState.newEntity)}/>}
             {isCreatingNewRole && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
           </div>

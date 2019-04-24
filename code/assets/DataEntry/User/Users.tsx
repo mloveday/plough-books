@@ -1,7 +1,7 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {EditButton} from "../../Common/Buttons/EditButton";
+import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {User} from "../../Model/User/User";
@@ -119,8 +119,7 @@ class UsersComponent extends React.Component<UsersProps, {}> {
               <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
             </div>
         </div>}
-        {!isCreatingNewUser && !this.props.usersLocalState.isEditing() &&
-        <button type="button" onClick={() => this.newUser()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
+        {!isCreatingNewUser && !this.props.usersLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newUser()}/>}
       </div>
     )
   }

@@ -1,7 +1,7 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {EditButton} from "../../Common/Buttons/EditButton";
+import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {UserRole} from "../../Model/UserRole/UserRole";
@@ -86,8 +86,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
               <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
             </div>
         </div>}
-        {!isCreatingNewRole && !this.props.rolesLocalState.isEditing() &&
-        <button type="button" onClick={() => this.newRole()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
+        {!isCreatingNewRole && !this.props.rolesLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newRole()}/>}
       </div>
     )
   }

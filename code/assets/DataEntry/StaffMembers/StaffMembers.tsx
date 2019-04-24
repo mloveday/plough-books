@@ -1,7 +1,7 @@
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
 import {EditButton} from "../../Common/Buttons/EditButton";
+import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {StaffMemberStatus} from "../../Model/Enum/StaffMemberStatus";
@@ -155,8 +155,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
             ))}
           </select>}
           <div className="staff-member-edit-buttons">
-            {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() &&
-            <button type='button' onClick={() => this.newStaffMember()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
+            {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newStaffMember()}/>}
             {isCreatingNewMember && <SaveButton disabled={!newMember.role.isValid()} mini={true} clickFn={() => this.saveStaffMember(newMember)}/>}
             {isCreatingNewMember && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
           </div>

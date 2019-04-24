@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {EditButton} from "../../Common/Buttons/EditButton";
+import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {Constants} from "../../Model/Constants/Constants";
@@ -117,8 +118,7 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
             ]}
           
           <div className="constants-edit-buttons">
-            {!isCreatingNewEntity && !this.props.constantsLocalState.isEditing() &&
-            <button type='button' onClick={() => this.newConstants()}>New</button>}
+            {!isCreatingNewEntity && !this.props.constantsLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newConstants()}/>}
             {isCreatingNewEntity && <SaveButton mini={true} clickFn={() => this.saveConstants(newEntity)}/>}
             {isCreatingNewEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
           </div>
