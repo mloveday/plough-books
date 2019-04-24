@@ -28,7 +28,7 @@ export class Receipt extends ReceiptAbstract<number> implements ReceiptType {
     const amount = obj.amount !== undefined ? validateCash(obj.amount, this.amount) : this.amount;
 
     return new Receipt(
-      obj.description ? obj.description : this.description,
+      obj.description !== undefined ? obj.description : this.description,
       (isOutgoing ? -1 : 1) * Math.abs(amount),
       this.inputs.with(obj),
       this.timestamp,

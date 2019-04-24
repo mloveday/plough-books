@@ -25,7 +25,7 @@ export class UserRole extends UserRoleAbstract<number> implements UserRoleType, 
 
   public with(obj: UserRoleUpdateType): UserRole {
     return new UserRole(
-      obj.role ? obj.role : this.role,
+      obj.role !== undefined ? obj.role : this.role,
       obj.managesUsers !== undefined ? obj.managesUsers : this.managesUsers,
       this.inputs.with(obj),
       this.id

@@ -49,14 +49,14 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
 
   public update(obj: RotaUpdateType): RotaEntityInputs {
     return new RotaEntityInputs(
-      obj.date ? obj.date : this.date,
-      obj.forecastRevenue ? obj.forecastRevenue : this.forecastRevenue,
-      obj.targetLabourRate ? obj.targetLabourRate : this.targetLabourRate,
+      obj.date !== undefined ? obj.date : this.date,
+      obj.forecastRevenue !== undefined ? obj.forecastRevenue : this.forecastRevenue,
+      obj.targetLabourRate !== undefined ? obj.targetLabourRate : this.targetLabourRate,
       undefined,
-      obj.status ? obj.status : this.status,
+      obj.status !== undefined ? obj.status : this.status,
       [],
       [],
-      obj.touched ? obj.touched : this.touched,
+      obj.touched !== undefined ? obj.touched : this.touched,
     );
   }
 }

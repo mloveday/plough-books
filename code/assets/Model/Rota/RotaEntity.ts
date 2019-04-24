@@ -89,14 +89,14 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     const actualShifts = (obj.actualShifts ? obj.actualShifts : this.actualShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     return new RotaEntity(
-      obj.date ? moment.utc(obj.date) : this.getDate(),
-      obj.forecastRevenue ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue,
-      obj.targetLabourRate ? validatePercentageToDecimal(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate,
+      obj.date !== undefined ? moment.utc(obj.date) : this.getDate(),
+      obj.forecastRevenue !== undefined ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue,
+      obj.targetLabourRate !== undefined ? validatePercentageToDecimal(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate,
       constants,
-      obj.status ? obj.status : this.status,
+      obj.status !== undefined ? obj.status : this.status,
       plannedShifts,
       actualShifts,
-      obj.touched ? obj.touched : this.touched,
+      obj.touched !== undefined ? obj.touched : this.touched,
       this.inputs.update(obj),
       this.id,
     );

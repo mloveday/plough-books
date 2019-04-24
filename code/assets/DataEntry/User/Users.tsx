@@ -73,14 +73,14 @@ class UsersComponent extends React.Component<UsersProps, {}> {
           const editing = user.entityId === this.props.usersLocalState.editingEntityId;
           return (
           <div className="user-entity" key={key}>
-            <input disabled={!editing} className="user-value" value={user.email}
+            <input disabled={!editing} className="user-value" value={user.inputs.email}
                    onChange={ev => this.dataEntry(user.with({email: ev.target.value}))}/>
             <input disabled={!editing} type="checkbox"
                    onChange={ev => this.dataEntry(user.with({whitelisted: ev.target.checked}))}
-                   checked={user.whitelisted} className="user-value"/>
+                   checked={user.inputs.whitelisted} className="user-value"/>
             <input disabled={!editing} type="checkbox"
                    onChange={ev => this.dataEntry(user.with({blacklisted: ev.target.checked}))}
-                   checked={user.blacklisted} className="user-value"/>
+                   checked={user.inputs.blacklisted} className="user-value"/>
             <select disabled={!editing}
                     onChange={ev => this.dataEntry(user.with({role: this.props.rolesExternalState.externalState.entities.find(role => role.entityId === parseInt(ev.target.value, 10))}))}
                     className="user-value" value={user.role.entityId}>

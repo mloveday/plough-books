@@ -10,8 +10,8 @@ export class UserRoleInputs extends UserRoleAbstract<number> implements UserRole
 
   public with(obj: UserRoleUpdateType): UserRoleInputs {
     return new UserRoleInputs(
-      obj.role ? obj.role : this.role,
-      obj.managesUsers ? obj.managesUsers : this.managesUsers
+      obj.role !== undefined ? obj.role : this.role,
+      obj.managesUsers !== undefined ? obj.managesUsers : this.managesUsers
     );
   }
 }

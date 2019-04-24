@@ -32,16 +32,16 @@ export class SafeFloatDenominations extends SafeFloatDenominationsAbstract<numbe
 
   public with(obj: SafeFloatDenominationsUpdateType): SafeFloatDenominations {
     return new SafeFloatDenominations(this.id,
-        obj.fiftyPounds ? validateCash(obj.fiftyPounds, this.fiftyPounds) : this.fiftyPounds,
-      obj.twentyPounds ? validateCash(obj.twentyPounds, this.twentyPounds) : this.twentyPounds,
-      obj.tenPounds ? validateCash(obj.tenPounds, this.tenPounds) : this.tenPounds,
-      obj.fivePounds ? validateCash(obj.fivePounds, this.fivePounds) : this.fivePounds,
-      obj.pounds ? validateCash(obj.pounds, this.pounds) : this.pounds,
-      obj.fiftyPence ? validateCash(obj.fiftyPence, this.fiftyPence) : this.fiftyPence,
-      obj.twentyPence ? validateCash(obj.twentyPence, this.twentyPence) : this.twentyPence,
-      obj.tenPence ? validateCash(obj.tenPence, this.tenPence) : this.tenPence,
-      obj.fivePence ? validateCash(obj.fivePence, this.fivePence) : this.fivePence,
-      obj.initials ? obj.initials : this.initials,
+        obj.fiftyPounds !== undefined ? validateCash(obj.fiftyPounds, this.fiftyPounds) : this.fiftyPounds,
+      obj.twentyPounds !== undefined ? validateCash(obj.twentyPounds, this.twentyPounds) : this.twentyPounds,
+      obj.tenPounds !== undefined ? validateCash(obj.tenPounds, this.tenPounds) : this.tenPounds,
+      obj.fivePounds !== undefined ? validateCash(obj.fivePounds, this.fivePounds) : this.fivePounds,
+      obj.pounds !== undefined ? validateCash(obj.pounds, this.pounds) : this.pounds,
+      obj.fiftyPence !== undefined ? validateCash(obj.fiftyPence, this.fiftyPence) : this.fiftyPence,
+      obj.twentyPence !== undefined ? validateCash(obj.twentyPence, this.twentyPence) : this.twentyPence,
+      obj.tenPence !== undefined ? validateCash(obj.tenPence, this.tenPence) : this.tenPence,
+      obj.fivePence !== undefined ? validateCash(obj.fivePence, this.fivePence) : this.fivePence,
+      obj.initials !== undefined ? obj.initials : this.initials,
         this.inputs.with(obj));
   }
 

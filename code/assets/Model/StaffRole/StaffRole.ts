@@ -32,10 +32,10 @@ export class StaffRole extends StaffRoleAbstract<number> implements EditableEnti
 
   public with(obj: StaffRoleUpdateType): StaffRole {
     return new StaffRole(
-      obj.role ? obj.role : this.role,
-      obj.orderInRota ? parseInt(obj.orderInRota, 10) : this.orderInRota,
-      obj.status ? obj.status : this.status,
-      obj.type ? obj.type : this.type,
+      obj.role !== undefined ? obj.role : this.role,
+      obj.orderInRota !== undefined ? parseInt(obj.orderInRota, 10) : this.orderInRota,
+      obj.status !== undefined ? obj.status : this.status,
+      obj.type !== undefined ? obj.type : this.type,
       this.inputs.with(obj),
       this.id,
     );

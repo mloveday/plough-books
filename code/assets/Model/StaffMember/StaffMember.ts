@@ -25,10 +25,10 @@ export class StaffMember extends StaffMemberAbstract<number, StaffRole> implemen
 
   public with(obj: StaffMemberUpdateType): StaffMember {
     return new StaffMember(
-      obj.name ? obj.name : this.name,
-      obj.currentHourlyRate ? validateCash(obj.currentHourlyRate, this.currentHourlyRate) : this.currentHourlyRate,
-      obj.role ? obj.role : this.role,
-      obj.status ? obj.status : this.status,
+      obj.name !== undefined ? obj.name : this.name,
+      obj.currentHourlyRate !== undefined ? validateCash(obj.currentHourlyRate, this.currentHourlyRate) : this.currentHourlyRate,
+      obj.role !== undefined ? obj.role : this.role,
+      obj.status !== undefined ? obj.status : this.status,
       this.inputs.with(obj),
       this.id
     );

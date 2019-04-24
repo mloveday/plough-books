@@ -28,19 +28,19 @@ export class ConstantsInputs extends ConstantsAbstract<string> {
   
   public with(obj: ConstantsUpdateType): ConstantsInputs {
     return new ConstantsInputs(
-      obj.date ? obj.date : this.date,
-      obj.fixedCosts ? obj.fixedCosts : this.fixedCosts,
-      obj.labourRate ? obj.labourRate : this.labourRate,
-      obj.vatMultiplier ? obj.vatMultiplier : this.vatMultiplier,
-      obj.barProportionOfRevenue ? obj.barProportionOfRevenue : this.barProportionOfRevenue,
-      obj.hoursPerShortBreak ? obj.hoursPerShortBreak : this.hoursPerShortBreak,
-      obj.shortBreakDuration ? obj.shortBreakDuration : this.shortBreakDuration,
-      obj.hoursPerLongBreak ? obj.hoursPerLongBreak : this.hoursPerLongBreak,
-      obj.longBreakDuration ? obj.longBreakDuration : this.longBreakDuration,
-      obj.ersThreshold ? obj.ersThreshold : this.ersThreshold,
-      obj.ersPercentAboveThreshold ? obj.ersPercentAboveThreshold : this.ersPercentAboveThreshold,
-      obj.holidayLinearPercent ? obj.holidayLinearPercent : this.holidayLinearPercent,
-      obj.pensionLinearPercent ? obj.pensionLinearPercent : this.pensionLinearPercent
+      obj.date !== undefined ? obj.date : this.date,
+      obj.fixedCosts !== undefined ? obj.fixedCosts : this.fixedCosts,
+      obj.labourRate !== undefined ? obj.labourRate : this.labourRate,
+      obj.vatMultiplier !== undefined ? obj.vatMultiplier : this.vatMultiplier,
+      obj.barProportionOfRevenue !== undefined ? obj.barProportionOfRevenue : this.barProportionOfRevenue,
+      obj.hoursPerShortBreak !== undefined ? obj.hoursPerShortBreak : this.hoursPerShortBreak,
+      obj.shortBreakDuration !== undefined ? obj.shortBreakDuration : this.shortBreakDuration,
+      obj.hoursPerLongBreak !== undefined ? obj.hoursPerLongBreak : this.hoursPerLongBreak,
+      obj.longBreakDuration !== undefined ? obj.longBreakDuration : this.longBreakDuration,
+      obj.ersThreshold !== undefined ? obj.ersThreshold : this.ersThreshold,
+      obj.ersPercentAboveThreshold !== undefined ? obj.ersPercentAboveThreshold : this.ersPercentAboveThreshold,
+      obj.holidayLinearPercent !== undefined ? obj.holidayLinearPercent : this.holidayLinearPercent,
+      obj.pensionLinearPercent !== undefined ? obj.pensionLinearPercent : this.pensionLinearPercent
     );
   }
 }

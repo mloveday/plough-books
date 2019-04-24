@@ -62,15 +62,15 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
 
   public with(obj: ShiftUpdateType): Shift {
     return new Shift(
-      obj.staffMember ? obj.staffMember : this.staffMember,
-      obj.staffRole ? obj.staffRole : this.staffRole.with({}),
-      obj.status ? obj.status : this.status,
-      obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
-      obj.date ? obj.date : this.date,
-      obj.startTime ? momentFromDateAndTime(obj.startTime.date, obj.startTime.time).format(DateFormats.API_DATE_TIME) : this.startTime,
-      obj.endTime ? momentFromDateAndTime(obj.endTime.date, obj.endTime.time).format(DateFormats.API_DATE_TIME) : this.endTime,
-      obj.totalBreaks ? validateDecimal(obj.totalBreaks, this.totalBreaks) : this.totalBreaks,
-      obj.type ? obj.type : this.type,
+      obj.staffMember !== undefined ? obj.staffMember : this.staffMember,
+      obj.staffRole !== undefined ? obj.staffRole : this.staffRole.with({}),
+      obj.status !== undefined ? obj.status : this.status,
+      obj.hourlyRate !== undefined ? obj.hourlyRate : this.hourlyRate,
+      obj.date !== undefined ? obj.date : this.date,
+      obj.startTime !== undefined ? momentFromDateAndTime(obj.startTime.date, obj.startTime.time).format(DateFormats.API_DATE_TIME) : this.startTime,
+      obj.endTime !== undefined ? momentFromDateAndTime(obj.endTime.date, obj.endTime.time).format(DateFormats.API_DATE_TIME) : this.endTime,
+      obj.totalBreaks !== undefined ? validateDecimal(obj.totalBreaks, this.totalBreaks) : this.totalBreaks,
+      obj.type !== undefined ? obj.type : this.type,
       this.inputs.with(obj),
       this.id,
     );

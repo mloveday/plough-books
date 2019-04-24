@@ -12,10 +12,10 @@ export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> im
 
   public with(obj: StaffMemberUpdateType) {
     return new StaffMemberInputs(
-      obj.name ? obj.name : this.name,
-      obj.currentHourlyRate ? obj.currentHourlyRate : this.currentHourlyRate,
+      obj.name !== undefined ? obj.name : this.name,
+      obj.currentHourlyRate !== undefined ? obj.currentHourlyRate : this.currentHourlyRate,
       undefined,
-      obj.status ? obj.status : this.status,
+      obj.status !== undefined ? obj.status : this.status,
     );
   }
 

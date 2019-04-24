@@ -46,13 +46,13 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
 
   public with(obj: ShiftUpdateType): ShiftInputs {
     return new ShiftInputs(
-      obj.status ? obj.status : this.status,
-      obj.hourlyRate ? obj.hourlyRate : this.hourlyRate,
-      obj.date ? obj.date : this.date,
-      obj.startTime ? obj.startTime : this.startTime,
-      obj.endTime ? obj.endTime : this.endTime,
-      obj.totalBreaks ? obj.totalBreaks : this.totalBreaks,
-      obj.type ? obj.type : this.type,
+      obj.status !== undefined ? obj.status : this.status,
+      obj.hourlyRate !== undefined ? obj.hourlyRate : this.hourlyRate,
+      obj.date !== undefined ? obj.date : this.date,
+      obj.startTime !== undefined ? obj.startTime : this.startTime,
+      obj.endTime !== undefined ? obj.endTime : this.endTime,
+      obj.totalBreaks !== undefined ? obj.totalBreaks : this.totalBreaks,
+      obj.type !== undefined ? obj.type : this.type,
     );
   }
 

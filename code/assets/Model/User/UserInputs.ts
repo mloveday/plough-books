@@ -14,9 +14,9 @@ export class UserInputs extends UserAbstract<string, undefined> implements UserI
 
   public with(obj: UserUpdateType): UserInputs {
     return new UserInputs(
-      obj.email ? obj.email : this.email,
-      obj.whitelisted ? obj.whitelisted : this.whitelisted,
-      obj.blacklisted ? obj.blacklisted : this.blacklisted,
+      obj.email !== undefined ? obj.email : this.email,
+      obj.whitelisted !== undefined ? obj.whitelisted : this.whitelisted,
+      obj.blacklisted !== undefined ? obj.blacklisted : this.blacklisted,
     );
   }
 }

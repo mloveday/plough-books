@@ -18,8 +18,8 @@ export class ReceiptInput extends ReceiptAbstract<string> {
 
   public with(obj: ReceiptUpdateType): ReceiptInput {
     return new ReceiptInput(
-      obj.description ? obj.description : this.description,
-      obj.amount ? obj.amount : this.amount,
+      obj.description !== undefined ? obj.description : this.description,
+      obj.amount !== undefined ? obj.amount : this.amount,
       obj.isOutgoing !== undefined ? obj.isOutgoing : this.isOutgoing,
     );
   }

@@ -19,10 +19,10 @@ export class StaffRoleInputs extends StaffRoleAbstract<string> implements StaffR
 
   public with(obj: StaffRoleUpdateType) {
     return new StaffRoleInputs(
-      obj.role ? obj.role : this.role,
-      obj.orderInRota ? obj.orderInRota : this.orderInRota,
-      obj.status ? obj.status : this.status,
-      obj.type ? obj.type : this.type,
+      obj.role !== undefined ? obj.role : this.role,
+      obj.orderInRota !== undefined ? obj.orderInRota : this.orderInRota,
+      obj.status !== undefined ? obj.status : this.status,
+      obj.type !== undefined ? obj.type : this.type,
     );
   }
 }

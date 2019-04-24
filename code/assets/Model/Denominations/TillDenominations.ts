@@ -26,7 +26,23 @@ export class TillDenominations extends TillDenominationsAbstract<number> impleme
   }
 
   public with(obj: TillDenominationsUpdateType): TillDenominations {
-    return new TillDenominations(obj.fiftyPounds ? validateCash(obj.fiftyPounds, this.fiftyPounds) : this.fiftyPounds, obj.twentyPounds ? validateCash(obj.twentyPounds, this.twentyPounds) : this.twentyPounds, obj.tenPounds ? validateCash(obj.tenPounds, this.tenPounds) : this.tenPounds, obj.fivePounds ? validateCash(obj.fivePounds, this.fivePounds) : this.fivePounds, obj.pounds ? validateCash(obj.pounds, this.pounds) : this.pounds, obj.fiftyPence ? validateCash(obj.fiftyPence, this.fiftyPence) : this.fiftyPence, obj.twentyPence ? validateCash(obj.twentyPence, this.twentyPence) : this.twentyPence, obj.tenPence ? validateCash(obj.tenPence, this.tenPence) : this.tenPence, obj.fivePence ? validateCash(obj.fivePence, this.fivePence) : this.fivePence, obj.float_amnt ? validateCash(obj.float_amnt, this.float_amnt) : this.float_amnt, obj.visa ? validateCash(obj.visa, this.visa) : this.visa, obj.amex ? validateCash(obj.amex, this.amex) : this.amex, obj.zRead ? validateCash(obj.zRead, this.zRead) : this.zRead, this.inputs.with(obj), this.id);
+    return new TillDenominations(
+      obj.fiftyPounds !== undefined ? validateCash(obj.fiftyPounds, this.fiftyPounds) : this.fiftyPounds, 
+      obj.twentyPounds !== undefined ? validateCash(obj.twentyPounds, this.twentyPounds) : this.twentyPounds, 
+      obj.tenPounds !== undefined ? validateCash(obj.tenPounds, this.tenPounds) : this.tenPounds, 
+      obj.fivePounds !== undefined ? validateCash(obj.fivePounds, this.fivePounds) : this.fivePounds, 
+      obj.pounds !== undefined ? validateCash(obj.pounds, this.pounds) : this.pounds, 
+      obj.fiftyPence !== undefined ? validateCash(obj.fiftyPence, this.fiftyPence) : this.fiftyPence, 
+      obj.twentyPence !== undefined ? validateCash(obj.twentyPence, this.twentyPence) : this.twentyPence, 
+      obj.tenPence !== undefined ? validateCash(obj.tenPence, this.tenPence) : this.tenPence, 
+      obj.fivePence !== undefined ? validateCash(obj.fivePence, this.fivePence) : this.fivePence, 
+      obj.float_amnt !== undefined ? validateCash(obj.float_amnt, this.float_amnt) : this.float_amnt, 
+      obj.visa !== undefined ? validateCash(obj.visa, this.visa) : this.visa, 
+      obj.amex !== undefined ? validateCash(obj.amex, this.amex) : this.amex, 
+      obj.zRead !== undefined ? validateCash(obj.zRead, this.zRead) : this.zRead,
+      this.inputs.with(obj),
+      this.id
+    );
   }
 
   public clone(): TillDenominations {
