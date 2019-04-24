@@ -31,6 +31,7 @@ class RotaComponent extends RotaAbstract {
       addShift: (shift: Shift) => this.addShift(shift),
       removeShift: (shift: Shift) => this.removeShift(shift),
       updateShift: (shift: Shift) => this.updateShift(shift),
+      resetRota: () => this.resetLocalState(),
     };
     return this.props.match.params.type as WorkTypes === WorkTypes.ANCILLARY
       ? <AncillaryRotaEditor {...props}/>

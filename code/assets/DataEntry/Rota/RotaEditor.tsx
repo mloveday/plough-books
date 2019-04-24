@@ -3,6 +3,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Prompt} from "react-router";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
@@ -34,9 +35,10 @@ export interface RotaEditorOwnProps {
   showStats: boolean;
   showStaffLevels: boolean;
   rotasForWeek: RotasForWeek;
-  addShift(shiftToAdd: Shift): void;
-  updateShift(shiftToUpdate: Shift): void;
-  removeShift(shiftToRemove: Shift): void;
+  addShift: (shiftToAdd: Shift) => void;
+  updateShift: (shiftToUpdate: Shift) => void;
+  removeShift: (shiftToRemove: Shift) => void;
+  resetRota: () => void;
 }
 
 export interface RotaEditorStateProps {}
@@ -88,7 +90,10 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}
           {this.props.editType === "sign-in" && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
-          <div className="rota-stat"><SaveButton mini={false} clickFn={() => this.props.createRota(this.props.rota)}/></div>
+          <div className="rota-stat">
+            <SaveButton mini={false} clickFn={() => this.props.createRota(this.props.rota)}/>
+            <ResetButton mini={false} clickFn={() => this.props.resetRota()}/>
+          </div>
         </div>
         <div className="rota-grid include-times">
           <div className="rota-times">

@@ -115,6 +115,13 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
     }
   }
 
+  protected resetLocalState() {
+    const date = moment.utc(this.props.match.params.date);
+    this.props.updateRotaLocalState(
+      this.props.rotaExternalState.rotasForWeek.getRotasForWeek(date)
+    );
+  }
+
   private maintainStateWithUrl() {
     const paramDate = moment.utc(this.props.match.params.date);
     if (this.props.uiState.isCurrentDateSameAs(paramDate)) {

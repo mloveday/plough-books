@@ -3,6 +3,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Prompt} from "react-router";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
@@ -34,9 +35,10 @@ export interface AncillaryRotaEditorOwnProps {
   showStats: boolean;
   showStaffLevels: boolean;
   rotasForWeek: RotasForWeek;
-  addShift(shiftToAdd: Shift): void;
-  updateShift(shiftToUpdate: Shift): void;
-  removeShift(shiftToRemove: Shift): void;
+  addShift: (shiftToAdd: Shift) => void;
+  updateShift: (shiftToUpdate: Shift) => void;
+  removeShift: (shiftToRemove: Shift) => void;
+  resetRota: () => void;
 }
 
 export interface AncillaryRotaEditorStateProps {}
@@ -87,6 +89,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
           {this.props.editType === "sign-in" && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat">
             <SaveButton mini={false} clickFn={() => this.props.createRota(this.props.rota)}/>
+            <ResetButton mini={false} clickFn={() => this.props.resetRota()}/>
           </div>
         </div>
         <div className="rota-grid exclude-times">
