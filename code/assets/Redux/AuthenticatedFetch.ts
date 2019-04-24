@@ -26,7 +26,7 @@ function authenticatedInit(method: string, body?: any): RequestInit {
         body,
         headers: {
             ['content-type']: 'application/json',
-            ['Authorization']: `Bearer ${getAuthTokenFromLocalStorage()}`,
+            ['Auth']: `Bearer ${getAuthTokenFromLocalStorage()}`,
         },
         method,
     }
