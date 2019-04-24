@@ -1,6 +1,9 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
+import {EditButton} from "../../Common/Buttons/EditButton";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
+import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {User} from "../../Model/User/User";
 import {AppState} from "../../redux";
 import {UsersExternalState} from "../../Redux/User/UsersExternalState";
@@ -87,9 +90,9 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             </select>
             <input disabled={true} type="checkbox" checked={user.role.managesUsers} className="user-value"/>
             <div className="user-edit-buttons">
-              {!editing && <button type="button" onClick={() => this.editUser(user)}><FontAwesomeIcon icon="edit" /> Edit</button>}
-              {editing && <button type="button" onClick={() => this.props.saveUser(user)}><FontAwesomeIcon icon="save" /> Save</button>}
-              {editing && <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
+              {!editing && <EditButton mini={true} clickFn={() => this.editUser(user)}/>}
+              {editing && <SaveButton mini={true} clickFn={() => this.props.saveUser(user)}/>}
+              {editing && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
             </div>
           </div>
           )
@@ -112,8 +115,8 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             </select>
             <input disabled={true} type="checkbox" checked={newUser.role.managesUsers} className="user-value"/>
             <div className="user-edit-buttons">
-                <button type="button" disabled={!newUser.role.isValid()} onClick={() => this.props.saveUser(newUser)}><FontAwesomeIcon icon="save" /> Save</button>
-                <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>
+              <SaveButton disabled={!newUser.role.isValid()} mini={true} clickFn={() => this.props.saveUser(newUser)}/>
+              <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
             </div>
         </div>}
         {!isCreatingNewUser && !this.props.usersLocalState.isEditing() &&

@@ -1,6 +1,9 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
+import {EditButton} from "../../Common/Buttons/EditButton";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
+import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {Constants} from "../../Model/Constants/Constants";
 import {AppState} from "../../redux";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
@@ -90,9 +93,9 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={percentagePattern} value={entity.inputs.pensionLinearPercent} onChange={ev => this.updateConstants(entity.with({'pensionLinearPercent' : ev.target.value}))} /><span>%</span></div>
               <div className="constants-edit-buttons">
                 {!isCreatingNewEntity && !isEditingEntity && !this.props.constantsLocalState.isEditing() &&
-                <button type='button' onClick={() => this.updateConstants(entity)}>Edit</button>}
-                {isEditingEntity && <button type='button' onClick={() => this.saveConstants(entity)}>Save</button>}
-                {isEditingEntity && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+                <EditButton mini={true} clickFn={() => this.updateConstants(entity)}/>}
+                {isEditingEntity && <SaveButton mini={true} clickFn={() => this.saveConstants(entity)}/>}
+                {isEditingEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
               </div>
             </div>
           );
@@ -117,8 +120,8 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
           <div className="constants-edit-buttons">
             {!isCreatingNewEntity && !this.props.constantsLocalState.isEditing() &&
             <button type='button' onClick={() => this.newConstants()}>New</button>}
-            {isCreatingNewEntity && <button type='button' onClick={() => this.saveConstants(newEntity)}>Save</button>}
-            {isCreatingNewEntity && <button type='button' onClick={() => this.cancelEdit()}>Cancel</button>}
+            {isCreatingNewEntity && <SaveButton mini={true} clickFn={() => this.saveConstants(newEntity)}/>}
+            {isCreatingNewEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
           </div>
         </div>
       </div>

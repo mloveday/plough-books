@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {WeekPicker} from "../../Common/Nav/WeekPicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {ConstantsWithHover} from "../../DataVisualisation/Constants/ConstantsWithHover";
@@ -118,7 +119,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
             <div>Forecast revenue: {Formatting.formatCashForDisplay(this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek))}</div>
             <div>Forecast labour rate: {Formatting.formatPercent(this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek))}</div>
           </div>
-          <div><button type="button" onClick={() => this.saveRotas()}>Save</button></div>
+          <div><SaveButton mini={false} clickFn={() => this.saveRotas()}/></div>
           <PriorWeekOverview dayInPriorWeek={startOfTheWeek.clone().subtract(1, "year")} title={`Last year`} />
           {[1,2,3,4].map(weeksAgo =>
             <PriorWeekOverview key={weeksAgo} dayInPriorWeek={startOfTheWeek.clone().subtract(weeksAgo, "week")} title={`${weeksAgo} ${weeksAgo === 1 ? 'Week' : 'Weeks'} Ago`} />

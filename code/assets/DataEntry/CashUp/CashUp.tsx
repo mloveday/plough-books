@@ -1,8 +1,9 @@
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
+import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
@@ -93,8 +94,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                         value={this.getCashUp().dailyNotes}
                         onChange={ev => this.formUpdate({dailyNotes: ev.target.value})}/>
             </div>
-            <button className='submit-button save' type='button' onClick={ev => this.updateBackEnd()}><FontAwesomeIcon icon="save" /> Save</button>
-            <button className='submit-button reset' type='button' onClick={ev => this.revert()}><FontAwesomeIcon icon="history" /> Reset</button>
+            <SaveButton mini={false} clickFn={() => this.updateBackEnd()}/>
+            <ResetButton mini={false} clickFn={() => this.revert()}>Reset</ResetButton>
           </div>
 
           <div className={`z-read-summary`}>

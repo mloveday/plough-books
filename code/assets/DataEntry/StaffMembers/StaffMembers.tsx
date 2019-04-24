@@ -1,6 +1,9 @@
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
+import {EditButton} from "../../Common/Buttons/EditButton";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
+import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {StaffMemberStatus} from "../../Model/Enum/StaffMemberStatus";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {AppState} from "../../redux";
@@ -131,9 +134,9 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               </select>
               <div className="staff-member-edit-buttons">
                 {!isCreatingNewMember && !isEditingMember && !this.props.staffMembersLocalState.isEditing() &&
-                    <button type='button' onClick={() => this.updateStaffMember(member)}><FontAwesomeIcon icon="edit" /> Edit</button>}
-                {isEditingMember && <button type='button' onClick={() => this.saveStaffMember(member)}><FontAwesomeIcon icon="save" /> Save</button>}
-                {isEditingMember && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
+                    <EditButton mini={true} clickFn={() => this.updateStaffMember(member)}/>}
+                {isEditingMember && <SaveButton mini={true} clickFn={() => this.saveStaffMember(member)}/>}
+                {isEditingMember && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
               </div>
             </div>
           );
@@ -155,8 +158,8 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           <div className="staff-member-edit-buttons">
             {!isCreatingNewMember && !this.props.staffMembersLocalState.isEditing() &&
             <button type='button' onClick={() => this.newStaffMember()}><FontAwesomeIcon icon="plus-circle" /> New</button>}
-            {isCreatingNewMember && <button disabled={!newMember.role.isValid()} type='button' onClick={() => this.saveStaffMember(newMember)}><FontAwesomeIcon icon="save"/> Save</button>}
-            {isCreatingNewMember && <button type='button' onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
+            {isCreatingNewMember && <SaveButton disabled={!newMember.role.isValid()} mini={true} clickFn={() => this.saveStaffMember(newMember)}/>}
+            {isCreatingNewMember && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
           </div>
         </div>
       </div>

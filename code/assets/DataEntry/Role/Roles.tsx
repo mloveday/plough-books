@@ -1,6 +1,9 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
+import {EditButton} from "../../Common/Buttons/EditButton";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
+import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {UserRole} from "../../Model/UserRole/UserRole";
 import {AppState} from "../../redux";
 import {UserRolesExternalState} from "../../Redux/UserRole/UserRolesExternalState";
@@ -66,9 +69,9 @@ class RolesComponent extends React.Component<RolesProps, {}> {
               <input disabled={!editing} type="checkbox" checked={role.managesUsers} className="role-value"
                      onChange={ev => this.dataEntry(role.with({managesUsers: ev.target.checked}))}/>
               <div className="role-edit-buttons">
-                {!editing && <button type="button" onClick={() => this.editRole(role)}><FontAwesomeIcon icon="edit" /> Edit</button>}
-                {editing && <button type="button" onClick={() => this.props.saveRole(role)}><FontAwesomeIcon icon="save" /> Save</button>}
-                {editing && <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>}
+                {!editing && <EditButton mini={true} clickFn={() => this.editRole(role)}/>}
+                {editing && <SaveButton mini={true} clickFn={() => this.props.saveRole(role)}/>}
+                {editing && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
               </div>
             </div>
           )
@@ -79,8 +82,8 @@ class RolesComponent extends React.Component<RolesProps, {}> {
             <input type="checkbox" checked={newRole.managesUsers} className="role-value"
                    onChange={ev => this.dataEntryNewRole(newRole.with({managesUsers: ev.target.checked}))}/>
             <div className="role-edit-buttons">
-                <button type="button" onClick={() => this.props.saveRole(newRole)}><FontAwesomeIcon icon="save" /> Save</button>
-                <button type="button" onClick={() => this.cancelEdit()}><FontAwesomeIcon icon="ban" /> Cancel</button>
+              <SaveButton mini={true} clickFn={() => this.props.saveRole(newRole)}/>
+              <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
             </div>
         </div>}
         {!isCreatingNewRole && !this.props.rolesLocalState.isEditing() &&

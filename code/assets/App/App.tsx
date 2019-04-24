@@ -1,8 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {Route} from "react-router";
+import '../Common/Buttons/Controls.scss';
 import {ContentRouting} from "../Common/ContentRouting/ContentRouting";
-import '../Common/Controls.scss';
 import {Header} from "../Common/Header/Header";
 import {Nav} from "../Common/Nav/Nav";
 import {ReduxErrorOverlay} from "../Common/Overlay/ReduxErrorOverlay";
