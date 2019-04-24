@@ -43,7 +43,7 @@ class HeaderComponent extends React.Component<HeaderProps, {}> {
         <button className={`nav-menu`} onClick={() => this.props.updateUi(this.props.uiState.withShouldShowNav(!this.props.uiState.showingNav))}><FontAwesomeIcon icon={`bars`}/></button>
         <HeroImage/>
         <Auth />
-        <Link to={'/'} className={'home-link'}><h1 className="main-title"><img className={`title-icon`} src={require('../../images/plough-icon.png')} />Plough Books <FontAwesomeIcon className={`title-icon`} icon="book-dead" /></h1></Link>
+        <Link to={'/'} className={'home-link'}><h1 className="main-title">Plough Books</h1></Link>
         <TestLinksComponent/>
         <Status />
       </header>
