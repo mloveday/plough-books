@@ -16,7 +16,7 @@ import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "../../Redux/CashUp/Cas
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {Formatting} from "../../Util/Formatting";
-import {currencyPattern} from "../../Util/Validation";
+import {currencyPattern, positiveCurrencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
 import {SafeFloatDenom} from "./SafeFloatDenom";
 import {sectionOrder} from "./State/AllSections";
@@ -355,7 +355,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
               });
             }}>+
             </button>
-            {this.getCashUp().receipts.map((receipt, index) => this.receiptInput(index))}
+            {this.getCashUp().receipts.map(receipt => this.receiptInput(receipt))}
           </div>}
 
           {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <div className="form-group">
@@ -504,20 +504,27 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     this.props.updateBackEnd(this.getCashUp());
   }
 
-  private receiptInput(index: number) {
+  private receiptInput(receipt: Receipt) {
+    const identifier = receipt.id ? receipt.id : receipt.timestamp;
     return (
-      <div className='receipt' key={index}>
+      <div className='receipt' key={identifier}>
         <div className="label-and-input receipt_desc">
-          <label htmlFor="receipt_desc_01">Description</label>
-          <input id="receipt_desc_01" type="text"
-                 value={this.getCashUp().receipts[index].description}
-                 onChange={ev => this.updateReceipt(index, this.getCashUp().receipts[index].with({description: ev.target.value}))}/>
+          <label htmlFor={`receipt_desc_${identifier}`}>Description</label>
+          <input id={`receipt_desc_${identifier}`} type="text"
+                 value={receipt.inputs.description}
+                 onChange={ev => this.updateReceipt(receipt.with({description: ev.target.value}))}/>
         </div>
         <div className="label-and-input receipt_amnt">
-          <label htmlFor="receipt_amnt_01">Amount</label>
-          <input id="receipt_amnt_01" type="text" pattern={currencyPattern}
-                 value={this.getCashUp().receipts[index].inputs.amount}
-                 onChange={ev => this.updateReceipt(index, this.getCashUp().receipts[index].with({amount: ev.target.value}))}/>
+          <label htmlFor={`receipt_amnt_${identifier}`}>Amount</label>
+          <input id={`receipt_amnt_${identifier}`} type="text" pattern={positiveCurrencyPattern}
+                 value={receipt.inputs.amount}
+                 onChange={ev => this.updateReceipt(receipt.with({amount: ev.target.value}))}/>
+        </div>
+        <div className="label-and-input receipt_amnt">
+          <label htmlFor={`receipt_outgoing_${identifier}`}>Outgoing</label>
+          <input id={`receipt_outgoing_${identifier}`} type="checkbox"
+                 checked={receipt.inputs.isOutgoing}
+                 onChange={ev => {this.updateReceipt(receipt.with({isOutgoing: ev.target.checked}))}}/>
         </div>
       </div>
     )
@@ -529,9 +536,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     );
   }
 
-  private updateReceipt(index: number, receipt: Receipt) {
-    const clonedReceipts = this.getCashUp().receipts.map(till => till.clone());
-    clonedReceipts[index] = receipt;
+  private updateReceipt(receipt: Receipt) {
+    const clonedReceipts = this.getCashUp().receipts
+      .map(existingReceipt => (receipt.id ? (existingReceipt.id === receipt.id) : existingReceipt.timestamp === receipt.timestamp) ? receipt : existingReceipt.clone());
     this.formUpdate({receipts: clonedReceipts});
   }
 

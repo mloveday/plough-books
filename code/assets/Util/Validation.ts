@@ -21,5 +21,6 @@ export function validateDecimal(amount: string, previous: number) {
 }
 
 export const currencyPattern = `(-)?\\d*(\\.\\d{1,2})?`;
+export const positiveCurrencyPattern = `\\d*(\\.\\d{1,2})?`;
 export const percentagePattern = `\\d*(\\.\\d{0,3})?`;
 export const decimalPattern = `\\d*(\\.\\d{0,3})?`;

@@ -10,6 +10,6 @@ export abstract class ReceiptAbstract<T> {
   }
 }
 export type ReceiptApiType = ApiType<ReceiptAbstract<number>>;
-export type ReceiptUpdateType = UpdateType<ReceiptAbstract<string>>;
+export type ReceiptUpdateType = UpdateType<ReceiptAbstract<string> & {readonly isOutgoing: boolean;}>;
 export type ReceiptInputType = InputType<ReceiptAbstract<string>>;
 export type ReceiptType = EntityType<ReceiptAbstract<number>, ReceiptAbstract<string>>;
