@@ -77,16 +77,20 @@ class RolesComponent extends React.Component<RolesProps, {}> {
           )
         })}
         {isCreatingNewRole && <div className="role-entity">
-            <input className="role-value" value={newRole.role}
-                   onChange={ev => this.dataEntryNewRole(newRole.with({role: ev.target.value}))}/>
-            <input type="checkbox" checked={newRole.managesUsers} className="role-value"
-                   onChange={ev => this.dataEntryNewRole(newRole.with({managesUsers: ev.target.checked}))}/>
-            <div className="role-edit-buttons">
-              <SaveButton mini={true} clickFn={() => this.props.saveRole(newRole)}/>
-              <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
-            </div>
+          <input className="role-value" value={newRole.role}
+                 onChange={ev => this.dataEntryNewRole(newRole.with({role: ev.target.value}))}/>
+          <input type="checkbox" checked={newRole.managesUsers} className="role-value"
+                 onChange={ev => this.dataEntryNewRole(newRole.with({managesUsers: ev.target.checked}))}/>
+          <div className="role-edit-buttons">
+            <SaveButton mini={true} clickFn={() => this.props.saveRole(newRole)}/>
+            <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
+          </div>
         </div>}
-        {!isCreatingNewRole && !this.props.rolesLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newRole()}/>}
+        {!isCreatingNewRole && <div className="role-entity">
+          <div className="role-edit-buttons">
+            <NewButton disabled={this.props.rolesLocalState.isEditing()} mini={true} clickFn={() => this.newRole()}/>
+          </div>
+        </div>}
       </div>
     )
   }

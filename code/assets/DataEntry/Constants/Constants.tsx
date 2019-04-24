@@ -118,7 +118,7 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
             ]}
           
           <div className="constants-edit-buttons">
-            {!isCreatingNewEntity && !this.props.constantsLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newConstants()}/>}
+            {!isCreatingNewEntity && <NewButton disabled={this.props.constantsLocalState.isEditing()} mini={true} clickFn={() => this.newConstants()}/>}
             {isCreatingNewEntity && <SaveButton mini={true} clickFn={() => this.saveConstants(newEntity)}/>}
             {isCreatingNewEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
           </div>

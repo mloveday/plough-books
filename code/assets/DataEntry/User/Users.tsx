@@ -119,7 +119,11 @@ class UsersComponent extends React.Component<UsersProps, {}> {
               <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>
             </div>
         </div>}
-        {!isCreatingNewUser && !this.props.usersLocalState.isEditing() && <NewButton mini={false} clickFn={() => this.newUser()}/>}
+        {!isCreatingNewUser && <div className="user-entity">
+          <div className="user-edit-buttons">
+            <NewButton disabled={this.props.usersLocalState.isEditing()} mini={true} clickFn={() => this.newUser()}/>
+          </div>
+        </div>}
       </div>
     )
   }
