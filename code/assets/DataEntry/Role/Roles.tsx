@@ -69,7 +69,7 @@ class RolesComponent extends React.Component<RolesProps, {}> {
               <input disabled={!editing} type="checkbox" checked={role.managesUsers} className="role-value"
                      onChange={ev => this.dataEntry(role.with({managesUsers: ev.target.checked}))}/>
               <div className="role-edit-buttons">
-                {!editing && <EditButton mini={true} clickFn={() => this.editRole(role)}/>}
+                {!editing && <EditButton disabled={isCreatingNewRole || this.props.rolesLocalState.isEditing()} mini={true} clickFn={() => this.editRole(role)}/>}
                 {editing && <SaveButton mini={true} clickFn={() => this.props.saveRole(role)}/>}
                 {editing && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
               </div>

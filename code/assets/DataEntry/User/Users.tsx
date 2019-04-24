@@ -90,7 +90,7 @@ class UsersComponent extends React.Component<UsersProps, {}> {
             </select>
             <input disabled={true} type="checkbox" checked={user.role.managesUsers} className="user-value"/>
             <div className="user-edit-buttons">
-              {!editing && <EditButton mini={true} clickFn={() => this.editUser(user)}/>}
+              {!editing && <EditButton disabled={isCreatingNewUser || this.props.usersLocalState.isEditing()} mini={true} clickFn={() => this.editUser(user)}/>}
               {editing && <SaveButton mini={true} clickFn={() => this.props.saveUser(user)}/>}
               {editing && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
             </div>

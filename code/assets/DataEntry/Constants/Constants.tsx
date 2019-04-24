@@ -92,8 +92,7 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={percentagePattern} value={entity.inputs.holidayLinearPercent} onChange={ev => this.updateConstants(entity.with({'holidayLinearPercent' : ev.target.value}))} /><span>%</span></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={percentagePattern} value={entity.inputs.pensionLinearPercent} onChange={ev => this.updateConstants(entity.with({'pensionLinearPercent' : ev.target.value}))} /><span>%</span></div>
               <div className="constants-edit-buttons">
-                {!isCreatingNewEntity && !isEditingEntity && !this.props.constantsLocalState.isEditing() &&
-                <EditButton mini={true} clickFn={() => this.updateConstants(entity)}/>}
+                {!isEditingEntity && <EditButton disabled={isCreatingNewEntity || this.props.constantsLocalState.isEditing()} mini={true} clickFn={() => this.updateConstants(entity)}/>}
                 {isEditingEntity && <SaveButton mini={true} clickFn={() => this.saveConstants(entity)}/>}
                 {isEditingEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
               </div>

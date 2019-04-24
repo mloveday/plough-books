@@ -133,8 +133,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
                   ))}
               </select>
               <div className="staff-member-edit-buttons">
-                {!isCreatingNewMember && !isEditingMember && !this.props.staffMembersLocalState.isEditing() &&
-                    <EditButton mini={true} clickFn={() => this.updateStaffMember(member)}/>}
+                {!isEditingMember && <EditButton disabled={isCreatingNewMember || this.props.staffMembersLocalState.isEditing()} mini={true} clickFn={() => this.updateStaffMember(member)}/>}
                 {isEditingMember && <SaveButton mini={true} clickFn={() => this.saveStaffMember(member)}/>}
                 {isEditingMember && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
               </div>

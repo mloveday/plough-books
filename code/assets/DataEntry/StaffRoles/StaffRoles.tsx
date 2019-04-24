@@ -81,8 +81,7 @@ class StaffRolesComponent extends React.Component<StaffRolesProps, {}> {
                   <option value={WorkTypes.ANCILLARY}>Ancillary</option>
                 </select>
                 <div className="staff-role-edit-buttons">
-                  {!isCreatingNewRole && !isEditingThisRole && !this.props.staffRolesLocalState.isEditing() &&
-                  <EditButton mini={true} clickFn={() => this.updateStaffRole(role)}/>}
+                  {!isEditingThisRole && <EditButton disabled={isCreatingNewRole || this.props.staffRolesLocalState.isEditing()} mini={true} clickFn={() => this.updateStaffRole(role)}/>}
                   {isEditingThisRole && <SaveButton mini={true} clickFn={() => this.saveStaffRole(role)}/>}
                   {isEditingThisRole && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
                 </div>
