@@ -18,6 +18,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="8b65c540-02df-49ea-b3ea-45093c499573" name="milesloveday.com" url="http://ftp.milesloveday.com">
+        <fileTransfer host="ftp.milesloveday.com" port="21098" rootFolder="/home/milehpsv" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="21098" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
