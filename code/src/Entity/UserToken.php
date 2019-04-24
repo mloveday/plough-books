@@ -21,7 +21,12 @@ class UserToken implements TokenInterface {
 
     public function unserialize($serialized) {
         $decoded = json_decode($serialized);
-        return new UserToken($decoded->email, $decoded->token);
+        if (is_null($decoded->email)) {
+            $this->email = $decoded->email;
+        }
+        if (is_null($decoded->token)) {
+            $this->token = $decoded->token;
+        }
     }
 
     public function __toString() {
