@@ -55,10 +55,11 @@
   },
   "private": true,
   "scripts": {
-    "dev-server": "encore dev-server",
-    "dev": "encore dev",
-    "watch": "encore dev --watch",
-    "build": "encore production --progress",
+    "dev-server": "encore dev-server --config-name default",
+    "dev": "encore dev --config-name default",
+    "watch": "encore dev --config-name default --watch",
+    "build": "encore production --config-name default --progress",
+    "personal": "encore production --config-name personal --progress",
     "test": "jest --watchAll --config ./jest.config.js",
     "prebuildtest": "jest --coverage --config ./jest.config.js",
     "coverage": "jest --coverage --watchAll --config ./jest.config.js"

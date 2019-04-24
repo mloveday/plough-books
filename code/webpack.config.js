@@ -10,8 +10,6 @@ Encore
 
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
-    .enableSourceMaps(true)
-    // .enableSourceMaps(!Encore.isProduction())
     .enableVersioning(Encore.isProduction())
     .enableSassLoader()
     .enableTypeScriptLoader()
@@ -27,6 +25,17 @@ Encore
 
 const config = Encore.getWebpackConfig();
 config.resolve.alias = {
-    env: path.resolve(Encore.isProduction() ? 'assets/env/prod' : 'assets/env/dev')
+  env: path.resolve(Encore.isProduction() ? 'assets/env/prod' : 'assets/env/dev')
 };
-module.exports = config;
+config.useSourceMaps = true;
+config.name = 'default';
+
+const personalConfig = Encore.getWebpackConfig();
+personalConfig.resolve.alias = {
+  env: path.resolve('assets/env/personal')
+};
+config.useSourceMaps = false;
+personalConfig.name = 'personal';
+
+
+module.exports = [config, personalConfig];
