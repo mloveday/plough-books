@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {WeekPicker} from "../../Common/Nav/WeekPicker";
 import {Routes} from "../../Common/Routing/Routes";
@@ -119,7 +120,10 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
             <div>Forecast revenue: {Formatting.formatCashForDisplay(this.props.rotaLocalStates.getTotalForecastRevenue(startOfTheWeek))}</div>
             <div>Forecast labour rate: {Formatting.formatPercent(this.props.rotaLocalStates.getTargetLabourRateForWeek(startOfTheWeek))}</div>
           </div>
-          <div><SaveButton mini={false} clickFn={() => this.saveRotas()}/></div>
+          <div>
+            <SaveButton mini={false} clickFn={() => this.saveRotas()}/>
+            <ResetButton mini={false} clickFn={() => this.resetRotas()}/>
+          </div>
           <PriorWeekOverview dayInPriorWeek={startOfTheWeek.clone().subtract(1, "year")} title={`Last year`} />
           {[1,2,3,4].map(weeksAgo =>
             <PriorWeekOverview key={weeksAgo} dayInPriorWeek={startOfTheWeek.clone().subtract(weeksAgo, "week")} title={`${weeksAgo} ${weeksAgo === 1 ? 'Week' : 'Weeks'} Ago`} />
@@ -132,6 +136,11 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
   private saveRotas() {
     const startOfTheWeek = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
     this.props.weeklyOverviewCreate(this.props.rotaLocalStates.getRotasForWeek(startOfTheWeek));
+  }
+
+  private resetRotas() {
+    const startOfTheWeek = startOfWeek(Number(this.props.match.params.year), Number(this.props.match.params.weekNumber));
+    this.props.updateRotas(this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfTheWeek));
   }
 
   private updateRota(updatedRota: RotaEntity) {
