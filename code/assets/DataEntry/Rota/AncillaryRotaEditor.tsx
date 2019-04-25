@@ -214,7 +214,8 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
             />
           )}
         </div>
-        <div className="rota-breaks">{shift.totalBreaks * 60} mins</div>
+        {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
+        {(!editingDisabled && this.props.editType === 'sign-in') && <input className="rota-breaks" value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/>}
       </div>
     );
   }
