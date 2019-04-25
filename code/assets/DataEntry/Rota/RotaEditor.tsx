@@ -258,9 +258,9 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     }
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrBefore(shift.getStartTime())) {
-      this.props.updateShift(shift.with({endTime: {date: shift.date, time: value}, startTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+      this.props.updateShift(shift.with({endTime: {date: time.format(DateFormats.API_DATE), time: value}, startTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
     } else {
-      this.props.updateShift(shift.with({endTime: {date: shift.date, time: value}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
+      this.props.updateShift(shift.with({endTime: {date: time.format(DateFormats.API_DATE), time: value}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
     }
   }
 
