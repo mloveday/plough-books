@@ -203,7 +203,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           )}
         </div>
         {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
-        {(!editingDisabled && this.props.editType === 'sign-in') && <input className="rota-breaks" value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/>}
+        {(!editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className={`rota-breaks-input`} value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
         {timePeriods.map((timePeriod, periodKey) => (
           <div className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
         ))}
