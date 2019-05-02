@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.Collections;
 import java.util.List;
 
-@Path("user-role")
+@Path("user-roles")
 @Produces(MediaType.APPLICATION_JSON)
 public class UserRoleResource {
     @GET
