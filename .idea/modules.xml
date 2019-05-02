@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/code/assets/Front end.iml" filepath="$PROJECT_DIR$/code/assets/Front end.iml" />
+      <module fileurl="file://$PROJECT_DIR$/apiv2/apiv2.iml" filepath="$PROJECT_DIR$/apiv2/apiv2.iml" />
       <module fileurl="file://$PROJECT_DIR$/apiv2/src/main/main.iml" filepath="$PROJECT_DIR$/apiv2/src/main/main.iml" />
       <module fileurl="file://$PROJECT_DIR$/plough-books.iml" filepath="$PROJECT_DIR$/plough-books.iml" />
     </modules>
