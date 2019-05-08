@@ -22,6 +22,7 @@ import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
+import {currencyPattern} from "../../Util/Validation";
 import './Rota.scss';
 
 export interface AncillaryRotaEditorOwnProps {
@@ -101,6 +102,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
             <div className="rota-header rota-end-date">End date</div>
             <div className="rota-header rota-end-time">End time</div>
             <div className="rota-header rota-breaks">Breaks</div>
+            <div className="rota-header rota-rate">Rate</div>
           </div>
           {this.props.showStaffLevels && <div className="rota-staff-levels">
             <div className="rota-header rota-staff-name"/>
@@ -110,6 +112,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
             <div className="rota-header rota-end-date"/>
             <div className="rota-header rota-end-time"/>
             <div className="rota-header rota-breaks"/>
+            <div className="rota-header rota-rate"/>
           </div>}
           <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
           {this.getRolesToDisplay().map((role, roleKey) =>
@@ -215,7 +218,14 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
           )}
         </div>
         {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
-        {(!editingDisabled && this.props.editType === 'sign-in') && <input className="rota-breaks" value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/>}
+        {(!editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className="rota-breaks-input" value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
+        <div className={`rota-rate`}>
+          <input className={`rota-rate-input`}
+                 disabled={editingDisabled}
+                 type="tel" pattern={currencyPattern}
+                 value={shift.inputs.hourlyRate}
+                 onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />
+        </div>
       </div>
     );
   }

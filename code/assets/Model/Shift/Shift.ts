@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
-import {validateDecimal} from "../../Util/Validation";
+import {validateCash, validateDecimal} from "../../Util/Validation";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {StaffRole} from "../StaffRole/StaffRole";
@@ -65,7 +65,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       obj.staffMember !== undefined ? obj.staffMember : this.staffMember,
       obj.staffRole !== undefined ? obj.staffRole : this.staffRole.with({}),
       obj.status !== undefined ? obj.status : this.status,
-      obj.hourlyRate !== undefined ? obj.hourlyRate : this.hourlyRate,
+      obj.hourlyRate !== undefined ? validateCash(obj.hourlyRate, this.hourlyRate) : this.hourlyRate,
       obj.date !== undefined ? obj.date : this.date,
       obj.startTime !== undefined ? momentFromDateAndTime(obj.startTime.date, obj.startTime.time).format(DateFormats.API_DATE_TIME) : this.startTime,
       obj.endTime !== undefined ? momentFromDateAndTime(obj.endTime.date, obj.endTime.time).format(DateFormats.API_DATE_TIME) : this.endTime,

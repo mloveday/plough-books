@@ -9,7 +9,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
   public static default(staffMember: StaffMember, type: WorkTypes, date: string): ShiftInputs {
     return new ShiftInputs(
       'active',
-      staffMember.currentHourlyRate,
+      Formatting.formatCashForInput(staffMember.currentHourlyRate),
       date,
       {date, time: '08:00'},
       {date, time: '17:00'},
@@ -21,7 +21,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
   public static fromApi(obj: ShiftApiType, date: string): ShiftInputs {
     return new ShiftInputs(
       obj.status,
-      obj.hourlyRate,
+      Formatting.formatCashForInput(obj.hourlyRate),
       date,
       {date: moment.utc(obj.startTime).format(DateFormats.API_DATE), time: moment.utc(obj.startTime).format(DateFormats.TIME_LEADING_ZERO)},
       {date: moment.utc(obj.endTime).format(DateFormats.API_DATE), time: moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO)},
@@ -30,7 +30,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
     );
   }
 
-  private constructor(status: string, hourlyRate: number, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: string) {
+  private constructor(status: string, hourlyRate: string, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: string) {
     super(
       undefined,
       undefined,

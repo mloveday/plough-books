@@ -30,7 +30,7 @@ describe('Shift', () => {
     const shift = defaultShift();
     const plannedShift = shift.with({startTime: {date: shift.getStartTime().format(DateFormats.API_DATE), time:'9:00'}, endTime: {date: shift.getStartTime().format(DateFormats.API_DATE), time: '17:00'}});
 
-    const modified = plannedShift.with({hourlyRate: 1});
+    const modified = plannedShift.with({hourlyRate: "1"});
 
     expect(modified.inputs.startTime).toEqual(plannedShift.inputs.startTime);
     expect(modified.inputs.endTime).toEqual(plannedShift.inputs.endTime);

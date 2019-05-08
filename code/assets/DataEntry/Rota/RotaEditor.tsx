@@ -22,6 +22,7 @@ import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
+import {currencyPattern} from "../../Util/Validation";
 import './Rota.scss';
 
 export interface RotaEditorOwnProps {
@@ -102,6 +103,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             <div className="rota-header rota-start-time">Start</div>
             <div className="rota-header rota-end-time">End</div>
             <div className="rota-header rota-breaks">Breaks</div>
+            <div className="rota-header rota-rate">Rate</div>
             {timePeriods.map((timePeriod, timeKey) => (
               <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
             ))}
@@ -112,6 +114,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             <div className="rota-header rota-start-time"/>
             <div className="rota-header rota-end-time"/>
             <div className="rota-header rota-breaks"/>
+            <div className="rota-header rota-rate"/>
             {timePeriods.map((timePeriod, timeKey) => {
               const numberWorking = this.props.rota.getPlannedNumberWorkingAtTime(timePeriod.format(DateFormats.TIME_LEADING_ZERO), this.props.workType);
               const numberRequired = (this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate).staffRequired(timeKey);
@@ -119,6 +122,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
               return <div className={`rota-time ${stylingClass}`} key={timeKey}>{numberLeft}</div>
             })}
+            <div className={`rota-header rota-rate`}/>
           </div>}
           <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
           {this.getRolesToDisplay().map((role, roleKey) =>
@@ -204,6 +208,13 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         </div>
         {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
         {(!editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className={`rota-breaks-input`} value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
+        <div className={`rota-rate`}>
+          <input className={`rota-rate-input`}
+                 disabled={editingDisabled}
+                 type="tel" pattern={currencyPattern}
+                 value={shift.inputs.hourlyRate}
+                 onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />
+        </div>
         {timePeriods.map((timePeriod, periodKey) => (
           <div className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
         ))}

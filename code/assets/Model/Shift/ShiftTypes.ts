@@ -8,14 +8,14 @@ export abstract class ShiftAbstract<T, SM, SR, D> {
   public readonly staffMember: SM;
   public readonly staffRole: SR;
   public readonly status: string;
-  public readonly hourlyRate: number;
+  public readonly hourlyRate: T;
   public readonly date: string;
   public readonly totalBreaks: T;
   public readonly type: string;
   public readonly endTime: D;
   public readonly startTime: D;
 
-  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: number, date: string, startTime: D, endTime: D, totalBreaks: T, type: string) {
+  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: T, date: string, startTime: D, endTime: D, totalBreaks: T, type: string) {
     this.staffMember = staffMember;
     this.staffRole = staffRole;
     this.status = status;

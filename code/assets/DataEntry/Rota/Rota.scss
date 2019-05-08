@@ -1,3 +1,5 @@
+$numberOfPreTimeColumns: 4;
+
 .rota-title {
   text-transform: capitalize;
 }
@@ -15,7 +17,7 @@
   &.include-times {
     .rota-times, .rota-shift, .rota-staff-levels {
       display: grid;
-      grid-template-columns: 150px 25px 75px 75px 75px repeat(50, 1fr);
+      grid-template-columns: 150px 25px repeat($numberOfPreTimeColumns, 75px) repeat(50, 1fr);
       grid-gap: 1px;
     }
 
@@ -38,7 +40,7 @@
   &.exclude-times {
     .rota-times, .rota-shift, .rota-staff-levels {
       display: grid;
-      grid-template-columns: 150px 25px 120px 100px 120px 100px 75px;
+      grid-template-columns: 150px 25px 120px 100px 120px 100px 75px 100px;
       grid-gap: 1px;
     }
   }
@@ -88,7 +90,7 @@
 }
 
 .rota-new-shift {
-  grid-column-end: span 3;
+  grid-column-end: span $numberOfPreTimeColumns;
 }
 
 .rota-new-shift-spacer {
@@ -117,13 +119,19 @@
   }
 }
 
+.rota-breaks, .rota-rate, .rota-end-time, .rota-start-time, .rota-start-date, .rota-end-date, .rota-remove-shift, .rota-staff-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .rota-breaks-input {
   width: 100%;
   height: 100%;
   font-size: 1.2rem;
 }
 
-.rota-time-input {
+.rota-time-input, .rota-rate-input {
   width: 100%;
   height: 100%;
   font-size: 1.2rem;
