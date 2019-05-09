@@ -33,11 +33,11 @@ export const accountingYearString = (date: moment.Moment): string => {
   return `${accountingYearNumber}-${accountingYearNumber+1}`;
 };
 
-export const weeksDataKey = (date: moment.Moment) => {
+export const weeksDataKey = (date: moment.Moment): string => {
   return moment.utc(date).startOf('isoWeek').format(DateFormats.API_DATE);
 };
 
-export const momentFromDateAndTime = (date: string, time: string, silent: boolean = false) => {
+export const momentFromDateAndTime = (date: string, time: string, silent: boolean = false): moment.Moment => {
   const pattern = new RegExp(/[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}/);
   if (pattern.test(time)) {
     if (!silent) {
@@ -46,4 +46,8 @@ export const momentFromDateAndTime = (date: string, time: string, silent: boolea
     return moment.utc(time);
   }
   return moment.utc(`${date.toString()}T${time.toString()}Z`);
+};
+
+export const validateDateString = (date: string, existingDate: string): string => {
+  return moment.utc(date).isValid() ? moment.utc(date).format(DateFormats.API_DATE) : existingDate;
 };

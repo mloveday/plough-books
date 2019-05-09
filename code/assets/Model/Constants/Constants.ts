@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
+import {validateDateString} from "../../Util/DateUtils";
 import {validateCash, validateDecimal, validatePercentageToDecimal} from "../../Util/Validation";
 import {EditableEntity} from "../EditableEntity";
 import {ConstantsInputs} from "./ConstantsInputs";
@@ -42,7 +43,7 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
 
   public with(obj: ConstantsUpdateType): Constants {
     return new Constants(
-      obj.date !== undefined ? obj.date : this.date,
+      obj.date !== undefined ? (validateDateString(obj.date, this.date)) : this.date,
       obj.fixedCosts !== undefined ? validateCash(obj.fixedCosts, this.fixedCosts) : this.fixedCosts,
       obj.labourRate !== undefined ? validatePercentageToDecimal(obj.labourRate, this.labourRate) : this.labourRate,
       obj.vatMultiplier !== undefined ? validateDecimal(obj.vatMultiplier, this.vatMultiplier) : this.vatMultiplier,

@@ -25,6 +25,10 @@
     input {
       flex-grow: 1;
       width: 1px;
+      &[type='date'] {
+        font-family: sans-serif;
+        font-size: 1.4rem;
+      }
     }
   }
 

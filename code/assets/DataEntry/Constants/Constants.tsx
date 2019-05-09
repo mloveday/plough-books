@@ -1,4 +1,3 @@
-import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {EditButton} from "../../Common/Buttons/EditButton";
@@ -10,7 +9,6 @@ import {AppState} from "../../redux";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
 import {ConstantsLocalState} from "../../Redux/Constants/ConstantsLocalState";
 import {constantsCreate, constantsDataEntry, constantsFetch} from "../../Redux/Constants/ConstantsRedux";
-import {DateFormats} from "../../Util/DateFormats";
 import {currencyPattern, decimalPattern, percentagePattern} from "../../Util/Validation";
 import "./Constants.scss";
 
@@ -79,7 +77,7 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
           const isEditingEntity = !isCreatingNewEntity && entity.id === this.props.constantsLocalState.editingEntityId;
           return (
             <div className="constants-entity" key={key}>
-              <div>{moment.utc(entity.date).format(DateFormats.DMY_SLASHES)}</div>
+              <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type={`date`} value={entity.inputs.date} onChange={ev => this.updateConstants(entity.with({date: ev.target.value}))} /></div>
               <div className="constants-input-wrapper"><span>£</span><input disabled={!isEditingEntity} type="text" pattern={currencyPattern} value={entity.inputs.fixedCosts} onChange={ev => this.updateConstants(entity.with({'fixedCosts' : ev.target.value}))} /></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={percentagePattern} value={entity.inputs.labourRate} onChange={ev => this.updateConstants(entity.with({'labourRate' : ev.target.value}))} /><span>%</span></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.vatMultiplier} onChange={ev => this.updateConstants(entity.with({'vatMultiplier' : ev.target.value}))} /><span>&#215;</span></div>
@@ -102,7 +100,7 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
         })}
         <div className="constants-entity">
           {isCreatingNewEntity && [
-            <div className="constants-input-wrapper" key={2}>{moment.utc(newEntity.date).format(DateFormats.DMY_SLASHES)}</div>,
+            <div className="constants-input-wrapper" key={2}><input type={`date`} value={newEntity.inputs.date} onChange={ev => this.updateConstants(newEntity.with({date: ev.target.value}))} /></div>,
             <div className="constants-input-wrapper" key={3}><span>£</span><input type="text" pattern={currencyPattern} value={newEntity.inputs.fixedCosts} onChange={ev => this.updateNewConstants(newEntity.with({'fixedCosts' : ev.target.value}))} /></div>,
             <div className="constants-input-wrapper" key={4}><input type="text" pattern={percentagePattern} value={newEntity.inputs.labourRate} onChange={ev => this.updateNewConstants(newEntity.with({'labourRate' : ev.target.value}))} /><span>%</span></div>,
             <div className="constants-input-wrapper" key={5}><input type="text" pattern={decimalPattern} value={newEntity.inputs.vatMultiplier} onChange={ev => this.updateNewConstants(newEntity.with({'vatMultiplier' : ev.target.value}))} /><span>&#215;</span></div>,
