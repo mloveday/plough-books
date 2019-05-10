@@ -73,7 +73,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     const isCreatingNewMember = this.props.staffMembersLocalState.isCreatingEntity;
     const newMember = this.props.staffMembersLocalState.newEntity;
     const filteredMembers = this.props.staffMembersLocalState.entities
-      .filter(member => member.entityId === this.props.staffMembersLocalState.editingEntityId || !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status);
+      .filter(member => member.entityId === this.props.staffMembersLocalState.editingEntityId || this.props.staffMemberFilters.shouldShowStaffMember(member));
     const lastPageNumber = Math.max(1,Math.ceil(filteredMembers.length/this.props.staffMemberFilters.pageSize));
     const roles = this.props.staffRolesExternalState.externalState.entities;
     if (roles.length === 0 || !this.props.staffMemberFilters.role.isValid()) {

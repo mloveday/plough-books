@@ -1,4 +1,5 @@
 import {StaffMemberStatus} from "../../../Model/Enum/StaffMemberStatus";
+import {StaffMember} from "../../../Model/StaffMember/StaffMember";
 import {StaffRole} from "../../../Model/StaffRole/StaffRole";
 
 export interface IStaffMemberFiltersUpdateObject {
@@ -29,5 +30,11 @@ export class StaffMemberFilters {
       this,
       obj
     );
+  }
+
+  public shouldShowStaffMember(staffMember: StaffMember) {
+    return (!this.statusFiltered || this.status === staffMember.status)
+      && (!this.roleFiltered || this.role.id === staffMember.role.id)
+      && staffMember.name.toLowerCase().includes(this.textSearch.toLowerCase());
   }
 }
