@@ -116,6 +116,16 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     return CashManipulation.calculateVatAdjustedRevenue(this.forecastRevenue, this.constants.vatMultiplier);
   }
 
+  public getCombinedPredictedLabourRate(weeklyForecastRevenue: number): number {
+    return CashManipulation.calculateLabourRate(
+      this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.BAR)
+      + this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.KITCHEN)
+      + this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.ANCILLARY),
+      this.forecastRevenue,
+      this.constants.vatMultiplier
+    );
+  }
+
   public getPredictedLabourRate(weeklyForecastRevenue: number, type: string): number {
     return CashManipulation.calculateLabourRate(
       this.getTotalPredictedLabourCost(weeklyForecastRevenue, type),
@@ -156,11 +166,24 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
   }
 
-  public getCombinedRunningLabourRate(revenueToday: number, weeklyRevenue: number): number {
+  public getCombinedRunningLabourRate(runningRevenueToday: number, weeklyRevenue: number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR)
+      this.getCombinedRunningLabourCost(runningRevenueToday, weeklyRevenue),
+      runningRevenueToday,
+      this.constants.vatMultiplier
+    );
+  }
+
+  public getCombinedRunningLabourCost(revenueToday: number, weeklyRevenue: number): number {
+    return this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR)
       + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN)
-      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY),
+      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY)
+    ;
+  }
+
+  public getCombinedTargetLabourCost(revenueToday: number): number {
+    return CashManipulation.calculateTargetLabourCost(
+      this.targetLabourRate,
       revenueToday,
       this.constants.vatMultiplier
     );

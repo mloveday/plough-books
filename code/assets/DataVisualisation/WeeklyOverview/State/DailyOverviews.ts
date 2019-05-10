@@ -12,6 +12,7 @@ export class DailyOverviews {
   public readonly actualRevenue: number;
   public readonly runningRevenueForecast: number;
   public readonly vatAdjustedActualRevenue: number;
+  public readonly vatAdjustedRunningRevenue: number;
   public readonly forecastRevenue: number;
   public readonly vatAdjustedForecastRevenue: number;
 
@@ -48,30 +49,31 @@ export class DailyOverviews {
 
     this.vatAdjustedActualRevenue = this.overviews.reduce((prev, curr) => prev + curr.getVatAdjustedRevenue(), 0);
     this.vatAdjustedForecastRevenue = rotas.getTotalVatAdjustedForecastRevenue(startOfWeek);
+    this.vatAdjustedRunningRevenue = this.overviews.reduce((prev, curr) => prev + curr.getVatAdjustedRunningRevenue(), 0);
   }
 
-  public getForecastLabour() {
+  public getCombinedForecastLabour() {
     return this.forecastKitchenLabour + this.forecastBarLabour + this.forecastAncillaryLabour;
   }
 
-  public getActualLabour() {
+  public getCombinedActualLabour() {
     return this.actualKitchenLabour + this.actualBarLabour + this.actualAncillaryLabour;
   }
 
-  public getRunningLabour() {
+  public getCombinedRunningLabour() {
     return this.runningBarLabour + this.runningKitchenLabour + this.runningAncillaryLabour;
   }
 
   public getCombinedForecastLabourRate() {
-    return this.getForecastLabour()/this.vatAdjustedForecastRevenue;
+    return this.getCombinedForecastLabour()/this.vatAdjustedForecastRevenue;
   }
 
   public getCombinedActualLabourRate() {
-    return this.getActualLabour()/this.vatAdjustedActualRevenue;
+    return this.getCombinedActualLabour()/this.vatAdjustedActualRevenue;
   }
 
   public getCombinedRunningLabourRate() {
-    return this.getRunningLabour()/this.vatAdjustedActualRevenue;
+    return this.getCombinedRunningLabour()/this.vatAdjustedRunningRevenue;
   }
 
   public getForecastBarLabourRate() {
@@ -147,14 +149,23 @@ export class DailyOverviews {
   }
 
   private getTotalRunningBarLabour(): number {
-    return this.overviews.reduce((prev, curr) => curr.rota.getTotalRunningLabourCost(curr.cashUp.getTotalRevenue(), this.runningRevenueForecast, WorkTypes.BAR) + prev, 0);
+    return this.overviews.reduce((prev, curr) => {
+      const actualRevenue = curr.cashUp.getTotalRevenue();
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.BAR) + prev
+    }, 0);
   }
 
   private getTotalRunningKitchenLabour(): number {
-    return this.overviews.reduce((prev, curr) => curr.rota.getTotalRunningLabourCost(curr.cashUp.getTotalRevenue(), this.runningRevenueForecast, WorkTypes.KITCHEN) + prev, 0);
+    return this.overviews.reduce((prev, curr) => {
+      const actualRevenue = curr.cashUp.getTotalRevenue();
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.KITCHEN) + prev
+    }, 0);
   }
 
   private getTotalRunningAncillaryLabour(): number {
-    return this.overviews.reduce((prev, curr) => curr.rota.getTotalRunningLabourCost(curr.cashUp.getTotalRevenue(), this.runningRevenueForecast, WorkTypes.ANCILLARY) + prev, 0);
+    return this.overviews.reduce((prev, curr) => {
+      const actualRevenue = curr.cashUp.getTotalRevenue();
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.ANCILLARY) + prev
+    }, 0);
   }
 }

@@ -44,8 +44,8 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
         {dailyOverviews.overviews.map((overview, key) => (
           <div className="overview-stat" key={key}>
             <CostRateCompare label="Bar labour rate" showLabel={false}
-                             forecast={overview.rota.targetLabourRate}
-                             actual={overview.rota.getCombinedRunningLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.runningRevenueForecast)} />
+                             forecast={overview.rota.getCombinedPredictedLabourRate(overview.getTotalRevenueOrForecast())}
+                             actual={overview.rota.getCombinedRunningLabourRate(overview.cashUp.getTotalRevenue() === 0 ? overview.rota.forecastRevenue : overview.cashUp.getTotalRevenue(), dailyOverviews.runningRevenueForecast)} />
           </div>
         ))}
         <div className="overview-stat-title">Bar labour rate</div>

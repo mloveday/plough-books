@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {WeeklyRunningOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyRunningOverview";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {AuthState} from "../../Redux/Auth/AuthState";
@@ -32,8 +33,9 @@ type LandingPageProps = LandingPageOwnProps & LandingPageStateProps & LandingPag
 
 class LandingPageComponent extends React.Component<LandingPageProps, {}> {
   public render() {
-    return (
-      <div className={'landing-page'}>
+    return ([
+      <WeeklyRunningOverview key={1}/>,
+      <div className={'landing-page'} key={2}>
         <h2 className={'page-title'}>What are you trying to do?</h2>
         <div className={'query'}>
           <div className={'query-title'}>Create or edit a rota</div>
@@ -78,7 +80,7 @@ class LandingPageComponent extends React.Component<LandingPageProps, {}> {
           </div>
         </div>}
       </div>
-    )
+    ])
   }
 }
 
