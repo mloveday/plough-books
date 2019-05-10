@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
+import {DateFormats} from "../../Util/DateFormats";
 import {ExternalState} from "../ExternalState";
 
 export class CashUpExternalState extends ExternalState {
@@ -18,7 +19,7 @@ export class CashUpExternalState extends ExternalState {
     }
 
     public shouldLoadForDate(date: moment.Moment) {
-    return this.isEmpty()
-      || (this.isLoaded() && !this.cashUpsForWeek.cashUps.find(cashUp => date.isSame(cashUp.date, 'day')));
+      return this.isEmpty()
+        || (this.isLoaded() && !this.cashUpsForWeek.cashUps.find(cashUp => date.format(DateFormats.API_DATE) === cashUp.date));
   }
 }
