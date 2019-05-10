@@ -173,7 +173,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
   }
 
   private cancelEdit() {
-    this.props.updateStaffMember(this.props.staffMembersLocalState.withEntities([]));
+    this.props.updateStaffMember(this.props.staffMembersExternalState.externalState.withEntities([]));
   }
 
   private saveStaffMember(staffMember: StaffMember) {
