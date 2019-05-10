@@ -2,11 +2,14 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {CashUpEntityUpdateType} from "../../Model/CashUp/CashUpEntityTypes";
 import {TillDenominations} from "../../Model/Denominations/TillDenominations";
+import {TillDenominationsAbstract} from "../../Model/Denominations/TillDenominationsTypes";
 import {AppState} from "../../redux";
 import {currencyPattern} from "../../Util/Validation";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];
+  tillRefs: Array<TillDenominationsAbstract<React.RefObject<{}>>>;
+  keyPressHandler: (ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => void;
   tillProperty: string;
   friendlyName: string;
   formUpdate: (obj: CashUpEntityUpdateType) => void;
@@ -44,8 +47,9 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
     return (
       <div className="till-label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
-        <input id={id} type="tel" pattern={currencyPattern}
+        <input id={id} type="tel" pattern={currencyPattern} ref={this.props.tillRefs[index][this.props.tillProperty]}
                value={this.props.tills[index].inputs[this.props.tillProperty]}
+               onKeyDown={ev => this.props.keyPressHandler(ev, index, this.props.tillProperty)}
                onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: ev.target.value}))}/>
       </div>
     );
