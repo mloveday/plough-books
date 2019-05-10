@@ -75,6 +75,10 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     const filteredMembers = this.props.staffMembersLocalState.entities
       .filter(member => member.entityId === this.props.staffMembersLocalState.editingEntityId || !this.props.staffMemberFilters.statusFiltered || member.status === this.props.staffMemberFilters.status);
     const lastPageNumber = Math.max(1,Math.ceil(filteredMembers.length/this.props.staffMemberFilters.pageSize));
+    const roles = this.props.staffRolesExternalState.externalState.entities;
+    if (roles.length === 0 || !this.props.staffMemberFilters.role.isValid()) {
+      return null;
+    }
     return (
       <div className="staff-members-data-entry">
         <div className="staff-members-filters">
@@ -107,6 +111,26 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               </select>
             </div>
           </div>
+          <div className="filter-spacer"/>
+          <div className="staff-members-filter">
+            <div className="filter-group">
+              <label>Filter by role?</label>
+              <input type="checkbox" checked={this.props.staffMemberFilters.roleFiltered} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({roleFiltered: ev.target.checked}))} />
+            </div>
+            <div className="filter-group">
+              <label>Role</label>
+              <select value={this.props.staffMemberFilters.role.id} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({role: roles.find(v => v.entityId.toString() === ev.target.value)}))}>
+                {roles.map((role, key) => <option key={key} value={role.id}>{role.role}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="filter-spacer"/>
+          <div className="staff-members-filter">
+            <div className="filter-group">
+              <label>Search name</label>
+              <input type="text" value={this.props.staffMemberFilters.textSearch} onChange={ev => this.props.setFilters(this.props.staffMemberFilters.with({textSearch: ev.target.value}))} />
+            </div>
+          </div>
         </div>
         <div className="staff-member-entity title">
           <div>Name</div>
@@ -127,8 +151,8 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
                 <option value={StaffMemberStatus.INACTIVE}>Inactive</option>
               </select>}
               <input disabled={!isEditingMember} type='text' pattern={currencyPattern} value={member.inputs.currentHourlyRate} onChange={ev => this.updateStaffMember(member.with({'currentHourlyRate' : ev.target.value}))} />
-              <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.entityId.toString() === ev.target.value)}))}>
-                {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
+              <select disabled={!isEditingMember} value={member.role.id} onChange={ev => this.updateStaffMember(member.with({role: roles.find(v => v.entityId.toString() === ev.target.value)}))}>
+                {roles.map((role, roleKey) => (
                     <option key={roleKey} value={role.id}>{role.role}</option>
                   ))}
               </select>
@@ -148,9 +172,9 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           </select>}
           {isCreatingNewMember && <input type='text' pattern={currencyPattern} value={newMember.inputs.currentHourlyRate} onChange={ev => this.newStaffMember(newMember.with({'currentHourlyRate' : ev.target.value}))}/>}
           {isCreatingNewMember &&
-          <select value={newMember.role.entityId} onChange={ev => this.newStaffMember(newMember.with({role: this.props.staffRolesExternalState.externalState.entities.find(v => v.entityId.toString() === ev.target.value)}))}>
+          <select value={newMember.role.entityId} onChange={ev => this.newStaffMember(newMember.with({role: roles.find(v => v.entityId.toString() === ev.target.value)}))}>
             {!newMember.role.isValid() && <option value={undefined}>Choose a role...</option>}
-            {this.props.staffRolesExternalState.externalState.entities.map((role, roleKey) => (
+            {roles.map((role, roleKey) => (
               <option key={roleKey} value={role.id}>{role.role}</option>
             ))}
           </select>}
@@ -188,6 +212,9 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
     if (this.props.staffRolesExternalState.isEmpty()) {
       this.props.fetchStaffRoles();
       return;
+    }
+    if (!this.props.staffMemberFilters.role.isValid()) {
+      this.props.setFilters(this.props.staffMemberFilters.with({role: this.props.staffRolesExternalState.externalState.entities[0]}))
     }
     if (this.props.staffMembersExternalState.isEmpty()) {
       this.props.fetchStaffMembers();
