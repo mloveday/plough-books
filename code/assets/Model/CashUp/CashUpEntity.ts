@@ -138,7 +138,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   }
 
   public getTotalComps(): number {
-    return this.compsWet + this.dCustomersCoffee + this.dCustomersDry + this.dCustomersWet + this.fwtWet;
+    return this.compsWet + this.dStaffDry + this.dCustomersCoffee + this.dCustomersDry + this.dCustomersWet + this.fwtWet;
   }
 
   public getZReadVariance(): number {
