@@ -36,10 +36,12 @@ export interface RotaEditorOwnProps {
   showStats: boolean;
   showStaffLevels: boolean;
   rotasForWeek: RotasForWeek;
+  uiState: UiState;
   addShift: (shiftToAdd: Shift) => void;
   updateShift: (shiftToUpdate: Shift) => void;
   removeShift: (shiftToRemove: Shift) => void;
   resetRota: () => void;
+  updateUi: (state: UiState) => void;
 }
 
 export interface RotaEditorStateProps {}
@@ -103,7 +105,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             <div className="rota-header rota-start-time">Start</div>
             <div className="rota-header rota-end-time">End</div>
             <div className="rota-header rota-breaks">Breaks</div>
-            <div className="rota-header rota-rate">Rate</div>
+            <div className="rota-header rota-rate"><input type="checkbox" checked={this.props.uiState.rotaShowRates} onChange={ev => this.props.updateUi(this.props.uiState.withShouldShowRotaRates(ev.target.checked))}/>Rate</div>
             {timePeriods.map((timePeriod, timeKey) => (
               <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
             ))}
@@ -166,6 +168,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         </div>
         <div className="rota-new-shift-spacer"/>
         <div className="rota-new-shift-spacer"/>
+        <div className="rota-new-shift-spacer"/>
         {timePeriods.map((timePeriod, periodKey) => (
           <div className="rota-time" key={periodKey}/>
         ))}
@@ -209,11 +212,11 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
         {(!editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className={`rota-breaks-input`} value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
         <div className={`rota-rate`}>
-          <input className={`rota-rate-input`}
+          {this.props.uiState.rotaShowRates && <input className={`rota-rate-input`}
                  disabled={editingDisabled}
                  type="tel" pattern={currencyPattern}
                  value={shift.inputs.hourlyRate}
-                 onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />
+                 onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />}
         </div>
         {timePeriods.map((timePeriod, periodKey) => (
           <div className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>

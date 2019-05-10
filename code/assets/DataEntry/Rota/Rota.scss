@@ -106,11 +106,7 @@ $numberOfPreTimeColumns: 4;
   writing-mode: sideways-lr;
   text-orientation: sideways;
 
-  &:nth-of-type(4n+0) {
-    background: #eee;
-  }
-
-  &:nth-of-type(4n+1) {
+  &:nth-of-type(4n + #{$numberOfPreTimeColumns+3}), &:nth-of-type(4n + #{$numberOfPreTimeColumns+4}) {
     background: #eee;
   }
 

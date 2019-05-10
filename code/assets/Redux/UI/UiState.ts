@@ -6,6 +6,7 @@ export interface IUiStateUpdateObject {
   cashUpSection?: CashUpSection;
   currentDateString?: string;
   showingNav?: boolean;
+  rotaShowRates?: boolean;
 }
 
 export class UiState {
@@ -14,6 +15,7 @@ export class UiState {
   }
 
   public readonly cashUpSection: CashUpSection = CashUpSection.TILLS;
+  public readonly rotaShowRates: boolean = false;
   public readonly showingNav: boolean = false;
   private readonly currentDateString: string = moment.utc().format(DateFormats.API_DATE);
 
@@ -35,6 +37,10 @@ export class UiState {
 
   public withShouldShowNav(shouldShowNav: boolean) {
     return this.with({showingNav: shouldShowNav});
+  }
+
+  public withShouldShowRotaRates(shouldShowRates: boolean) {
+    return this.with({rotaShowRates: shouldShowRates});
   }
 
   private with(obj: IUiStateUpdateObject): UiState {
