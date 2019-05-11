@@ -181,10 +181,10 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     ;
   }
 
-  public getCombinedTargetLabourCost(revenueToday: number): number {
+  public getCombinedTargetLabourCost(): number {
     return CashManipulation.calculateTargetLabourCost(
       this.targetLabourRate,
-      revenueToday,
+      this.forecastRevenue,
       this.constants.vatMultiplier
     );
   }

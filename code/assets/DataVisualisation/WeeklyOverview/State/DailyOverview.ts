@@ -25,4 +25,13 @@ export class DailyOverview {
   public getTotalRevenueOrForecast() {
     return this.cashUp.isValid() ? this.cashUp.getTotalRevenue() : this.rota.forecastRevenue;
   }
+
+  public getRunningLabourCost(runningRevenueForecast: number) {
+    return this.rota.getCombinedRunningLabourCost(this.cashUp.getTotalRevenue(), runningRevenueForecast);
+  }
+
+  public getRunningRevenue() {
+    const cashUpRevenue = this.cashUp.getTotalRevenue();
+    return cashUpRevenue === 0 ? this.rota.forecastRevenue : cashUpRevenue;
+  }
 }
