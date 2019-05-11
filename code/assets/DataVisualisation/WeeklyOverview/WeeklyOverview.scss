@@ -14,29 +14,42 @@
 
 .overview-rota-group {
     grid-column-end: span 4;
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    grid-gap: 8px;
-    margin: 4px 0;
     padding: 4px;
     border: 1px solid lightgrey;
+    border-spacing: 0;
+    tr {
+        td, th {
+            width: calc(100% / 9);
+        }
+    }
+
+    .spacer-row {
+        background: lightgrey;
+        height: 1px;
+        padding: 0;
+    }
 }
 
-.overview-stat.week-total, .overview-stat-title.week-total {
-    font-weight: bold;
-    background: #f6f6f6;
-    padding: 4px;
-    border-radius: 4px;
+.overview-stat, .overview-stat-title {
+    padding: 8px;
+
+    &.week-total {
+        font-weight: bold;
+        background: #f6f6f6;
+    }
 }
 
 .overview-stat-title {
     grid-column: 1;
-    justify-content: left;
-    align-items: center;
-    display: grid;
     padding-left: 16px;
 }
 
-.overview-stat.notes {
-    font-size: 1.3rem;
+.overview-stat {
+    text-align: center;
+    &.week-total {
+        vertical-align: top;
+    }
+    &.notes {
+        font-size: 1.3rem;
+    }
 }

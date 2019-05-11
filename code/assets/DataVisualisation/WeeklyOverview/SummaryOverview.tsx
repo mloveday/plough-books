@@ -33,29 +33,37 @@ type SummaryOverviewProps = SummaryOverviewOwnProps & SummaryOverviewStateProps 
 class SummaryOverviewComponent extends React.Component<SummaryOverviewProps, {}> {
   public render() {
     const dailyOverviews = this.props.dailyOverviews;
+    const options = this.props.options;
     return (
-      <div className="overview-rota-group">
-        <div className="overview-stat-title">Date</div>
-        <div className="overview-stat week-total">Week totals</div>
-        {dailyOverviews.overviews.map((overview, key) => (
-          <div className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</div>
-        ))}
-        {this.props.options.status && <div className="overview-stat-title">Status</div>}
-        {this.props.options.status && <div className="overview-stat"/>}
-        {this.props.options.status && dailyOverviews.overviews.map((overview, key) => (
-          <div className="overview-stat" key={key}>{overview.rota.getReadableStatus()}</div>
-        ))}
-        {this.props.options.constants && <div className="overview-stat-title">Constants from date</div>}
-        {this.props.options.constants && <div className="overview-stat"/>}
-        {this.props.options.constants && dailyOverviews.overviews.map((overview, key) => (
-          <ConstantsWithHover constants={overview.rota.constants} key={key} />
-        ))}
-        {this.props.options.notes && <div className="overview-stat-title">Notes</div>}
-        {this.props.options.notes && <div className="overview-stat"/>}
-        {this.props.options.notes && dailyOverviews.overviews.map((overview, key) => (
-          <div className="overview-stat notes" key={key}>{overview.cashUp.dailyNotes.toUpperCase()}</div>
-        ))}
-      </div>
+      [
+        <tr key={1}>
+          <th className="overview-stat-title">Date</th>
+          <th className="overview-stat week-total" rowSpan={4}>Week totals</th>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <th className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</th>
+          ))}
+        </tr>,
+        <tr key={2}>
+          {options.status && <td className="overview-stat-title">Status</td>}
+          {options.status && dailyOverviews.overviews.map((overview, key) => (
+            <td className="overview-stat" key={key}>{overview.rota.getReadableStatus()}</td>
+          ))}
+        </tr>,
+        <tr key={3}>
+          {options.constants && <td className="overview-stat-title">Constants from date</td>}
+          {options.constants && dailyOverviews.overviews.map((overview, key) => (
+            <td className="overview-stat">
+              <ConstantsWithHover constants={overview.rota.constants} key={key} />
+            </td>
+          ))}
+        </tr>,
+        <tr key={4}>
+          {options.notes && <td className="overview-stat-title">Notes</td>}
+          {options.notes && dailyOverviews.overviews.map((overview, key) => (
+            <td className="overview-stat notes" key={key}>{overview.cashUp.dailyNotes.toUpperCase()}</td>
+          ))}
+        </tr>
+      ]
     )
   }
 }

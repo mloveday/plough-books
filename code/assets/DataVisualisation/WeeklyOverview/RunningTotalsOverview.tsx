@@ -30,49 +30,54 @@ class RunningTotalsOverviewComponent extends React.Component<RunningTotalsOvervi
   public render() {
     const dailyOverviews = this.props.dailyOverviews;
     return (
-      <div className="overview-rota-group">
-        <div className="overview-stat-title">Running Revenue</div>
-        <div className="overview-stat week-total">
-          <RevenueCompare label="Running revenue" showLabel={false}
-                          forecast={dailyOverviews.forecastRevenue}
-                          actual={dailyOverviews.runningRevenueForecast} />
-        </div>
-        {dailyOverviews.overviews.map((overview, key) => (
-          <div key={key} className="overview-stat">
-            <RevenueCompare label="Revenue" showLabel={false}
-                            forecast={overview.rota.forecastRevenue}
-                            actual={overview.getTotalRevenueOrForecast()} />
-          </div>
-        ))}
-
-        <div className="overview-stat-title">Running Labour Cost</div>
-        <div className="overview-stat week-total">
-          <CostsCompare label="Running labour cost" showLabel={false}
-                        forecast={dailyOverviews.getCombinedForecastLabour()}
-                        actual={dailyOverviews.getCombinedRunningLabour()} />
-        </div>
-        {dailyOverviews.overviews.map((overview, key) => (
-          <div className="overview-stat" key={key}>
+      [
+        <tr key={0}><td colSpan={9} className="spacer-row"/></tr>,
+        <tr key={1}>
+          <td className="overview-stat-title">Running Revenue</td>
+          <td className="overview-stat week-total">
+            <RevenueCompare label="Running revenue" showLabel={false}
+                            forecast={dailyOverviews.forecastRevenue}
+                            actual={dailyOverviews.runningRevenueForecast} />
+          </td>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <td key={key} className="overview-stat">
+              <RevenueCompare label="Revenue" showLabel={false}
+                              forecast={overview.rota.forecastRevenue}
+                              actual={overview.getTotalRevenueOrForecast()} />
+            </td>
+          ))}
+        </tr>,
+        <tr key={2}>
+          <td className="overview-stat-title">Running Labour Cost</td>
+          <td className="overview-stat week-total">
             <CostsCompare label="Running labour cost" showLabel={false}
-                             forecast={overview.rota.getCombinedTargetLabourCost()}
-                             actual={overview.getRunningLabourCost(dailyOverviews.runningRevenueForecast)} />
-          </div>
-        ))}
-
-        <div className="overview-stat-title">Running Labour Rate</div>
-        <div className="overview-stat week-total">
-          <CostRateCompare label="Running labour rate" showLabel={false}
-                           forecast={dailyOverviews.getCombinedForecastLabourRate()}
-                           actual={dailyOverviews.getCombinedRunningLabourRate()} />
-        </div>
-        {dailyOverviews.overviews.map((overview, key) => (
-          <div className="overview-stat" key={key}>
+                          forecast={dailyOverviews.getCombinedForecastLabour()}
+                          actual={dailyOverviews.getCombinedRunningLabour()} />
+          </td>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <td className="overview-stat" key={key}>
+              <CostsCompare label="Running labour cost" showLabel={false}
+                               forecast={overview.rota.getCombinedTargetLabourCost()}
+                               actual={overview.getRunningLabourCost(dailyOverviews.runningRevenueForecast)} />
+            </td>
+          ))}
+        </tr>,
+        <tr key={3}>
+          <td className="overview-stat-title">Running Labour Rate</td>
+          <td className="overview-stat week-total">
             <CostRateCompare label="Running labour rate" showLabel={false}
-                             forecast={overview.rota.getCombinedPredictedLabourRate(dailyOverviews.runningRevenueForecast)}
-                             actual={overview.rota.getCombinedRunningLabourRate(overview.getRunningRevenue(), dailyOverviews.runningRevenueForecast)} />
-          </div>
-        ))}
-      </div>
+                             forecast={dailyOverviews.getCombinedForecastLabourRate()}
+                             actual={dailyOverviews.getCombinedRunningLabourRate()} />
+          </td>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <td className="overview-stat" key={key}>
+              <CostRateCompare label="Running labour rate" showLabel={false}
+                               forecast={overview.rota.getCombinedPredictedLabourRate(dailyOverviews.runningRevenueForecast)}
+                               actual={overview.rota.getCombinedRunningLabourRate(overview.getRunningRevenue(), dailyOverviews.runningRevenueForecast)} />
+            </td>
+          ))}
+        </tr>,
+      ]
     )
   }
 }

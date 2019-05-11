@@ -26,23 +26,41 @@ type RevenueOverviewProps = RevenueOverviewOwnProps & RevenueOverviewStateProps 
 
 class RevenueOverviewComponent extends React.Component<RevenueOverviewProps, {}> {
   public render() {
+    const dailyOverviews = this.props.dailyOverviews;
     return (
-      <div className="overview-rota-group">
-        <div className="overview-stat-title">Revenue</div>
-        <div className="overview-stat week-total"><RevenueCompare label="Revenue" showLabel={false} forecast={this.props.dailyOverviews.forecastRevenue} actual={this.props.dailyOverviews.actualRevenue} /></div>
-        {this.props.dailyOverviews.overviews.map((overview, key) => (
-          <div key={key} className="overview-stat">
-            <RevenueCompare label="Revenue" showLabel={false} forecast={overview.rota.forecastRevenue} actual={overview.cashUp.getTotalRevenue()} />
-          </div>
-        ))}
-        <div className="overview-stat-title">Running revenue</div>
-        <div className="overview-stat week-total"><RevenueCompare label="Revenue or forecast" showLabel={false} forecast={this.props.dailyOverviews.forecastRevenue} actual={this.props.dailyOverviews.runningRevenueForecast} /></div>
-        {this.props.dailyOverviews.overviews.map((overview, key) => (
-          <div key={key} className="overview-stat">
-            <RevenueCompare label="Revenue" showLabel={false} forecast={overview.rota.forecastRevenue} actual={overview.getTotalRevenueOrForecast()} />
-          </div>
-        ))}
-      </div>
+      [
+        <tr key={0}><td colSpan={9} className="spacer-row"/></tr>,
+        <tr key={1}>
+          <td className="overview-stat-title">Revenue</td>
+          <td className="overview-stat week-total">
+            <RevenueCompare label="Revenue" showLabel={false}
+                            forecast={dailyOverviews.forecastRevenue}
+                            actual={dailyOverviews.actualRevenue} />
+          </td>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <td key={key} className="overview-stat">
+              <RevenueCompare label="Revenue" showLabel={false}
+                              forecast={overview.rota.forecastRevenue}
+                              actual={overview.cashUp.getTotalRevenue()} />
+            </td>
+          ))}
+        </tr>,
+        <tr key={2}>
+          <td className="overview-stat-title">Running revenue</td>
+          <td className="overview-stat week-total">
+            <RevenueCompare label="Revenue or forecast" showLabel={false}
+                            forecast={dailyOverviews.forecastRevenue}
+                            actual={dailyOverviews.runningRevenueForecast} />
+          </td>
+          {dailyOverviews.overviews.map((overview, key) => (
+            <td key={key} className="overview-stat">
+              <RevenueCompare label="Revenue" showLabel={false}
+                              forecast={overview.rota.forecastRevenue}
+                              actual={overview.getTotalRevenueOrForecast()} />
+            </td>
+          ))}
+        </tr>
+      ]
     )
   }
 }

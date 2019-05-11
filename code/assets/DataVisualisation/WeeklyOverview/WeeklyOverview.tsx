@@ -101,10 +101,12 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
                     year={parseInt(this.props.match.params.year, 10)}
                     urlFromDate={date => Routes.weeklyOverviewUrl(date)}/>
         <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({dailyOverviews.startOfWeek.format(DateFormats.READABLE_WITH_YEAR)})</h1>
-        <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
-        <RevenueOverview dailyOverviews={dailyOverviews} />
-        <LabourCostOverview dailyOverviews={dailyOverviews} />
-        <LabourRateOverview dailyOverviews={dailyOverviews} />
+        <table className="overview-rota-group">
+          <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
+          <RevenueOverview dailyOverviews={dailyOverviews} />
+          <LabourCostOverview dailyOverviews={dailyOverviews} />
+          <LabourRateOverview dailyOverviews={dailyOverviews} />
+        </table>
       </div>)
   }
 

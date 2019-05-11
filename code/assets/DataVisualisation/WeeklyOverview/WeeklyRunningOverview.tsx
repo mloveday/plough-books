@@ -90,8 +90,10 @@ class WeeklyRunningOverviewComponent extends React.Component<WeeklyRunningOvervi
     return (
       <div className="weekly-overview">
         <h1 className="overview-title">Weekly overview for {accountingYearString(date)} ({date.format(DateFormats.READABLE_WITH_YEAR)})</h1>
-        <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
-        <RunningTotalsOverview dailyOverviews={dailyOverviews} />
+        <table className="overview-rota-group">
+          <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
+          <RunningTotalsOverview dailyOverviews={dailyOverviews} />
+        </table>
       </div>)
   }
 
