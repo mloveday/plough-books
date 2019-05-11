@@ -36,7 +36,7 @@ class SummaryOverviewComponent extends React.Component<SummaryOverviewProps, {}>
     return (
       <div className="overview-rota-group">
         <div className="overview-stat-title">Date</div>
-        <div className="overview-stat">Week totals</div>
+        <div className="overview-stat week-total">Week totals</div>
         {dailyOverviews.overviews.map((overview, key) => (
           <div className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</div>
         ))}

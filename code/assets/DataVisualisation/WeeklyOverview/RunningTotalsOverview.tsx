@@ -32,7 +32,7 @@ class RunningTotalsOverviewComponent extends React.Component<RunningTotalsOvervi
     return (
       <div className="overview-rota-group">
         <div className="overview-stat-title">Running Revenue</div>
-        <div className="overview-stat">
+        <div className="overview-stat week-total">
           <RevenueCompare label="Running revenue" showLabel={false}
                           forecast={dailyOverviews.forecastRevenue}
                           actual={dailyOverviews.runningRevenueForecast} />
@@ -46,7 +46,7 @@ class RunningTotalsOverviewComponent extends React.Component<RunningTotalsOvervi
         ))}
 
         <div className="overview-stat-title">Running Labour Cost</div>
-        <div className="overview-stat">
+        <div className="overview-stat week-total">
           <CostsCompare label="Running labour cost" showLabel={false}
                         forecast={dailyOverviews.getCombinedForecastLabour()}
                         actual={dailyOverviews.getCombinedRunningLabour()} />
@@ -60,7 +60,7 @@ class RunningTotalsOverviewComponent extends React.Component<RunningTotalsOvervi
         ))}
 
         <div className="overview-stat-title">Running Labour Rate</div>
-        <div className="overview-stat">
+        <div className="overview-stat week-total">
           <CostRateCompare label="Running labour rate" showLabel={false}
                            forecast={dailyOverviews.getCombinedForecastLabourRate()}
                            actual={dailyOverviews.getCombinedRunningLabourRate()} />

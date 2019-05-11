@@ -30,14 +30,14 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
     return (
       <div className="overview-rota-group">
         <div className="overview-stat-title">Bar wage cost</div>
-        <div className="overview-stat"><CostsCompare label="Bar costs" showLabel={false} forecast={this.props.dailyOverviews.forecastBarLabour} actual={this.props.dailyOverviews.actualBarLabour} /></div>
+        <div className="overview-stat week-total"><CostsCompare label="Bar costs" showLabel={false} forecast={this.props.dailyOverviews.forecastBarLabour} actual={this.props.dailyOverviews.actualBarLabour} /></div>
         {this.props.dailyOverviews.overviews.map((overview, key) => (
           <CostsCompare key={key} label="Bar labour cost" showLabel={false}
                         forecast={overview.rota.getTotalPredictedLabourCost(this.props.dailyOverviews.forecastRevenue, WorkTypes.BAR)}
                         actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), this.props.dailyOverviews.actualRevenue, WorkTypes.BAR)} />
         ))}
         <div className="overview-stat-title">Kitchen wage cost</div>
-        <div className="overview-stat">
+        <div className="overview-stat week-total">
           <CostsCompare label="Kitchen costs" showLabel={false} forecast={this.props.dailyOverviews.forecastKitchenLabour} actual={this.props.dailyOverviews.actualKitchenLabour} />
         </div>
         {this.props.dailyOverviews.overviews.map((overview, key) => (
@@ -46,7 +46,7 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
                         actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), this.props.dailyOverviews.actualRevenue, WorkTypes.KITCHEN)} />
         ))}
         <div className="overview-stat-title">Ancillary wage cost</div>
-        <div className="overview-stat">
+        <div className="overview-stat week-total">
           <CostsCompare label="Ancillary costs" showLabel={false} forecast={this.props.dailyOverviews.forecastAncillaryLabour} actual={this.props.dailyOverviews.actualAncillaryLabour} />
         </div>
         {this.props.dailyOverviews.overviews.map((overview, key) => (

@@ -22,8 +22,19 @@
     border: 1px solid lightgrey;
 }
 
+.overview-stat.week-total, .overview-stat-title.week-total {
+    font-weight: bold;
+    background: #f6f6f6;
+    padding: 4px;
+    border-radius: 4px;
+}
+
 .overview-stat-title {
     grid-column: 1;
+    justify-content: left;
+    align-items: center;
+    display: grid;
+    padding-left: 16px;
 }
 
 .overview-stat.notes {

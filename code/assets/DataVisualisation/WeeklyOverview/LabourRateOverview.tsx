@@ -31,7 +31,7 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
     return (
       <div className="overview-rota-group">
         <div className="overview-stat-title">Labour rate</div>
-        <div className="overview-stat"><CostRateCompare label="Combined labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedActualLabourRate()} /></div>
+        <div className="overview-stat week-total"><CostRateCompare label="Combined labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedActualLabourRate()} /></div>
         {dailyOverviews.overviews.map((overview, key) => (
           <div className="overview-stat" key={key}>
             <CostRateCompare label="Bar labour rate" showLabel={false}
@@ -40,7 +40,7 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
           </div>
         ))}
         <div className="overview-stat-title">Running Labour rate</div>
-        <div className="overview-stat"><CostRateCompare label="Running labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedRunningLabourRate()} /></div>
+        <div className="overview-stat week-total"><CostRateCompare label="Running labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedRunningLabourRate()} /></div>
         {dailyOverviews.overviews.map((overview, key) => (
           <div className="overview-stat" key={key}>
             <CostRateCompare label="Bar labour rate" showLabel={false}
@@ -49,7 +49,7 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
           </div>
         ))}
         <div className="overview-stat-title">Bar labour rate</div>
-        <div className="overview-stat"><CostRateCompare label="Bar labour rate" showLabel={false} forecast={dailyOverviews.getForecastBarLabourRate()} actual={dailyOverviews.getActualBarLabourRate()} /></div>
+        <div className="overview-stat week-total"><CostRateCompare label="Bar labour rate" showLabel={false} forecast={dailyOverviews.getForecastBarLabourRate()} actual={dailyOverviews.getActualBarLabourRate()} /></div>
         {dailyOverviews.overviews.map((overview, key) => (
           <div key={key} className="overview-stat">
             <CostRateCompare label="Bar labour rate" showLabel={false}
@@ -58,7 +58,7 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
           </div>
         ))}
         <div className="overview-stat-title">Kitchen labour rate</div>
-        <div className="overview-stat"><CostRateCompare label="Kitchen labour rate" showLabel={false} forecast={dailyOverviews.getForecastKitchenLabourRate()} actual={dailyOverviews.getActualKitchenLabourRate()} /></div>
+        <div className="overview-stat week-total"><CostRateCompare label="Kitchen labour rate" showLabel={false} forecast={dailyOverviews.getForecastKitchenLabourRate()} actual={dailyOverviews.getActualKitchenLabourRate()} /></div>
         {dailyOverviews.overviews.map((overview, key) => (
           <div key={key} className="overview-stat">
             <CostRateCompare label="Kitchen labour rate" showLabel={false}
