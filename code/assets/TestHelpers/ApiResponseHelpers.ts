@@ -65,6 +65,8 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     barClosedBy: 'barClosedBy',
     floorClosedBy: 'floorClosedBy',
     nextDoorBy: 'nextDoorBy',
+    paypal: 0,
+    deliveroo: 0,
   };
 };
 

@@ -692,6 +692,8 @@ class CashUp
             'barClosedBy' => $this->bar_closed_by,
             'floorClosedBy' => $this->floor_closed_by,
             'nextDoorBy' => $this->next_door_by,
+            'paypal' => $this->paypal,
+            'deliveroo' => $this->deliveroo,
         ];
     }
 }
