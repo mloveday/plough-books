@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CashUp;
+use DateInterval;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -27,6 +28,16 @@ class CashUpRepository extends ServiceEntityRepository
         return $this->matching(
             $criteria->where(Criteria::expr()->gte('date', clone $date->modify('Monday this week')))
                 ->andWhere(Criteria::expr()->lte('date', clone $date->modify('Sunday this week')))
+        );
+    }
+
+    public function getByDateRange(DateTime $startDate, DateTime $endDate) {
+        $startDate->setTime(0,0,0,0);
+        $endDate->setTime(0,0,0,0)->add(new DateInterval('P1D'));
+        $criteria = Criteria::create();
+        return $this->matching(
+            $criteria->where(Criteria::expr()->gte('date', $startDate))
+                ->andWhere(Criteria::expr()->lte('date', $endDate))
         );
     }
 

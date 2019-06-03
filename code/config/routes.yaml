@@ -2,6 +2,10 @@ cash-up:
   path: /api/cash-up
   controller: App\Controller\CashUpController::cashUpAction
   methods: [POST]
+cash-up-date-range:
+  path: /api/cash-up/{startDateString}/{endDateString}
+  controller: App\Controller\CashUpController::cashUpDateRangeAction
+  methods: [GET]
 cash-up-date:
   path: /api/cash-up/{dateString}
   controller: App\Controller\CashUpController::cashUpDateAction

@@ -45,4 +45,15 @@ class CashUpController {
         }
         return new JsonResponse(array_map(function(CashUp $cashUp) {return $cashUp->serialise();}, $cashUps->toArray()));
     }
+
+    public function cashUpDateRangeAction($startDateString, $endDateString, CashUpRepository $cashUpRepository) {
+        if (!DateUtils::dateIsValid($startDateString)) {
+            throw new BadRequestHttpException("Invalid date string: '${startDateString}'");
+        }
+        $cashUps = $cashUpRepository->getByDateRange(new DateTime($startDateString), new DateTime($endDateString));
+        if (is_null($cashUps)) {
+            return new JsonResponse((object) ['date' => $startDateString]);
+        }
+        return new JsonResponse(array_map(function(CashUp $cashUp) {return $cashUp->serialise();}, $cashUps->toArray()));
+    }
 }

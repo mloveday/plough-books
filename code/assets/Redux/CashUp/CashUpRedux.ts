@@ -57,6 +57,17 @@ export const cashUpFetch = (date: moment.Moment) => {
   }
 };
 
+export const cashUpRangeFetch = (startDate: moment.Moment, endDate: moment.Moment) => {
+  return (dispatch: any) => {
+    const thisDispatchable = () => dispatch(cashUpRangeFetch(startDate, endDate));
+    dispatch(cashUpFetchStart(startDate));
+    return authenticatedFetch(`/cash-up/${startDate.format(DateFormats.API_DATE)}/${endDate.format(DateFormats.API_DATE)}`, () => dispatch(invalidUser([thisDispatchable])))
+      .then(d => dispatch(cashUpFetchSuccess({date: startDate, response: d})))
+      .catch(e => dispatch(cashUpFetchError({error: e, date: startDate.clone(), appArea: 'Cash Up Range fetch', dispatch: thisDispatchable})))
+      ;
+  }
+};
+
 export const cashUpCreate = (cashUp: CashUpEntity) => {
   return (dispatch: any) => {
     const thisDispatchable = () => dispatch(cashUpCreate(cashUp));
