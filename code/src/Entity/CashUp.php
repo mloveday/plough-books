@@ -188,6 +188,16 @@ class CashUp
      */
     private $next_door_by;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $paypal;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $deliveroo;
+
     public function __construct()
     {
         $this->tills = new ArrayCollection();
