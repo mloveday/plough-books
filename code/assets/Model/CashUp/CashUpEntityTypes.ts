@@ -90,6 +90,8 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
     this.barClosedBy = barClosedBy;
     this.floorClosedBy = floorClosedBy;
     this.nextDoorBy = nextDoorBy;
+    this.paypal = paypal;
+    this.deliveroo = deliveroo;
   }
 }
 

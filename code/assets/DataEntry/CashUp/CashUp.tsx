@@ -472,6 +472,18 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
                      value={this.getCashUp().cashAdvantageBagSeenBy}
                      onChange={ev => this.formUpdate({cashAdvantageBagSeenBy: ev.target.value})}/>
             </div>
+            <div className="label-and-input paypal">
+              <label htmlFor="paypal">Paypal</label>
+              <input id="paypal" type="text" pattern={currencyPattern}
+                     value={this.getCashUp().inputs.paypal}
+                     onChange={ev => this.formUpdate({paypal: ev.target.value})}/>
+            </div>
+            <div className="label-and-input deliveroo">
+              <label htmlFor="deliveroo">Deliveroo</label>
+              <input id="deliveroo" type="text" pattern={currencyPattern}
+                     value={this.getCashUp().inputs.deliveroo}
+                     onChange={ev => this.formUpdate({deliveroo: ev.target.value})}/>
+            </div>
           </div>}
 
           {sectionShown === CashUpSection.SAFE_FLOAT && <div className="form-group safe-float">
