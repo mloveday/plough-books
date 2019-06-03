@@ -185,11 +185,13 @@ class CashUpParsingService {
         $cashUp->setBanked((float)$requestObject->get('banked'));
         $cashUp->setCashAdvantageBag($requestObject->get('cashAdvantageBag'));
         $cashUp->setCashAdvantageBagSeenBy($requestObject->get('cashAdvantageBagSeenBy'));
-        $cashUp->setsfdNotes($requestObject->get('sfdNotes'));
-        $cashUp->setpubSecuredBy($requestObject->get('pubSecuredBy'));
-        $cashUp->setbarClosedBy($requestObject->get('barClosedBy'));
-        $cashUp->setfloorClosedBy($requestObject->get('floorClosedBy'));
-        $cashUp->setnextDoorBy($requestObject->get('nextDoorBy'));
+        $cashUp->setSfdNotes($requestObject->get('sfdNotes'));
+        $cashUp->setPubSecuredBy($requestObject->get('pubSecuredBy'));
+        $cashUp->setBarClosedBy($requestObject->get('barClosedBy'));
+        $cashUp->setFloorClosedBy($requestObject->get('floorClosedBy'));
+        $cashUp->setNextDoorBy($requestObject->get('nextDoorBy'));
+        $cashUp->setPaypal($requestObject->get('paypal'));
+        $cashUp->setDeliveroo($requestObject->get('deliveroo'));
         return $cashUp;
     }
 }
