@@ -29,7 +29,7 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
   }
 
   public static default() {
-    return new Constants(moment.utc().format(DateFormats.API_DATE), 0,0,0,0,0,0,0,0,0,0,0,0,ConstantsInputs.default());
+    return new Constants(moment.utc().format(DateFormats.API_DATE), 0,0,1,0.5,0,0,0,0,0,0,0,0,ConstantsInputs.default());
   }
 
   public readonly id?: number;

@@ -1,0 +1,14 @@
+.monthly-figures {
+  // TODO fix all of this when content fixed
+  table {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+  }
+  thead {
+    font-weight: bold;
+  }
+  td {
+    width: calc(100% / 14);
+  }
+}
