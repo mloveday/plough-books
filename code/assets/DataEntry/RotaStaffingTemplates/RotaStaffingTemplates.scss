@@ -1,0 +1,42 @@
+.rota-staffing-templates-data-entry {
+  padding: 0 8px;
+  $sl-width: 50px;
+  $input-width: 130px;
+
+  .rota-staffing-templates-entity {
+
+    .staff-level-time {
+      font-size: 1.3rem;
+      color: darkgray;
+    }
+
+    &.title {
+      font-weight: bold;
+    }
+    td {
+      width: $input-width;
+      &.staff-level {
+        width: $sl-width;
+      }
+    }
+    .rota-staffing-templates-input-wrapper {
+      align-items: center;
+      background: #eee;
+      border-radius: 4px;
+      padding: 2px;
+    }
+    span {
+      margin: 0 4px;
+    }
+    input {
+      width: 100%;
+      &[type='date'] {
+        font-family: sans-serif;
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  .rota-staffing-templates-edit-buttons {
+  }
+}

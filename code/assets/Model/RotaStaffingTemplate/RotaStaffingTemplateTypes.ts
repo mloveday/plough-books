@@ -1,13 +1,12 @@
-import {WorkTypes} from "../Enum/WorkTypes";
 import {ApiType, EntityType, InputType, UpdateType} from "../TypeWithNumericalInputs";
 
 export abstract class RotaStaffingTemplateAbstract<T> {
   public readonly staffLevels: T[];
   public readonly revenue: T;
-  public readonly workType: WorkTypes;
+  public readonly workType: string; // work type
   public readonly dayOfWeek: number;
 
-  constructor(staffLevels: T[], revenue: T, workType: WorkTypes, dayOfWeek: number) {
+  constructor(staffLevels: T[], revenue: T, workType: string, dayOfWeek: number) {
     this.staffLevels = staffLevels;
     this.revenue = revenue;
     this.workType = workType;

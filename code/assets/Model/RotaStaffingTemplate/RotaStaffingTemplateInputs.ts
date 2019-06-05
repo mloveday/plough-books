@@ -1,3 +1,6 @@
+import * as moment from "moment";
+import {DateFormats} from "../../Util/DateFormats";
+import {getTimePeriods} from "../../Util/DateUtils";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {
   RotaStaffingTemplateAbstract,
@@ -7,7 +10,8 @@ import {
 
 export class RotaStaffingTemplateInputs extends RotaStaffingTemplateAbstract<string> {
   public static default() {
-    return new RotaStaffingTemplateInputs([],'',WorkTypes.BAR,0);
+    const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
+    return new RotaStaffingTemplateInputs(timePeriods.map(t => ''),'',WorkTypes.BAR,0);
   }
   
   public static fromApi(obj: RotaStaffingTemplateApiType) {

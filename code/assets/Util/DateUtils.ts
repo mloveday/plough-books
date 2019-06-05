@@ -51,3 +51,45 @@ export const momentFromDateAndTime = (date: string, time: string, silent: boolea
 export const validateDateString = (date: string, existingDate: string): string => {
   return moment.utc(date).isValid() ? moment.utc(date).format(DateFormats.API_DATE) : existingDate;
 };
+
+export const DAY_START_HOUR = 6;
+
+export const getTimePeriods = (date: string): moment.Moment[] => {
+  const startTime = momentFromDateAndTime(date, `0${DAY_START_HOUR}:00`);
+  const endTime = momentFromDateAndTime(date, `0${DAY_START_HOUR}:00`).add(1, 'day');
+  const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
+  const timePeriods: moment.Moment[] = [];
+  for (let i = 0; i < numberOfTimePeriods; i++) {
+    timePeriods.push(startTime.clone().add(i * 30, 'minutes'));
+  }
+  return timePeriods;
+};
+
+export const timeFromHalfHoursPastStart = (halfHoursPastDayStart: number): string => {
+  const rawHour = DAY_START_HOUR + halfHoursPastDayStart * 0.5;
+  const hour = rawHour >= 24 ? rawHour - 24 : rawHour;
+  const time = moment.utc().startOf('day').add(hour, 'hours');
+  return time.format(DateFormats.TIME_LEADING_ZERO);
+};
+
+export const dayFromWeekDayNumber = (weekday: number): string => {
+  switch (weekday) {
+    case 0:
+    case 7:
+      return 'Sunday';
+    case 1:
+      return 'Monday';
+    case 2:
+      return 'Tuesday';
+    case 3:
+      return 'Wednesday';
+    case 4:
+      return 'Thursday';
+    case 5:
+      return 'Friday';
+    case 6:
+      return 'Saturday';
+    default:
+      return '?';
+  }
+};

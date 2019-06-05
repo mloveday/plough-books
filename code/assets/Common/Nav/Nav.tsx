@@ -80,8 +80,9 @@ class NavComponent extends React.Component<NavProps, {}> {
           {this.routeItem(Routes.STAFF_MEMBERS, "Staff", 'admin', 'users')}
           {this.routeItem(Routes.STAFF_ROLES, "Staff roles", 'admin', 'users-cog')}
           </li>
-          <li className={routeCssSingle}>
+          <li className={routeCssDouble}>
           {this.routeItem(Routes.CONSTANTS, "Constants", 'admin', 'cogs')}
+          {this.routeItem(Routes.ROTA_STAFFING_TEMPLATES, "Rota Templates", 'admin', 'cogs')}
           </li>
           {this.isRouteAllowed(Routes.USERS) && <li className={routeCssDouble}>
           {this.routeItem(Routes.USERS, "Users", 'admin', 'user-tie')}

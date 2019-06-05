@@ -1,3 +1,6 @@
+import * as moment from "moment";
+import {DateFormats} from "../../Util/DateFormats";
+import {getTimePeriods} from "../../Util/DateUtils";
 import {validateInt} from "../../Util/Validation";
 import {EditableEntity} from "../EditableEntity";
 import {WorkTypes} from "../Enum/WorkTypes";
@@ -12,7 +15,8 @@ import {
 export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> implements RotaStaffingTemplateType, EditableEntity {
 
   public static default() {
-    return new RotaStaffingTemplate([],0,WorkTypes.BAR,0, RotaStaffingTemplateInputs.default(), -1);
+    const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
+    return new RotaStaffingTemplate(timePeriods.map(p => 0),0,WorkTypes.BAR,0, RotaStaffingTemplateInputs.default(), undefined);
   }
 
   public static fromApi(obj: RotaStaffingTemplateApiType) {
@@ -29,7 +33,7 @@ export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> i
   public readonly id?: number;
   public readonly inputs: RotaStaffingTemplateInputs;
 
-  constructor(staffLevels: number[], revenue: number, workType: WorkTypes, dayOfWeek: number, inputs: RotaStaffingTemplateInputs, id?: number) {
+  constructor(staffLevels: number[], revenue: number, workType: string, dayOfWeek: number, inputs: RotaStaffingTemplateInputs, id?: number) {
     super(staffLevels, revenue, workType, dayOfWeek);
     this.inputs = inputs;
     this.id = id;

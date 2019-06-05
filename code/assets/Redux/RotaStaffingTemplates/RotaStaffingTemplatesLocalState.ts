@@ -7,7 +7,7 @@ export class RotaStaffingTemplatesLocalState extends EditableLocalState<RotaStaf
   }
 
   public constructor() {
-    super((a: RotaStaffingTemplate, b: RotaStaffingTemplate) => a.dayOfWeek < b.dayOfWeek ? 1 : (a.revenue < b.revenue ? 1 : -1));
+    super((a: RotaStaffingTemplate, b: RotaStaffingTemplate) => 0);
   }
   
   public with(obj: IApiEditableLocalState<RotaStaffingTemplate>): RotaStaffingTemplatesLocalState {

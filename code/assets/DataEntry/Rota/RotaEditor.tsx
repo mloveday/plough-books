@@ -20,7 +20,7 @@ import {rotaCreate, rotaDataEntry} from "../../Redux/Rota/RotaRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
-import {momentFromDateAndTime} from "../../Util/DateUtils";
+import {DAY_START_HOUR, getTimePeriods, momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import './Rota.scss';
@@ -67,11 +67,9 @@ export const mapDispatchToProps = (dispatch: any, ownProps: RotaEditorOwnProps):
 export type RotaEditorProps = RotaEditorOwnProps & RotaEditorStateProps & RotaEditorDispatchProps;
 
 export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
-  private DAY_START_HOUR = 6;
-
   public render() {
     const today = moment.utc(this.props.date);
-    const timePeriods = this.getTimePeriods();
+    const timePeriods = getTimePeriods(this.props.date);
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
     return (
       <div>
@@ -225,17 +223,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     );
   }
 
-  private getTimePeriods() {
-    const startTime = momentFromDateAndTime(this.props.date, `0${this.DAY_START_HOUR}:00`);
-    const endTime = momentFromDateAndTime(this.props.date, `0${this.DAY_START_HOUR}:00`).add(1, 'day');
-    const numberOfTimePeriods = endTime.diff(startTime, 'minutes') / 30;
-    const timePeriods: moment.Moment[] = [];
-    for (let i = 0; i < numberOfTimePeriods; i++) {
-      timePeriods.push(startTime.clone().add(i * 30, 'minutes'));
-    }
-    return timePeriods;
-  }
-
   private formUpdate(obj: RotaUpdateType, touched: boolean = true) {
     if (touched) {
       this.props.updateRotaLocalState(
@@ -254,7 +241,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
 
   private startTimeHandler(value: string, shift: Shift) {
     let time = momentFromDateAndTime(shift.date, value);
-    if (time.hour() < this.DAY_START_HOUR) {
+    if (time.hour() < DAY_START_HOUR) {
       time = momentFromDateAndTime(shift.date, '06:00');
     }
     const formattedTime = time.format(`HH:mm`);
@@ -267,7 +254,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
 
   private endTimeHandler(value: string, shift: Shift) {
     const time = momentFromDateAndTime(shift.date, value);
-    if (time.hour() < this.DAY_START_HOUR) {
+    if (time.hour() < DAY_START_HOUR) {
       time.add(1, 'day');
     }
     const formattedTime = time.format(`HH:mm`);

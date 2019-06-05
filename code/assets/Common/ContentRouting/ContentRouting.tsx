@@ -7,6 +7,7 @@ import {ConstantsDataEntry} from "../../DataEntry/Constants/Constants";
 import {Roles} from "../../DataEntry/Role/Roles";
 import {Rota} from "../../DataEntry/Rota/Rota";
 import {SignIn} from "../../DataEntry/Rota/SignIn";
+import {RotaStaffingTemplatesDataEntry} from "../../DataEntry/RotaStaffingTemplates/RotaStaffingTemplates";
 import {StaffMembers} from "../../DataEntry/StaffMembers/StaffMembers";
 import {StaffRoles} from "../../DataEntry/StaffRoles/StaffRoles";
 import {Users} from "../../DataEntry/User/Users";
@@ -64,6 +65,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
+            <RouteWithAuth exact={true} path={Routes.ROTA_STAFFING_TEMPLATES} component={RotaStaffingTemplatesDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>
             <RouteWithAuth exact={true} path={Routes.TEST_RESULTS} component={TestResultsComponent}/>
