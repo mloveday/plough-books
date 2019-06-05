@@ -17,7 +17,7 @@ export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> i
 
   public static default() {
     const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
-    return new RotaStaffingTemplate(timePeriods.map(p => 0),0,WorkTypes.BAR,0, RotaStaffingTemplateStatus.ACTIVE, RotaStaffingTemplateInputs.default(), undefined);
+    return new RotaStaffingTemplate(timePeriods.map(p => 0),0,WorkTypes.BAR,0, RotaStaffingTemplateStatus.INACTIVE, RotaStaffingTemplateInputs.default(), undefined);
   }
 
   public static fromApi(obj: RotaStaffingTemplateApiType) {

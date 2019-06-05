@@ -29,6 +29,7 @@ class SignInComponent extends RotaAbstract {
       showStaffLevels: false,
       showStats: true,
       staffMembers: this.props.staffMembersExternalState.externalState.entities,
+      rotaStaffingTemplates: this.props.rotaStaffingTemplatesState.externalState.entities,
       uiState: this.props.uiState,
       addShift: (shift: Shift) => this.addShift(shift),
       removeShift: (shift: Shift) => this.removeShift(shift),

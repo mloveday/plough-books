@@ -11,6 +11,8 @@ import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalSta
 import {constantsFetch} from "../../Redux/Constants/ConstantsRedux";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "../../Redux/Rota/RotaRedux";
+import {RotaStaffingTemplatesExternalState} from "../../Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
+import {rotaStaffingTemplatesFetch} from "../../Redux/RotaStaffingTemplates/RotaStaffingTemplatesRedux";
 import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
 import {staffMembersFetch} from "../../Redux/StaffMember/StaffMembersRedux";
 import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
@@ -29,6 +31,7 @@ export interface RotaAbstractStateProps {
   constantsExternalState: ConstantsExternalState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotasForWeek;
+  rotaStaffingTemplatesState: RotaStaffingTemplatesExternalState;
   staffMembersExternalState: StaffMembersExternalState;
   staffRolesExternalState: StaffRolesExternalState;
   uiState: UiState;
@@ -39,6 +42,7 @@ export const mapStateToProps = (state: AppState, ownProps: RotaAbstractOwnProps)
     constantsExternalState: state.constantsExternalState,
     rotaExternalState: state.rotaExternalState,
     rotaLocalStates: state.rotaLocalStates,
+    rotaStaffingTemplatesState: state.rotaStaffingTemplatesExternalState,
     staffMembersExternalState: state.staffMembersExternalState,
     staffRolesExternalState: state.staffRolesExternalState,
     uiState: state.uiState,
@@ -49,6 +53,7 @@ export interface RotaAbstractDispatchProps {
   createRota: (rota: RotaEntity) => void;
   fetchConstants: () => void;
   fetchRotaForDate: (date: moment.Moment) => void;
+  fetchRotaStaffingTemplates: () => void;
   fetchStaffMembers: () => void;
   fetchStaffRoles: () => void;
   updateRotaLocalState: (state: RotaEntity[]) => void;
@@ -60,6 +65,7 @@ export const mapDispatchToProps = (dispatch: any, ownProps: RotaAbstractOwnProps
     createRota: (rota: RotaEntity) => dispatch(rotaCreate(rota)),
     fetchConstants: () => dispatch(constantsFetch()),
     fetchRotaForDate: (date: moment.Moment) => dispatch(rotaFetch(date)),
+    fetchRotaStaffingTemplates: () => dispatch(rotaStaffingTemplatesFetch()),
     fetchStaffMembers: () => dispatch(staffMembersFetch()),
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
     updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
@@ -142,6 +148,10 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
     }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
       this.props.fetchRotaForDate(moment.utc(paramDate));
+      return;
+    }
+    if (this.props.rotaStaffingTemplatesState.isEmpty()) {
+      this.props.fetchRotaStaffingTemplates();
       return;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.constantsExternalState.externalState.entities.length === 0) {
