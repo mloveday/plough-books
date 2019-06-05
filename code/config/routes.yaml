@@ -1,3 +1,6 @@
+rota-staffing-templates:
+  path: /api/rota-staffing-templates
+  controller: App\Controller\RotaStaffingTemplatesController::rotaStaffingTemplatesAction
 cash-up:
   path: /api/cash-up
   controller: App\Controller\CashUpController::cashUpAction

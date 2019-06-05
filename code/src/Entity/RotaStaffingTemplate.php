@@ -70,4 +70,14 @@ class RotaStaffingTemplate {
         $this->day_of_week = $day_of_week;
         return $this;
     }
+
+    public function serialise() {
+        return (object) [
+            'id' => $this->getId(),
+            'staffLevels' => $this->getStaffLevels(),
+            'revenue' => $this->getRevenue(),
+            'workType' => $this->getWorkType(),
+            'dayOfWeek' => $this->getDayOfWeek(),
+        ];
+    }
 }

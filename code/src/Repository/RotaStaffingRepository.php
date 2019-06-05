@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\RotaStaffingTemplate;
+use App\Entity\RotaStaffing;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method RotaStaffingTemplate|null find($id, $lockMode = null, $lockVersion = null)
- * @method RotaStaffingTemplate|null findOneBy(array $criteria, array $orderBy = null)
- * @method RotaStaffingTemplate[]    findAll()
- * @method RotaStaffingTemplate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RotaStaffing|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RotaStaffing|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RotaStaffing[]    findAll()
+ * @method RotaStaffing[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RotaStaffingRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, RotaStaffingTemplate::class);
+        parent::__construct($registry, RotaStaffing::class);
     }
 
 //    /**
-//     * @return RotaStaffingTemplate[] Returns an array of RotaStaffingTemplate objects
+//     * @return RotaStaffing[] Returns an array of RotaStaffing objects
 //     */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class RotaStaffingRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?RotaStaffingTemplate
+    public function findOneBySomeField($value): ?RotaStaffing
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.exampleField = :val')
