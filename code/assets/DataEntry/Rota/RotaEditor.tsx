@@ -84,7 +84,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           && template.workType === WorkTypes.BAR
           && template.dayOfWeek === moment.utc(this.props.date).isoWeekday()
         )
-        .sort((a,b) => a.revenue < b.revenue ? 1 : -1)
+        .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
         .pop();
       const kitchenTemplate = this.props.rotaStaffingTemplates
         .filter(template =>
@@ -93,7 +93,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           && template.workType === WorkTypes.KITCHEN
           && template.dayOfWeek === moment.utc(this.props.date).isoWeekday()
         )
-        .sort((a,b) => a.revenue < b.revenue ? 1 : -1)
+        .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
         .pop();
       if (barTemplate !== undefined || kitchenTemplate !== undefined) {
         this.formUpdate({

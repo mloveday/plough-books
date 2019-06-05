@@ -8,7 +8,7 @@ use Doctrine\Migrations\AbstractMigration;
 final class Version20190605103558 extends AbstractMigration {
     public function up(Schema $schema): void {
         $this->addSql('
-            INSERT INTO ploughbooks.rota_staffing_template (id, staff_levels, revenue, work_type, day_of_week)
+            INSERT INTO rota_staffing_template (id, staff_levels, revenue, work_type, day_of_week)
             VALUES
              (1, \'[0, 0, 0, 0, 2, 3, 5, 5, 8, 8, 10, 10, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 13, 12, 10, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\', 12000, \'bar\', 0)
             ,(2, \'[0, 0, 0, 0, 2, 3, 5, 5, 8, 8, 10, 10, 12, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 13, 12, 10, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]\', 12000, \'kitchen\', 0)
