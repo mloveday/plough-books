@@ -11,6 +11,12 @@ import {constantsExternalReducers, constantsInternalReducers} from "./Redux/Cons
 import {errorReducers, ErrorState} from "./Redux/Error/ErrorRedux";
 import {RotaExternalState} from "./Redux/Rota/RotaExternalState";
 import {rotaExternalReducers, rotaInternalReducers} from "./Redux/Rota/RotaRedux";
+import {RotaStaffingTemplatesExternalState} from "./Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
+import {RotaStaffingTemplatesLocalState} from "./Redux/RotaStaffingTemplates/RotaStaffingTemplatesLocalState";
+import {
+  rotaStaffingTemplatesExternalReducers,
+  rotaStaffingTemplatesInternalReducers
+} from "./Redux/RotaStaffingTemplates/RotaStaffingTemplatesRedux";
 import {StaffMembersExternalState} from "./Redux/StaffMember/StaffMembersExternalState";
 import {StaffMembersLocalState} from "./Redux/StaffMember/StaffMembersLocalState";
 import {
@@ -39,6 +45,8 @@ export interface AppState {
   errors: ErrorState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotasForWeek;
+  rotaStaffingTemplatesLocalState: RotaStaffingTemplatesLocalState;
+  rotaStaffingTemplatesExternalState: RotaStaffingTemplatesExternalState;
   staffMembersExternalState: StaffMembersExternalState;
   staffMembersLocalState: StaffMembersLocalState;
   staffMemberFilters: StaffMemberFilters;
@@ -60,6 +68,8 @@ export const reducers = {
   errors: errorReducers,
   rotaExternalState: rotaExternalReducers,
   rotaLocalStates: rotaInternalReducers,
+  rotaStaffingTemplatesLocalState: rotaStaffingTemplatesInternalReducers,
+  rotaStaffingTemplatesExternalState: rotaStaffingTemplatesExternalReducers,
   staffMembersExternalState: staffMembersExternalReducers,
   staffMembersLocalState: staffMembersInternalReducers,
   staffMemberFilters: staffMemberFiltersReducer,

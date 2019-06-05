@@ -13,6 +13,8 @@ import {ConstantsExternalState} from '../Redux/Constants/ConstantsExternalState'
 import {ConstantsLocalState} from "../Redux/Constants/ConstantsLocalState";
 import {ErrorState} from "../Redux/Error/ErrorRedux";
 import {RotaExternalState} from "../Redux/Rota/RotaExternalState";
+import {RotaStaffingTemplatesExternalState} from "../Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
+import {RotaStaffingTemplatesLocalState} from "../Redux/RotaStaffingTemplates/RotaStaffingTemplatesLocalState";
 import {StaffMembersExternalState} from "../Redux/StaffMember/StaffMembersExternalState";
 import {StaffMembersLocalState} from "../Redux/StaffMember/StaffMembersLocalState";
 import {StaffRolesExternalState} from "../Redux/StaffRole/StaffRolesExternalState";
@@ -73,6 +75,8 @@ export class StateHelpers {
       errors: ErrorState.default(),
       rotaExternalState: new RotaExternalState(),
       rotaLocalStates: new RotasForWeek([]),
+      rotaStaffingTemplatesLocalState: RotaStaffingTemplatesLocalState.default(),
+      rotaStaffingTemplatesExternalState: new RotaStaffingTemplatesExternalState(),
       staffMembersExternalState: new StaffMembersExternalState(),
       staffMembersLocalState: new StaffMembersLocalState(),
       staffMemberFilters: new StaffMemberFilters(),
