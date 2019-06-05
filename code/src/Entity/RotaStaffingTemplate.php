@@ -30,6 +30,10 @@ class RotaStaffingTemplate {
      * @ORM\Column(type="integer")
      */
     private $day_of_week;
+    /**
+     * @ORM\Column(type="string", length=255, columnDefinition="enum('active', 'inactive')")
+     */
+    private $status;
 
     public function getId(): ?int {
         return $this->id;
@@ -71,6 +75,15 @@ class RotaStaffingTemplate {
         return $this;
     }
 
+    public function getStatus(): string {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self {
+        $this->status = $status;
+        return $this;
+    }
+
     public function serialise() {
         return (object) [
             'id' => $this->getId(),
@@ -78,6 +91,7 @@ class RotaStaffingTemplate {
             'revenue' => $this->getRevenue(),
             'workType' => $this->getWorkType(),
             'dayOfWeek' => $this->getDayOfWeek(),
+            'status' => $this->getStatus(),
         ];
     }
 }

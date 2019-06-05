@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {CashUpSection} from "../../Model/Enum/CashUpSection";
+import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {DateFormats} from "../../Util/DateFormats";
 import {RotaStaffingTemplateFilters} from "../RotaStaffingTemplates/RotaStaffingTemplateFilters";
@@ -20,7 +21,7 @@ export class UiState {
   public readonly cashUpSection: CashUpSection = CashUpSection.TILLS;
   public readonly rotaShowRates: boolean = false;
   public readonly showingNav: boolean = false;
-  public readonly rotaStaffingTemplateFilters: RotaStaffingTemplateFilters = new RotaStaffingTemplateFilters(1, WorkTypes.BAR);
+  public readonly rotaStaffingTemplateFilters: RotaStaffingTemplateFilters = new RotaStaffingTemplateFilters(1, WorkTypes.BAR, RotaStaffingTemplateStatus.ACTIVE);
   private readonly currentDateString: string = moment.utc().format(DateFormats.API_DATE);
 
   public get currentDate(): moment.Moment {

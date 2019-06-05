@@ -24,6 +24,7 @@ class RotaStaffingTemplateParsingService {
             'staffLevels',
             'revenue',
             'workType',
+            'status',
             'dayOfWeek',
         ]);
     }
@@ -51,6 +52,7 @@ class RotaStaffingTemplateParsingService {
             ->setStaffLevels($rotaStaffingTemplate['staffLevels'])
             ->setRevenue((float)$rotaStaffingTemplate['revenue'])
             ->setWorkType($rotaStaffingTemplate['workType'])
+            ->setStatus($rotaStaffingTemplate['status'])
             ->setDayOfWeek((float)$rotaStaffingTemplate['dayOfWeek']);
     }
 }

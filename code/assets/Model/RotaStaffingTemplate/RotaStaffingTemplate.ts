@@ -3,6 +3,7 @@ import {DateFormats} from "../../Util/DateFormats";
 import {getTimePeriods} from "../../Util/DateUtils";
 import {validateInt} from "../../Util/Validation";
 import {EditableEntity} from "../EditableEntity";
+import {RotaStaffingTemplateStatus} from "../Enum/RotaStaffingTemplateStatus";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {RotaStaffingTemplateInputs} from "./RotaStaffingTemplateInputs";
 import {
@@ -16,7 +17,7 @@ export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> i
 
   public static default() {
     const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
-    return new RotaStaffingTemplate(timePeriods.map(p => 0),0,WorkTypes.BAR,0, RotaStaffingTemplateInputs.default(), undefined);
+    return new RotaStaffingTemplate(timePeriods.map(p => 0),0,WorkTypes.BAR,0, RotaStaffingTemplateStatus.ACTIVE, RotaStaffingTemplateInputs.default(), undefined);
   }
 
   public static fromApi(obj: RotaStaffingTemplateApiType) {
@@ -25,6 +26,7 @@ export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> i
       obj.revenue,
       obj.workType,
       obj.dayOfWeek,
+      obj.status,
       RotaStaffingTemplateInputs.fromApi(obj),
       obj.id,
     );
@@ -33,8 +35,8 @@ export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> i
   public readonly id?: number;
   public readonly inputs: RotaStaffingTemplateInputs;
 
-  constructor(staffLevels: number[], revenue: number, workType: string, dayOfWeek: number, inputs: RotaStaffingTemplateInputs, id?: number) {
-    super(staffLevels, revenue, workType, dayOfWeek);
+  constructor(staffLevels: number[], revenue: number, workType: string, dayOfWeek: number, status: RotaStaffingTemplateStatus, inputs: RotaStaffingTemplateInputs, id?: number) {
+    super(staffLevels, revenue, workType, dayOfWeek, status);
     this.inputs = inputs;
     this.id = id;
   }
@@ -45,6 +47,7 @@ export class RotaStaffingTemplate extends RotaStaffingTemplateAbstract<number> i
       obj.revenue !== undefined ? validateInt(obj.revenue, this.revenue) : this.revenue,
       obj.workType !== undefined ? obj.workType : this.workType,
       obj.dayOfWeek !== undefined ? obj.dayOfWeek : this.dayOfWeek,
+      obj.status !== undefined ? obj.status : this.status,
       this.inputs.with(obj),
       this.id,
     );

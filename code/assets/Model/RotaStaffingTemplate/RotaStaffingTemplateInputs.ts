@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
 import {getTimePeriods} from "../../Util/DateUtils";
+import {RotaStaffingTemplateStatus} from "../Enum/RotaStaffingTemplateStatus";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {
   RotaStaffingTemplateAbstract,
@@ -11,7 +12,7 @@ import {
 export class RotaStaffingTemplateInputs extends RotaStaffingTemplateAbstract<string> {
   public static default() {
     const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
-    return new RotaStaffingTemplateInputs(timePeriods.map(t => ''),'',WorkTypes.BAR,0);
+    return new RotaStaffingTemplateInputs(timePeriods.map(t => ''),'',WorkTypes.BAR,0, RotaStaffingTemplateStatus.ACTIVE);
   }
   
   public static fromApi(obj: RotaStaffingTemplateApiType) {
@@ -20,6 +21,7 @@ export class RotaStaffingTemplateInputs extends RotaStaffingTemplateAbstract<str
       obj.revenue.toString(),
       obj.workType,
       obj.dayOfWeek,
+      obj.status,
     );
   }
   
@@ -29,6 +31,7 @@ export class RotaStaffingTemplateInputs extends RotaStaffingTemplateAbstract<str
       obj.revenue !== undefined ? obj.revenue : this.revenue,
       obj.workType !== undefined ? obj.workType : this.workType,
       obj.dayOfWeek !== undefined ? obj.dayOfWeek : this.dayOfWeek,
+      obj.status !== undefined ? obj.status : this.status,
     );
   }
 }

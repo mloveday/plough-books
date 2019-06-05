@@ -4,6 +4,7 @@ import {EditButton} from "../../Common/Buttons/EditButton";
 import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
+import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {RotaStaffingTemplate} from "../../Model/RotaStaffingTemplate/RotaStaffingTemplate";
 import {AppState} from "../../redux";
@@ -87,11 +88,16 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
             <option value={WorkTypes.KITCHEN}>Kitchen</option>
             <option value={WorkTypes.ANCILLARY}>Ancillary</option>
           </select>
+          <select value={this.props.uiState.rotaStaffingTemplateFilters.status} onChange={ev => this.props.updateUiState(this.props.uiState.withRotaStaffingTemplateFilters(this.props.uiState.rotaStaffingTemplateFilters.withStatus(ev.target.value as RotaStaffingTemplateStatus)))}>
+            <option value={RotaStaffingTemplateStatus.ACTIVE}>Active</option>
+            <option value={RotaStaffingTemplateStatus.INACTIVE}>Unused</option>
+          </select>
         </div>
         <table>
           <thead>
           <tr className="rota-staffing-templates-entity title">
             <td/>
+            <td>Status</td>
             <td>Type</td>
             <td>Week day</td>
             <td>Revenue</td>
@@ -99,7 +105,11 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
           </tr>
           </thead><tbody>
           {this.props.rotaStaffingTemplatesLocalState.entities
-            .filter(rst => rst.dayOfWeek === this.props.uiState.rotaStaffingTemplateFilters.weekDay && rst.workType === this.props.uiState.rotaStaffingTemplateFilters.workType)
+            .filter(rst => rst.entityId === this.props.rotaStaffingTemplatesLocalState.editingEntityId
+              ||(rst.dayOfWeek === this.props.uiState.rotaStaffingTemplateFilters.weekDay
+              && rst.workType === this.props.uiState.rotaStaffingTemplateFilters.workType
+              && rst.status === this.props.uiState.rotaStaffingTemplateFilters.status)
+            )
             .map((entity, key) => {
               const isEditingEntity = !isCreatingNewEntity && entity.id === this.props.rotaStaffingTemplatesLocalState.editingEntityId;
               return [
@@ -107,6 +117,12 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
                   <td className="rota-staffing-templates-edit-buttons">
                     {!isEditingEntity && <EditButton disabled={isCreatingNewEntity || this.props.rotaStaffingTemplatesLocalState.isEditing()} mini={true} clickFn={() => this.updateRotaStaffingTemplates(entity)}/>}
                     {isEditingEntity && <SaveButton mini={true} clickFn={() => this.saveRotaStaffingTemplates(entity)}/>}
+                  </td>
+                  <td>
+                    <select disabled={!isEditingEntity} value={entity.status} onChange={ev => this.updateRotaStaffingTemplates(entity.with({status: ev.target.value as RotaStaffingTemplateStatus}))}>
+                      <option value={RotaStaffingTemplateStatus.ACTIVE}>Active</option>
+                      <option value={RotaStaffingTemplateStatus.INACTIVE}>Unused</option>
+                    </select>
                   </td>
                   <td>
                     <select disabled={!isEditingEntity} value={entity.workType} onChange={ev => this.updateRotaStaffingTemplates(entity.with({workType: ev.target.value}))}>
@@ -124,7 +140,7 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
                   )}
                 </tr>,
                 <tr className="rota-staffing-templates-entity" key={`2-${key}`}>
-                  <td colSpan={4}>
+                  <td colSpan={5}>
                     {isEditingEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
                   </td>
                   {entity.inputs.staffLevels.map((staffLevel, index) => index <= 23 || index > 47 ? null :
@@ -139,6 +155,12 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
           {isCreatingNewEntity && <tr className="rota-staffing-templates-entity">
             <td className="rota-staffing-templates-edit-buttons">
               <SaveButton mini={true} clickFn={() => this.saveRotaStaffingTemplates(newEntity)}/>
+            </td>
+            <td>
+              <select value={newEntity.status} onChange={ev => this.updateNewRotaStaffingTemplates(newEntity.with({status: ev.target.value as RotaStaffingTemplateStatus}))}>
+                <option value={RotaStaffingTemplateStatus.ACTIVE}>Active</option>
+                <option value={RotaStaffingTemplateStatus.INACTIVE}>Inactive</option>
+              </select>
             </td>
             <td>
               <select value={newEntity.workType} onChange={ev => this.updateNewRotaStaffingTemplates(newEntity.with({workType: ev.target.value}))}>
@@ -166,7 +188,7 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
             }
           </tr>}
           {isCreatingNewEntity && <tr className="rota-staffing-templates-entity">
-            <td colSpan={4}>
+            <td colSpan={5}>
               {isCreatingNewEntity && <ResetButton mini={true} clickFn={() => this.cancelEdit()}>Cancel</ResetButton>}
             </td>
             {newEntity.inputs.staffLevels.map((staffLevel, index) => index <= 23 || index > 47 ? null :
