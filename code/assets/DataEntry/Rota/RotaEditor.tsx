@@ -80,7 +80,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
       const barTemplate = this.props.rotaStaffingTemplates
         .filter(template =>
           template.status === RotaStaffingTemplateStatus.ACTIVE
-          && template.revenue < this.props.rota.forecastRevenue
+          && template.revenue <= this.props.rota.forecastRevenue
           && template.workType === WorkTypes.BAR
           && template.dayOfWeek === moment.utc(this.props.date).isoWeekday()
         )
@@ -89,7 +89,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
       const kitchenTemplate = this.props.rotaStaffingTemplates
         .filter(template =>
           template.status === RotaStaffingTemplateStatus.ACTIVE
-          && template.revenue < this.props.rota.forecastRevenue
+          && template.revenue <= this.props.rota.forecastRevenue
           && template.workType === WorkTypes.KITCHEN
           && template.dayOfWeek === moment.utc(this.props.date).isoWeekday()
         )
