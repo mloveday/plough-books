@@ -14,7 +14,8 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       {date, time: '08:00'},
       {date, time: '17:00'},
       '0.5',
-      type
+      type,
+      staffMember.defaultOffFloor,
     );
   }
 
@@ -27,10 +28,11 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       {date: moment.utc(obj.endTime).format(DateFormats.API_DATE), time: moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO)},
       Formatting.formatCashForInput(obj.totalBreaks),
       obj.type,
+      obj.offFloor,
     );
   }
 
-  private constructor(status: string, hourlyRate: string, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: string) {
+  private constructor(status: string, hourlyRate: string, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: string, offFloor: boolean) {
     super(
       undefined,
       undefined,
@@ -40,7 +42,8 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       startTime,
       endTime,
       totalBreaks,
-      type
+      type,
+      offFloor,
     );
   }
 
@@ -53,6 +56,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       obj.endTime !== undefined ? obj.endTime : this.endTime,
       obj.totalBreaks !== undefined ? obj.totalBreaks : this.totalBreaks,
       obj.type !== undefined ? obj.type : this.type,
+      obj.offFloor !== undefined ? obj.offFloor : this.offFloor,
     );
   }
 
@@ -65,6 +69,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       this.endTime,
       this.totalBreaks,
       this.type,
+      this.offFloor,
     );
   }
 }

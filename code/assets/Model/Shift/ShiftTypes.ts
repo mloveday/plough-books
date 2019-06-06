@@ -14,8 +14,9 @@ export abstract class ShiftAbstract<T, SM, SR, D> {
   public readonly type: string;
   public readonly endTime: D;
   public readonly startTime: D;
+  public readonly offFloor: boolean;
 
-  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: T, date: string, startTime: D, endTime: D, totalBreaks: T, type: string) {
+  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: T, date: string, startTime: D, endTime: D, totalBreaks: T, type: string, offFloor: boolean) {
     this.staffMember = staffMember;
     this.staffRole = staffRole;
     this.status = status;
@@ -25,6 +26,7 @@ export abstract class ShiftAbstract<T, SM, SR, D> {
     this.endTime = endTime;
     this.totalBreaks = totalBreaks;
     this.type = type;
+    this.offFloor = offFloor;
   }
 }
 export interface ShiftDate { date: string; time: string; }

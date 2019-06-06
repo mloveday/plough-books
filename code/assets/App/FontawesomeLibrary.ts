@@ -13,6 +13,7 @@ import {
   faCogs,
   faCoins,
   faEdit,
+  faEye,
   faHistory,
   faListAlt,
   faMagic,
@@ -24,6 +25,7 @@ import {
   faTrash,
   faUsers,
   faUsersCog,
+  faUserSecret,
   faUserTag,
   faUserTie,
   faWineGlass,
@@ -57,4 +59,6 @@ library.add(
   faCalendarDay,
   faBars,
   faHistory,
+  faUserSecret,
+  faEye,
 );

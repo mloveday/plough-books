@@ -96,6 +96,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
         .pop();
       if (barTemplate !== undefined || kitchenTemplate !== undefined) {
+        // TODO this needs to be in maintain state
         this.formUpdate({
           barRotaTemplate: barTemplate !== undefined ? barTemplate : this.props.rota.barRotaTemplate,
           kitchenRotaTemplate: kitchenTemplate !== undefined ? kitchenTemplate : this.props.rota.kitchenRotaTemplate,
@@ -135,6 +136,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           <div className="rota-times">
             <div className="rota-header rota-staff-name">Name</div>
             <div className="rota-header rota-remove-shift"/>
+            <div className="rota-header rota-off-floor"/>
             <div className="rota-header rota-start-time">Start</div>
             <div className="rota-header rota-end-time">End</div>
             <div className="rota-header rota-breaks">Breaks</div>
@@ -146,6 +148,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           {this.props.showStaffLevels && <div className="rota-staff-levels">
             <div className="rota-header rota-staff-name"/>
             <div className="rota-header rota-remove-shift"/>
+            <div className="rota-header rota-off-floor"/>
             <div className="rota-header rota-start-time"/>
             <div className="rota-header rota-end-time"/>
             <div className="rota-header rota-breaks"/>
@@ -196,6 +199,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
       <div className="rota-shift no-shift" key={key}>
         <div className="rota-staff-name">{staffMember.name}</div>
         <div className="rota-remove-shift"/>
+        <div className="rota-off-floor"/>
         <div className="rota-new-shift">
           <button onClick={() => this.newShiftHandler(staffMember)} type="button"><FontAwesomeIcon icon="plus-circle"/></button>
         </div>
@@ -211,12 +215,18 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
 
   private getShift(shift: Shift, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
     return (
-      <div className="rota-shift" key={key}>
+      <div className={`rota-shift ${shift.offFloor ? 'off-floor' : 'on-floor'}`} key={key}>
         <div className="rota-staff-name">{shift.staffMember.name}</div>
         <div className="rota-remove-shift">
           {!editingDisabled &&
           <button className="rota-remove-shift-button" type='button' onClick={() => this.props.removeShift(shift)}>
             <FontAwesomeIcon icon="trash"/>
+          </button>}
+        </div>
+        <div className="rota-off-floor">
+          {!editingDisabled &&
+          <button className="rota-off-floor-button" type='button' onClick={() => this.props.updateShift(shift.with({offFloor: !shift.offFloor}))}>
+            <FontAwesomeIcon icon={shift.offFloor ? "user-secret" : "eye"}/>
           </button>}
         </div>
         <div className="rota-start-time">

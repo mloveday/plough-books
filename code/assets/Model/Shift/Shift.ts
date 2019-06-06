@@ -21,6 +21,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       `${date} 17:00`,
       0.5,
       type,
+      false,
       ShiftInputs.default(staffMember, type, date)
     );
   }
@@ -36,6 +37,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       obj.endTime,
       obj.totalBreaks,
       obj.type,
+      obj.offFloor,
       ShiftInputs.fromApi(obj, date),
       obj.id,
     );
@@ -44,7 +46,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
   public readonly id?: number;
   public readonly inputs: ShiftInputs;
 
-  private constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: string, inputs: ShiftInputs, id?: number) {
+  private constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: string, offFloor: boolean, inputs: ShiftInputs, id?: number) {
     super(
       staffMember,
       staffRole,
@@ -54,7 +56,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       startTime,
       endTime,
       totalBreaks,
-      type
+      type,
+      offFloor,
     );
     this.id = id;
     this.inputs = inputs;
@@ -71,6 +74,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       obj.endTime !== undefined ? momentFromDateAndTime(obj.endTime.date, obj.endTime.time).format(DateFormats.API_DATE_TIME) : this.endTime,
       obj.totalBreaks !== undefined ? validateDecimal(obj.totalBreaks, this.totalBreaks) : this.totalBreaks,
       obj.type !== undefined ? obj.type : this.type,
+      obj.offFloor !== undefined ? obj.offFloor : this.offFloor,
       this.inputs.with(obj),
       this.id,
     );
@@ -87,6 +91,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       this.endTime,
       this.totalBreaks,
       this.type,
+      this.offFloor,
       this.inputs,
       this.id
     );
@@ -103,6 +108,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       this.endTime,
       this.totalBreaks,
       this.type,
+      this.offFloor,
       this.inputs
     );
   }

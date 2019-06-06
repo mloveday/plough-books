@@ -182,7 +182,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     if (dateTime.isBefore(momentFromDateAndTime(this.date, '06:00'))) {
       dateTime.add(1, 'days');
     }
-    return this.plannedShifts.filter(shift => shift.type === type && shift.isWorkingAtTime(dateTime)).length;
+    return this.plannedShifts.filter(shift => shift.type === type && !shift.offFloor && shift.isWorkingAtTime(dateTime)).length;
   }
 
   private getProportionOfForecastRevenue(type: string) {

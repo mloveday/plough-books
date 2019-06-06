@@ -31,7 +31,7 @@ class ActualShiftParsingService {
     }
 
     public function validateRequestFields(array $request) {
-        $this->requestValidator->validateRequestFields($request, ['staffMember', 'staffRole', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type']);
+        $this->requestValidator->validateRequestFields($request, ['staffMember', 'staffRole', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type', 'offFloor']);
     }
 
     public function getUpdatedActualShiftEntity(array $actualShift, ActualShift $entity) {
@@ -65,6 +65,7 @@ class ActualShiftParsingService {
             ->setTotalBreaks((float)$actualShift['totalBreaks'])
             ->setHourlyRate((float)$actualShift['hourlyRate'])
             ->setType($actualShift['type'])
+            ->setOffFloor($actualShift['offFloor'])
             ;
     }
 

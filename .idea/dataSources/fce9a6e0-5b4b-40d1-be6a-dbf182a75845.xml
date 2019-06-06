@@ -2267,541 +2267,552 @@
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="499" parent="245" name="PRIMARY">
+    <column id="499" parent="245" name="status">
+      <Position>6</Position>
+      <DataType>enum(&apos;active&apos;, &apos;inactive&apos;)|0e</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <key id="500" parent="245" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="500" parent="246" name="id">
+    <column id="501" parent="246" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="501" parent="246" name="fifty_pounds">
+    <column id="502" parent="246" name="fifty_pounds">
       <Position>2</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="502" parent="246" name="twenty_pounds">
+    <column id="503" parent="246" name="twenty_pounds">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="503" parent="246" name="ten_pounds">
+    <column id="504" parent="246" name="ten_pounds">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="504" parent="246" name="five_pounds">
+    <column id="505" parent="246" name="five_pounds">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="505" parent="246" name="pounds">
+    <column id="506" parent="246" name="pounds">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="506" parent="246" name="fifty_pence">
+    <column id="507" parent="246" name="fifty_pence">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="507" parent="246" name="twenty_pence">
+    <column id="508" parent="246" name="twenty_pence">
       <Position>8</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="508" parent="246" name="ten_pence">
+    <column id="509" parent="246" name="ten_pence">
       <Position>9</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="509" parent="246" name="five_pence">
+    <column id="510" parent="246" name="five_pence">
       <Position>10</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="510" parent="246" name="initials">
+    <column id="511" parent="246" name="initials">
       <Position>11</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="511" parent="246" name="PRIMARY">
+    <key id="512" parent="246" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="512" parent="247" name="id">
+    <column id="513" parent="247" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="513" parent="247" name="staff_role_id">
+    <column id="514" parent="247" name="staff_role_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="514" parent="247" name="name">
+    <column id="515" parent="247" name="name">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="515" parent="247" name="current_hourly_rate">
+    <column id="516" parent="247" name="current_hourly_rate">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="516" parent="247" name="status">
+    <column id="517" parent="247" name="status">
       <Position>5</Position>
       <DataType>enum(&apos;imported&apos;, &apos;active&apos;, &apos;inactive&apos;)|0e</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="517" parent="247" name="IDX_759948C38AB5351A">
+    <column id="518" parent="247" name="default_off_floor">
+      <Position>6</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="519" parent="247" name="IDX_759948C38AB5351A">
       <ColNames>staff_role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="518" parent="247" name="PRIMARY">
+    <key id="520" parent="247" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="519" parent="247" name="FK_759948C38AB5351A">
+    <foreign-key id="521" parent="247" name="FK_759948C38AB5351A">
       <ColNames>staff_role_id</ColNames>
       <RefSchemaName>ploughbooks</RefSchemaName>
       <RefTableName>staff_role</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="520" parent="248" name="id">
+    <column id="522" parent="248" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="521" parent="248" name="type">
+    <column id="523" parent="248" name="type">
       <Position>2</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="522" parent="248" name="object_id">
+    <column id="524" parent="248" name="object_id">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="523" parent="248" name="diffs">
+    <column id="525" parent="248" name="diffs">
       <Position>4</Position>
       <Comment>(DC2Type:json_array)</Comment>
       <DataType>json|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="524" parent="248" name="blame_id">
+    <column id="526" parent="248" name="blame_id">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="525" parent="248" name="blame_user">
+    <column id="527" parent="248" name="blame_user">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="526" parent="248" name="blame_user_fqdn">
+    <column id="528" parent="248" name="blame_user_fqdn">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="527" parent="248" name="blame_user_firewall">
+    <column id="529" parent="248" name="blame_user_firewall">
       <Position>8</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="528" parent="248" name="ip">
+    <column id="530" parent="248" name="ip">
       <Position>9</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="529" parent="248" name="created_at">
+    <column id="531" parent="248" name="created_at">
       <Position>10</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="530" parent="248" name="type_6d56788ea6068ca9ecc852e0366fea16_idx">
+    <index id="532" parent="248" name="type_6d56788ea6068ca9ecc852e0366fea16_idx">
       <ColNames>type</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="531" parent="248" name="object_id_6d56788ea6068ca9ecc852e0366fea16_idx">
+    <index id="533" parent="248" name="object_id_6d56788ea6068ca9ecc852e0366fea16_idx">
       <ColNames>object_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="532" parent="248" name="blame_id_6d56788ea6068ca9ecc852e0366fea16_idx">
+    <index id="534" parent="248" name="blame_id_6d56788ea6068ca9ecc852e0366fea16_idx">
       <ColNames>blame_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="533" parent="248" name="created_at_6d56788ea6068ca9ecc852e0366fea16_idx">
+    <index id="535" parent="248" name="created_at_6d56788ea6068ca9ecc852e0366fea16_idx">
       <ColNames>created_at</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="534" parent="248" name="PRIMARY">
+    <key id="536" parent="248" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="535" parent="249" name="id">
+    <column id="537" parent="249" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="536" parent="249" name="role">
+    <column id="538" parent="249" name="role">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="537" parent="249" name="order_in_rota">
+    <column id="539" parent="249" name="order_in_rota">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="538" parent="249" name="status">
+    <column id="540" parent="249" name="status">
       <Position>4</Position>
       <DataType>enum(&apos;imported&apos;, &apos;active&apos;, &apos;inactive&apos;)|0e</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="539" parent="249" name="type">
+    <column id="541" parent="249" name="type">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="540" parent="249" name="PRIMARY">
+    <key id="542" parent="249" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="541" parent="250" name="id">
+    <column id="543" parent="250" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="542" parent="250" name="type">
+    <column id="544" parent="250" name="type">
       <Position>2</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="543" parent="250" name="object_id">
+    <column id="545" parent="250" name="object_id">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="544" parent="250" name="diffs">
+    <column id="546" parent="250" name="diffs">
       <Position>4</Position>
       <Comment>(DC2Type:json_array)</Comment>
       <DataType>json|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="545" parent="250" name="blame_id">
+    <column id="547" parent="250" name="blame_id">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="546" parent="250" name="blame_user">
+    <column id="548" parent="250" name="blame_user">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="547" parent="250" name="blame_user_fqdn">
+    <column id="549" parent="250" name="blame_user_fqdn">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="548" parent="250" name="blame_user_firewall">
+    <column id="550" parent="250" name="blame_user_firewall">
       <Position>8</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="549" parent="250" name="ip">
+    <column id="551" parent="250" name="ip">
       <Position>9</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="550" parent="250" name="created_at">
+    <column id="552" parent="250" name="created_at">
       <Position>10</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="551" parent="250" name="type_fac1ab21e15a4d4d8f22713283124dcc_idx">
+    <index id="553" parent="250" name="type_fac1ab21e15a4d4d8f22713283124dcc_idx">
       <ColNames>type</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="552" parent="250" name="object_id_fac1ab21e15a4d4d8f22713283124dcc_idx">
+    <index id="554" parent="250" name="object_id_fac1ab21e15a4d4d8f22713283124dcc_idx">
       <ColNames>object_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="553" parent="250" name="blame_id_fac1ab21e15a4d4d8f22713283124dcc_idx">
+    <index id="555" parent="250" name="blame_id_fac1ab21e15a4d4d8f22713283124dcc_idx">
       <ColNames>blame_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="554" parent="250" name="created_at_fac1ab21e15a4d4d8f22713283124dcc_idx">
+    <index id="556" parent="250" name="created_at_fac1ab21e15a4d4d8f22713283124dcc_idx">
       <ColNames>created_at</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="555" parent="250" name="PRIMARY">
+    <key id="557" parent="250" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="556" parent="251" name="id">
+    <column id="558" parent="251" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="557" parent="251" name="cash_up_id">
+    <column id="559" parent="251" name="cash_up_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="558" parent="251" name="fifty_pounds">
+    <column id="560" parent="251" name="fifty_pounds">
       <Position>3</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="559" parent="251" name="twenty_pounds">
+    <column id="561" parent="251" name="twenty_pounds">
       <Position>4</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="560" parent="251" name="ten_pounds">
+    <column id="562" parent="251" name="ten_pounds">
       <Position>5</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="561" parent="251" name="five_pounds">
+    <column id="563" parent="251" name="five_pounds">
       <Position>6</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="562" parent="251" name="pounds">
+    <column id="564" parent="251" name="pounds">
       <Position>7</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="563" parent="251" name="fifty_pence">
+    <column id="565" parent="251" name="fifty_pence">
       <Position>8</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="564" parent="251" name="twenty_pence">
+    <column id="566" parent="251" name="twenty_pence">
       <Position>9</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="565" parent="251" name="ten_pence">
+    <column id="567" parent="251" name="ten_pence">
       <Position>10</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="566" parent="251" name="five_pence">
+    <column id="568" parent="251" name="five_pence">
       <Position>11</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="567" parent="251" name="float_amnt">
+    <column id="569" parent="251" name="float_amnt">
       <Position>12</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="568" parent="251" name="visa">
+    <column id="570" parent="251" name="visa">
       <Position>13</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="569" parent="251" name="amex">
+    <column id="571" parent="251" name="amex">
       <Position>14</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="570" parent="251" name="z_read">
+    <column id="572" parent="251" name="z_read">
       <Position>15</Position>
       <DataType>double|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="571" parent="251" name="IDX_4266F9F03611BF30">
+    <index id="573" parent="251" name="IDX_4266F9F03611BF30">
       <ColNames>cash_up_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="572" parent="251" name="PRIMARY">
+    <key id="574" parent="251" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="573" parent="251" name="FK_4266F9F03611BF30">
+    <foreign-key id="575" parent="251" name="FK_4266F9F03611BF30">
       <ColNames>cash_up_id</ColNames>
       <RefSchemaName>ploughbooks</RefSchemaName>
       <RefTableName>cash_up</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="574" parent="252" name="id">
+    <column id="576" parent="252" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="575" parent="252" name="role_id">
+    <column id="577" parent="252" name="role_id">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="576" parent="252" name="email">
+    <column id="578" parent="252" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="577" parent="252" name="whitelisted">
+    <column id="579" parent="252" name="whitelisted">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="578" parent="252" name="blacklisted">
+    <column id="580" parent="252" name="blacklisted">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="579" parent="252" name="IDX_8D93D649D60322AC">
+    <index id="581" parent="252" name="IDX_8D93D649D60322AC">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="580" parent="252" name="PRIMARY">
+    <key id="582" parent="252" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="581" parent="252" name="FK_8D93D649D60322AC">
+    <foreign-key id="583" parent="252" name="FK_8D93D649D60322AC">
       <ColNames>role_id</ColNames>
       <RefSchemaName>ploughbooks</RefSchemaName>
       <RefTableName>role</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="582" parent="253" name="id">
+    <column id="584" parent="253" name="id">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="583" parent="253" name="type">
+    <column id="585" parent="253" name="type">
       <Position>2</Position>
       <DataType>varchar(10)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="584" parent="253" name="object_id">
+    <column id="586" parent="253" name="object_id">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="585" parent="253" name="diffs">
+    <column id="587" parent="253" name="diffs">
       <Position>4</Position>
       <Comment>(DC2Type:json_array)</Comment>
       <DataType>json|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="586" parent="253" name="blame_id">
+    <column id="588" parent="253" name="blame_id">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="587" parent="253" name="blame_user">
+    <column id="589" parent="253" name="blame_user">
       <Position>6</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="588" parent="253" name="blame_user_fqdn">
+    <column id="590" parent="253" name="blame_user_fqdn">
       <Position>7</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="589" parent="253" name="blame_user_firewall">
+    <column id="591" parent="253" name="blame_user_firewall">
       <Position>8</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="590" parent="253" name="ip">
+    <column id="592" parent="253" name="ip">
       <Position>9</Position>
       <DataType>varchar(45)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="591" parent="253" name="created_at">
+    <column id="593" parent="253" name="created_at">
       <Position>10</Position>
       <DataType>datetime|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="592" parent="253" name="type_e06395edc291d0719bee26fd39a32e8a_idx">
+    <index id="594" parent="253" name="type_e06395edc291d0719bee26fd39a32e8a_idx">
       <ColNames>type</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="593" parent="253" name="object_id_e06395edc291d0719bee26fd39a32e8a_idx">
+    <index id="595" parent="253" name="object_id_e06395edc291d0719bee26fd39a32e8a_idx">
       <ColNames>object_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="594" parent="253" name="blame_id_e06395edc291d0719bee26fd39a32e8a_idx">
+    <index id="596" parent="253" name="blame_id_e06395edc291d0719bee26fd39a32e8a_idx">
       <ColNames>blame_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="595" parent="253" name="created_at_e06395edc291d0719bee26fd39a32e8a_idx">
+    <index id="597" parent="253" name="created_at_e06395edc291d0719bee26fd39a32e8a_idx">
       <ColNames>created_at</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="596" parent="253" name="PRIMARY">
+    <key id="598" parent="253" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>

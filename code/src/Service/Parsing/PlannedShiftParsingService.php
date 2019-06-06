@@ -31,7 +31,7 @@ class PlannedShiftParsingService {
     }
 
     public function validateRequestFields(array $request) {
-        $this->requestValidator->validateRequestFields($request, ['staffMember', 'staffRole', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type']);
+        $this->requestValidator->validateRequestFields($request, ['staffMember', 'staffRole', 'status', 'hourlyRate', 'startTime', 'endTime', 'totalBreaks', 'type', 'offFloor']);
     }
 
     public function getUpdatedPlannedShiftEntity(array $plannedShift, PlannedShift $entity) {
@@ -65,6 +65,7 @@ class PlannedShiftParsingService {
             ->setTotalBreaks((float)$plannedShift['totalBreaks'])
             ->setHourlyRate((float)$plannedShift['hourlyRate'])
             ->setType($plannedShift['type'])
+            ->setOffFloor($plannedShift['offFloor'])
             ;
     }
 

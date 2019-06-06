@@ -7,8 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PlannedShiftRepository")
  */
-class PlannedShift
-{
+class PlannedShift {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -57,109 +56,98 @@ class PlannedShift
      */
     private $rota;
 
-    public function getId(): ?int
-    {
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $off_floor;
+
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getHourlyRate(): ?float
-    {
+    public function getHourlyRate(): ?float {
         return $this->hourly_rate;
     }
 
-    public function setHourlyRate(float $hourly_rate): self
-    {
+    public function setHourlyRate(float $hourly_rate): self {
         $this->hourly_rate = $hourly_rate;
-
         return $this;
     }
 
-    public function getStaffMember(): ?StaffMember
-    {
+    public function getStaffMember(): ?StaffMember {
         return $this->staff_member;
     }
 
-    public function setStaffMember(?StaffMember $staff_member): self
-    {
+    public function setStaffMember(?StaffMember $staff_member): self {
         $this->staff_member = $staff_member;
-
         return $this;
     }
 
-    public function getStartTime(): ?\DateTimeInterface
-    {
+    public function getStartTime(): ?\DateTimeInterface {
         return $this->start_time;
     }
 
-    public function setStartTime(\DateTimeInterface $start_time): self
-    {
+    public function setStartTime(\DateTimeInterface $start_time): self {
         $this->start_time = $start_time;
-
         return $this;
     }
 
-    public function getEndTime(): ?\DateTimeInterface
-    {
+    public function getEndTime(): ?\DateTimeInterface {
         return $this->end_time;
     }
 
-    public function setEndTime(\DateTimeInterface $end_time): self
-    {
+    public function setEndTime(\DateTimeInterface $end_time): self {
         $this->end_time = $end_time;
-
         return $this;
     }
 
-    public function getTotalBreaks(): ?float
-    {
+    public function getTotalBreaks(): ?float {
         return $this->total_breaks;
     }
 
-    public function setTotalBreaks(float $total_breaks): self
-    {
+    public function setTotalBreaks(float $total_breaks): self {
         $this->total_breaks = $total_breaks;
-
         return $this;
     }
 
-    public function getType(): ?string
-    {
+    public function getType(): ?string {
         return $this->type;
     }
 
-    public function setType(string $type): self
-    {
+    public function setType(string $type): self {
         $this->type = $type;
-
         return $this;
     }
 
-    public function getRota(): ?Rota
-    {
+    public function getRota(): ?Rota {
         return $this->rota;
     }
 
-    public function setRota(?Rota $rota): self
-    {
+    public function setRota(?Rota $rota): self {
         $this->rota = $rota;
-
         return $this;
     }
 
-    public function getStaffRole(): ?StaffRole
-    {
+    public function getStaffRole(): ?StaffRole {
         return $this->staff_role;
     }
 
-    public function setStaffRole(?StaffRole $staff_role): self
-    {
+    public function setStaffRole(?StaffRole $staff_role): self {
         $this->staff_role = $staff_role;
+        return $this;
+    }
 
+    public function getOffFloor() {
+        return $this->off_floor;
+    }
+
+    public function setOffFloor($off_floor): self {
+        $this->off_floor = $off_floor;
         return $this;
     }
 
     public function serialise() {
-        return (object) [
+        return (object)[
             'id' => $this->getId(),
             'staffMember' => $this->getStaffMember()->serialise(),
             'staffRole' => $this->getStaffRole()->serialise(),
@@ -168,6 +156,7 @@ class PlannedShift
             'endTime' => $this->getEndTime()->format('Y-m-d H:i'),
             'totalBreaks' => $this->getTotalBreaks(),
             'type' => $this->getType(),
+            'offFloor' => $this->getOffFloor(),
         ];
     }
 }

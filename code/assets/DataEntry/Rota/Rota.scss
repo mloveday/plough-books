@@ -17,7 +17,7 @@ $numberOfPreTimeColumns: 4;
   &.include-times {
     .rota-times, .rota-shift, .rota-staff-levels {
       display: grid;
-      grid-template-columns: 150px 25px repeat($numberOfPreTimeColumns, 75px) repeat(50, 1fr);
+      grid-template-columns: 150px 25px 25px repeat($numberOfPreTimeColumns, 75px) repeat(50, 1fr);
       grid-gap: 1px;
     }
 
@@ -85,7 +85,7 @@ $numberOfPreTimeColumns: 4;
   overflow: hidden;
 }
 
-.rota-remove-shift-button {
+.rota-remove-shift-button, .rota-off-floor-button {
   padding: 2px;
 }
 
@@ -106,16 +106,25 @@ $numberOfPreTimeColumns: 4;
   writing-mode: sideways-lr;
   text-orientation: sideways;
 
-  &:nth-of-type(4n + #{$numberOfPreTimeColumns+3}), &:nth-of-type(4n + #{$numberOfPreTimeColumns+4}) {
+  &:nth-of-type(4n + #{$numberOfPreTimeColumns+2}), &:nth-of-type(4n + #{$numberOfPreTimeColumns+3}) {
     background: #eee;
   }
 
   &.working {
-    background: lightgreen;
+    background: greenyellow;
   }
 }
 
-.rota-breaks, .rota-rate, .rota-end-time, .rota-start-time, .rota-start-date, .rota-end-date, .rota-remove-shift, .rota-staff-name {
+.rota-shift {
+  &.on-floor .rota-time.working {
+    background: greenyellow;
+  }
+  &.off-floor .rota-time.working {
+    background: yellowgreen;
+  }
+}
+
+.rota-breaks, .rota-rate, .rota-end-time, .rota-start-time, .rota-start-date, .rota-end-date, .rota-remove-shift, .rota-off-floor, .rota-staff-name {
   display: flex;
   align-items: center;
   justify-content: center;
