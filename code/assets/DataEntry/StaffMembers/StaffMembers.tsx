@@ -137,6 +137,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           <div>Status</div>
           <div>Current hourly rate</div>
           <div>Role</div>
+          <div>Defaults to off floor</div>
         </div>
         {filteredMembers
           .slice(this.props.staffMemberFilters.pageSize * (this.props.staffMemberFilters.pageNumber - 1), this.props.staffMemberFilters.pageSize * this.props.staffMemberFilters.pageNumber)
@@ -156,6 +157,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
                     <option key={roleKey} value={role.id}>{role.role}</option>
                   ))}
               </select>
+              <input disabled={!isEditingMember} type={'checkbox'} checked={member.defaultOffFloor} onChange={ev => this.updateStaffMember(member.with({defaultOffFloor: ev.target.checked}))}/>
               <div className="staff-member-edit-buttons">
                 {!isEditingMember && <EditButton disabled={isCreatingNewMember || this.props.staffMembersLocalState.isEditing()} mini={true} clickFn={() => this.updateStaffMember(member)}/>}
                 {isEditingMember && <SaveButton mini={true} clickFn={() => this.saveStaffMember(member)}/>}
@@ -178,6 +180,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
               <option key={roleKey} value={role.id}>{role.role}</option>
             ))}
           </select>}
+          {isCreatingNewMember && <input type={'checkbox'} checked={newMember.defaultOffFloor} onChange={ev => this.newStaffMember(newMember.with({defaultOffFloor: ev.target.checked}))}/>}
           <div className="staff-member-edit-buttons">
             {!isCreatingNewMember && <NewButton disabled={this.props.staffMembersLocalState.isEditing()} mini={true} clickFn={() => this.newStaffMember()}/>}
             {isCreatingNewMember && <SaveButton disabled={!newMember.role.isValid()} mini={true} clickFn={() => this.saveStaffMember(newMember)}/>}
