@@ -21,7 +21,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       `${date} 17:00`,
       0.5,
       type,
-      false,
+      staffMember.defaultOffFloor,
       ShiftInputs.default(staffMember, type, date)
     );
   }
