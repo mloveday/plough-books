@@ -16,6 +16,7 @@ describe('StaffMember', () => {
       type:'bar',
     },
     id: 9,
+    defaultOffFloor: false,
   };
   const defaultStaffMember = () => StaffMember.fromApi(object);
   const testRoleIsEqualToObject = (role: StaffRole) => {

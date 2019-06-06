@@ -24,7 +24,7 @@ class StaffMemberParsingService {
     }
 
     public function validateRequestFields(array $request) {
-        $this->requestValidator->validateRequestFields($request, ['name', 'status', 'currentHourlyRate', 'role']);
+        $this->requestValidator->validateRequestFields($request, ['name', 'status', 'currentHourlyRate', 'role', 'defaultOffFloor']);
         $this->requestValidator->validateRequestNestedFields($request['role'], ['id'], 'role');
     }
 
@@ -55,6 +55,7 @@ class StaffMemberParsingService {
             ->setStatus($staffMember['status'])
             ->setCurrentHourlyRate((float) $staffMember['currentHourlyRate'])
             ->setStaffRole($role)
+            ->setDefaultOffFloor($staffMember['defaultOffFloor'])
             ;
     }
 }

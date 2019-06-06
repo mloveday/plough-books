@@ -7,18 +7,18 @@ import {StaffMemberAbstract, StaffMemberApiType, StaffMemberType, StaffMemberUpd
 
 export class StaffMember extends StaffMemberAbstract<number, StaffRole> implements EditableEntity, StaffMemberType {
   public static default() {
-    return new StaffMember('', 0, StaffRole.default(), StaffMemberStatus.INACTIVE, StaffMemberInputs.default());
+    return new StaffMember('', 0, StaffRole.default(), StaffMemberStatus.INACTIVE, false, StaffMemberInputs.default());
   }
 
   public static fromApi(obj: StaffMemberApiType) {
-    return new StaffMember(obj.name, obj.currentHourlyRate, StaffRole.fromApi(obj.role), obj.status, StaffMemberInputs.fromApi(obj), obj.id);
+    return new StaffMember(obj.name, obj.currentHourlyRate, StaffRole.fromApi(obj.role), obj.status, obj.defaultOffFloor, StaffMemberInputs.fromApi(obj), obj.id);
   }
 
   public readonly id?: number;
   public readonly inputs: StaffMemberInputs;
 
-  constructor(name: string, currentHourlyRate: number, role: StaffRole, status: string, inputs: StaffMemberInputs, id?: number) {
-    super(name, currentHourlyRate, role, status);
+  constructor(name: string, currentHourlyRate: number, role: StaffRole, status: string, defaultOffFloor: boolean, inputs: StaffMemberInputs, id?: number) {
+    super(name, currentHourlyRate, role, status, defaultOffFloor);
     this.inputs = inputs;
     this.id = id;
   }
@@ -29,6 +29,7 @@ export class StaffMember extends StaffMemberAbstract<number, StaffRole> implemen
       obj.currentHourlyRate !== undefined ? validateCash(obj.currentHourlyRate, this.currentHourlyRate) : this.currentHourlyRate,
       obj.role !== undefined ? obj.role : this.role,
       obj.status !== undefined ? obj.status : this.status,
+      obj.defaultOffFloor !== undefined ? obj.defaultOffFloor : this.defaultOffFloor,
       this.inputs.with(obj),
       this.id
     );

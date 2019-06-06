@@ -9,8 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\StaffMemberRepository")
  */
-class StaffMember
-{
+class StaffMember {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -44,72 +43,62 @@ class StaffMember
      */
     private $status;
 
-    public function __construct()
-    {
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $default_off_floor;
+
+    public function __construct() {
         $this->plannedShifts = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getName(): ?string
-    {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): self
-    {
+    public function setName(string $name): self {
         $this->name = $name;
-
         return $this;
     }
 
-    public function getCurrentHourlyRate(): ?float
-    {
+    public function getCurrentHourlyRate(): ?float {
         return $this->current_hourly_rate;
     }
 
-    public function setCurrentHourlyRate(float $current_hourly_rate): self
-    {
+    public function setCurrentHourlyRate(float $current_hourly_rate): self {
         $this->current_hourly_rate = $current_hourly_rate;
-
         return $this;
     }
 
-    public function getStaffRole(): ?StaffRole
-    {
+    public function getStaffRole(): ?StaffRole {
         return $this->staff_role;
     }
 
-    public function setStaffRole(?StaffRole $staff_role): self
-    {
+    public function setStaffRole(?StaffRole $staff_role): self {
         $this->staff_role = $staff_role;
-
         return $this;
     }
 
     /**
      * @return Collection|PlannedShift[]
      */
-    public function getPlannedShifts(): Collection
-    {
+    public function getPlannedShifts(): Collection {
         return $this->plannedShifts;
     }
 
-    public function addPlannedShift(PlannedShift $plannedShift): self
-    {
+    public function addPlannedShift(PlannedShift $plannedShift): self {
         if (!$this->plannedShifts->contains($plannedShift)) {
             $this->plannedShifts[] = $plannedShift;
             $plannedShift->setStaffMember($this);
         }
-
         return $this;
     }
 
-    public function removePlannedShift(PlannedShift $plannedShift): self
-    {
+    public function removePlannedShift(PlannedShift $plannedShift): self {
         if ($this->plannedShifts->contains($plannedShift)) {
             $this->plannedShifts->removeElement($plannedShift);
             // set the owning side to null (unless already changed)
@@ -117,29 +106,35 @@ class StaffMember
                 $plannedShift->setStaffMember(null);
             }
         }
-
         return $this;
     }
 
-    public function getStatus(): ?string
-    {
+    public function getStatus(): ?string {
         return $this->status;
     }
 
-    public function setStatus(string $status): self
-    {
+    public function setStatus(string $status): self {
         $this->status = $status;
+        return $this;
+    }
 
+    public function getDefaultOffFloor() {
+        return $this->default_off_floor;
+    }
+
+    public function setDefaultOffFloor($default_off_floor): self {
+        $this->default_off_floor = $default_off_floor;
         return $this;
     }
 
     public function serialise() {
-        return (object) [
+        return (object)[
             'id' => $this->getId(),
             'name' => $this->getName(),
             'currentHourlyRate' => $this->getCurrentHourlyRate(),
             'role' => $this->getStaffRole()->serialise(),
             'status' => $this->getStatus(),
+            'defaultOffFloor' => $this->getDefaultOffFloor(),
         ];
     }
 }
