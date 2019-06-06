@@ -289,6 +289,9 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     if (time.hour() < DAY_START_HOUR) {
       time = momentFromDateAndTime(shift.date, '06:00');
     }
+    if (time.hour() === 0) {
+      time = momentFromDateAndTime(shift.date, '00:00');
+    }
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrAfter(shift.getEndTime())) {
       this.props.updateShift(shift.with({startTime: {date: shift.date, time: value}, endTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
@@ -298,9 +301,12 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   }
 
   private endTimeHandler(value: string, shift: Shift) {
-    const time = momentFromDateAndTime(shift.date, value);
+    let time = momentFromDateAndTime(shift.date, value);
     if (time.hour() < DAY_START_HOUR) {
       time.add(1, 'day');
+    }
+    if (time.hour() === 0 || time.hour() === 24) {
+      time = momentFromDateAndTime(shift.date, '00:00').add(1, 'day');
     }
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrBefore(shift.getStartTime())) {
