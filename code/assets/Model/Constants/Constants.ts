@@ -19,6 +19,10 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
       obj.shortBreakDuration,
       obj.hoursPerLongBreak,
       obj.longBreakDuration,
+      obj.kitchenHoursPerShortBreak,
+      obj.kitchenShortBreakDuration,
+      obj.kitchenHoursPerLongBreak,
+      obj.kitchenLongBreakDuration,
       obj.ersThreshold,
       obj.ersPercentAboveThreshold,
       obj.holidayLinearPercent,
@@ -29,14 +33,14 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
   }
 
   public static default() {
-    return new Constants(moment.utc().format(DateFormats.API_DATE), 0,0,1,0.5,0,0,0,0,0,0,0,0,ConstantsInputs.default());
+    return new Constants(moment.utc().format(DateFormats.API_DATE), 0,0,1,0.5,0,0,0,0,0,0,0,0,0,0,0,0,ConstantsInputs.default());
   }
 
   public readonly id?: number;
   public readonly inputs: ConstantsInputs;
 
-  constructor(date: string, fixedCosts: number, labourRate: number, vatMultiplier: number, barProportionOfRevenue: number, hoursPerShortBreak: number, shortBreakDuration: number, hoursPerLongBreak: number, longBreakDuration: number, ersThreshold: number, ersPercentAboveThreshold: number, holidayLinearPercent: number, pensionLinearPercent: number, inputs: ConstantsInputs, id?: number) {
-    super(date, fixedCosts, labourRate, vatMultiplier, barProportionOfRevenue, hoursPerShortBreak, shortBreakDuration, hoursPerLongBreak, longBreakDuration, ersThreshold, ersPercentAboveThreshold, holidayLinearPercent, pensionLinearPercent);
+  constructor(date: string, fixedCosts: number, labourRate: number, vatMultiplier: number, barProportionOfRevenue: number, hoursPerShortBreak: number, shortBreakDuration: number, hoursPerLongBreak: number, longBreakDuration: number, kitchenHoursPerShortBreak: number, kitchenShortBreakDuration: number, kitchenHoursPerLongBreak: number, kitchenLongBreakDuration: number, ersThreshold: number, ersPercentAboveThreshold: number, holidayLinearPercent: number, pensionLinearPercent: number, inputs: ConstantsInputs, id?: number) {
+    super(date, fixedCosts, labourRate, vatMultiplier, barProportionOfRevenue, hoursPerShortBreak, shortBreakDuration, hoursPerLongBreak, longBreakDuration, kitchenHoursPerShortBreak, kitchenShortBreakDuration, kitchenHoursPerLongBreak, kitchenLongBreakDuration, ersThreshold, ersPercentAboveThreshold, holidayLinearPercent, pensionLinearPercent);
     this.inputs = inputs;
     this.id = id;
   }
@@ -52,6 +56,10 @@ export class Constants extends ConstantsAbstract<number> implements ConstantsTyp
       obj.shortBreakDuration !== undefined ? validateDecimal(obj.shortBreakDuration, this.shortBreakDuration) : this.shortBreakDuration,
       obj.hoursPerLongBreak !== undefined ? validateDecimal(obj.hoursPerLongBreak, this.hoursPerLongBreak) : this.hoursPerLongBreak,
       obj.longBreakDuration !== undefined ? validateDecimal(obj.longBreakDuration, this.longBreakDuration) : this.longBreakDuration,
+      obj.kitchenHoursPerShortBreak !== undefined ? validateDecimal(obj.kitchenHoursPerShortBreak, this.kitchenHoursPerShortBreak) : this.kitchenHoursPerShortBreak,
+      obj.kitchenShortBreakDuration !== undefined ? validateDecimal(obj.kitchenShortBreakDuration, this.kitchenShortBreakDuration) : this.kitchenShortBreakDuration,
+      obj.kitchenHoursPerLongBreak !== undefined ? validateDecimal(obj.kitchenHoursPerLongBreak, this.kitchenHoursPerLongBreak) : this.kitchenHoursPerLongBreak,
+      obj.kitchenLongBreakDuration !== undefined ? validateDecimal(obj.kitchenLongBreakDuration, this.kitchenLongBreakDuration) : this.kitchenLongBreakDuration,
       obj.ersThreshold !== undefined ? validateCash(obj.ersThreshold, this.ersThreshold) : this.ersThreshold,
       obj.ersPercentAboveThreshold !== undefined ? validatePercentageToDecimal(obj.ersPercentAboveThreshold, this.ersPercentAboveThreshold) : this.ersPercentAboveThreshold,
       obj.holidayLinearPercent !== undefined ? validatePercentageToDecimal(obj.holidayLinearPercent, this.holidayLinearPercent) : this.holidayLinearPercent,

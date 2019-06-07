@@ -5,7 +5,7 @@ import {ConstantsAbstract, ConstantsApiType, ConstantsUpdateType} from "./Consta
 
 export class ConstantsInputs extends ConstantsAbstract<string> {
   public static default() {
-    return new ConstantsInputs(moment.utc().format(DateFormats.API_DATE), '', '', '', '', '', '', '', '', '', '', '', '');
+    return new ConstantsInputs(moment.utc().format(DateFormats.API_DATE), '', '', '', '', '', '', '', '','','','','', '', '', '', '');
   }
   
   public static fromApi(obj: ConstantsApiType) {
@@ -19,6 +19,10 @@ export class ConstantsInputs extends ConstantsAbstract<string> {
       obj.shortBreakDuration.toString(),
       obj.hoursPerLongBreak.toString(),
       obj.longBreakDuration.toString(),
+      obj.kitchenHoursPerShortBreak.toString(),
+      obj.kitchenShortBreakDuration.toString(),
+      obj.kitchenHoursPerLongBreak.toString(),
+      obj.kitchenLongBreakDuration.toString(),
       obj.ersThreshold.toString(),
       Formatting.formatPercent(obj.ersPercentAboveThreshold, 3, false),
       Formatting.formatPercent(obj.holidayLinearPercent, 3, false),
@@ -37,6 +41,10 @@ export class ConstantsInputs extends ConstantsAbstract<string> {
       obj.shortBreakDuration !== undefined ? obj.shortBreakDuration : this.shortBreakDuration,
       obj.hoursPerLongBreak !== undefined ? obj.hoursPerLongBreak : this.hoursPerLongBreak,
       obj.longBreakDuration !== undefined ? obj.longBreakDuration : this.longBreakDuration,
+      obj.kitchenHoursPerShortBreak !== undefined ? obj.kitchenHoursPerShortBreak : this.kitchenHoursPerShortBreak,
+      obj.kitchenShortBreakDuration !== undefined ? obj.kitchenShortBreakDuration : this.kitchenShortBreakDuration,
+      obj.kitchenHoursPerLongBreak !== undefined ? obj.kitchenHoursPerLongBreak : this.kitchenHoursPerLongBreak,
+      obj.kitchenLongBreakDuration !== undefined ? obj.kitchenLongBreakDuration : this.kitchenLongBreakDuration,
       obj.ersThreshold !== undefined ? obj.ersThreshold : this.ersThreshold,
       obj.ersPercentAboveThreshold !== undefined ? obj.ersPercentAboveThreshold : this.ersPercentAboveThreshold,
       obj.holidayLinearPercent !== undefined ? obj.holidayLinearPercent : this.holidayLinearPercent,
