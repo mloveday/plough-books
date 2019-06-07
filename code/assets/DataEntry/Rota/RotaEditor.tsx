@@ -21,9 +21,10 @@ import {rotaCreate, rotaDataEntry} from "../../Redux/Rota/RotaRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
-import {DAY_START_HOUR, getTimePeriods, momentFromDateAndTime} from "../../Util/DateUtils";
+import {getShiftEndTimeFromStrings, getShiftStartTimeFromStrings, getTimePeriods} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
+import {DnDRotaTime} from "./DraggedRotaTime";
 import './Rota.scss';
 
 export interface RotaEditorOwnProps {
@@ -228,7 +229,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
                  onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />}
         </div>
         {timePeriods.map((timePeriod, periodKey) => (
-          <div className={shift.isWorkingAtTime(timePeriod) ? "rota-time working" : "rota-time"} key={periodKey}/>
+          <DnDRotaTime key={periodKey} timePeriodIndex={periodKey} isWorking={shift.isWorkingAtTime(timePeriod)} updateRota={(s,e) => this.dndTimeHandler(shift, s,e)} shift={shift} />
         ))}
       </div>
     );
@@ -250,14 +251,21 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     this.props.addShift(Shift.default(member, this.props.workType as WorkTypes, this.props.rota.date));
   }
 
+  private dndTimeHandler(shift: Shift, startTime: moment.Moment, endTime: moment.Moment) {
+    if (startTime.format(DateFormats.TIME_LEADING_ZERO) !== shift.startTime || endTime.format(DateFormats.TIME_LEADING_ZERO) !== shift.endTime) {
+      this.props.updateShift(shift.with({
+        startTime: {
+          date: startTime.format(DateFormats.API_DATE),
+          time: startTime.format(DateFormats.TIME_LEADING_ZERO)
+        },
+        endTime: {date: endTime.format(DateFormats.API_DATE), time: endTime.format(DateFormats.TIME_LEADING_ZERO)},
+        totalBreaks: this.getExpectedBreaks(startTime, endTime).toString(),
+      }));
+    }
+  }
+
   private startTimeHandler(value: string, shift: Shift) {
-    let time = momentFromDateAndTime(shift.date, value);
-    if (time.hour() < DAY_START_HOUR) {
-      time = momentFromDateAndTime(shift.date, '06:00');
-    }
-    if (time.hour() === 0) {
-      time = momentFromDateAndTime(shift.date, '00:00');
-    }
+    const time = getShiftStartTimeFromStrings(value, shift.date);
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrAfter(shift.getEndTime())) {
       this.props.updateShift(shift.with({startTime: {date: shift.date, time: value}, endTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
@@ -267,13 +275,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   }
 
   private endTimeHandler(value: string, shift: Shift) {
-    let time = momentFromDateAndTime(shift.date, value);
-    if (time.hour() < DAY_START_HOUR) {
-      time.add(1, 'day');
-    }
-    if (time.hour() === 0 || time.hour() === 24) {
-      time = momentFromDateAndTime(shift.date, '00:00').add(1, 'day');
-    }
+    const time = getShiftEndTimeFromStrings(value, shift.date);
     const formattedTime = time.format(`HH:mm`);
     if (time.isSameOrBefore(shift.getStartTime())) {
       this.props.updateShift(shift.with({endTime: {date: time.format(DateFormats.API_DATE), time: value}, startTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));

@@ -72,6 +72,28 @@ export const timeFromHalfHoursPastStart = (halfHoursPastDayStart: number): strin
   return time.format(DateFormats.TIME_LEADING_ZERO);
 };
 
+export const getShiftStartTimeFromStrings = (value: string, date: string) => {
+  let time = momentFromDateAndTime(date, value);
+  if (time.hour() < DAY_START_HOUR) {
+    time = momentFromDateAndTime(date, '06:00');
+  }
+  if (time.hour() === 0) {
+    time = momentFromDateAndTime(date, '00:00');
+  }
+  return time;
+};
+
+export const getShiftEndTimeFromStrings = (value: string, date: string) => {
+  let time = momentFromDateAndTime(date, value);
+  if (time.hour() < DAY_START_HOUR) {
+    time.add(1, 'day');
+  }
+  if (time.hour() === 0 || time.hour() === 24) {
+    time = momentFromDateAndTime(date, '00:00').add(1, 'day');
+  }
+  return time;
+};
+
 export const dayFromWeekDayNumber = (weekday: number): string => {
   switch (weekday) {
     case 0:
