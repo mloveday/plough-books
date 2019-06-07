@@ -81,11 +81,11 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           <div className="rota-stat">
             Status:
             <select value={this.props.rota.status} onChange={ev => this.formUpdate({status: ev.target.value as RotaStatus})}>
-              <option value={RotaStatus.NEW}>New</option>
+              <option disabled={true} value={RotaStatus.NEW}>New</option>
               <option value={RotaStatus.DRAFT}>Draft</option>
               <option value={RotaStatus.ROTA_COMPLETE}>Rota Complete</option>
               <option value={RotaStatus.SIGN_IN_COMPLETE}>Sign In Complete</option>
-              <option value={RotaStatus.IMPORTED}>Imported</option>
+              <option disabled={true} value={RotaStatus.IMPORTED}>Imported</option>
             </select>
             </div>
           {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
@@ -156,18 +156,18 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
     const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
     return shift === undefined
-      ? this.getEmptyShift(staffMember, timePeriods, key)
+      ? this.getEmptyShift(staffMember, timePeriods, key, editingDisabled)
       : this.getShift(shift, timePeriods, editingDisabled, key);
   }
 
-  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], key: number) {
+  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], key: number, editingDisabled: boolean) {
     return (
       <div className="rota-shift no-shift" key={key}>
         <div className="rota-staff-name">{staffMember.name}</div>
         <div className="rota-remove-shift"/>
         <div className="rota-off-floor"/>
         <div className="rota-new-shift">
-          <button onClick={() => this.newShiftHandler(staffMember)} type="button"><FontAwesomeIcon icon="plus-circle"/></button>
+          <button disabled={editingDisabled} onClick={() => this.newShiftHandler(staffMember)} type="button"><FontAwesomeIcon icon="plus-circle"/></button>
         </div>
         <div className="rota-new-shift-spacer"/>
         <div className="rota-new-shift-spacer"/>

@@ -43,7 +43,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public updateTouched(o: RotaUpdateType): RotaEntity {
-    return this.update(Object.assign({touched: true}, o));
+    return this.update(Object.assign({touched: true, status: this.status === RotaStatus.NEW ? RotaStatus.DRAFT : this.status}, o));
   }
 
   public clone() {
