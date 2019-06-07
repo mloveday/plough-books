@@ -63,10 +63,14 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
           <div>Labour Rate</div>
           <div>VAT multiplier</div>
           <div>Bar proportion of revenue</div>
-          <div>Shift length for short break</div>
-          <div>Short break duration</div>
-          <div>Shift length for long break</div>
-          <div>Long break duration</div>
+          <div>Bar Shift length for short break</div>
+          <div>Bar Short break duration</div>
+          <div>Bar Shift length for long break</div>
+          <div>Bar Long break duration</div>
+          <div>Kitchen Shift length for short break</div>
+          <div>Kitchen Short break duration</div>
+          <div>Kitchen Shift length for long break</div>
+          <div>Kitchen Long break duration</div>
           <div>ERS threshold</div>
           <div>ERS rate above threshold</div>
           <div>Holiday rate</div>
@@ -86,6 +90,10 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.shortBreakDuration} onChange={ev => this.updateConstants(entity.with({'shortBreakDuration' : ev.target.value}))} /><span>hrs</span></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.hoursPerLongBreak} onChange={ev => this.updateConstants(entity.with({'hoursPerLongBreak' : ev.target.value}))} /><span>hrs</span></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.longBreakDuration} onChange={ev => this.updateConstants(entity.with({'longBreakDuration' : ev.target.value}))} /><span>hrs</span></div>
+              <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.kitchenHoursPerShortBreak} onChange={ev => this.updateConstants(entity.with({'kitchenHoursPerShortBreak' : ev.target.value}))} /><span>hrs</span></div>
+              <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.kitchenShortBreakDuration} onChange={ev => this.updateConstants(entity.with({'kitchenShortBreakDuration' : ev.target.value}))} /><span>hrs</span></div>
+              <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.kitchenHoursPerLongBreak} onChange={ev => this.updateConstants(entity.with({'kitchenHoursPerLongBreak' : ev.target.value}))} /><span>hrs</span></div>
+              <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={decimalPattern} value={entity.inputs.kitchenLongBreakDuration} onChange={ev => this.updateConstants(entity.with({'kitchenLongBreakDuration' : ev.target.value}))} /><span>hrs</span></div>
               <div className="constants-input-wrapper"><span>£</span><input disabled={!isEditingEntity} type="text" pattern={currencyPattern} value={entity.inputs.ersThreshold} onChange={ev => this.updateConstants(entity.with({'ersThreshold' : ev.target.value}))} /></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={percentagePattern} value={entity.inputs.ersPercentAboveThreshold} onChange={ev => this.updateConstants(entity.with({'ersPercentAboveThreshold' : ev.target.value}))} /><span>%</span></div>
               <div className="constants-input-wrapper"><input disabled={!isEditingEntity} type="text" pattern={percentagePattern} value={entity.inputs.holidayLinearPercent} onChange={ev => this.updateConstants(entity.with({'holidayLinearPercent' : ev.target.value}))} /><span>%</span></div>
@@ -109,10 +117,14 @@ class ConstantsDataEntryComponent extends React.Component<ConstantsDataEntryProp
             <div className="constants-input-wrapper" key={8}><input type="text" pattern={decimalPattern} value={newEntity.inputs.shortBreakDuration} onChange={ev => this.updateNewConstants(newEntity.with({'shortBreakDuration' : ev.target.value}))} /><span>hrs</span></div>,
             <div className="constants-input-wrapper" key={9}><input type="text" pattern={decimalPattern} value={newEntity.inputs.hoursPerLongBreak} onChange={ev => this.updateNewConstants(newEntity.with({'hoursPerLongBreak' : ev.target.value}))} /><span>hrs</span></div>,
             <div className="constants-input-wrapper" key={10}><input type="text" pattern={decimalPattern} value={newEntity.inputs.longBreakDuration} onChange={ev => this.updateNewConstants(newEntity.with({'longBreakDuration' : ev.target.value}))} /><span>hrs</span></div>,
-            <div className="constants-input-wrapper" key={11}><span>£</span><input type="text" pattern={currencyPattern} value={newEntity.inputs.ersThreshold} onChange={ev => this.updateNewConstants(newEntity.with({'ersThreshold' : ev.target.value}))} /></div>,
-            <div className="constants-input-wrapper" key={12}><input type="text" pattern={percentagePattern} value={newEntity.inputs.ersPercentAboveThreshold} onChange={ev => this.updateNewConstants(newEntity.with({'ersPercentAboveThreshold' : ev.target.value}))} /><span>%</span></div>,
-            <div className="constants-input-wrapper" key={13}><input type="text" pattern={percentagePattern} value={newEntity.inputs.holidayLinearPercent} onChange={ev => this.updateNewConstants(newEntity.with({'holidayLinearPercent' : ev.target.value}))} /><span>%</span></div>,
-            <div className="constants-input-wrapper" key={14}><input type="text" pattern={percentagePattern} value={newEntity.inputs.pensionLinearPercent} onChange={ev => this.updateNewConstants(newEntity.with({'pensionLinearPercent' : ev.target.value}))} /><span>%</span></div>,
+            <div className="constants-input-wrapper" key={11}><input type="text" pattern={decimalPattern} value={newEntity.inputs.kitchenHoursPerShortBreak} onChange={ev => this.updateNewConstants(newEntity.with({'kitchenHoursPerShortBreak' : ev.target.value}))} /><span>hrs</span></div>,
+            <div className="constants-input-wrapper" key={12}><input type="text" pattern={decimalPattern} value={newEntity.inputs.kitchenShortBreakDuration} onChange={ev => this.updateNewConstants(newEntity.with({'kitchenShortBreakDuration' : ev.target.value}))} /><span>hrs</span></div>,
+            <div className="constants-input-wrapper" key={13}><input type="text" pattern={decimalPattern} value={newEntity.inputs.kitchenHoursPerLongBreak} onChange={ev => this.updateNewConstants(newEntity.with({'kitchenHoursPerLongBreak' : ev.target.value}))} /><span>hrs</span></div>,
+            <div className="constants-input-wrapper" key={14}><input type="text" pattern={decimalPattern} value={newEntity.inputs.kitchenLongBreakDuration} onChange={ev => this.updateNewConstants(newEntity.with({'kitchenLongBreakDuration' : ev.target.value}))} /><span>hrs</span></div>,
+            <div className="constants-input-wrapper" key={15}><span>£</span><input type="text" pattern={currencyPattern} value={newEntity.inputs.ersThreshold} onChange={ev => this.updateNewConstants(newEntity.with({'ersThreshold' : ev.target.value}))} /></div>,
+            <div className="constants-input-wrapper" key={16}><input type="text" pattern={percentagePattern} value={newEntity.inputs.ersPercentAboveThreshold} onChange={ev => this.updateNewConstants(newEntity.with({'ersPercentAboveThreshold' : ev.target.value}))} /><span>%</span></div>,
+            <div className="constants-input-wrapper" key={17}><input type="text" pattern={percentagePattern} value={newEntity.inputs.holidayLinearPercent} onChange={ev => this.updateNewConstants(newEntity.with({'holidayLinearPercent' : ev.target.value}))} /><span>%</span></div>,
+            <div className="constants-input-wrapper" key={18}><input type="text" pattern={percentagePattern} value={newEntity.inputs.pensionLinearPercent} onChange={ev => this.updateNewConstants(newEntity.with({'pensionLinearPercent' : ev.target.value}))} /><span>%</span></div>,
             ]}
           
           <div className="constants-edit-buttons">

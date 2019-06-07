@@ -293,11 +293,21 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
 
   private getExpectedBreaks(startTime: moment.Moment, endTime: moment.Moment): number {
     const hoursDifference = endTime.diff(startTime, "hours");
-    if (hoursDifference > this.props.rota.constants.hoursPerLongBreak) {
-      return this.props.rota.constants.longBreakDuration;
-    }
-    if (hoursDifference > this.props.rota.constants.hoursPerShortBreak) {
-      return this.props.rota.constants.shortBreakDuration;
+    if (this.props.workType === WorkTypes.BAR) {
+
+      if (hoursDifference > this.props.rota.constants.hoursPerLongBreak) {
+        return this.props.rota.constants.longBreakDuration;
+      }
+      if (hoursDifference > this.props.rota.constants.hoursPerShortBreak) {
+        return this.props.rota.constants.shortBreakDuration;
+      }
+    } else if (this.props.workType === WorkTypes.KITCHEN) {
+      if (hoursDifference > this.props.rota.constants.kitchenHoursPerLongBreak) {
+        return this.props.rota.constants.kitchenLongBreakDuration;
+      }
+      if (hoursDifference > this.props.rota.constants.kitchenHoursPerShortBreak) {
+        return this.props.rota.constants.kitchenShortBreakDuration;
+      }
     }
     return 0;
   }

@@ -12,8 +12,8 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       Formatting.formatCashForInput(staffMember.currentHourlyRate),
       date,
       {date, time: '08:00'},
-      {date, time: '17:00'},
-      '0.5',
+      {date, time: '08:00'},
+      '0',
       type,
       staffMember.defaultOffFloor,
     );

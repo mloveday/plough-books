@@ -18,8 +18,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
       staffMember.currentHourlyRate,
       date,
       `${date} 08:00`,
-      `${date} 17:00`,
-      0.5,
+      `${date} 08:00`,
+      0,
       type,
       staffMember.defaultOffFloor,
       ShiftInputs.default(staffMember, type, date)
