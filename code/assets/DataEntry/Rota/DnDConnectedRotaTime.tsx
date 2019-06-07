@@ -14,6 +14,8 @@ import {
 interface DnDRotaTimeOwnProps {
   isWorking: boolean;
   startPeriodIndex: number,
+  shiftStartIndex: number,
+  shiftEndIndex: number,
   timePeriodIndex: number;
   draggedShiftId: number;
   isHovering: boolean;
@@ -42,6 +44,10 @@ type DnDRotaTimeProps = DnDRotaTimeOwnProps & DnDRotaTimeStateProps & DnDRotaTim
 class DnDRotaTimeComponent extends React.Component<DnDRotaTimeProps, {}> {
   public componentDidUpdate() {
     if (!this.props.isHovering || this.props.draggedShiftId !== this.props.shift.id) {
+      return;
+    }
+    if (Math.min(this.props.timePeriodIndex, this.props.startPeriodIndex) === this.props.shiftStartIndex
+      && Math.max(this.props.timePeriodIndex, this.props.startPeriodIndex) === this.props.shiftEndIndex) {
       return;
     }
     const startTime = getShiftStartTimeFromStrings(timeFromHalfHoursPastStart(Math.min(this.props.startPeriodIndex, this.props.timePeriodIndex)), this.props.shift.date);

@@ -21,7 +21,12 @@ import {rotaCreate, rotaDataEntry} from "../../Redux/Rota/RotaRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
-import {getShiftEndTimeFromStrings, getShiftStartTimeFromStrings, getTimePeriods} from "../../Util/DateUtils";
+import {
+  getHalfHoursPastStartFromTime,
+  getShiftEndTimeFromStrings,
+  getShiftStartTimeFromStrings,
+  getTimePeriods
+} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import {DnDRotaTime} from "./DraggedRotaTime";
@@ -181,6 +186,8 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   }
 
   private getShift(shift: Shift, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
+    const shiftStartIndex: number = getHalfHoursPastStartFromTime(shift.getStartTime());
+    const shiftEndIndex: number = getHalfHoursPastStartFromTime(shift.getEndTime());
     return (
       <div className={`rota-shift ${shift.offFloor ? 'off-floor' : 'on-floor'}`} key={key}>
         <div className="rota-staff-name">{shift.staffMember.name}</div>
@@ -229,7 +236,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
                  onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />}
         </div>
         {timePeriods.map((timePeriod, periodKey) => (
-          <DnDRotaTime key={periodKey} timePeriodIndex={periodKey} isWorking={shift.isWorkingAtTime(timePeriod)} updateRota={(s,e) => this.dndTimeHandler(shift, s,e)} shift={shift} />
+          <DnDRotaTime key={periodKey} timePeriodIndex={periodKey} shiftStartIndex={shiftStartIndex} shiftEndIndex={shiftEndIndex} isWorking={shift.isWorkingAtTime(timePeriod)} updateRota={(s,e) => this.dndTimeHandler(shift, s,e)} shift={shift} />
         ))}
       </div>
     );

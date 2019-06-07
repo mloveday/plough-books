@@ -72,6 +72,14 @@ export const timeFromHalfHoursPastStart = (halfHoursPastDayStart: number): strin
   return time.format(DateFormats.TIME_LEADING_ZERO);
 };
 
+export const getHalfHoursPastStartFromTime = (time: moment.Moment): number => {
+  const hour = time.hour();
+  if (hour < DAY_START_HOUR) {
+    return Math.floor(48 - (DAY_START_HOUR * 60 - hour * 60 + time.minutes())/30);
+  }
+  return Math.floor((hour * 60 + time.minutes() - DAY_START_HOUR * 60) / 30);
+};
+
 export const getShiftStartTimeFromStrings = (value: string, date: string) => {
   let time = momentFromDateAndTime(date, value);
   if (time.hour() < DAY_START_HOUR) {

@@ -17,6 +17,8 @@ import {ConnectedRotaTime} from './DnDConnectedRotaTime';
 const DND_ROTA_TIME = 'DND_ROTA_TIME';
 interface OwnProps {
   timePeriodIndex: number,
+  shiftStartIndex: number,
+  shiftEndIndex: number,
   isWorking: boolean,
   updateRota: (dragIndex: moment.Moment, dropIndex: moment.Moment) => void,
   shift: Shift,
@@ -48,6 +50,8 @@ class DnDRotaTimeComponent extends React.Component<OwnProps & DragCollectedProps
         shift={this.props.shift}
         connectDragSource={this.props.connectDragSource}
         connectDropTarget={this.props.connectDropTarget}
+        shiftStartIndex={this.props.shiftStartIndex}
+        shiftEndIndex={this.props.shiftEndIndex}
       />
     );
   }
