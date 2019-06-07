@@ -41,13 +41,12 @@ type DnDRotaTimeProps = DnDRotaTimeOwnProps & DnDRotaTimeStateProps & DnDRotaTim
 
 class DnDRotaTimeComponent extends React.Component<DnDRotaTimeProps, {}> {
   public componentDidUpdate() {
+    if (!this.props.isHovering || this.props.draggedShiftId !== this.props.shift.id) {
+      return;
+    }
     const startTime = getShiftStartTimeFromStrings(timeFromHalfHoursPastStart(Math.min(this.props.startPeriodIndex, this.props.timePeriodIndex)), this.props.shift.date);
     const endTime = getShiftEndTimeFromStrings(timeFromHalfHoursPastStart(Math.max(this.props.startPeriodIndex, this.props.timePeriodIndex)), this.props.shift.date);
-    if (this.props.isHovering
-      && this.props.draggedShiftId === this.props.shift.id
-      && (!endTime.isSame(this.props.shift.getEndTime(), 'minute')
-        || !startTime.isSame(this.props.shift.getStartTime(), 'minute'))
-    ) {
+    if (!endTime.isSame(this.props.shift.getEndTime(), 'minute') || !startTime.isSame(this.props.shift.getStartTime(), 'minute')) {
       this.props.updateRota(startTime, endTime);
     }
   }
