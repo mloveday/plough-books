@@ -7,8 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ConstantsRepository")
  */
-class Constants
-{
+class Constants {
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -64,6 +63,26 @@ class Constants
     /**
      * @ORM\Column(type="float")
      */
+    private $kitchen_hours_per_short_break;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $kitchen_short_break_duration;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $kitchen_hours_per_long_break;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $kitchen_long_break_duration;
+
+    /**
+     * @ORM\Column(type="float")
+     */
     private $ers_threshold;
 
     /**
@@ -81,169 +100,165 @@ class Constants
      */
     private $pension_linear_percent;
 
-    public function getId(): ?int
-    {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
-    {
+    public function getDate(): ?\DateTimeInterface {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
-    {
+    public function setDate(\DateTimeInterface $date): self {
         $this->date = $date;
-
         return $this;
     }
 
-    public function getFixedCosts(): ?float
-    {
+    public function getFixedCosts(): ?float {
         return $this->fixed_costs;
     }
 
-    public function setFixedCosts(float $fixed_costs): self
-    {
+    public function setFixedCosts(float $fixed_costs): self {
         $this->fixed_costs = $fixed_costs;
-
         return $this;
     }
 
-    public function getLabourRate(): ?float
-    {
+    public function getLabourRate(): ?float {
         return $this->labour_rate;
     }
 
-    public function setLabourRate(float $labour_rate): self
-    {
+    public function setLabourRate(float $labour_rate): self {
         $this->labour_rate = $labour_rate;
-
         return $this;
     }
 
-    public function getVatMultiplier(): ?float
-    {
+    public function getVatMultiplier(): ?float {
         return $this->vat_multiplier;
     }
 
-    public function setVatMultiplier(float $vat_multiplier): self
-    {
+    public function setVatMultiplier(float $vat_multiplier): self {
         $this->vat_multiplier = $vat_multiplier;
-
         return $this;
     }
 
-    public function getBarProportionOfRevenue(): ?float
-    {
+    public function getBarProportionOfRevenue(): ?float {
         return $this->bar_proportion_of_revenue;
     }
 
-    public function setBarProportionOfRevenue(float $bar_proportion_of_revenue): self
-    {
+    public function setBarProportionOfRevenue(float $bar_proportion_of_revenue): self {
         $this->bar_proportion_of_revenue = $bar_proportion_of_revenue;
-
         return $this;
     }
 
-    public function getHoursPerShortBreak(): ?float
-    {
+    public function getHoursPerShortBreak(): ?float {
         return $this->hours_per_short_break;
     }
 
-    public function setHoursPerShortBreak(float $hours_per_short_break): self
-    {
+    public function setHoursPerShortBreak(float $hours_per_short_break): self {
         $this->hours_per_short_break = $hours_per_short_break;
-
         return $this;
     }
 
-    public function getShortBreakDuration(): ?float
-    {
+    public function getShortBreakDuration(): ?float {
         return $this->short_break_duration;
     }
 
-    public function setShortBreakDuration(float $short_break_duration): self
-    {
+    public function setShortBreakDuration(float $short_break_duration): self {
         $this->short_break_duration = $short_break_duration;
-
         return $this;
     }
 
-    public function getHoursPerLongBreak(): ?float
-    {
+    public function getHoursPerLongBreak(): ?float {
         return $this->hours_per_long_break;
     }
 
-    public function setHoursPerLongBreak(float $hours_per_long_break): self
-    {
+    public function setHoursPerLongBreak(float $hours_per_long_break): self {
         $this->hours_per_long_break = $hours_per_long_break;
-
         return $this;
     }
 
-    public function getLongBreakDuration(): ?float
-    {
+    public function getLongBreakDuration(): ?float {
         return $this->long_break_duration;
     }
 
-    public function setLongBreakDuration(float $long_break_duration): self
-    {
+    public function setLongBreakDuration(float $long_break_duration): self {
         $this->long_break_duration = $long_break_duration;
-
         return $this;
     }
 
-    public function getErsThreshold(): ?float
-    {
+    public function getKitchenHoursPerShortBreak(): ?float {
+        return $this->kitchen_hours_per_short_break;
+    }
+
+    public function setKitchenHoursPerShortBreak(float $hours_per_short_break): self {
+        $this->kitchen_hours_per_short_break = $hours_per_short_break;
+        return $this;
+    }
+
+    public function getKitchenShortBreakDuration(): ?float {
+        return $this->kitchen_short_break_duration;
+    }
+
+    public function setKitchenShortBreakDuration(float $short_break_duration): self {
+        $this->kitchen_short_break_duration = $short_break_duration;
+        return $this;
+    }
+
+    public function getKitchenHoursPerLongBreak(): ?float {
+        return $this->kitchen_hours_per_long_break;
+    }
+
+    public function setKitchenHoursPerLongBreak(float $hours_per_long_break): self {
+        $this->kitchen_hours_per_long_break = $hours_per_long_break;
+        return $this;
+    }
+
+    public function getKitchenLongBreakDuration(): ?float {
+        return $this->kitchen_long_break_duration;
+    }
+
+    public function setKitchenLongBreakDuration(float $long_break_duration): self {
+        $this->kitchen_long_break_duration = $long_break_duration;
+        return $this;
+    }
+
+    public function getErsThreshold(): ?float {
         return $this->ers_threshold;
     }
 
-    public function setErsThreshold(float $ers_threshold): self
-    {
+    public function setErsThreshold(float $ers_threshold): self {
         $this->ers_threshold = $ers_threshold;
-
         return $this;
     }
 
-    public function getErsPercentAboveThreshold(): ?float
-    {
+    public function getErsPercentAboveThreshold(): ?float {
         return $this->ers_percent_above_threshold;
     }
 
-    public function setErsPercentAboveThreshold(float $ers_percent_above_threshold): self
-    {
+    public function setErsPercentAboveThreshold(float $ers_percent_above_threshold): self {
         $this->ers_percent_above_threshold = $ers_percent_above_threshold;
-
         return $this;
     }
 
-    public function getHolidayLinearPercent(): ?float
-    {
+    public function getHolidayLinearPercent(): ?float {
         return $this->holiday_linear_percent;
     }
 
-    public function setHolidayLinearPercent(float $holiday_linear_percent): self
-    {
+    public function setHolidayLinearPercent(float $holiday_linear_percent): self {
         $this->holiday_linear_percent = $holiday_linear_percent;
-
         return $this;
     }
 
-    public function getPensionLinearPercent(): ?float
-    {
+    public function getPensionLinearPercent(): ?float {
         return $this->pension_linear_percent;
     }
 
-    public function setPensionLinearPercent(float $pension_linear_percent): self
-    {
+    public function setPensionLinearPercent(float $pension_linear_percent): self {
         $this->pension_linear_percent = $pension_linear_percent;
-
         return $this;
     }
 
     public function serialise() {
-        return (object) [
+        return (object)[
             'id' => $this->getId(),
             'date' => $this->getDate()->format('Y-m-d'),
             'fixedCosts' => $this->getFixedCosts(),
@@ -254,6 +269,10 @@ class Constants
             'shortBreakDuration' => $this->getShortBreakDuration(),
             'hoursPerLongBreak' => $this->getHoursPerLongBreak(),
             'longBreakDuration' => $this->getLongBreakDuration(),
+            'kitchenHoursPerShortBreak' => $this->getKitchenHoursPerShortBreak(),
+            'kitchenShortBreakDuration' => $this->getKitchenShortBreakDuration(),
+            'kitchenHoursPerLongBreak' => $this->getKitchenHoursPerLongBreak(),
+            'kitchenLongBreakDuration' => $this->getKitchenLongBreakDuration(),
             'ersThreshold' => $this->getErsThreshold(),
             'ersPercentAboveThreshold' => $this->getErsPercentAboveThreshold(),
             'holidayLinearPercent' => $this->getHolidayLinearPercent(),

@@ -30,6 +30,10 @@ class ConstantsParsingService {
             'holidayLinearPercent',
             'hoursPerLongBreak',
             'hoursPerShortBreak',
+            'kitchenHoursPerLongBreak',
+            'kitchenHoursPerShortBreak',
+            'kitchenLongBreakDuration',
+            'kitchenShortBreakDuration',
             'labourRate',
             'longBreakDuration',
             'pensionLinearPercent',
@@ -63,6 +67,10 @@ class ConstantsParsingService {
             ->setErsThreshold((float)$constants['ersThreshold'])
             ->setFixedCosts((float)$constants['fixedCosts'])
             ->setHolidayLinearPercent((float)$constants['holidayLinearPercent'])
+            ->setKitchenHoursPerShortBreak((float)$constants['kitchenHoursPerShortBreak'])
+            ->setKitchenShortBreakDuration((float)$constants['kitchenShortBreakDuration'])
+            ->setKitchenHoursPerLongBreak((float)$constants['kitchenHoursPerLongBreak'])
+            ->setKitchenLongBreakDuration((float)$constants['kitchenLongBreakDuration'])
             ->setHoursPerLongBreak((float)$constants['hoursPerLongBreak'])
             ->setHoursPerShortBreak((float)$constants['hoursPerShortBreak'])
             ->setLabourRate((float)$constants['labourRate'])
