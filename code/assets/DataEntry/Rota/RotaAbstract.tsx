@@ -2,6 +2,8 @@ import * as moment from "moment";
 import * as React from "react";
 import {match} from "react-router";
 import {Constants} from "../../Model/Constants/Constants";
+import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
+import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
@@ -154,6 +156,36 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
       this.props.fetchRotaStaffingTemplates();
       return;
     }
+    const rota = this.getRota();
+    const staffingTemplate = this.props.match.params.type === WorkTypes.BAR ? rota.barRotaTemplate : rota.kitchenRotaTemplate;
+    if (staffingTemplate.status === RotaStaffingTemplateStatus.INACTIVE) {
+      const barTemplate = this.props.rotaStaffingTemplatesState.externalState.entities
+        .filter(template =>
+          template.status === RotaStaffingTemplateStatus.ACTIVE
+          && template.revenue <= rota.forecastRevenue
+          && template.workType === WorkTypes.BAR
+          && template.dayOfWeek === moment.utc(this.props.match.params.date).isoWeekday()
+        )
+        .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
+        .pop();
+      const kitchenTemplate = this.props.rotaStaffingTemplatesState.externalState.entities
+        .filter(template =>
+          template.status === RotaStaffingTemplateStatus.ACTIVE
+          && template.revenue <= rota.forecastRevenue
+          && template.workType === WorkTypes.KITCHEN
+          && template.dayOfWeek === moment.utc(this.props.match.params.date).isoWeekday()
+        )
+        .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
+        .pop();
+      if (barTemplate !== undefined || kitchenTemplate !== undefined) {
+        this.formUpdate({
+          barRotaTemplate: barTemplate !== undefined ? barTemplate : rota.barRotaTemplate,
+          kitchenRotaTemplate: kitchenTemplate !== undefined ? kitchenTemplate : rota.kitchenRotaTemplate,
+        }, false);
+        return;
+      }
+    }
+
     if (this.props.constantsExternalState.isLoaded() && this.props.constantsExternalState.externalState.entities.length === 0) {
       return;
     }

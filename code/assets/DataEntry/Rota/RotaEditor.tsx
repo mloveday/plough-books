@@ -7,7 +7,6 @@ import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
-import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
@@ -71,39 +70,6 @@ export type RotaEditorProps = RotaEditorOwnProps & RotaEditorStateProps & RotaEd
 
 export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   public render() {
-    if (this.props.rotaStaffingTemplates.length === 0) {
-      return null;
-    }
-
-    const staffingTemplate = this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate;
-    if (staffingTemplate.status === RotaStaffingTemplateStatus.INACTIVE) {
-      const barTemplate = this.props.rotaStaffingTemplates
-        .filter(template =>
-          template.status === RotaStaffingTemplateStatus.ACTIVE
-          && template.revenue <= this.props.rota.forecastRevenue
-          && template.workType === WorkTypes.BAR
-          && template.dayOfWeek === moment.utc(this.props.date).isoWeekday()
-        )
-        .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
-        .pop();
-      const kitchenTemplate = this.props.rotaStaffingTemplates
-        .filter(template =>
-          template.status === RotaStaffingTemplateStatus.ACTIVE
-          && template.revenue <= this.props.rota.forecastRevenue
-          && template.workType === WorkTypes.KITCHEN
-          && template.dayOfWeek === moment.utc(this.props.date).isoWeekday()
-        )
-        .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
-        .pop();
-      if (barTemplate !== undefined || kitchenTemplate !== undefined) {
-        // TODO this needs to be in maintain state
-        this.formUpdate({
-          barRotaTemplate: barTemplate !== undefined ? barTemplate : this.props.rota.barRotaTemplate,
-          kitchenRotaTemplate: kitchenTemplate !== undefined ? kitchenTemplate : this.props.rota.kitchenRotaTemplate,
-        }, false);
-      }
-    }
-
     const today = moment.utc(this.props.date);
     const timePeriods = getTimePeriods(this.props.date);
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
@@ -155,7 +121,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             <div className="rota-header rota-rate"/>
             {timePeriods.map((timePeriod, timeKey) => {
               const numberWorking = this.props.rota.getPlannedNumberWorkingAtTime(timePeriod.format(DateFormats.TIME_LEADING_ZERO), this.props.workType);
-              const numberRequired = staffingTemplate.staffLevels[timeKey];
+              const numberRequired = (this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate).staffLevels[timeKey];
               const numberLeft = numberRequired - numberWorking;
               const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
               return <div className={`rota-time ${stylingClass}`} key={timeKey}>{numberLeft}</div>
