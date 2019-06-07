@@ -41,7 +41,7 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
                   <div>End</div>
                   <div>Expected Breaks</div>
                 </div>}
-                {!showDateRow && <div className={"staff-role"}/>}
+                {!showDateRow && <div className={"staff-role rota-grid-header"}/>}
                 {staffForRole.map((staffMember, staffKey) => {
                     const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">
