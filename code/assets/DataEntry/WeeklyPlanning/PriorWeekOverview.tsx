@@ -9,6 +9,7 @@ import {DailyOverviews} from "../../DataVisualisation/WeeklyOverview/State/Daily
 import {AppState} from "../../redux";
 import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
+import {DateFormats} from "../../Util/DateFormats";
 import "./PriorWeekOverview.scss";
 
 interface PriorWeekOverviewOwnProps {
@@ -55,12 +56,23 @@ class PriorWeekOverviewComponent extends React.Component<PriorWeekOverviewProps,
     return (
       <div className="prior-week-overview">
         <div className="prior-week-title">{this.props.title}</div>
-        <div className="weekly-overview">
-          <SummaryOverview dailyOverviews={dailyOverviews} options={{status:false, constants:false, notes: true}} />
-          <RevenueOverview dailyOverviews={dailyOverviews} />
-          <LabourCostOverview dailyOverviews={dailyOverviews} />
-          <LabourRateOverview dailyOverviews={dailyOverviews} />
-        </div>
+        <table className="overview-rota-group">
+          <thead>
+            <tr>
+              <th className="overview-stat-title">Date</th>
+              <th className="overview-stat week-total" rowSpan={4}>Week totals</th>
+              {dailyOverviews.overviews.map((overview, key) => (
+                <th className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <SummaryOverview dailyOverviews={dailyOverviews} options={{status:false, constants:false, notes: true}} />
+            <RevenueOverview dailyOverviews={dailyOverviews} />
+            <LabourCostOverview dailyOverviews={dailyOverviews} />
+            <LabourRateOverview dailyOverviews={dailyOverviews} />
+          </tbody>
+        </table>
       </div>
     )
   }
