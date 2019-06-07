@@ -27,7 +27,7 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
           }
           const staffNamesColumn = <div key={-1} className="rota-column">
             {showDateRow && <div className="date-header"/>}
-            <div className="staff-role">{role.role}</div>
+            <div className="staff-role rota-grid-header">{role.role}</div>
             {staffForRole.map((staffMember, key) => (
               <div key={key} className="staff-member">{staffMember.name}</div>
             ))}
@@ -36,10 +36,10 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
             .map((rota, key) => (
               <div key={key} className="rota-column">
                 {showDateRow && <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>}
-                {showDateRow && <div className="staff-role staff-role-shift">
+                {showDateRow && <div className="staff-role rota-grid-header staff-role-shift">
                   <div>Start</div>
                   <div>End</div>
-                  <div>Breaks</div>
+                  <div>Expected Breaks</div>
                 </div>}
                 {!showDateRow && <div className={"staff-role"}/>}
                 {staffForRole.map((staffMember, staffKey) => {
@@ -55,7 +55,7 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
             ));
           const totalHoursColumn = <div key={-3} className="rota-column">
             {showDateRow && <div className="date-header">Total hours</div>}
-            <div className="staff-role" />
+            <div className="rota-grid-header" />
             {staffForRole.map((staffMember, staffKey) => {
                 const totalHours = this.props.rotas.reduce((prev, curr) => {
                   const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);

@@ -91,12 +91,12 @@ class WeeklySignInComponent extends React.Component<WeeklySignInProps, {}> {
     const rotas = this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek);
 
     return (
-      <div className="weekly-rota">
-        <div>Weekly bar rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+      <div className="weekly-sign-in">
+        <div>Weekly bar sign in for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
         <SignInGridComponent staff={barStaff} rotas={rotas} roles={sortedRoles}/>
-        <div>Weekly kitchen rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+        <div>Weekly kitchen sign in for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
         <SignInGridComponent staff={kitchenStaff} rotas={rotas}  roles={sortedRoles}/>
-        <div>Weekly ancillary rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+        <div>Weekly ancillary sign in for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
         <SignInGridComponent staff={ancillaryStaff} rotas={rotas}  roles={sortedRoles}/>
       </div>
     )

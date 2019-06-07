@@ -14,7 +14,7 @@ export class SignInGridComponent extends React.Component<SignInGridOwnProps, {}>
   public render() {
     let firstNonEmptyRoleFound = false;
     return (
-      <div className="rota-grid">
+      <div className="sign-in-grid">
         {this.props.roles.map((role, roleKey) => {
           const staffForRole = this.props.staff.filter(staff => staff.role.id === role.id);
           if (staffForRole.length === 0) {
@@ -25,18 +25,18 @@ export class SignInGridComponent extends React.Component<SignInGridOwnProps, {}>
             showDateRow = true;
             firstNonEmptyRoleFound = true;
           }
-          const staffNamesColumn = <div key={-1} className="rota-column">
+          const staffNamesColumn = <div key={-1} className="sign-in-column">
             {showDateRow && <div className="date-header"/>}
-            <div className="staff-role">{role.role}</div>
+            <div className="staff-role sign-in-grid-header">{role.role}</div>
             {staffForRole.map((staffMember, key) => (
               <div key={key} className="staff-member">{staffMember.name}</div>
             ))}
           </div>;
           const rotaColumns = this.props.rotas
             .map((rota, key) => (
-              <div key={key} className="rota-column">
+              <div key={key} className="sign-in-column">
                 {showDateRow && <div className="date-header">{rota.getDate().format(DateFormats.READABLE_NO_YEAR)}</div>}
-                {showDateRow && <div className="staff-role staff-role-shift">
+                {showDateRow && <div className="staff-role staff-role-shift sign-in-grid-header">
                   <div>Start</div>
                   <div>End</div>
                   <div>Breaks</div>
@@ -53,9 +53,9 @@ export class SignInGridComponent extends React.Component<SignInGridOwnProps, {}>
                 )}
               </div>
             ));
-          const totalHoursColumn = <div key={-3} className="rota-column">
+          const totalHoursColumn = <div key={-3} className="sign-in-column">
             {showDateRow && <div className="date-header">Total hours</div>}
-            <div className="staff-role" />
+            <div className="sign-in-grid-header" />
             {staffForRole.map((staffMember, staffKey) => {
                 const totalHours = this.props.rotas.reduce((prev, curr) => {
                   const shift = curr.actualShifts.find(actualShift => actualShift.staffMember.id === staffMember.id);

@@ -15,14 +15,15 @@
     }
   }
   .rota-column {
-    display:grid;
+    display: grid;
     grid-auto-rows: 32px;
   }
-  .staff-role {
+  .rota-grid-header {
     display: grid;
     align-content: center;
     font-weight: bold;
     background-color: lightblue;
+    grid-row: span 2;
   }
   .shift, .staff-role-shift {
     display: grid;
