@@ -22,11 +22,11 @@ import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
-import {LabourCostOverview} from "./LabourCostOverview";
-import {LabourRateOverview} from "./LabourRateOverview";
-import {RevenueOverview} from "./RevenueOverview";
+import {LabourCostOverview} from "./Partials/LabourCostOverview";
+import {LabourRateOverview} from "./Partials/LabourRateOverview";
+import {RevenueOverview} from "./Partials/RevenueOverview";
+import {SummaryOverview} from "./Partials/SummaryOverview";
 import {DailyOverviews} from "./State/DailyOverviews";
-import {SummaryOverview} from "./SummaryOverview";
 import './WeeklyOverview.scss';
 
 interface WeeklyOverviewOwnProps {
@@ -102,10 +102,21 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
                     urlFromDate={date => Routes.weeklyOverviewUrl(date)}/>
         <h1 className="overview-title">Weekly overview for {this.props.match.params.year}-{this.props.match.params.weekNumber} ({dailyOverviews.startOfWeek.format(DateFormats.READABLE_WITH_YEAR)})</h1>
         <table className="overview-rota-group">
-          <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
-          <RevenueOverview dailyOverviews={dailyOverviews} />
-          <LabourCostOverview dailyOverviews={dailyOverviews} />
-          <LabourRateOverview dailyOverviews={dailyOverviews} />
+          <thead>
+            <tr>
+              <th className="overview-stat-title">Date</th>
+              <th className="overview-stat week-total" rowSpan={4}>Week totals</th>
+              {dailyOverviews.overviews.map((overview, key) => (
+                <th className="overview-stat" key={key}>{overview.date.format(DateFormats.READABLE_NO_YEAR)}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
+            <RevenueOverview dailyOverviews={dailyOverviews} />
+            <LabourCostOverview dailyOverviews={dailyOverviews} />
+            <LabourRateOverview dailyOverviews={dailyOverviews} />
+          </tbody>
         </table>
       </div>)
   }

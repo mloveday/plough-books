@@ -1,10 +1,10 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {AppState} from "../../redux";
-import {CostRateCompare} from "../ForecastVsActual/CostRateCompare";
-import {CostsCompare} from "../ForecastVsActual/CostsCompare";
-import {RevenueCompare} from "../ForecastVsActual/RevenueCompare";
-import {DailyOverviews} from "./State/DailyOverviews";
+import {AppState} from "../../../redux";
+import {CostRateCompare} from "../../ForecastVsActual/CostRateCompare";
+import {CostsCompare} from "../../ForecastVsActual/CostsCompare";
+import {RevenueCompare} from "../../ForecastVsActual/RevenueCompare";
+import {DailyOverviews} from "../State/DailyOverviews";
 
 interface RunningTotalsOverviewOwnProps {
   dailyOverviews: DailyOverviews;

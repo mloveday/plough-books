@@ -1,9 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
-import {AppState} from "../../redux";
-import {CostsCompare} from "../ForecastVsActual/CostsCompare";
-import {DailyOverviews} from "./State/DailyOverviews";
+import {WorkTypes} from "../../../Model/Enum/WorkTypes";
+import {AppState} from "../../../redux";
+import {CostsCompare} from "../../ForecastVsActual/CostsCompare";
+import {DailyOverviews} from "../State/DailyOverviews";
 
 interface LabourCostOverviewOwnProps {
   dailyOverviews: DailyOverviews;
@@ -39,8 +39,8 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
                           actual={dailyOverviews.actualBarLabour}/>
           </td>
           {dailyOverviews.overviews.map((overview, key) => (
-            <td className="overview-stat">
-              <CostsCompare key={key} label="Bar labour cost" showLabel={false}
+            <td className="overview-stat" key={key}>
+              <CostsCompare label="Bar labour cost" showLabel={false}
                             forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR)}
                             actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR)}/>
             </td>
@@ -53,8 +53,8 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
                           actual={dailyOverviews.actualKitchenLabour}/>
           </td>
           {dailyOverviews.overviews.map((overview, key) => (
-            <td className="overview-stat">
-              <CostsCompare key={key} label="Kitchen labour cost" showLabel={false}
+            <td className="overview-stat" key={key}>
+              <CostsCompare label="Kitchen labour cost" showLabel={false}
                             forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
                             actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN)}/>
             </td>
@@ -67,8 +67,8 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
                           actual={dailyOverviews.actualAncillaryLabour}/>
           </td>
           {dailyOverviews.overviews.map((overview, key) => (
-            <td className="overview-stat">
-              <CostsCompare key={key} label="Ancillary labour cost" showLabel={false}
+            <td className="overview-stat" key={key}>
+              <CostsCompare label="Ancillary labour cost" showLabel={false}
                             forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.ANCILLARY)}
                             actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.ANCILLARY)}/>
             </td>

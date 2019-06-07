@@ -1,8 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {AppState} from "../../redux";
-import {RevenueCompare} from "../ForecastVsActual/RevenueCompare";
-import {DailyOverviews} from "./State/DailyOverviews";
+import {AppState} from "../../../redux";
+import {RevenueCompare} from "../../ForecastVsActual/RevenueCompare";
+import {DailyOverviews} from "../State/DailyOverviews";
 
 interface RevenueOverviewOwnProps {
   dailyOverviews: DailyOverviews;

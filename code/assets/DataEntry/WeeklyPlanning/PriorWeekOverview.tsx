@@ -1,11 +1,11 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {LabourCostOverview} from "../../DataVisualisation/WeeklyOverview/LabourCostOverview";
-import {LabourRateOverview} from "../../DataVisualisation/WeeklyOverview/LabourRateOverview";
-import {RevenueOverview} from "../../DataVisualisation/WeeklyOverview/RevenueOverview";
+import {LabourCostOverview} from "../../DataVisualisation/WeeklyOverview/Partials/LabourCostOverview";
+import {LabourRateOverview} from "../../DataVisualisation/WeeklyOverview/Partials/LabourRateOverview";
+import {RevenueOverview} from "../../DataVisualisation/WeeklyOverview/Partials/RevenueOverview";
+import {SummaryOverview} from "../../DataVisualisation/WeeklyOverview/Partials/SummaryOverview";
 import {DailyOverviews} from "../../DataVisualisation/WeeklyOverview/State/DailyOverviews";
-import {SummaryOverview} from "../../DataVisualisation/WeeklyOverview/SummaryOverview";
 import {AppState} from "../../redux";
 import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";

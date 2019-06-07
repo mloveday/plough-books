@@ -19,9 +19,9 @@ import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {accountingYearString} from "../../Util/DateUtils";
-import {RunningTotalsOverview} from "./RunningTotalsOverview";
+import {RunningTotalsOverview} from "./Partials/RunningTotalsOverview";
+import {SummaryOverview} from "./Partials/SummaryOverview";
 import {DailyOverviews} from "./State/DailyOverviews";
-import {SummaryOverview} from "./SummaryOverview";
 import './WeeklyOverview.scss';
 
 interface WeeklyRunningOverviewOwnProps {
@@ -91,8 +91,12 @@ class WeeklyRunningOverviewComponent extends React.Component<WeeklyRunningOvervi
       <div className="weekly-overview">
         <h1 className="overview-title">Weekly overview for {accountingYearString(date)} ({date.format(DateFormats.READABLE_WITH_YEAR)})</h1>
         <table className="overview-rota-group">
-          <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
-          <RunningTotalsOverview dailyOverviews={dailyOverviews} />
+          <thead>
+            <SummaryOverview dailyOverviews={dailyOverviews} options={{status:true, constants:true, notes: true}} />
+          </thead>
+          <tbody>
+            <RunningTotalsOverview dailyOverviews={dailyOverviews} />
+          </tbody>
         </table>
       </div>)
   }
