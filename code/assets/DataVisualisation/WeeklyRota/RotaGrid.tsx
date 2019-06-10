@@ -16,7 +16,8 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
     return (
       <div className="rota-grid">
         {this.props.roles.map((role, roleKey) => {
-          const staffForRole = this.props.staff.filter(staff => staff.role.id === role.id);
+          const staffForRole = this.props.staff.filter(staff => staff.role.id === role.id)
+            .sort((a,b) => a.orderInRota < b.orderInRota ? 1 : (a.name > b.name ? 1 : -1));
           if (staffForRole.length === 0) {
             return null;
           }

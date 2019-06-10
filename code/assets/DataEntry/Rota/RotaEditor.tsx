@@ -140,6 +140,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               <div className="rota-role-header">{role.role}</div>
               {this.props.staffMembers
                 .filter(staffMember => staffMember.role.id === role.id && staffMember.isActive())
+                .sort((a,b) => a.orderInRota < b.orderInRota ? 1 : (a.name > b.name ? 1 : -1))
                 .map((staffMember, key) => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled, key))
               }
             </div>
