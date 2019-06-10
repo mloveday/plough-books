@@ -10,8 +10,8 @@
     margin: 16px;
     grid-gap: 4px;
     @media print {
-      width: 100vw;
-      height: 100vh;
+      width: calc(100vw - 32px);
+      page-break-after: always;
     }
   }
   .sign-in-column {

@@ -6,6 +6,9 @@
   }
 }
 .App-nav {
+  @media print {
+    display: none;
+  }
   @include r-not-desktop {
     .App-nav-list {
       position: absolute;
@@ -41,9 +44,6 @@
   .App-nav-list {
     margin: 0;
     list-style-type: none;
-    @media print {
-      display: none;
-    }
   }
 
   .single-link, .double-link {
