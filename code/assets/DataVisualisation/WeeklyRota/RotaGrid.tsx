@@ -61,7 +61,7 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
                   const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
                   return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
                 }, 0);
-                return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
+                return <div key={staffKey} className="total-hours">{(totalHours/60).toFixed(2)}</div>;
               }
             )}
           </div>;

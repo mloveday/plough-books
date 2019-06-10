@@ -61,7 +61,7 @@ export class SignInGridComponent extends React.Component<SignInGridOwnProps, {}>
                   const shift = curr.actualShifts.find(actualShift => actualShift.staffMember.id === staffMember.id);
                   return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
                 }, 0);
-                return <div key={staffKey} className="shift">{(totalHours/60).toFixed(2)}</div>;
+                return <div key={staffKey} className="total-hours">{(totalHours/60).toFixed(2)}</div>;
               }
             )}
           </div>;
