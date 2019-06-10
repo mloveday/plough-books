@@ -34,7 +34,7 @@ type ReduxErrorOverlayProps = ReduxErrorOverlayOwnProps & ReduxErrorOverlayState
 class ReduxErrorOverlayComponent extends React.Component<ReduxErrorOverlayProps, {}> {
   public render() {
     if (!this.shouldShowOverlay()) {
-      return <div>{this.props.children}</div>;
+      return null;
     }
     return (
       <div className="App-overlay error">

@@ -37,7 +37,7 @@ type UnauthorisedUserOverlayProps =
 class UnauthorisedUserOverlayComponent extends React.Component<UnauthorisedUserOverlayProps, {}> {
   public render() {
     if (!this.shouldShowOverlay()) {
-      return <div>{this.props.children}</div>;
+      return null;
     }
     return (
       <div className="App-overlay">
