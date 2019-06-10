@@ -73,7 +73,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
     return (
       <div>
         <h1 className="rota-title">{this.props.workType} {this.props.title} {this.props.rota.getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
-        <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => Routes.rotaUrl(date, this.props.workType)}/>
+        <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => this.props.editType === 'rota' ? Routes.rotaUrl(date, this.props.workType) : Routes.signInUrl(date, this.props.workType)}/>
         <div className="rota-overview">
           <div className="rota-stat">
             Status:
