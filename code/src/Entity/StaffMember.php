@@ -48,6 +48,11 @@ class StaffMember {
      */
     private $default_off_floor;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $order_in_rota;
+
     public function __construct() {
         $this->plannedShifts = new ArrayCollection();
     }
@@ -127,6 +132,15 @@ class StaffMember {
         return $this;
     }
 
+    public function getOrderInRota(): ?int {
+        return $this->order_in_rota;
+    }
+
+    public function setOrderInRota(int $order_in_rota): self {
+        $this->order_in_rota = $order_in_rota;
+        return $this;
+    }
+
     public function serialise() {
         return (object)[
             'id' => $this->getId(),
@@ -135,6 +149,7 @@ class StaffMember {
             'role' => $this->getStaffRole()->serialise(),
             'status' => $this->getStatus(),
             'defaultOffFloor' => $this->getDefaultOffFloor(),
+            'orderInRota' => $this->getOrderInRota(),
         ];
     }
 }
