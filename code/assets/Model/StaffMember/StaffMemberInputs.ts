@@ -3,11 +3,11 @@ import {StaffMemberAbstract, StaffMemberApiType, StaffMemberInputType, StaffMemb
 
 export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> implements StaffMemberInputType {
   public static default() {
-    return new StaffMemberInputs('', '', undefined, StaffMemberStatus.INACTIVE, false);
+    return new StaffMemberInputs('', '', undefined, StaffMemberStatus.INACTIVE, false, '2');
   }
 
   public static fromApi(obj: StaffMemberApiType) {
-    return new StaffMemberInputs(obj.name, obj.currentHourlyRate.toString(), undefined, obj.status, obj.defaultOffFloor);
+    return new StaffMemberInputs(obj.name, obj.currentHourlyRate.toString(), undefined, obj.status, obj.defaultOffFloor, obj.orderInRota.toString());
   }
 
   public with(obj: StaffMemberUpdateType) {
@@ -17,6 +17,7 @@ export class StaffMemberInputs extends StaffMemberAbstract<string, undefined> im
       undefined,
       obj.status !== undefined ? obj.status : this.status,
       obj.defaultOffFloor !== undefined ? obj.defaultOffFloor : this.defaultOffFloor,
+      obj.orderInRota !== undefined ? obj.orderInRota : this.orderInRota,
     );
   }
 

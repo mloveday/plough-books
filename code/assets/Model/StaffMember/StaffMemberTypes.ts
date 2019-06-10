@@ -8,13 +8,15 @@ export abstract class StaffMemberAbstract<T, R> {
   public readonly role: R;
   public readonly status: string;
   public readonly defaultOffFloor: boolean;
+  public readonly orderInRota: T;
 
-  constructor(name: string, currentHourlyRate: T, role: R, status: string, defaultOffFloor: boolean) {
+  constructor(name: string, currentHourlyRate: T, role: R, status: string, defaultOffFloor: boolean, orderInRota: T) {
     this.name = name;
     this.currentHourlyRate = currentHourlyRate;
     this.role = role;
     this.status = status;
     this.defaultOffFloor = defaultOffFloor;
+    this.orderInRota = orderInRota;
   }
 }
 export type StaffMemberApiType = ApiType<StaffMemberAbstract<number, StaffRoleApiType>>;

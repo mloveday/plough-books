@@ -138,6 +138,7 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
           <div>Current hourly rate</div>
           <div>Role</div>
           <div>Defaults to off floor</div>
+          <div>Order in rota</div>
         </div>
         {filteredMembers
           .slice(this.props.staffMemberFilters.pageSize * (this.props.staffMemberFilters.pageNumber - 1), this.props.staffMemberFilters.pageSize * this.props.staffMemberFilters.pageNumber)
@@ -158,6 +159,13 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
                   ))}
               </select>
               <input disabled={!isEditingMember} type={'checkbox'} checked={member.defaultOffFloor} onChange={ev => this.updateStaffMember(member.with({defaultOffFloor: ev.target.checked}))}/>
+              <select disabled={!isEditingMember} value={member.orderInRota} onChange={ev => this.updateStaffMember(member.with({orderInRota: ev.target.value}))}>
+                <option value={4}>Top</option>
+                <option value={3}>High</option>
+                <option value={2}>Default</option>
+                <option value={1}>Low</option>
+                <option value={0}>Bottom</option>
+              </select>
               <div className="staff-member-edit-buttons">
                 {!isEditingMember && <EditButton disabled={isCreatingNewMember || this.props.staffMembersLocalState.isEditing()} mini={true} clickFn={() => this.updateStaffMember(member)}/>}
                 {isEditingMember && <SaveButton mini={true} clickFn={() => this.saveStaffMember(member)}/>}
@@ -181,6 +189,13 @@ class StaffMembersComponent extends React.Component<StaffMembersProps, {}> {
             ))}
           </select>}
           {isCreatingNewMember && <input type={'checkbox'} checked={newMember.defaultOffFloor} onChange={ev => this.newStaffMember(newMember.with({defaultOffFloor: ev.target.checked}))}/>}
+          {isCreatingNewMember && <select value={newMember.orderInRota} onChange={ev => this.newStaffMember(newMember.with({orderInRota: ev.target.value}))}>
+            <option value={4}>Top</option>
+            <option value={3}>High</option>
+            <option value={2}>Default</option>
+            <option value={1}>Low</option>
+            <option value={0}>Bottom</option>
+          </select>}
           <div className="staff-member-edit-buttons">
             {!isCreatingNewMember && <NewButton disabled={this.props.staffMembersLocalState.isEditing()} mini={true} clickFn={() => this.newStaffMember()}/>}
             {isCreatingNewMember && <SaveButton disabled={!newMember.role.isValid()} mini={true} clickFn={() => this.saveStaffMember(newMember)}/>}
