@@ -41,7 +41,7 @@ export class SignInGridComponent extends React.Component<SignInGridOwnProps, {}>
                   <div>End</div>
                   <div>Breaks</div>
                 </div>}
-                {!showDateRow && <div className={"staff-role"}/>}
+                {!showDateRow && <div className={"staff-role sign-in-grid-header"}/>}
                 {staffForRole.map((staffMember, staffKey) => {
                     const shift = rota.actualShifts.find(actualShift => actualShift.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">

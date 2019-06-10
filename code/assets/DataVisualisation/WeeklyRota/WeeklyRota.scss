@@ -29,7 +29,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
   }
-  .staff-member, .shift {
+  .staff-member, .shift, .total-hours {
     display: grid;
     align-content: center;
     &:nth-of-type(2n) {
