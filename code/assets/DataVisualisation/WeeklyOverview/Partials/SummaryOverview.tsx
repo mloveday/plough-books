@@ -38,12 +38,14 @@ class SummaryOverviewComponent extends React.Component<SummaryOverviewProps, {}>
       [
         <tr key={1}>
           {options.status && <td className="overview-stat-title">Status</td>}
+          <td className={`overview-stat week-total`}/>
           {options.status && dailyOverviews.overviews.map(overview => (
             <td className="overview-stat" key={overview.date.format(DateFormats.API_DATE)}>{overview.rota.getReadableStatus()}</td>
           ))}
         </tr>,
         <tr key={2}>
           {options.constants && <td className="overview-stat-title">Constants from date</td>}
+          <td className={`overview-stat week-total`}/>
           {options.constants && dailyOverviews.overviews.map(overview => (
             <td className="overview-stat" key={overview.date.format(DateFormats.API_DATE)}>
               <ConstantsWithHover constants={overview.rota.constants} />
@@ -52,6 +54,7 @@ class SummaryOverviewComponent extends React.Component<SummaryOverviewProps, {}>
         </tr>,
         <tr key={3}>
           {options.notes && <td className="overview-stat-title">Notes</td>}
+          <td className={`overview-stat week-total`}/>
           {options.notes && dailyOverviews.overviews.map(overview => (
             <td className="overview-stat notes" key={overview.date.format(DateFormats.API_DATE)}>{overview.cashUp.dailyNotes.toUpperCase()}</td>
           ))}
