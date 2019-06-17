@@ -1,8 +1,6 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
-import {DragDropContext} from "react-dnd";
-import createHTML5Backend from "react-dnd-html5-backend";
 import {connect} from "react-redux";
 import {Prompt} from "react-router";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
@@ -160,7 +158,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   }
 }
 
-export const RotaEditor = DragDropContext(createHTML5Backend)(connect<RotaEditorStateProps, RotaEditorDispatchProps, RotaEditorOwnProps>(
+export const RotaEditor = connect<RotaEditorStateProps, RotaEditorDispatchProps, RotaEditorOwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(RotaEditorComponent));
+)(RotaEditorComponent);

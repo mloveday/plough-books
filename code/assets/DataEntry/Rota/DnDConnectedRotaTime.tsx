@@ -43,7 +43,7 @@ type DnDRotaTimeProps = DnDRotaTimeOwnProps & DnDRotaTimeStateProps & DnDRotaTim
 
 class DnDRotaTimeComponent extends React.Component<DnDRotaTimeProps, {}> {
   public componentDidUpdate() {
-    if (!this.props.isHovering || this.props.draggedShiftId !== this.props.shift.id) {
+    if (!this.props.isHovering || this.props.draggedShiftId !== (this.props.shift.id ? this.props.shift.id : -1)) {
       return;
     }
     if (Math.min(this.props.timePeriodIndex, this.props.startPeriodIndex) === this.props.shiftStartIndex
