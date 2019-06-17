@@ -1,6 +1,4 @@
 import * as React from "react";
-import {DragDropContext} from "react-dnd";
-import createHTML5Backend from "react-dnd-html5-backend";
 import {connect} from "react-redux";
 import {Route} from "react-router";
 import '../Common/Buttons/Controls.scss';
@@ -50,7 +48,7 @@ class AppComponent extends React.Component<AppProps, {}> {
   }
 }
 
-export const App = DragDropContext(createHTML5Backend)(connect<AppStateProps, AppDispatchProps, AppOwnProps>(
+export const App = connect<AppStateProps, AppDispatchProps, AppOwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(AppComponent));
+)(AppComponent);

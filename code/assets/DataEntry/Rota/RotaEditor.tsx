@@ -1,6 +1,8 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
+import {DragDropContext} from "react-dnd";
+import createHTML5Backend from "react-dnd-html5-backend";
 import {connect} from "react-redux";
 import {Prompt} from "react-router";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
@@ -21,16 +23,10 @@ import {rotaCreate, rotaDataEntry} from "../../Redux/Rota/RotaRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
-import {
-  getHalfHoursPastStartFromTime,
-  getShiftEndTimeFromStrings,
-  getShiftStartTimeFromStrings,
-  getTimePeriods
-} from "../../Util/DateUtils";
+import {getTimePeriods} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
-import {currencyPattern} from "../../Util/Validation";
-import {DnDRotaTime} from "./DraggedRotaTime";
 import './Rota.scss';
+import {StaffedShift} from "./Shift/Shift";
 
 export interface RotaEditorOwnProps {
   rota: RotaEntity;
@@ -133,7 +129,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               const numberRequired = (this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate).staffLevels[timeKey];
               const numberLeft = numberRequired - numberWorking;
               const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
-              return <div className={`rota-time ${stylingClass}`} key={timeKey}>{numberLeft}</div>
+              return <div className={`rota-time staff-level ${stylingClass}`} key={timeKey}>{numberLeft}</div>
             })}
             <div className={`rota-header rota-rate`}/>
           </div>}
@@ -144,7 +140,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               {this.props.staffMembers
                 .filter(staffMember => staffMember.role.id === role.id && staffMember.isActive())
                 .sort((a,b) => a.orderInRota < b.orderInRota ? 1 : (a.name > b.name ? 1 : -1))
-                .map((staffMember, key) => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled, key))
+                .map(staffMember => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled))
               }
             </div>
             )}
@@ -163,16 +159,16 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     return visibleRoles.sort((a, b) => a.orderInRota > b.orderInRota ? 1 : -1);
   }
 
-  private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
+  private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean) {
     const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
     return shift === undefined
-      ? this.getEmptyShift(staffMember, timePeriods, key, editingDisabled)
-      : this.getShift(shift, timePeriods, editingDisabled, key);
+      ? this.getEmptyShift(staffMember, timePeriods, editingDisabled)
+      : <StaffedShift key={shift.staffMember.entityId} shift={shift} editingDisabled={editingDisabled} constants={this.props.rota.constants} editType={this.props.editType} workType={this.props.workType} rotaShowRates={this.props.uiState.rotaShowRates} timePeriods={timePeriods} updateShift={s => this.props.updateShift(s)} removeShift={s => this.props.removeShift(s)} />;
   }
 
-  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], key: number, editingDisabled: boolean) {
+  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean) {
     return (
-      <div className="rota-shift no-shift" key={key}>
+      <div className="rota-shift no-shift" key={staffMember.entityId}>
         <div className="rota-staff-name">{staffMember.name}</div>
         <div className="rota-remove-shift"/>
         <div className="rota-off-floor"/>
@@ -184,63 +180,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         <div className="rota-new-shift-spacer"/>
         {timePeriods.map((timePeriod, periodKey) => (
           <div className="rota-time" key={periodKey}/>
-        ))}
-      </div>
-    );
-  }
-
-  private getShift(shift: Shift, timePeriods: moment.Moment[], editingDisabled: boolean, key: number) {
-    const shiftStartIndex: number = getHalfHoursPastStartFromTime(shift.getStartTime());
-    const shiftEndIndex: number = getHalfHoursPastStartFromTime(shift.getEndTime());
-    return (
-      <div className={`rota-shift ${shift.offFloor ? 'off-floor' : 'on-floor'}`} key={key}>
-        <div className="rota-staff-name">{shift.staffMember.name}</div>
-        <div className="rota-remove-shift">
-          {!editingDisabled &&
-          <button className="rota-remove-shift-button" type='button' onClick={() => this.props.removeShift(shift)}>
-            <FontAwesomeIcon icon="trash"/>
-          </button>}
-        </div>
-        <div className="rota-off-floor">
-          {!editingDisabled &&
-          <button className="rota-off-floor-button" type='button' onClick={() => this.props.updateShift(shift.with({offFloor: !shift.offFloor}))}>
-            <FontAwesomeIcon icon={shift.offFloor ? "user-secret" : "eye"}/>
-          </button>}
-        </div>
-        <div className="rota-start-time">
-          {editingDisabled ? (
-            <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-          ) : (
-            <input disabled={editingDisabled}
-                   type='time'
-                   className="rota-time-input"
-                   value={shift.inputs.startTime.time}
-                   onChange={ev => this.startTimeHandler(ev.target.value, shift)}
-            />
-          )}
-        </div>
-        <div className="rota-end-time">
-          {editingDisabled ? (
-            <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
-          ) : (
-            <input type='time'
-                   className="rota-time-input"
-                   value={shift.inputs.endTime.time}
-                   onChange={ev => this.endTimeHandler(ev.target.value, shift)}
-            />
-          )}
-        </div>
-        {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
-        {(!editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className={`rota-breaks-input`} value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
-        <div className={`rota-rate`}>
-          {this.props.uiState.rotaShowRates && <input className={`rota-rate-input`}
-                 disabled={editingDisabled}
-                 type="tel" pattern={currencyPattern}
-                 value={shift.inputs.hourlyRate}
-                 onChange={ev => this.props.updateShift(shift.with({hourlyRate: ev.target.value}))} />}
-        </div>
-        {timePeriods.map((timePeriod, periodKey) => (
-          <DnDRotaTime key={periodKey} timePeriodIndex={periodKey} shiftStartIndex={shiftStartIndex} shiftEndIndex={shiftEndIndex} isWorking={shift.isWorkingAtTime(timePeriod)} updateRota={(s,e) => this.dndTimeHandler(shift, s,e)} shift={shift} />
         ))}
       </div>
     );
@@ -262,67 +201,13 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     this.props.addShift(Shift.default(member, this.props.workType as WorkTypes, this.props.rota.date));
   }
 
-  private dndTimeHandler(shift: Shift, startTime: moment.Moment, endTime: moment.Moment) {
-    if (startTime.format(DateFormats.TIME_LEADING_ZERO) !== shift.startTime || endTime.format(DateFormats.TIME_LEADING_ZERO) !== shift.endTime) {
-      this.props.updateShift(shift.with({
-        startTime: {
-          date: startTime.format(DateFormats.API_DATE),
-          time: startTime.format(DateFormats.TIME_LEADING_ZERO)
-        },
-        endTime: {date: endTime.format(DateFormats.API_DATE), time: endTime.format(DateFormats.TIME_LEADING_ZERO)},
-        totalBreaks: this.getExpectedBreaks(startTime, endTime).toString(),
-      }));
-    }
-  }
-
-  private startTimeHandler(value: string, shift: Shift) {
-    const time = getShiftStartTimeFromStrings(value, shift.date);
-    const formattedTime = time.format(`HH:mm`);
-    if (time.isSameOrAfter(shift.getEndTime())) {
-      this.props.updateShift(shift.with({startTime: {date: shift.date, time: value}, endTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
-    } else {
-      this.props.updateShift(shift.with({startTime: {date: shift.date, time: value}, totalBreaks: this.getExpectedBreaks(time, shift.getEndTime()).toString()}));
-    }
-  }
-
-  private endTimeHandler(value: string, shift: Shift) {
-    const time = getShiftEndTimeFromStrings(value, shift.date);
-    const formattedTime = time.format(`HH:mm`);
-    if (time.isSameOrBefore(shift.getStartTime())) {
-      this.props.updateShift(shift.with({endTime: {date: time.format(DateFormats.API_DATE), time: value}, startTime: {date: shift.date, time: formattedTime}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
-    } else {
-      this.props.updateShift(shift.with({endTime: {date: time.format(DateFormats.API_DATE), time: value}, totalBreaks: this.getExpectedBreaks(shift.getStartTime(), time).toString()}));
-    }
-  }
-
-  private getExpectedBreaks(startTime: moment.Moment, endTime: moment.Moment): number {
-    const hoursDifference = endTime.diff(startTime, "hours");
-    if (this.props.workType === WorkTypes.BAR) {
-
-      if (hoursDifference > this.props.rota.constants.hoursPerLongBreak) {
-        return this.props.rota.constants.longBreakDuration;
-      }
-      if (hoursDifference > this.props.rota.constants.hoursPerShortBreak) {
-        return this.props.rota.constants.shortBreakDuration;
-      }
-    } else if (this.props.workType === WorkTypes.KITCHEN) {
-      if (hoursDifference > this.props.rota.constants.kitchenHoursPerLongBreak) {
-        return this.props.rota.constants.kitchenLongBreakDuration;
-      }
-      if (hoursDifference > this.props.rota.constants.kitchenHoursPerShortBreak) {
-        return this.props.rota.constants.kitchenShortBreakDuration;
-      }
-    }
-    return 0;
-  }
-
   private autoPopulateShifts() {
     const clonedPlannedShifts = this.props.rota.plannedShifts.map(shift => shift.duplicate());
     this.formUpdate({actualShifts: clonedPlannedShifts});
   }
 }
 
-export const RotaEditor = connect<RotaEditorStateProps, RotaEditorDispatchProps, RotaEditorOwnProps>(
+export const RotaEditor = DragDropContext(createHTML5Backend)(connect<RotaEditorStateProps, RotaEditorDispatchProps, RotaEditorOwnProps>(
   mapStateToProps,
   mapDispatchToProps
-)(RotaEditorComponent);
+)(RotaEditorComponent));

@@ -22,6 +22,9 @@ $numberOfPreTimeColumns: 4;
     }
 
     .rota-staff-levels .rota-time {
+      &.staff-level {
+        height: 50px;
+      }
       &.staff-good {
         background: greenyellow;
       }
@@ -64,6 +67,7 @@ $numberOfPreTimeColumns: 4;
 .rota-role-group {
   display: grid;
   grid-gap: 1px;
+  grid-auto-rows: 30px;
 }
 
 .rota-role-header {
@@ -103,6 +107,7 @@ $numberOfPreTimeColumns: 4;
   align-items: center;
   justify-content: center;
   padding: 2px;
+  writing-mode: vertical-lr; // Chrome does not like sideways
   writing-mode: sideways-lr;
   text-orientation: sideways;
 
