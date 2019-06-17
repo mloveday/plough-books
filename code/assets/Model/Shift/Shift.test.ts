@@ -7,7 +7,7 @@ import {Shift} from "./Shift";
 
 const defaultShift = () => Shift.default(StaffMember.default(), WorkTypes.BAR, moment.utc().format(DateFormats.API_DATE));
 
-describe('Shift', () => {
+describe('DataEntry.Rota.RotaEditor.Shift', () => {
   it('stores the raw time input for start time', () => {
     const expected = '00:01';
     const plannedShift = defaultShift();

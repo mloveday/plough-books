@@ -33,6 +33,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   public readonly inputs: RotaEntityInputs;
   public readonly barRotaTemplate: RotaStaffingTemplate;
   public readonly kitchenRotaTemplate: RotaStaffingTemplate;
+  private readonly startOfDay: moment.Moment;
 
   constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, barRotaTemplate: RotaStaffingTemplate, kitchenRotaTemplate: RotaStaffingTemplate, inputs: RotaEntityInputs, id?: number) {
     super(date.format(DateFormats.API_DATE), forecastRevenue, targetLabourRate, constants, status, plannedShifts, actualShifts, touched);
@@ -40,6 +41,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     this.inputs = inputs;
     this.barRotaTemplate = barRotaTemplate;
     this.kitchenRotaTemplate = kitchenRotaTemplate;
+    this.startOfDay = momentFromDateAndTime(this.date, '06:00');
   }
 
   public updateTouched(o: RotaUpdateType): RotaEntity {
@@ -198,7 +200,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
 
   public getPlannedNumberWorkingAtTime(time: string, type: string): number {
     const dateTime = momentFromDateAndTime(this.date, time);
-    if (dateTime.isBefore(momentFromDateAndTime(this.date, '06:00'))) {
+    if (dateTime.isBefore(this.startOfDay)) {
       dateTime.add(1, 'days');
     }
     return this.plannedShifts.filter(shift => shift.type === type && !shift.offFloor && shift.isWorkingAtTime(dateTime)).length;

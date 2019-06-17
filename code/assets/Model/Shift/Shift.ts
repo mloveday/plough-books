@@ -45,6 +45,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
 
   public readonly id?: number;
   public readonly inputs: ShiftInputs;
+  private readonly startMoment: moment.Moment;
+  private readonly endMoment: moment.Moment;
 
   private constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: string, offFloor: boolean, inputs: ShiftInputs, id?: number) {
     super(
@@ -61,6 +63,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
     );
     this.id = id;
     this.inputs = inputs;
+    this.startMoment = moment.utc(startTime);
+    this.endMoment = moment.utc(endTime);
   }
 
   public with(obj: ShiftUpdateType): Shift {
@@ -122,11 +126,11 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
   }
 
   public getStartTime(): moment.Moment {
-    return moment.utc(this.startTime);
+    return this.startMoment;
   }
 
   public getEndTime(): moment.Moment {
-    return moment.utc(this.endTime);
+    return this.endMoment;
   }
 
   public forApi() {

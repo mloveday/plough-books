@@ -26,7 +26,10 @@ import {DateFormats} from "../../Util/DateFormats";
 import {getTimePeriods} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import './Rota.scss';
-import {StaffedShift} from "./Shift/Shift";
+import {EmptyShift} from "./RotaEditor/EmptyShift";
+import {RotaHeader} from "./RotaEditor/RotaHeader";
+import {RotaStaffLevels} from "./RotaEditor/RotaStaffLevels";
+import {StaffedShift} from "./RotaEditor/Shift";
 
 export interface RotaEditorOwnProps {
   rota: RotaEntity;
@@ -80,6 +83,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
       : this.props.rota.getTotalActualLabourCost(this.props.rota.forecastRevenue, this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
     return (
       <div>
+        <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
         <h1 className="rota-title">{this.props.workType} {this.props.title} {this.props.rota.getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
         <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => this.props.editType === 'rota' ? Routes.rotaUrl(date, this.props.workType) : Routes.signInUrl(date, this.props.workType)}/>
         <div className="rota-overview">
@@ -92,7 +96,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
               <option value={RotaStatus.SIGN_IN_COMPLETE}>Sign In Complete</option>
               <option disabled={true} value={RotaStatus.IMPORTED}>Imported</option>
             </select>
-            </div>
+          </div>
           {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(labourCost)}</div>}
@@ -104,38 +108,10 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           </div>
         </div>
         <div className="rota-grid include-times">
-          <div className="rota-times">
-            <div className="rota-header rota-staff-name">Name</div>
-            <div className="rota-header rota-remove-shift"/>
-            <div className="rota-header rota-off-floor"/>
-            <div className="rota-header rota-start-time">Start</div>
-            <div className="rota-header rota-end-time">End</div>
-            <div className="rota-header rota-breaks">Breaks</div>
-            <div className="rota-header rota-rate"><input type="checkbox" checked={this.props.uiState.rotaShowRates} onChange={ev => this.props.updateUi(this.props.uiState.withShouldShowRotaRates(ev.target.checked))}/>Rate</div>
-            {timePeriods.map((timePeriod, timeKey) => (
-              <div className="rota-time" key={timeKey}>{timePeriod.minutes() === 0 && timePeriod.format(DateFormats.TIME_NO_LEADING_ZERO)}</div>
-            ))}
-          </div>
-          {this.props.showStaffLevels && <div className="rota-staff-levels">
-            <div className="rota-header rota-staff-name"/>
-            <div className="rota-header rota-remove-shift"/>
-            <div className="rota-header rota-off-floor"/>
-            <div className="rota-header rota-start-time"/>
-            <div className="rota-header rota-end-time"/>
-            <div className="rota-header rota-breaks"/>
-            <div className="rota-header rota-rate"/>
-            {timePeriods.map((timePeriod, timeKey) => {
-              const numberWorking = this.props.rota.getPlannedNumberWorkingAtTime(timePeriod.format(DateFormats.TIME_LEADING_ZERO), this.props.workType);
-              const numberRequired = (this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate).staffLevels[timeKey];
-              const numberLeft = numberRequired - numberWorking;
-              const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
-              return <div className={`rota-time staff-level ${stylingClass}`} key={timeKey}>{numberLeft}</div>
-            })}
-            <div className={`rota-header rota-rate`}/>
-          </div>}
-          <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
-          {this.getRolesToDisplay().map((role, roleKey) =>
-            <div className="rota-role-group" key={roleKey}>
+          <RotaHeader date={this.props.date}/>
+          {this.props.showStaffLevels && <RotaStaffLevels rota={this.props.rota} workType={this.props.workType}/>}
+          {this.getRolesToDisplay().map(role =>
+            <div className="rota-role-group" key={role.id}>
               <div className="rota-role-header">{role.role}</div>
               {this.props.staffMembers
                 .filter(staffMember => staffMember.role.id === role.id && staffMember.isActive())
@@ -143,7 +119,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
                 .map(staffMember => this.getShiftForStaffMember(staffMember, timePeriods, editingDisabled))
               }
             </div>
-            )}
+          )}
         </div>
       </div>
     );
@@ -162,27 +138,8 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean) {
     const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
     return shift === undefined
-      ? this.getEmptyShift(staffMember, timePeriods, editingDisabled)
-      : <StaffedShift key={shift.staffMember.entityId} shift={shift} editingDisabled={editingDisabled} constants={this.props.rota.constants} editType={this.props.editType} workType={this.props.workType} rotaShowRates={this.props.uiState.rotaShowRates} timePeriods={timePeriods} updateShift={s => this.props.updateShift(s)} removeShift={s => this.props.removeShift(s)} />;
-  }
-
-  private getEmptyShift(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean) {
-    return (
-      <div className="rota-shift no-shift" key={staffMember.entityId}>
-        <div className="rota-staff-name">{staffMember.name}</div>
-        <div className="rota-remove-shift"/>
-        <div className="rota-off-floor"/>
-        <div className="rota-new-shift">
-          <button disabled={editingDisabled} onClick={() => this.newShiftHandler(staffMember)} type="button"><FontAwesomeIcon icon="plus-circle"/></button>
-        </div>
-        <div className="rota-new-shift-spacer"/>
-        <div className="rota-new-shift-spacer"/>
-        <div className="rota-new-shift-spacer"/>
-        {timePeriods.map((timePeriod, periodKey) => (
-          <div className="rota-time" key={periodKey}/>
-        ))}
-      </div>
-    );
+      ? <EmptyShift key={staffMember.id} workType={this.props.workType} date={this.props.date} editingDisabled={editingDisabled} addShift={s => this.props.addShift(s)} staffMember={staffMember} timePeriods={timePeriods}/>
+      : <StaffedShift key={shift.staffMember.id} shift={shift} editingDisabled={editingDisabled} constants={this.props.rota.constants} editType={this.props.editType} workType={this.props.workType} rotaShowRates={this.props.uiState.rotaShowRates} timePeriods={timePeriods} updateShift={s => this.props.updateShift(s)} removeShift={s => this.props.removeShift(s)} />;
   }
 
   private formUpdate(obj: RotaUpdateType, touched: boolean = true) {
@@ -195,10 +152,6 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         [this.props.rota.update(obj)]
       );
     }
-  }
-
-  private newShiftHandler(member: StaffMember) {
-    this.props.addShift(Shift.default(member, this.props.workType as WorkTypes, this.props.rota.date));
   }
 
   private autoPopulateShifts() {

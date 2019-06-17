@@ -1,8 +1,6 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
-import {DragDropContext} from "react-dnd";
-import createHTML5Backend from "react-dnd-html5-backend";
 import {Constants} from "../../../Model/Constants/Constants";
 import {WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {Shift} from "../../../Model/Shift/Shift";
@@ -140,4 +138,4 @@ export class ShiftComponent extends React.Component<ShiftOwnProps, {}> {
   }
 }
 
-export const StaffedShift = DragDropContext(createHTML5Backend)(ShiftComponent);
+export const StaffedShift = ShiftComponent;
