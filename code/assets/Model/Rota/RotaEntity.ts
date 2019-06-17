@@ -92,10 +92,15 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public getTotalPredictedLabourCost(weeklyForecastRevenue: number, type: string): number {
-    const rawCost = this.plannedShifts
-      .filter(s => s.type === type)
-      .reduce<number>((a, b) => a + b.getRawCost(), 0);
-    return CashManipulation.calculateTotalLabourCost(rawCost, this.forecastRevenue, weeklyForecastRevenue, type, this.constants);
+    const shiftsOfType = this.plannedShifts.filter(s => s.type === type);
+    const staffMembers = shiftsOfType
+      .map(shift => shift.staffMember)
+      .filter((v, i, a) => a.indexOf(v) === i);
+    const staffMemberCosts = staffMembers.map(staffMember =>
+      shiftsOfType.filter(shift => shift.staffMember.id === staffMember.id).reduce((prev, curr) => prev + curr.getRawCost(),0)
+    );
+    return CashManipulation.calculateFixedCosts(this.forecastRevenue, weeklyForecastRevenue, type, this.constants)
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, this.forecastRevenue, weeklyForecastRevenue, type, this.constants),0);
   }
 
   public getActualLabourRate(revenueToday: number, weeklyRevenue: number, type: string): number {
@@ -117,10 +122,17 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public getTotalActualLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
-    const rawCost = this.actualShifts
-      .filter(s => s.type === type)
-      .reduce<number>((a, b) => a + b.getRawCost(), 0);
-    return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
+    const shiftsOfType = this.actualShifts.filter(s => s.type === type);
+    const staffMembers = shiftsOfType
+      .map(shift => shift.staffMember)
+      .filter((v, i, a) => a.indexOf(v) === i);
+    const staffMemberCosts = staffMembers.map(staffMember =>
+      shiftsOfType
+        .filter(shift => shift.staffMember.id === staffMember.id)
+        .reduce((prev, curr) => prev + curr.getRawCost(),0)
+    );
+    return CashManipulation.calculateFixedCosts(revenueToday, weeklyRevenue, type, this.constants)
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, revenueToday, weeklyRevenue, type, this.constants),0);
   }
 
   public getCombinedRunningLabourRate(runningRevenueToday: number, weeklyRevenue: number): number {
@@ -147,11 +159,18 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public getTotalRunningLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
-    const shifts = (this.actualShifts.length > 0 ? this.actualShifts : this.plannedShifts);
-    const rawCost = shifts
-      .filter(s => s.type === type)
-      .reduce<number>((a, b) => a + b.getRawCost(), 0);
-    return CashManipulation.calculateTotalLabourCost(rawCost, revenueToday, weeklyRevenue, type, this.constants);
+    const shiftsOfType = (this.actualShifts.length > 0 ? this.actualShifts : this.plannedShifts)
+      .filter(s => s.type === type);
+    const staffMembers = shiftsOfType
+      .map(shift => shift.staffMember)
+      .filter((v, i, a) => a.indexOf(v) === i);
+    const staffMemberCosts = staffMembers.map(staffMember =>
+      shiftsOfType
+        .filter(shift => shift.staffMember.id === staffMember.id)
+        .reduce((prev, curr) => prev + curr.getRawCost(),0)
+    );
+    return CashManipulation.calculateFixedCosts(revenueToday, weeklyRevenue, type, this.constants)
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, revenueToday, weeklyRevenue, type, this.constants),0);
   }
 
   public canEditRota() {

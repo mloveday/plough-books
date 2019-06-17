@@ -12,11 +12,7 @@ import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalSta
 import {constantsFetch} from "../../Redux/Constants/ConstantsRedux";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
 import {rotaFetch} from "../../Redux/Rota/RotaRedux";
-import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
-import {StaffMembersLocalState} from "../../Redux/StaffMember/StaffMembersLocalState";
 import {staffMembersFetch} from "../../Redux/StaffMember/StaffMembersRedux";
-import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
-import {StaffRolesLocalState} from "../../Redux/StaffRole/StaffRolesLocalState";
 import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
@@ -41,10 +37,6 @@ interface WeeklyOverviewStateProps {
   constantsExternalState: ConstantsExternalState;
   rotaExternalState: RotaExternalState;
   rotaLocalStates: RotasForWeek;
-  staffMembersExternalState: StaffMembersExternalState;
-  staffMembersLocalState: StaffMembersLocalState;
-  staffRolesExternalState: StaffRolesExternalState;
-  staffRolesLocalState: StaffRolesLocalState;
   uiState: UiState;
 }
 
@@ -54,10 +46,6 @@ const mapStateToProps = (state: AppState, ownProps: WeeklyOverviewOwnProps): Wee
     constantsExternalState: state.constantsExternalState,
     rotaExternalState: state.rotaExternalState,
     rotaLocalStates: state.rotaLocalStates,
-    staffMembersExternalState: state.staffMembersExternalState,
-    staffMembersLocalState: state.staffMembersLocalState,
-    staffRolesExternalState: state.staffRolesExternalState,
-    staffRolesLocalState: state.staffRolesLocalState,
     uiState: state.uiState,
   }
 };
@@ -129,18 +117,6 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
     const paramDate = this.getStartOfWeek();
     if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
       this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
-      return;
-    }
-    if (this.props.staffRolesExternalState.isEmpty()) {
-      this.props.fetchStaffRoles();
-      return;
-    }
-    if (this.props.staffMembersExternalState.isEmpty()) {
-      this.props.fetchStaffMembers();
-      return;
-    }
-    if (this.props.constantsExternalState.isEmpty()) {
-      this.props.fetchConstants();
       return;
     }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {

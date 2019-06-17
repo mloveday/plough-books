@@ -79,6 +79,9 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     const today = moment.utc(this.props.date);
     const timePeriods = getTimePeriods(this.props.date);
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
+    const labourCost = this.props.editType === 'rota'
+      ? this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType)
+      : this.props.rota.getTotalActualLabourCost(this.props.rota.forecastRevenue, this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
     return (
       <div>
         <h1 className="rota-title">{this.props.workType} {this.props.title} {this.props.rota.getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
@@ -96,7 +99,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             </div>
           {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
-          {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
+          {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(labourCost)}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}
           {this.props.editType === "sign-in" && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat">
