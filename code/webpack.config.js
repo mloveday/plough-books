@@ -19,7 +19,7 @@ Encore
     })
 
 // totally not different
-  .enableSourceMaps(true)
+  .enableSourceMaps(!Encore.isProduction())
 ;
 
 const config = Encore.getWebpackConfig();
