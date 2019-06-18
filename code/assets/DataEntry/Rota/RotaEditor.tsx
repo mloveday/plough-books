@@ -12,7 +12,6 @@ import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
-import {RotaStaffingTemplate} from "../../Model/RotaStaffingTemplate/RotaStaffingTemplate";
 import {Shift} from "../../Model/Shift/Shift";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
@@ -40,19 +39,20 @@ export interface RotaEditorOwnProps {
   showStats: boolean;
   showStaffLevels: boolean;
   rotasForWeek: RotasForWeek;
-  rotaStaffingTemplates: RotaStaffingTemplate[];
-  uiState: UiState;
   addShift: (shiftToAdd: Shift) => void;
   updateShift: (shiftToUpdate: Shift) => void;
   removeShift: (shiftToRemove: Shift) => void;
   resetRota: () => void;
-  updateUi: (state: UiState) => void;
 }
 
-export interface RotaEditorStateProps {}
+export interface RotaEditorStateProps {
+  uiState: UiState;
+}
 
 export const mapStateToProps = (state: AppState, ownProps: RotaEditorOwnProps): RotaEditorStateProps => {
-  return {}
+  return {
+    uiState: state.uiState,
+  }
 };
 
 export interface RotaEditorDispatchProps {

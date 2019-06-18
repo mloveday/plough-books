@@ -2,7 +2,6 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {Shift} from "../../Model/Shift/Shift";
-import {UiState} from "../../Redux/UI/UiState";
 import {AncillaryRotaEditor, AncillaryRotaEditorOwnProps} from "./AncillaryRotaEditor";
 import {
   mapDispatchToProps,
@@ -29,13 +28,10 @@ class SignInComponent extends RotaAbstract {
       showStaffLevels: false,
       showStats: true,
       staffMembers: this.props.staffMembersExternalState.externalState.entities,
-      rotaStaffingTemplates: this.props.rotaStaffingTemplatesState.externalState.entities,
-      uiState: this.props.uiState,
       addShift: (shift: Shift) => this.addShift(shift),
       removeShift: (shift: Shift) => this.removeShift(shift),
       updateShift: (shift: Shift) => this.updateShift(shift),
       resetRota: () => this.resetLocalState(),
-      updateUi: (state: UiState) => this.props.updateUi(state),
     };
     return this.props.match.params.type as WorkTypes === WorkTypes.ANCILLARY
       ? <AncillaryRotaEditor {...props}/>

@@ -36,18 +36,20 @@ export interface AncillaryRotaEditorOwnProps {
   showStats: boolean;
   showStaffLevels: boolean;
   rotasForWeek: RotasForWeek;
-  uiState: UiState;
   addShift: (shiftToAdd: Shift) => void;
   updateShift: (shiftToUpdate: Shift) => void;
   removeShift: (shiftToRemove: Shift) => void;
   resetRota: () => void;
-  updateUi: (state: UiState) => void;
 }
 
-export interface AncillaryRotaEditorStateProps {}
+export interface AncillaryRotaEditorStateProps {
+  uiState: UiState;
+}
 
 export const mapStateToProps = (state: AppState, ownProps: AncillaryRotaEditorOwnProps): AncillaryRotaEditorStateProps => {
-  return {}
+  return {
+    uiState: state.uiState,
+  }
 };
 
 export interface AncillaryRotaEditorDispatchProps {
