@@ -2,6 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {Constants} from "../../../Model/Constants/Constants";
+import {ShiftRecordingType, ShiftRecordingTypes} from "../../../Model/Enum/ShiftRecordingType";
 import {WorkType, WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {Shift} from "../../../Model/Shift/Shift";
 import {DateFormats} from "../../../Util/DateFormats";
@@ -17,7 +18,7 @@ export interface ShiftOwnProps {
   shift: Shift;
   editingDisabled: boolean;
   constants: Constants;
-  editType: 'rota'|"sign-in";
+  editType: ShiftRecordingType;
   workType: WorkType;
   rotaShowRates: boolean;
   timePeriods: moment.Moment[];
@@ -67,8 +68,8 @@ export class ShiftComponent extends React.Component<ShiftOwnProps, {}> {
             />
           )}
         </div>
-        {(this.props.editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{this.props.shift.totalBreaks} hrs</div>}
-        {(!this.props.editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className={`rota-breaks-input`} value={this.props.shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(this.props.shift.with({totalBreaks: ev.target.value}))}/></div>}
+        {(this.props.editingDisabled || this.props.editType === ShiftRecordingTypes.ROTA) && <div className="rota-breaks">{this.props.shift.totalBreaks} hrs</div>}
+        {(!this.props.editingDisabled && this.props.editType === ShiftRecordingTypes.SIGN_IN) && <div className="rota-breaks"><input className={`rota-breaks-input`} value={this.props.shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(this.props.shift.with({totalBreaks: ev.target.value}))}/></div>}
         <div className={`rota-rate`}>
           {this.props.rotaShowRates && <input className={`rota-rate-input`}
                                                       disabled={this.props.editingDisabled}

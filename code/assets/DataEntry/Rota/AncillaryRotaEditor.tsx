@@ -8,6 +8,7 @@ import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
+import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkType} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
@@ -27,7 +28,7 @@ import './Rota.scss';
 
 export interface AncillaryRotaEditorOwnProps {
   rota: RotaEntity;
-  editType: 'rota'|'sign-in';
+  editType: ShiftRecordingType;
   workType: WorkType;
   date: string;
   staffMembers: StaffMember[];
@@ -71,11 +72,11 @@ export type AncillaryRotaEditorProps = AncillaryRotaEditorOwnProps & AncillaryRo
 export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaEditorProps, {}> {
   public render() {
     const today = momentFromDate(this.props.date);
-    const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
+    const editingDisabled = !((this.props.editType === ShiftRecordingTypes.ROTA && this.props.rota.canEditRota()) || (this.props.editType === ShiftRecordingTypes.SIGN_IN && this.props.rota.canEditSignIn()));
     return (
       <div>
         <h1 className="rota-title">{this.props.workType} {this.props.title} {this.props.rota.getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
-        <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => this.props.editType === 'rota' ? Routes.rotaUrl(date, this.props.workType) : Routes.signInUrl(date, this.props.workType)}/>
+        <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => this.props.editType === ShiftRecordingTypes.ROTA ? Routes.rotaUrl(date, this.props.workType) : Routes.signInUrl(date, this.props.workType)}/>
         <div className="rota-overview">
           <div className="rota-stat">
             Status:
@@ -91,7 +92,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}
-          {this.props.editType === "sign-in" && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
+          {this.props.editType === ShiftRecordingTypes.SIGN_IN && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat">
             <SaveButton mini={false} clickFn={() => this.props.createRota(this.props.rota)}/>
             <ResetButton mini={false} clickFn={() => this.props.resetRota()}/>
@@ -221,8 +222,8 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
             />
           )}
         </div>
-        {(editingDisabled || this.props.editType === 'rota') && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
-        {(!editingDisabled && this.props.editType === 'sign-in') && <div className="rota-breaks"><input className="rota-breaks-input" value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
+        {(editingDisabled || this.props.editType === ShiftRecordingTypes.ROTA) && <div className="rota-breaks">{shift.totalBreaks} hrs</div>}
+        {(!editingDisabled && this.props.editType === ShiftRecordingTypes.SIGN_IN) && <div className="rota-breaks"><input className="rota-breaks-input" value={shift.inputs.totalBreaks} onChange={ev => this.props.updateShift(shift.with({totalBreaks: ev.target.value}))}/></div>}
         <div className={`rota-rate`}>
           {this.props.uiState.rotaShowRates && <input className={`rota-rate-input`}
                  disabled={editingDisabled}

@@ -8,6 +8,7 @@ import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
+import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkType} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
@@ -30,7 +31,7 @@ import {StaffedShift} from "./RotaEditor/Shift";
 
 export interface RotaEditorOwnProps {
   rota: RotaEntity;
-  editType: 'rota'|'sign-in';
+  editType: ShiftRecordingType;
   workType: WorkType;
   date: string;
   staffMembers: StaffMember[];
@@ -75,15 +76,15 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   public render() {
     const today = momentFromDate(this.props.date);
     const timePeriods = getTimePeriods(this.props.date);
-    const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
-    const labourCost = this.props.editType === 'rota'
+    const editingDisabled = !((this.props.editType === ShiftRecordingTypes.ROTA && this.props.rota.canEditRota()) || (this.props.editType === ShiftRecordingTypes.SIGN_IN && this.props.rota.canEditSignIn()));
+    const labourCost = this.props.editType === ShiftRecordingTypes.ROTA
       ? this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType)
       : this.props.rota.getTotalActualLabourCost(this.props.rota.forecastRevenue, this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
     return (
       <div>
         <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
         <h1 className="rota-title">{this.props.workType} {this.props.title} {this.props.rota.getDate().format(DateFormats.READABLE_WITH_YEAR)}</h1>
-        <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => this.props.editType === 'rota' ? Routes.rotaUrl(date, this.props.workType) : Routes.signInUrl(date, this.props.workType)}/>
+        <DatePicker dateParam={this.props.date} urlFromDate={(date: moment.Moment) => this.props.editType === ShiftRecordingTypes.ROTA ? Routes.rotaUrl(date, this.props.workType) : Routes.signInUrl(date, this.props.workType)}/>
         <div className="rota-overview">
           <div className="rota-stat">
             Status:
@@ -99,7 +100,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(labourCost)}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}
-          {this.props.editType === "sign-in" && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
+          {this.props.editType === ShiftRecordingTypes.SIGN_IN && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat">
             <SaveButton mini={false} clickFn={() => this.props.createRota(this.props.rota)}/>
             <ResetButton mini={false} clickFn={() => this.props.resetRota()}/>

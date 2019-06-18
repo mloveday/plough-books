@@ -1,5 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
+import {ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkType, WorkTypes} from "../../Model/Enum/WorkTypes";
 import {Shift} from "../../Model/Shift/Shift";
 import {AncillaryRotaEditor, AncillaryRotaEditorOwnProps} from "./AncillaryRotaEditor";
@@ -21,7 +22,7 @@ class RotaComponent extends RotaAbstract {
       title: 'Rota',
       workType: this.props.match.params.type as WorkType,
       date: this.props.match.params.date,
-      editType: 'rota',
+      editType: ShiftRecordingTypes.ROTA,
       rota,
       rotasForWeek: this.props.rotaLocalStates,
       shifts: rota.plannedShifts,
