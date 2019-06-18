@@ -10,6 +10,7 @@ import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalSta
 import {constantsFetch} from "../../Redux/Constants/ConstantsRedux";
 import {CashManipulation} from "../../Util/CashManipulation";
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDate} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import './MonthlyFigures.scss';
 
@@ -58,9 +59,9 @@ class MonthlyFiguresComponent extends React.Component<MonthlyFiguresProps, {}> {
     if (!this.shouldRender()) {
       return null;
     }
-    const startDate = moment.utc('2019-03-01');
-    const endDate = moment.utc('2019-04-26');
-    const cashUps = this.props.cashUps.filter(cashUp => moment.utc(cashUp.date).isBetween(startDate, endDate));
+    const startDate = momentFromDate('2019-03-01');
+    const endDate = momentFromDate('2019-04-26');
+    const cashUps = this.props.cashUps.filter(cashUp => momentFromDate(cashUp.date).isBetween(startDate, endDate));
     const days = [];
     const numberOfDays = Math.abs(startDate.diff(endDate, 'days'));
     for (let i=0; i<numberOfDays; i++) {
@@ -121,7 +122,7 @@ class MonthlyFiguresComponent extends React.Component<MonthlyFiguresProps, {}> {
               );
             }
             return <tr key={cashUp.date}>
-              <td>{moment.utc(cashUp.date).format(DateFormats.READABLE_NO_YEAR)}</td>
+              <td>{momentFromDate(cashUp.date).format(DateFormats.READABLE_NO_YEAR)}</td>
               <td>{Formatting.formatCashForDisplay(cashUp.getTotalRevenue())}</td>
               <td>{Formatting.formatCashForDisplay(cashUp.getTotalRevenue() - cashUp.takeDry - cashUp.takeCoffee)}</td>
               <td>{Formatting.formatCashForDisplay(cashUp.takeDry)}</td>

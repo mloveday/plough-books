@@ -4,6 +4,7 @@ import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaApiType} from "../../Model/Rota/RotaTypes";
 import {rotaObject} from "../../TestHelpers/ApiResponseHelpers";
+import {momentFromDate} from "../../Util/DateUtils";
 import {
   rotaCreateSuccess,
   rotaDataEntry,
@@ -47,10 +48,10 @@ describe('RotaRedux internal reducer', () => {
       const newRota = rotaObject(moment.utc());
 
       const testSuccessFunction = (fn: ActionFunction1<{date: moment.Moment, response: RotaApiType[]}, Action<{date: moment.Moment, response: RotaApiType[]}>>) => {
-        const modified = rotaInternalReducers(existingState, fn({date: moment.utc(newRota.date), response: [newRota]}));
+        const modified = rotaInternalReducers(existingState, fn({date: momentFromDate(newRota.date), response: [newRota]}));
 
-        expect(modified.hasRotaForDate(moment.utc(newRota.date))).toBeTruthy();
-        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(RotaEntity.fromApi(newRota));
+        expect(modified.hasRotaForDate(momentFromDate(newRota.date))).toBeTruthy();
+        expect(modified.getRotaForDate(momentFromDate(newRota.date))).toEqual(RotaEntity.fromApi(newRota));
       };
       testSuccessFunction(rotaCreateSuccess);
       testSuccessFunction(rotaFetchSuccess);
@@ -65,13 +66,13 @@ describe('RotaRedux internal reducer', () => {
       expect(existingState.hasRotaForDate(existingRota.getDate()));
 
       const testSuccessFunction = (fn: ActionFunction1<{date: moment.Moment, response: RotaApiType[]}, Action<{date: moment.Moment, response: RotaApiType[]}>>) => {
-        const modified = rotaInternalReducers(existingState, fn({date: moment.utc(newRota.date), response: [newRota]}));
+        const modified = rotaInternalReducers(existingState, fn({date: momentFromDate(newRota.date), response: [newRota]}));
 
         expect(modified.hasRotaForDate(existingRota.getDate())).toBeTruthy();
         expect(modified.getRotaForDate(existingRota.getDate())).toEqual(existingRota);
 
-        expect(modified.hasRotaForDate(moment.utc(newRota.date))).toBeTruthy();
-        expect(modified.getRotaForDate(moment.utc(newRota.date))).toEqual(RotaEntity.fromApi(newRota));
+        expect(modified.hasRotaForDate(momentFromDate(newRota.date))).toBeTruthy();
+        expect(modified.getRotaForDate(momentFromDate(newRota.date))).toEqual(RotaEntity.fromApi(newRota));
 
       };
       testSuccessFunction(rotaCreateSuccess);

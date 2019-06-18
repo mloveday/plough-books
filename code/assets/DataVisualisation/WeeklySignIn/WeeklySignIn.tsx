@@ -113,7 +113,7 @@ class WeeklySignInComponent extends React.Component<WeeklySignInProps, {}> {
       return;
     }
     if (this.props.rotaExternalState.shouldLoadForDate(paramDate)) {
-      this.props.fetchRotaForDate(moment.utc(paramDate));
+      this.props.fetchRotaForDate(paramDate);
       return;
     }
   }

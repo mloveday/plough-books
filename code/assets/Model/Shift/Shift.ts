@@ -1,6 +1,6 @@
 import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
-import {momentFromDateAndTime} from "../../Util/DateUtils";
+import {momentFromDateAndTime, momentFromDateTime} from "../../Util/DateUtils";
 import {validateCash, validateDecimal} from "../../Util/Validation";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
@@ -63,8 +63,8 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
     );
     this.id = id;
     this.inputs = inputs;
-    this.startMoment = moment.utc(startTime);
-    this.endMoment = moment.utc(endTime);
+    this.startMoment = momentFromDateTime(startTime);
+    this.endMoment = momentFromDateTime(endTime);
   }
 
   public with(obj: ShiftUpdateType): Shift {

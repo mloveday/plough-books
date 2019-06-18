@@ -1,5 +1,5 @@
-import * as moment from "moment";
 import {Constants} from "../../Model/Constants/Constants";
+import {momentFromDate} from "../../Util/DateUtils";
 import {EditableLocalState, IApiEditableLocalState} from "../EditableLocalState";
 
 export class ConstantsLocalState extends EditableLocalState<Constants> {
@@ -8,7 +8,7 @@ export class ConstantsLocalState extends EditableLocalState<Constants> {
   }
 
   public constructor() {
-    super((a: Constants, b: Constants) => moment.utc(a.date) < moment.utc(b.date) ? 1 : -1);
+    super((a: Constants, b: Constants) => momentFromDate(a.date) < momentFromDate(b.date) ? 1 : -1);
   }
   
   public with(obj: IApiEditableLocalState<Constants>): ConstantsLocalState {

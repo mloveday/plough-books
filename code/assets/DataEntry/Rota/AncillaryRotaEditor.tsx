@@ -20,7 +20,7 @@ import {rotaCreate, rotaDataEntry} from "../../Redux/Rota/RotaRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
-import {momentFromDateAndTime} from "../../Util/DateUtils";
+import {momentFromDate, momentFromDateAndTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import './Rota.scss';
@@ -70,7 +70,7 @@ export type AncillaryRotaEditorProps = AncillaryRotaEditorOwnProps & AncillaryRo
 
 export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaEditorProps, {}> {
   public render() {
-    const today = moment.utc(this.props.date);
+    const today = momentFromDate(this.props.date);
     const editingDisabled = !((this.props.editType === 'rota' && this.props.rota.canEditRota()) || (this.props.editType === 'sign-in' && this.props.rota.canEditSignIn()));
     return (
       <div>
@@ -87,7 +87,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
               <option value={RotaStatus.IMPORTED}>Imported</option>
             </select>
           </div>
-          {this.props.showStats && <div className="rota-stat">Constants: {moment.utc(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
+          {this.props.showStats && <div className="rota-stat">Constants: {momentFromDate(this.props.rota.constants.date).format(DateFormats.API_DATE)}</div>}
           {this.props.showStats && <div className="rota-stat">Forecast revenue: {this.props.rota.forecastRevenue}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))}</div>}
           {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType))} (aiming for &lt; {Formatting.formatPercent(this.props.rota.targetLabourRate)})</div>}

@@ -85,6 +85,9 @@ class WeeklyRunningOverviewComponent extends React.Component<WeeklyRunningOvervi
   }
 
   public render() {
+    if (!this.props.staffRolesExternalState.isLoaded() || !this.props.staffMembersExternalState.isLoaded() || !this.props.constantsExternalState.isLoaded() || !this.props.rotaExternalState.isLoaded() || !this.props.cashUpExternalState.isLoaded()) {
+      return null;
+    }
     const dailyOverviews = new DailyOverviews(this.getStartOfWeek(), this.props.rotaExternalState.rotasForWeek, this.props.cashUpExternalState.cashUpsForWeek);
     const date = this.getStartOfWeek();
     return (

@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
-import {accountingWeek, accountingYearString} from "../../Util/DateUtils";
+import {accountingWeek, accountingYearString, momentFromDate} from "../../Util/DateUtils";
 import './DatePicker.scss';
 
 interface DatePickerOwnProps {
@@ -32,7 +32,7 @@ type DatePickerProps = DatePickerOwnProps & DatePickerStateProps & DatePickerDis
 
 class DatePickerComponent extends React.Component<DatePickerProps, {}> {
   public render() {
-    const selectedDate = moment.utc(this.props.dateParam);
+    const selectedDate = momentFromDate(this.props.dateParam);
     const startOfWeek = selectedDate.clone().startOf('isoWeek');
     const daysOfTheWeek = [
       startOfWeek.clone(),
@@ -51,7 +51,7 @@ class DatePickerComponent extends React.Component<DatePickerProps, {}> {
             <Link className="date-link" to={this.props.urlFromDate(selectedDate.clone().subtract(1, 'week'))}><FontAwesomeIcon icon="chevron-left" /></Link>
           </li>
           {daysOfTheWeek.map((dayOfWeek, index) => {
-            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(moment.utc(this.props.dateParam),'day') ? " selected" : "")}>
+            return <li key={index} className={"date-list-item" + (dayOfWeek.isSame(momentFromDate(this.props.dateParam),'day') ? " selected" : "")}>
               <Link className="date-link" to={this.props.urlFromDate(dayOfWeek.clone())}>{dayOfWeek.format(DateFormats.READABLE_NO_YEAR)}</Link>
             </li>
           })}

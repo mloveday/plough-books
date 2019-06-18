@@ -21,6 +21,7 @@ import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalS
 import {staffRolesFetch} from "../../Redux/StaffRole/StaffRolesRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
+import {momentFromDate} from "../../Util/DateUtils";
 
 export interface RotaAbstractOwnProps {
   match: match<{
@@ -106,7 +107,7 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
   protected abstract removeShift(shiftToRemove: Shift): void;
 
   protected getRota(): RotaEntity {
-    const date = moment.utc(this.props.match.params.date);
+    const date = momentFromDate(this.props.match.params.date);
     const localState = this.props.rotaLocalStates.getRotaForDate(date);
     return localState === undefined ? RotaEntity.default(date) : localState;
   }
@@ -124,14 +125,14 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
   }
 
   protected resetLocalState() {
-    const date = moment.utc(this.props.match.params.date);
+    const date = momentFromDate(this.props.match.params.date);
     this.props.updateRotaLocalState(
       this.props.rotaExternalState.rotasForWeek.getRotasForWeek(date)
     );
   }
 
   private maintainStateWithUrl() {
-    const paramDate = moment.utc(this.props.match.params.date);
+    const paramDate = momentFromDate(this.props.match.params.date);
     if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
       this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
       return;
@@ -164,7 +165,7 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
           template.status === RotaStaffingTemplateStatus.ACTIVE
           && template.revenue <= rota.forecastRevenue
           && template.workType === WorkTypes.BAR
-          && template.dayOfWeek === moment.utc(this.props.match.params.date).isoWeekday()
+          && template.dayOfWeek === momentFromDate(this.props.match.params.date).isoWeekday()
         )
         .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
         .pop();
@@ -173,7 +174,7 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
           template.status === RotaStaffingTemplateStatus.ACTIVE
           && template.revenue <= rota.forecastRevenue
           && template.workType === WorkTypes.KITCHEN
-          && template.dayOfWeek === moment.utc(this.props.match.params.date).isoWeekday()
+          && template.dayOfWeek === momentFromDate(this.props.match.params.date).isoWeekday()
         )
         .sort((a,b) => a.revenue > b.revenue ? 1 : -1)
         .pop();

@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {CashManipulation} from "../../Util/CashManipulation";
 import {DateFormats} from "../../Util/DateFormats";
-import {momentFromDateAndTime} from "../../Util/DateUtils";
+import {momentFromDate, momentFromDateAndTime} from "../../Util/DateUtils";
 import {validateCash, validatePercentageToDecimal} from "../../Util/Validation";
 import {Constants} from "../Constants/Constants";
 import {RotaStatus} from "../Enum/RotaStatus";
@@ -21,7 +21,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public static fromApi(obj: RotaApiType): RotaEntity {
-    const date = moment.utc(obj.date);
+    const date = momentFromDate(obj.date);
     const plannedShifts = obj.plannedShifts.map(plannedShift => Shift.fromApi(plannedShift, date.format(DateFormats.API_DATE)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = obj.actualShifts.map(actualShift => Shift.fromApi(actualShift, date.format(DateFormats.API_DATE)))
@@ -58,7 +58,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = (obj.actualShifts ? obj.actualShifts : this.actualShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    return new RotaEntity(obj.date !== undefined ? moment.utc(obj.date) : this.getDate(), obj.forecastRevenue !== undefined ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue, obj.targetLabourRate !== undefined ? validatePercentageToDecimal(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate, constants, obj.status !== undefined ? obj.status : this.status, plannedShifts, actualShifts, obj.touched !== undefined ? obj.touched : this.touched, obj.barRotaTemplate !== undefined ? obj.barRotaTemplate : this.barRotaTemplate, obj.kitchenRotaTemplate !== undefined ? obj.kitchenRotaTemplate : this.kitchenRotaTemplate, this.inputs.update(obj), this.id);
+    return new RotaEntity(obj.date !== undefined ? momentFromDate(obj.date) : this.getDate(), obj.forecastRevenue !== undefined ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue, obj.targetLabourRate !== undefined ? validatePercentageToDecimal(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate, constants, obj.status !== undefined ? obj.status : this.status, plannedShifts, actualShifts, obj.touched !== undefined ? obj.touched : this.touched, obj.barRotaTemplate !== undefined ? obj.barRotaTemplate : this.barRotaTemplate, obj.kitchenRotaTemplate !== undefined ? obj.kitchenRotaTemplate : this.kitchenRotaTemplate, this.inputs.update(obj), this.id);
   }
 
   public forApi() {
@@ -184,7 +184,7 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public getDate(): moment.Moment {
-    return moment.utc(this.date);
+    return momentFromDate(this.date);
   }
 
   public getReadableStatus() {

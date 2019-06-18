@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDate} from "../../Util/DateUtils";
 import {RotaEntity} from "./RotaEntity";
 
 describe('RotaEntity', () => {
@@ -14,7 +15,7 @@ describe('RotaEntity', () => {
   it('calling fromPartial() using a string date returns an object fromPartial a string as a date', () => {
     const date = moment.utc().format(DateFormats.API_DATE);
 
-    const modified = RotaEntity.default(moment.utc(date));
+    const modified = RotaEntity.default(momentFromDate(date));
 
     expect(modified.date).toEqual(date);
   });
@@ -24,6 +25,6 @@ describe('RotaEntity', () => {
 
     const rotaEntity = RotaEntity.default(date);
 
-    expect(rotaEntity.getDate()).toEqual(moment.utc(rotaEntity.date));
+    expect(rotaEntity.getDate()).toEqual(momentFromDate(rotaEntity.date));
   })
 });

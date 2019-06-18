@@ -20,7 +20,7 @@ import {rotaDataEntry, rotaFetchWithPrevious, weeklyRotasCreate} from "../../Red
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
-import {startOfWeek} from "../../Util/DateUtils";
+import {momentFromDate, startOfWeek} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern} from "../../Util/Validation";
 import {PriorWeekOverview} from "./PriorWeekOverview";
@@ -110,7 +110,7 @@ class WeeklyPlanningComponent extends React.Component<WeeklyPlanningProps, {}> {
                 }
               }}>
                 {this.props.constantsExternalState.externalState.entities.map((constants, cKey) => (
-                  <option key={cKey} value={constants.id}>{moment.utc(constants.date).format(DateFormats.READABLE_WITH_YEAR)}</option>
+                  <option key={cKey} value={constants.id}>{momentFromDate(constants.date).format(DateFormats.READABLE_WITH_YEAR)}</option>
                 ))}
               </select>
               </ConstantsWithHover>

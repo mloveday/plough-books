@@ -6,6 +6,34 @@ function getStartOfAccountingYear(date: moment.Moment): moment.Moment {
   return date.clone().month(4).date(1).startOf('isoWeek');
 }
 
+export const momentFromDate = (date: string): moment.Moment => {
+  const pattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2})/);
+  const matches = pattern.exec(date);
+  if (matches !== null) {
+    return moment.utc({
+      y: Number(matches[1]),
+      M: Number(matches[2]) - 1, // month is 0-indexed
+      d: Number(matches[3]),
+    });
+  }
+  throw Error('date not in expected format');
+};
+
+export const momentFromDateTime = (date: string): moment.Moment => {
+  const pattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2})/);
+  const matches = pattern.exec(date);
+  if (matches === null) {
+    throw Error(`Invalid date and/or time: ${date}`);
+  }
+  return moment.utc({
+    y: Number(matches[1]),
+    M: Number(matches[2]) - 1, // month is 0-indexed
+    d: Number(matches[3]),
+    h: Number(matches[4]),
+    m: Number(matches[5]),
+  });
+};
+
 export const accountingWeek = (date: moment.Moment): number => {
   const startOfYear = getStartOfAccountingYear(date);
   if (date >= startOfYear) {
@@ -38,18 +66,18 @@ export const weeksDataKey = (date: moment.Moment): string => {
 };
 
 export const momentFromDateAndTime = (date: string, time: string, silent: boolean = false): moment.Moment => {
-  const pattern = new RegExp(/[\d]{4}-[\d]{2}-[\d]{2} [\d]{2}:[\d]{2}/);
+  const pattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2})/);
   if (pattern.test(time)) {
     if (!silent) {
       log.error(`Caught time as date (${time})`);
     }
-    return moment.utc(time);
+    return momentFromDateTime(time);
   }
-  return moment.utc(`${date.toString()}T${time.toString()}Z`);
+  return momentFromDateTime(`${date.toString()} ${time.toString()}`);
 };
 
 export const validateDateString = (date: string, existingDate: string): string => {
-  return moment.utc(date).isValid() ? moment.utc(date).format(DateFormats.API_DATE) : existingDate;
+  return momentFromDate(date).isValid() ? moment.utc(date).format(DateFormats.API_DATE) : existingDate;
 };
 
 export const DAY_START_HOUR = 6;

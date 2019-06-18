@@ -17,6 +17,7 @@ import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "../../Redux/CashUp/CashUpRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
+import {momentFromDate} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern, positiveCurrencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
@@ -534,11 +535,11 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   private getCashUp(): CashUpEntity {
-    return this.props.cashUpsForWeek.getCashUpForDay(moment.utc(this.props.match.params.date));
+    return this.props.cashUpsForWeek.getCashUpForDay(momentFromDate(this.props.match.params.date));
   }
 
   private maintainStateWithUrl() {
-    const paramDate = moment.utc(this.props.match.params.date);
+    const paramDate = momentFromDate(this.props.match.params.date);
     if (this.props.uiState.isCurrentDateSameAs(paramDate)) {
       this.props.updateUi(this.props.uiState.withCurrentDate(paramDate));
       return;

@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Constants} from "../../Model/Constants/Constants";
 import {AppState} from "../../redux";
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDate} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import './Constants.scss';
 
@@ -32,7 +33,7 @@ class ConstantsWithHoverComponent extends React.Component<ConstantsWithHoverProp
     return (
       <div>
         <div className="constants-identifier">
-          {this.props.children ? this.props.children : moment.utc(this.props.constants.date).format(DateFormats.DMY_SLASHES)}
+          {this.props.children ? this.props.children : momentFromDate(this.props.constants.date).format(DateFormats.DMY_SLASHES)}
         </div>
         <div className="constants-hover">
           <div>Created: {moment.utc(this.props.constants.date).format(DateFormats.DMY_SLASHES)}</div>

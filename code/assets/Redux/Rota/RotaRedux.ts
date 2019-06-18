@@ -5,7 +5,7 @@ import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaApiType} from "../../Model/Rota/RotaTypes";
 import {DateFormats} from "../../Util/DateFormats";
-import {weeksDataKey} from "../../Util/DateUtils";
+import {momentFromDate, weeksDataKey} from "../../Util/DateUtils";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
@@ -121,7 +121,7 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));
   },
   [ROTA_CREATE_START]: (state, action: DefinedAction<RotaEntity>) => {
-    return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload.date))));
+    return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(momentFromDate(action.payload.date))));
   },
   [ROTA_CREATE_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
     return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));

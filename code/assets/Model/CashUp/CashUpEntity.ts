@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDate} from "../../Util/DateUtils";
 import {validateCash} from "../../Util/Validation";
 import {SafeFloatDenominations} from "../Denominations/SafeFloatDenominations";
 import {TillDenominations} from "../Denominations/TillDenominations";
@@ -21,7 +22,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   }
 
   public static fromApi(obj: CashUpEntityApiType): CashUpEntity {
-    const date = moment.utc(obj.date);
+    const date = momentFromDate(obj.date);
     return new CashUpEntity(date.format(DateFormats.API_DATE), obj.mod, obj.dailyNotes, obj.tills.map(till => TillDenominations.fromApi(till))
       .filter((value: TillDenominations, index: number) => index < 7), obj.chargeToAccount, obj.depositRedeemed, obj.compsWet, obj.dStaffDry, obj.dCustomersWet, obj.dCustomersDry, obj.dCustomersCoffee, obj.fwtWet, obj.comoInDrawer, obj.amexTots, obj.visaMcTots, obj.receipts.map(receipt => Receipt.fromApi(receipt)), obj.spendStaffPts, obj.comoDiscAsset, obj.takeDry, obj.takeCoffee, obj.takeGiftCard, obj.takeDepositPaid, obj.paidOutAmount, obj.paidOutTo, obj.banked, obj.cashAdvantageBag, obj.cashAdvantageBagSeenBy, SafeFloatDenominations.fromApi(obj.sfdAm), SafeFloatDenominations.fromApi(obj.sfdPm), obj.sfdNotes, obj.pubSecuredBy, obj.barClosedBy, obj.floorClosedBy, obj.nextDoorBy, false, obj.id, CashUpEntityInputs.fromApi(obj), obj.paypal, obj.deliveroo);
   }

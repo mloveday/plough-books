@@ -3,6 +3,7 @@ import {CashUpSection} from "../../Model/Enum/CashUpSection";
 import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDate} from "../../Util/DateUtils";
 import {RotaStaffingTemplateFilters} from "../RotaStaffingTemplates/RotaStaffingTemplateFilters";
 
 export interface IUiStateUpdateObject {
@@ -25,7 +26,7 @@ export class UiState {
   private readonly currentDateString: string = moment.utc().format(DateFormats.API_DATE);
 
   public get currentDate(): moment.Moment {
-    return moment.utc(this.currentDateString);
+    return momentFromDate(this.currentDateString);
   }
 
   public isCurrentDateSameAs(date: moment.Moment) {

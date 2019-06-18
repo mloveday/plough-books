@@ -5,7 +5,7 @@ import {CashUpEntityApiType} from "../../Model/CashUp/CashUpEntityTypes";
 import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
 import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {DateFormats} from "../../Util/DateFormats";
-import {weeksDataKey} from "../../Util/DateUtils";
+import {momentFromDate, weeksDataKey} from "../../Util/DateUtils";
 import {invalidUser} from "../Auth/AuthRedux";
 import {authenticatedFetch} from "../AuthenticatedFetch";
 import {DefinedAction} from "../DefinedAction";
@@ -73,8 +73,8 @@ export const cashUpCreate = (cashUp: CashUpEntity) => {
     const thisDispatchable = () => dispatch(cashUpCreate(cashUp));
     dispatch(cashUpCreateStart(cashUp));
     return authenticatedFetch('/cash-up', () => dispatch(invalidUser([thisDispatchable])), JSON.stringify(cashUp),'POST')
-      .then(d => dispatch(cashUpCreateSuccess({date: moment.utc(cashUp.date), response: d})))
-      .catch(e => dispatch(cashUpCreateError({error: e, date: moment.utc(cashUp.date), appArea: 'Cash Up post', dispatch: thisDispatchable})))
+      .then(d => dispatch(cashUpCreateSuccess({date: momentFromDate(cashUp.date), response: d})))
+      .catch(e => dispatch(cashUpCreateError({error: e, date: momentFromDate(cashUp.date), appArea: 'Cash Up post', dispatch: thisDispatchable})))
       ;
   }
 };
@@ -102,7 +102,7 @@ export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
     return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_START]: (state, action: DefinedAction<CashUpEntity>) => {
-    return state.with(state.cashUpsForWeek.update([action.payload]), state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload.date))));
+    return state.with(state.cashUpsForWeek.update([action.payload]), state.updatedState(FetchStatus.STARTED, weeksDataKey(momentFromDate(action.payload.date))));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
     return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));

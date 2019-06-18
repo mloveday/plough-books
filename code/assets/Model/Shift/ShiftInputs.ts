@@ -1,5 +1,5 @@
-import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
+import {momentFromDateTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {WorkTypes} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
@@ -24,8 +24,8 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
       obj.status,
       Formatting.formatCashForInput(obj.hourlyRate),
       date,
-      {date: moment.utc(obj.startTime).format(DateFormats.API_DATE), time: moment.utc(obj.startTime).format(DateFormats.TIME_LEADING_ZERO)},
-      {date: moment.utc(obj.endTime).format(DateFormats.API_DATE), time: moment.utc(obj.endTime).format(DateFormats.TIME_LEADING_ZERO)},
+      {date: momentFromDateTime(obj.startTime).format(DateFormats.API_DATE), time: momentFromDateTime(obj.startTime).format(DateFormats.TIME_LEADING_ZERO)},
+      {date: momentFromDateTime(obj.endTime).format(DateFormats.API_DATE), time: momentFromDateTime(obj.endTime).format(DateFormats.TIME_LEADING_ZERO)},
       Formatting.formatCashForInput(obj.totalBreaks),
       obj.type,
       obj.offFloor,
