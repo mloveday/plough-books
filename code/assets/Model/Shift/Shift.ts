@@ -2,7 +2,7 @@ import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateAndTime, momentFromDateTime} from "../../Util/DateUtils";
 import {validateCash, validateDecimal} from "../../Util/Validation";
-import {WorkTypes} from "../Enum/WorkTypes";
+import {WorkType} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {StaffRole} from "../StaffRole/StaffRole";
 import {ShiftInputs} from "./ShiftInputs";
@@ -10,7 +10,7 @@ import {ShiftAbstract, ShiftApiType, ShiftType, ShiftUpdateType} from "./ShiftTy
 
 export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string> implements ShiftType {
 
-  public static default(staffMember: StaffMember, type: WorkTypes, date: string): Shift {
+  public static default(staffMember: StaffMember, type: WorkType, date: string): Shift {
     return new Shift(
       staffMember,
       staffMember.role,

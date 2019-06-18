@@ -2,7 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
-import {WorkTypes} from "../../../Model/Enum/WorkTypes";
+import {WorkType} from "../../../Model/Enum/WorkTypes";
 import {Shift} from "../../../Model/Shift/Shift";
 import {StaffMember} from "../../../Model/StaffMember/StaffMember";
 import {AppState} from "../../../redux";
@@ -13,7 +13,7 @@ interface EmptyShiftOwnProps {
   addShift: (shiftToAdd: Shift) => void;
   editingDisabled: boolean;
   timePeriods: moment.Moment[];
-  workType: WorkTypes;
+  workType: WorkType;
 }
 
 interface EmptyShiftStateProps {

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {WorkTypes} from "../../../Model/Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../../Model/Rota/RotaEntity";
 import {AppState} from "../../../redux";
 import {DateFormats} from "../../../Util/DateFormats";
@@ -8,7 +8,7 @@ import {getTimePeriods} from "../../../Util/DateUtils";
 
 interface RotaStaffLevelsOwnProps {
   rota: RotaEntity;
-  workType: WorkTypes;
+  workType: WorkType;
 }
 
 interface RotaStaffLevelsStateProps {

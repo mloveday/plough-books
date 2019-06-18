@@ -5,7 +5,7 @@ import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../../Model/Enum/WorkTypes";
 import {RotaStaffingTemplate} from "../../Model/RotaStaffingTemplate/RotaStaffingTemplate";
 import {AppState} from "../../redux";
 import {RotaStaffingTemplatesExternalState} from "../../Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
@@ -83,7 +83,7 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
             <option value={6}>Saturday</option>
             <option value={0}>Sunday</option>
           </select>
-          <select value={this.props.uiState.rotaStaffingTemplateFilters.workType} onChange={ev => this.props.updateUiState(this.props.uiState.withRotaStaffingTemplateFilters(this.props.uiState.rotaStaffingTemplateFilters.withWorkType(ev.target.value as WorkTypes)))}>
+          <select value={this.props.uiState.rotaStaffingTemplateFilters.workType} onChange={ev => this.props.updateUiState(this.props.uiState.withRotaStaffingTemplateFilters(this.props.uiState.rotaStaffingTemplateFilters.withWorkType(ev.target.value as WorkType)))}>
             <option value={WorkTypes.BAR}>Bar</option>
             <option value={WorkTypes.KITCHEN}>Kitchen</option>
             <option value={WorkTypes.ANCILLARY}>Ancillary</option>

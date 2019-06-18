@@ -1,12 +1,12 @@
 import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {WorkType} from "../../Model/Enum/WorkTypes";
 
 export class RotaStaffingTemplateFilters {
   public readonly weekDay: number;
-  public readonly workType: WorkTypes;
+  public readonly workType: WorkType;
   public readonly status: RotaStaffingTemplateStatus;
 
-  constructor(weekDay: number, workType: WorkTypes, status: RotaStaffingTemplateStatus) {
+  constructor(weekDay: number, workType: WorkType, status: RotaStaffingTemplateStatus) {
     this.weekDay = weekDay;
     this.workType = workType;
     this.status = status;
@@ -16,7 +16,7 @@ export class RotaStaffingTemplateFilters {
     return new RotaStaffingTemplateFilters(weekDay, this.workType, this.status);
   }
 
-  public withWorkType(workType: WorkTypes) {
+  public withWorkType(workType: WorkType) {
     return new RotaStaffingTemplateFilters(this.weekDay, workType, this.status);
   }
 

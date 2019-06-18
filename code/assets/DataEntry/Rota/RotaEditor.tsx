@@ -8,7 +8,7 @@ import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {WorkType} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
@@ -31,7 +31,7 @@ import {StaffedShift} from "./RotaEditor/Shift";
 export interface RotaEditorOwnProps {
   rota: RotaEntity;
   editType: 'rota'|'sign-in';
-  workType: WorkTypes;
+  workType: WorkType;
   date: string;
   staffMembers: StaffMember[];
   shifts: Shift[];

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../../Model/Enum/WorkTypes";
 import {Shift} from "../../Model/Shift/Shift";
 import {AncillaryRotaEditor, AncillaryRotaEditorOwnProps} from "./AncillaryRotaEditor";
 import {
@@ -19,7 +19,7 @@ class RotaComponent extends RotaAbstract {
     const rota = this.getRota();
     const props: RotaEditorOwnProps|AncillaryRotaEditorOwnProps = {
       title: 'Rota',
-      workType: this.props.match.params.type as WorkTypes,
+      workType: this.props.match.params.type as WorkType,
       date: this.props.match.params.date,
       editType: 'rota',
       rota,
@@ -33,7 +33,7 @@ class RotaComponent extends RotaAbstract {
       updateShift: (shift: Shift) => this.updateShift(shift),
       resetRota: () => this.resetLocalState(),
     };
-    return this.props.match.params.type as WorkTypes === WorkTypes.ANCILLARY
+    return this.props.match.params.type as WorkType === WorkTypes.ANCILLARY
       ? <AncillaryRotaEditor {...props}/>
       : <RotaEditor {...props}/>;
   }

@@ -1,12 +1,12 @@
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDateTime} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
-import {WorkTypes} from "../Enum/WorkTypes";
+import {WorkType} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {ShiftAbstract, ShiftApiType, ShiftDate, ShiftInputType, ShiftUpdateType} from "./ShiftTypes";
 
 export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, ShiftDate> implements ShiftInputType {
-  public static default(staffMember: StaffMember, type: WorkTypes, date: string): ShiftInputs {
+  public static default(staffMember: StaffMember, type: WorkType, date: string): ShiftInputs {
     return new ShiftInputs(
       'active',
       Formatting.formatCashForInput(staffMember.currentHourlyRate),

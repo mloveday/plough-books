@@ -8,7 +8,7 @@ import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {WorkType} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
@@ -28,7 +28,7 @@ import './Rota.scss';
 export interface AncillaryRotaEditorOwnProps {
   rota: RotaEntity;
   editType: 'rota'|'sign-in';
-  workType: WorkTypes;
+  workType: WorkType;
   date: string;
   staffMembers: StaffMember[];
   shifts: Shift[];
@@ -247,7 +247,7 @@ export class AncillaryRotaEditorComponent extends React.Component<AncillaryRotaE
   }
 
   private newShiftHandler(member: StaffMember) {
-    this.props.addShift(Shift.default(member, this.props.workType as WorkTypes, this.props.rota.date));
+    this.props.addShift(Shift.default(member, this.props.workType as WorkType, this.props.rota.date));
   }
 
   private startTimeHandler(value: string, shift: Shift) {

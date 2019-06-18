@@ -2,7 +2,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as moment from "moment";
 import * as React from "react";
 import {Constants} from "../../../Model/Constants/Constants";
-import {WorkTypes} from "../../../Model/Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {Shift} from "../../../Model/Shift/Shift";
 import {DateFormats} from "../../../Util/DateFormats";
 import {
@@ -18,7 +18,7 @@ export interface ShiftOwnProps {
   editingDisabled: boolean;
   constants: Constants;
   editType: 'rota'|"sign-in";
-  workType: WorkTypes;
+  workType: WorkType;
   rotaShowRates: boolean;
   timePeriods: moment.Moment[];
   updateShift: (shiftToUpdate: Shift) => void;
