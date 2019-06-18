@@ -2,13 +2,15 @@ import log from 'loglevel';
 import * as moment from "moment";
 import {DateFormats} from "./DateFormats";
 
+const datePattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2})/);
+const dateTimePattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2})/);
+
 function getStartOfAccountingYear(date: moment.Moment): moment.Moment {
   return date.clone().month(4).date(1).startOf('isoWeek');
 }
 
 export const momentFromDate = (date: string): moment.Moment => {
-  const pattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2})/);
-  const matches = pattern.exec(date);
+  const matches = datePattern.exec(date);
   if (matches !== null) {
     return moment.utc({
       y: Number(matches[1]),
@@ -20,8 +22,7 @@ export const momentFromDate = (date: string): moment.Moment => {
 };
 
 export const momentFromDateTime = (date: string): moment.Moment => {
-  const pattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2})/);
-  const matches = pattern.exec(date);
+  const matches = dateTimePattern.exec(date);
   if (matches === null) {
     throw Error(`Invalid date and/or time: ${date}`);
   }
@@ -66,8 +67,7 @@ export const weeksDataKey = (date: moment.Moment): string => {
 };
 
 export const momentFromDateAndTime = (date: string, time: string, silent: boolean = false): moment.Moment => {
-  const pattern = new RegExp(/([\d]{4})-([\d]{2})-([\d]{2}) ([\d]{2}):([\d]{2})/);
-  if (pattern.test(time)) {
+  if (dateTimePattern.test(time)) {
     if (!silent) {
       log.error(`Caught time as date (${time})`);
     }
