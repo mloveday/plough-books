@@ -1,5 +1,7 @@
 import * as React from "react";
+import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
+import {Shift} from "../../Model/Shift/Shift";
 import {StaffMember} from "../../Model/StaffMember/StaffMember";
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {DateFormats} from "../../Util/DateFormats";
@@ -8,6 +10,7 @@ interface RotaGridOwnProps {
   staff: StaffMember[];
   rotas: RotaEntity[];
   roles: StaffRole[];
+  shiftRecordingType: ShiftRecordingType;
 }
 
 export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
@@ -44,7 +47,7 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
                 </div>}
                 {!showDateRow && <div className={"staff-role rota-grid-header"}/>}
                 {staffForRole.map((staffMember, staffKey) => {
-                    const shift = rota.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
+                    const shift = this.getShifts(rota).find(s => s.staffMember.id === staffMember.id);
                     return shift ? (<div key={staffKey} className="shift">
                       <div>{shift.getStartTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
                       <div>{shift.getEndTime().format(DateFormats.TIME_LEADING_ZERO)}</div>
@@ -59,7 +62,7 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
             <div className="rota-grid-header" />
             {staffForRole.map((staffMember, staffKey) => {
                 const totalHours = this.props.rotas.reduce((prev, curr) => {
-                  const shift = curr.plannedShifts.find(plannedShift => plannedShift.staffMember.id === staffMember.id);
+                  const shift = this.getShifts(curr).find(s => s.staffMember.id === staffMember.id);
                   return prev + (shift ? shift.getEndTime().diff(shift.getStartTime(), 'minutes') - shift.totalBreaks*60 : 0);
                 }, 0);
                 return <div key={staffKey} className="total-hours">{(totalHours/60).toFixed(2)}</div>;
@@ -75,5 +78,9 @@ export class RotaGridComponent extends React.Component<RotaGridOwnProps, {}> {
 
       </div>
     )
+  }
+
+  private getShifts(rota: RotaEntity): Shift[] {
+    return this.props.shiftRecordingType === ShiftRecordingTypes.ROTA ? rota.plannedShifts : rota.actualShifts;
   }
 }

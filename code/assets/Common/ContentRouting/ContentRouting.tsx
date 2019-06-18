@@ -17,7 +17,7 @@ import {TestCoverageComponent} from "../../DataVisualisation/Tests/TestCoverage"
 import {TestResultsComponent} from "../../DataVisualisation/Tests/TestResults";
 import {WeeklyOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {WeeklyRota} from "../../DataVisualisation/WeeklyRota/WeeklyRota";
-import {WeeklySignIn} from "../../DataVisualisation/WeeklySignIn/WeeklySignIn";
+import {ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {AuthState} from "../../Redux/Auth/AuthState";
@@ -60,8 +60,8 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.signInRoute()} component={SignIn}/>
             <RouteWithAuth exact={true} path={Routes.weeklyOverviewRoute()} component={WeeklyOverview}/>
             <RouteWithAuth exact={true} path={Routes.weeklyPlanningRoute()} component={WeeklyPlanning}/>
-            <RouteWithAuth exact={true} path={Routes.weeklyRotaRoute()} component={WeeklyRota}/>
-            <RouteWithAuth exact={true} path={Routes.weeklySignInRoute()} component={WeeklySignIn}/>
+            <RouteWithAuth exact={true} path={Routes.weeklyRotaRoute()} render={props => <WeeklyRota {...props} shiftRecordingType={ShiftRecordingTypes.ROTA}/>} />
+            <RouteWithAuth exact={true} path={Routes.weeklySignInRoute()} render={props => <WeeklyRota {...props} shiftRecordingType={ShiftRecordingTypes.SIGN_IN}/>}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>

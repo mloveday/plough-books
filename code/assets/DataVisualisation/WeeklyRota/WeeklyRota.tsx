@@ -2,7 +2,10 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {RotaEntity} from "../../Model/Rota/RotaEntity";
+import {Shift} from "../../Model/Shift/Shift";
 import {StaffMember} from '../../Model/StaffMember/StaffMember';
 import {StaffRole} from "../../Model/StaffRole/StaffRole";
 import {AppState} from "../../redux";
@@ -20,6 +23,7 @@ interface WeeklyRotaOwnProps {
     weekNumber: string,
     year: string,
   }>;
+  shiftRecordingType: ShiftRecordingType;
 }
 
 interface WeeklyRotaStateProps {
@@ -65,7 +69,7 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
     const startOfThisWeek = this.getStartOfWeek();
     const allStaff = new Map<number, StaffMember>();
     this.props.rotaExternalState.rotasForWeek.getRotasForWeek(startOfThisWeek)
-      .forEach(rota => rota.plannedShifts
+      .forEach(rota => this.getShifts(rota)
         .forEach(shift => {
           if (!allStaff.has(shift.staffMember.entityId)) {
             allStaff.set(shift.staffMember.entityId, shift.staffMember);
@@ -92,14 +96,22 @@ class WeeklyRotaComponent extends React.Component<WeeklyRotaProps, {}> {
 
     return (
       <div className="weekly-rota">
-        <div>Weekly bar rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
-        <RotaGridComponent staff={barStaff} rotas={rotas} roles={sortedRoles}/>
-        <div>Weekly kitchen rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
-        <RotaGridComponent staff={kitchenStaff} rotas={rotas}  roles={sortedRoles}/>
-        <div>Weekly ancillary rota for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
-        <RotaGridComponent staff={ancillaryStaff} rotas={rotas}  roles={sortedRoles}/>
+        <div>Weekly bar {this.getName()} for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+        <RotaGridComponent staff={barStaff} rotas={rotas} roles={sortedRoles} shiftRecordingType={this.props.shiftRecordingType}/>
+        <div>Weekly kitchen {this.getName()} for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+        <RotaGridComponent staff={kitchenStaff} rotas={rotas}  roles={sortedRoles} shiftRecordingType={this.props.shiftRecordingType}/>
+        <div>Weekly ancillary {this.getName()} for week starting {this.getStartOfWeek().format(DateFormats.READABLE_WITH_YEAR)}</div>
+        <RotaGridComponent staff={ancillaryStaff} rotas={rotas}  roles={sortedRoles} shiftRecordingType={this.props.shiftRecordingType}/>
       </div>
     )
+  }
+
+  private getName():string {
+    return this.props.shiftRecordingType === ShiftRecordingTypes.ROTA ? 'rota' : 'sign in'
+  }
+
+  private getShifts(rota: RotaEntity): Shift[] {
+    return this.props.shiftRecordingType === ShiftRecordingTypes.ROTA ? rota.plannedShifts : rota.actualShifts;
   }
 
   private getStartOfWeek() {
