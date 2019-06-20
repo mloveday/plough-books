@@ -34,7 +34,7 @@ type EmptyShiftProps = EmptyShiftOwnProps & EmptyShiftStateProps & EmptyShiftDis
 
 class EmptyShiftComponent extends React.Component<EmptyShiftProps, {}> {
   public shouldComponentUpdate(nextProps: Readonly<EmptyShiftOwnProps & EmptyShiftStateProps & EmptyShiftDispatchProps>, nextState: Readonly<{}>, nextContext: any): boolean {
-    return this.props.staffMember.id !== nextProps.staffMember.id && this.props.editingDisabled !== nextProps.editingDisabled;
+    return this.props.staffMember.id !== nextProps.staffMember.id || this.props.editingDisabled !== nextProps.editingDisabled;
   }
 
   public render() {
