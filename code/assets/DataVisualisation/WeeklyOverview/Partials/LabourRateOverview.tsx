@@ -36,7 +36,7 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
           <td className="overview-stat week-total"><CostRateCompare label="Combined labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedActualLabourRate()} /></td>
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
-              <CostRateCompare label="Bar labour rate" showLabel={false}
+              <CostRateCompare label="Combined labour rate" showLabel={false}
                                forecast={overview.rota.targetLabourRate}
                                actual={overview.rota.getCombinedActualLabourRate(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue)} />
             </td>
@@ -47,7 +47,7 @@ class LabourRateOverviewComponent extends React.Component<LabourRateOverviewProp
           <td className="overview-stat week-total"><CostRateCompare label="Running labour rate" showLabel={false} forecast={dailyOverviews.getCombinedForecastLabourRate()} actual={dailyOverviews.getCombinedRunningLabourRate()} /></td>
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
-              <CostRateCompare label="Bar labour rate" showLabel={false}
+              <CostRateCompare label="Running labour rate" showLabel={false}
                                forecast={overview.rota.getCombinedPredictedLabourRate(dailyOverviews.runningRevenueForecast)}
                                actual={overview.rota.getCombinedRunningLabourRate(overview.cashUp.getTotalRevenue() === 0 ? overview.rota.forecastRevenue : overview.cashUp.getTotalRevenue(), dailyOverviews.runningRevenueForecast)} />
             </td>
