@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {CashUpsForWeek} from "../../../Model/CashUp/CashUpsForWeek";
 import {PlaceholderCashUp} from "../../../Model/CashUp/PlaceholderCashUp";
-import {WorkTypes} from "../../../Model/Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../../Model/Rota/RotasForWeek";
 import {DailyOverview} from "./DailyOverview";
@@ -19,14 +19,20 @@ export class DailyOverviews {
   public readonly actualBarLabour: number;
   public readonly runningBarLabour: number;
   public readonly forecastBarLabour: number;
+  public readonly forecastBarHours: number;
+  public readonly actualBarHours: number;
 
   public readonly actualKitchenLabour: number;
   public readonly runningKitchenLabour: number;
   public readonly forecastKitchenLabour: number;
+  public readonly forecastKitchenHours: number;
+  public readonly actualKitchenHours: number;
 
   public readonly actualAncillaryLabour: number;
   public readonly runningAncillaryLabour: number;
   public readonly forecastAncillaryLabour: number;
+  public readonly forecastAncillaryHours: number;
+  public readonly actualAncillaryHours: number;
 
   constructor(startOfWeek: moment.Moment, rotas: RotasForWeek, cashUps: CashUpsForWeek) {
     this.startOfWeek = startOfWeek;
@@ -50,6 +56,14 @@ export class DailyOverviews {
     this.vatAdjustedActualRevenue = this.overviews.reduce((prev, curr) => prev + curr.getVatAdjustedRevenue(), 0);
     this.vatAdjustedForecastRevenue = rotas.getTotalVatAdjustedForecastRevenue(startOfWeek);
     this.vatAdjustedRunningRevenue = this.overviews.reduce((prev, curr) => prev + curr.getVatAdjustedRunningRevenue(), 0);
+
+    this.actualBarHours = this.getTotalActualHoursOfType(WorkTypes.BAR);
+    this.actualKitchenHours = this.getTotalActualHoursOfType(WorkTypes.KITCHEN);
+    this.actualAncillaryHours = this.getTotalActualHoursOfType(WorkTypes.ANCILLARY);
+
+    this.forecastBarHours = this.getTotalPlannedHoursOfType(WorkTypes.BAR);
+    this.forecastKitchenHours = this.getTotalPlannedHoursOfType(WorkTypes.KITCHEN);
+    this.forecastAncillaryHours = this.getTotalPlannedHoursOfType(WorkTypes.ANCILLARY);
   }
 
   public getCombinedForecastLabour() {
@@ -167,5 +181,13 @@ export class DailyOverviews {
       const actualRevenue = curr.cashUp.getTotalRevenue();
       return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.ANCILLARY) + prev
     }, 0);
+  }
+
+  private getTotalPlannedHoursOfType(workType: WorkType): number {
+    return this.overviews.reduce((prev, curr) => prev + curr.rota.getTotalPlannedHoursOfType(workType), 0);
+  }
+
+  private getTotalActualHoursOfType(workType: WorkType): number {
+    return this.overviews.reduce((prev, curr) => prev + curr.rota.getTotalActualHoursOfType(workType), 0);
   }
 }

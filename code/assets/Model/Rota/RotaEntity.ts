@@ -5,7 +5,7 @@ import {momentFromDate, momentFromDateAndTime} from "../../Util/DateUtils";
 import {validateCash, validatePercentageToDecimal} from "../../Util/Validation";
 import {Constants} from "../Constants/Constants";
 import {RotaStatus} from "../Enum/RotaStatus";
-import {WorkTypes} from "../Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../Enum/WorkTypes";
 import {RotaStaffingTemplate} from "../RotaStaffingTemplate/RotaStaffingTemplate";
 import {Shift} from "../Shift/Shift";
 import {RotaEntityInputs} from "./RotaEntityInputs";
@@ -204,6 +204,18 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
       dateTime.add(1, 'days');
     }
     return this.plannedShifts.filter(shift => shift.type === type && !shift.offFloor && shift.isWorkingAtTime(dateTime)).length;
+  }
+
+  public getTotalPlannedHoursOfType(workType: WorkType): number {
+    return this.plannedShifts
+      .filter(s => s.type === workType)
+      .reduce((prev, curr) => prev + curr.getHoursWorking(), 0);
+  }
+
+  public getTotalActualHoursOfType(workType: WorkType): number {
+    return this.actualShifts
+      .filter(s => s.type === workType)
+      .reduce((prev, curr) => prev + curr.getHoursWorking(), 0);
   }
 
   private getProportionOfForecastRevenue(type: string) {

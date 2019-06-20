@@ -32,7 +32,7 @@ export class ShiftInputs extends ShiftAbstract<string, undefined, undefined, Shi
     );
   }
 
-  private constructor(status: string, hourlyRate: string, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: string, offFloor: boolean) {
+  private constructor(status: string, hourlyRate: string, date: string, startTime: ShiftDate, endTime: ShiftDate, totalBreaks: string, type: WorkType, offFloor: boolean) {
     super(
       undefined,
       undefined,

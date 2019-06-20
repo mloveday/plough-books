@@ -48,7 +48,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
   private readonly startMoment: moment.Moment;
   private readonly endMoment: moment.Moment;
 
-  private constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: string, offFloor: boolean, inputs: ShiftInputs, id?: number) {
+  private constructor(staffMember: StaffMember, staffRole: StaffRole, status: string, hourlyRate: number, date: string, startTime: string, endTime: string, totalBreaks: number, type: WorkType, offFloor: boolean, inputs: ShiftInputs, id?: number) {
     super(
       staffMember,
       staffRole,
@@ -122,7 +122,7 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
   }
   
   public getRawCost() {
-    return Math.max(this.hourlyRate * ((this.getEndTime().diff(this.getStartTime(), "minutes") / 60) - this.totalBreaks), 0)
+    return Math.max(this.hourlyRate * this.getHoursWorking(), 0)
   }
 
   public getStartTime(): moment.Moment {
@@ -131,6 +131,10 @@ export class Shift extends ShiftAbstract<number, StaffMember, StaffRole, string>
 
   public getEndTime(): moment.Moment {
     return this.endMoment;
+  }
+
+  public getHoursWorking(): number {
+    return this.getEndTime().diff(this.getStartTime(), 'minutes')/60 - this.totalBreaks;
   }
 
   public forApi() {

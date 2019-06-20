@@ -1,3 +1,4 @@
+import {WorkType} from "../Enum/WorkTypes";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {StaffMemberApiType} from "../StaffMember/StaffMemberTypes";
 import {StaffRole} from "../StaffRole/StaffRole";
@@ -11,12 +12,12 @@ export abstract class ShiftAbstract<T, SM, SR, D> {
   public readonly hourlyRate: T;
   public readonly date: string;
   public readonly totalBreaks: T;
-  public readonly type: string;
+  public readonly type: WorkType;
   public readonly endTime: D;
   public readonly startTime: D;
   public readonly offFloor: boolean;
 
-  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: T, date: string, startTime: D, endTime: D, totalBreaks: T, type: string, offFloor: boolean) {
+  constructor(staffMember: SM, staffRole: SR, status: string, hourlyRate: T, date: string, startTime: D, endTime: D, totalBreaks: T, type: WorkType, offFloor: boolean) {
     this.staffMember = staffMember;
     this.staffRole = staffRole;
     this.status = status;

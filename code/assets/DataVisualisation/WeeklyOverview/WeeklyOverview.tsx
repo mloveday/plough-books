@@ -19,6 +19,7 @@ import {UiState} from "../../Redux/UI/UiState";
 import {DateFormats} from "../../Util/DateFormats";
 import {startOfWeek} from "../../Util/DateUtils";
 import {LabourCostOverview} from "./Partials/LabourCostOverview";
+import {LabourHoursOverview} from "./Partials/LabourHoursOverview";
 import {LabourRateOverview} from "./Partials/LabourRateOverview";
 import {RevenueOverview} from "./Partials/RevenueOverview";
 import {SummaryOverview} from "./Partials/SummaryOverview";
@@ -104,6 +105,7 @@ class WeeklyOverviewComponent extends React.Component<WeeklyOverviewProps, {}> {
             <RevenueOverview dailyOverviews={dailyOverviews} />
             <LabourCostOverview dailyOverviews={dailyOverviews} />
             <LabourRateOverview dailyOverviews={dailyOverviews} />
+            <LabourHoursOverview dailyOverviews={dailyOverviews} />
           </tbody>
         </table>
       </div>)
