@@ -21,6 +21,7 @@ import './CashUp.scss';
 import {CashUpCards} from "./Partials/CashUpCards";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
+import {CashUpSpendStaffComo} from "./Partials/CashUpSpendStaffComo";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
 import {SafeFloatDenom} from "./Partials/SafeFloatDenom";
@@ -120,20 +121,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <div className="form-group">
-            <div className="label-and-input spend_staff_pts">
-              <label htmlFor="spend_staff_points">Spend & staff points</label>
-              <input id="spend_staff_points" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.spendStaffPts}
-                     onChange={ev => this.formUpdate({spendStaffPts: ev.target.value})}/>
-            </div>
-            <div className="label-and-input como_disc_asset">
-              <label htmlFor="como_disc_asset">COMO Discount asset</label>
-              <input id="como_disc_asset" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.comoDiscAsset}
-                     onChange={ev => this.formUpdate({comoDiscAsset: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <CashUpSpendStaffComo cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.NETT_TAKES && <div className="form-group">
             <h3 className="group-title nett_takes_label">Nett takes</h3>
