@@ -100,6 +100,16 @@ class CashUp {
     private $receipts;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Deposit", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $deposits;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Account", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $accounts;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $spend_staff_points;
@@ -217,6 +227,8 @@ class CashUp {
     public function __construct() {
         $this->tills = new ArrayCollection();
         $this->receipts = new ArrayCollection();
+        $this->accounts = new ArrayCollection();
+        $this->deposits = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -399,6 +411,62 @@ class CashUp {
             // set the owning side to null (unless already changed)
             if ($receipt->getCashUp() === $this) {
                 $receipt->setCashUp(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deposit[]
+     */
+    public function getDeposits(): Collection {
+        return $this->deposits;
+    }
+
+    public function addDeposit(Deposit $deposit): self {
+        if (!$this->deposits->contains($deposit)) {
+            $this->deposits[] = $deposit;
+            $deposit->setCashUp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeposit(Deposit $deposit): self {
+        if ($this->deposits->contains($deposit)) {
+            $this->deposits->removeElement($deposit);
+            // set the owning side to null (unless already changed)
+            if ($deposit->getCashUp() === $this) {
+                $deposit->setCashUp(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Account[]
+     */
+    public function getAccounts(): Collection {
+        return $this->accounts;
+    }
+
+    public function addAccount(Account $account): self {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts[] = $account;
+            $account->setCashUp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccount(Account $account): self {
+        if ($this->accounts->contains($account)) {
+            $this->accounts->removeElement($account);
+            // set the owning side to null (unless already changed)
+            if ($account->getCashUp() === $this) {
+                $account->setCashUp(null);
             }
         }
 
@@ -631,6 +699,8 @@ class CashUp {
             'amexTots' => $this->amex_tots,
             'visaMcTots' => $this->visa_mc_tots,
             'receipts' => array_values(array_map(function(Receipt $receipt) { return $receipt->serialise(); }, $this->getReceipts()->toArray())),
+            'accounts' => array_values(array_map(function(Account $account) { return $account->serialise(); }, $this->getAccounts()->toArray())),
+            'deposits' => array_values(array_map(function(Deposit $deposit) { return $deposit->serialise(); }, $this->getDeposits()->toArray())),
             'spendStaffPts' => $this->spend_staff_points,
             'comoDiscAsset' => $this->como_discount_asset,
             'takeDry' => $this->take_dry,
