@@ -7,5 +7,5 @@ export enum CashUpSection {
   NETT_TAKES = 'Nett takes',
   BANKING = 'Banking',
   SAFE_FLOAT = 'Safe float',
-  SUMMARY = 'Summary',
+  SECURITY = 'Security',
 }

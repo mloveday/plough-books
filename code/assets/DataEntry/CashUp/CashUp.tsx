@@ -23,6 +23,7 @@ import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
 import {CashUpSafeFloat} from "./Partials/CashUpSafeFloat";
+import {CashUpSecurity} from "./Partials/CashUpSecurity";
 import {CashUpSpendStaffComo} from "./Partials/CashUpSpendStaffComo";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
@@ -130,33 +131,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.SAFE_FLOAT && <CashUpSafeFloat cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.SUMMARY && <div className="form-group">
-            <h3 className="group-title summary_label">Summary</h3>
-            <div className="label-and-input pub_secured_by">
-              <label htmlFor="pub_secured_by">Pub secured by</label>
-              <input id="pub_secured_by" type="text"
-                     value={this.getCashUp().pubSecuredBy}
-                     onChange={ev => this.formUpdate({pubSecuredBy: ev.target.value})}/>
-            </div>
-            <div className="label-and-input bar_closed_by">
-              <label htmlFor="bar_closed_by">Bar closed by</label>
-              <input id="bar_closed_by" type="text"
-                     value={this.getCashUp().barClosedBy}
-                     onChange={ev => this.formUpdate({barClosedBy: ev.target.value})}/>
-            </div>
-            <div className="label-and-input floor_closed_by">
-              <label htmlFor="floor_closed_by">Floor closed by</label>
-              <input id="floor_closed_by" type="text"
-                     value={this.getCashUp().floorClosedBy}
-                     onChange={ev => this.formUpdate({floorClosedBy: ev.target.value})}/>
-            </div>
-            <div className="label-and-input next_door_by">
-              <label htmlFor="next_door_by">Next door by</label>
-              <input id="next_door_by" type="text"
-                     value={this.getCashUp().nextDoorBy}
-                     onChange={ev => this.formUpdate({nextDoorBy: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.SECURITY && <CashUpSecurity cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
         </form>
       </div>
@@ -202,7 +177,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
       // @ts-ignore
       return sectionOrder.get(this.props.uiState.cashUpSection);
     }
-    return new SectionPosition(CashUpSection.TILLS, CashUpSection.SUMMARY, CashUpSection.DISCOUNTS);
+    return new SectionPosition(CashUpSection.TILLS, CashUpSection.SECURITY, CashUpSection.DISCOUNTS);
   }
 }
 
