@@ -19,6 +19,7 @@ import {UiState} from "../../Redux/UI/UiState";
 import {momentFromDate} from "../../Util/DateUtils";
 import {currencyPattern, positiveCurrencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
+import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
 import {SafeFloatDenom} from "./Partials/SafeFloatDenom";
@@ -112,51 +113,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.TILLS && <CashUpTills cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.DISCOUNTS && <div className="form-group">
-            <h3 className="group-title discounts_label">Discounts</h3>
-            <div className="label-and-input comps_wet">
-              <label htmlFor="comps_wet">Wet Comps</label>
-              <input id="comps_wet" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.compsWet}
-                     onChange={ev => this.formUpdate({compsWet: ev.target.value})}/>
-            </div>
-            <div className="label-and-input d_staff_dry">
-              <label htmlFor="d_staff_dry">Discount staff dry</label>
-              <input id="d_staff_dry" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.dStaffDry}
-                     onChange={ev => this.formUpdate({dStaffDry: ev.target.value})}/>
-            </div>
-            <div className="label-and-input d_customers_wet">
-              <label htmlFor="d_customers_wet">Discount customers wet</label>
-              <input id="d_customers_wet" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.dCustomersWet}
-                     onChange={ev => this.formUpdate({dCustomersWet: ev.target.value})}/>
-            </div>
-            <div className="label-and-input d_customers_dry">
-              <label htmlFor="d_customers_dry">Discount customers dry</label>
-              <input id="d_customers_dry" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.dCustomersDry}
-                     onChange={ev => this.formUpdate({dCustomersDry: ev.target.value})}/>
-            </div>
-            <div className="label-and-input d_customers_coffee">
-              <label htmlFor="d_customers_coffee">Discount customer coffee</label>
-              <input id="d_customers_coffee" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.dCustomersCoffee}
-                     onChange={ev => this.formUpdate({dCustomersCoffee: ev.target.value})}/>
-            </div>
-            <div className="label-and-input fwt_wet">
-              <label htmlFor="fwt_wet">FWT wet</label>
-              <input id="fwt_wet" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.fwtWet}
-                     onChange={ev => this.formUpdate({fwtWet: ev.target.value})}/>
-            </div>
-            <div className="label-and-input como_in_drawer">
-              <label htmlFor="como_in_drawer">COMO in drawer</label>
-              <input id="como_in_drawer" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.comoInDrawer}
-                     onChange={ev => this.formUpdate({comoInDrawer: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.DISCOUNTS && <CashUpDiscounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.CARDS && <div className="form-group">
             <h3 className="group-title credit_card_label">Credit card totals</h3>
