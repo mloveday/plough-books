@@ -1,6 +1,5 @@
 export enum CashUpSection {
   TILLS = 'Tills',
-  CARDS = 'Cards',
   RECEIPTS = 'Receipts',
   SPEND_STAFF_PTS_COMO = 'Spend & staff points',
   NETT_TAKES = 'Nett takes',
