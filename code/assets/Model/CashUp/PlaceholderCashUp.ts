@@ -32,6 +32,8 @@ export class PlaceholderCashUp extends CashUpEntity {
       0,
       0,
       [],
+      [],
+      [],
       0,
       0,
       0,
@@ -53,6 +55,9 @@ export class PlaceholderCashUp extends CashUpEntity {
       true,
       undefined,
       CashUpEntityInputs.default(date),
+      0,
+      0,
+      0,
       0,
       0,
     );

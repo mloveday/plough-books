@@ -29,6 +29,8 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly visaMcTots: T;
 
   public readonly receipts: Rcpt[];
+  public readonly deposits: Rcpt[];
+  public readonly accounts: Rcpt[];
   public readonly spendStaffPts: T;
   public readonly comoDiscAsset: T;
 
@@ -58,7 +60,7 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly paypal: T;
   public readonly deliveroo: T;
 
-  constructor(date: string, mod: string, dailyNotes: string, tills: Till[], chargeToAccount: T, depositRedeemed: T, compsWet: T, dStaffDry: T, dCustomersWet: T, dCustomersDry: T, dCustomersCoffee: T, fwtWet: T, comoInDrawer: T, amexTots: T, visaMcTots: T, receipts: Rcpt[], spendStaffPts: T, comoDiscAsset: T, takeDry: T, takeCoffee: T, takeGiftCard: T, takeDepositPaid: T, paidOutAmnt: T, paidOutTo: string, banked: T, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: Sfd, sfdPm: Sfd, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, paypal: T, deliveroo: T) {
+  constructor(date: string, mod: string, dailyNotes: string, tills: Till[], chargeToAccount: T, depositRedeemed: T, compsWet: T, dStaffDry: T, dCustomersWet: T, dCustomersDry: T, dCustomersCoffee: T, fwtWet: T, comoInDrawer: T, amexTots: T, visaMcTots: T, receipts: Rcpt[], accounts: Rcpt[], deposits: Rcpt[], spendStaffPts: T, comoDiscAsset: T, takeDry: T, takeCoffee: T, takeGiftCard: T, takeDepositPaid: T, paidOutAmnt: T, paidOutTo: string, banked: T, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: Sfd, sfdPm: Sfd, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, paypal: T, deliveroo: T, takeVouchersWet: T, takeVouchersDry: T, takeVouchersHot: T) {
     this.date = date;
     this.mod = mod;
     this.dailyNotes = dailyNotes;
@@ -95,6 +97,11 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
     this.nextDoorBy = nextDoorBy;
     this.paypal = paypal;
     this.deliveroo = deliveroo;
+    this.accounts = accounts;
+    this.deposits = deposits;
+    this.takeVouchersWet = takeVouchersWet;
+    this.takeVouchersDry = takeVouchersDry;
+    this.takeVouchersHot = takeVouchersHot;
   }
 }
 

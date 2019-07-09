@@ -23,6 +23,8 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     amexTots: 0,
     visaMcTots: 0,
     receipts: [],
+    accounts: [],
+    deposits: [],
     spendStaffPts: 0,
     comoDiscAsset: 0,
     takeDry: 0,
@@ -67,6 +69,9 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     nextDoorBy: 'nextDoorBy',
     paypal: 0,
     deliveroo: 0,
+    takeVouchersWet: 0,
+    takeVouchersDry: 0,
+    takeVouchersHot: 0,
   };
 };
 
