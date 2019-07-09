@@ -21,10 +21,10 @@ import {momentFromDate} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {currencyPattern, positiveCurrencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
-import {SafeFloatDenom} from "./SafeFloatDenom";
+import {SafeFloatDenom} from "./Partials/SafeFloatDenom";
+import {TillInputGroup} from "./Partials/TillInputGroup";
 import {sectionOrder} from "./State/AllSections";
 import {SectionPosition} from "./State/SectionPosition";
-import {TillInputGroup} from "./TillInputGroup";
 
 interface CashUpOwnProps {
   match: match<{
