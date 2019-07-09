@@ -19,6 +19,7 @@ import {UiState} from "../../Redux/UI/UiState";
 import {momentFromDate} from "../../Util/DateUtils";
 import {currencyPattern, positiveCurrencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
+import {CashUpCards} from "./Partials/CashUpCards";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
@@ -115,21 +116,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.DISCOUNTS && <CashUpDiscounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.CARDS && <div className="form-group">
-            <h3 className="group-title credit_card_label">Credit card totals</h3>
-            <div className="label-and-input amex_tots">
-              <label htmlFor="amex_tots">AMEX total</label>
-              <input id="amex_tots" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.amexTots}
-                     onChange={ev => this.formUpdate({amexTots: ev.target.value})}/>
-            </div>
-            <div className="label-and-input visa_mc_tots">
-              <label htmlFor="visa_mc_tots">VISA/MC total</label>
-              <input id="visa_mc_tots" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.visaMcTots}
-                     onChange={ev => this.formUpdate({visaMcTots: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.CARDS && <CashUpCards cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.RECEIPTS && <div className="form-group receipts">
             <h3 className="group-title receipts_label">Cash Receipts</h3>
