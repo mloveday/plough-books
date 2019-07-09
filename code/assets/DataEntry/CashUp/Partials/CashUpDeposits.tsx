@@ -36,7 +36,7 @@ class CashUpDepositsComponent extends React.Component<CashUpDepositsProps, {}> {
           this.props.formUpdate({
             deposits: this.props.cashUp.deposits
               .map(r => r.clone())
-              .concat([Receipt.default()])
+              .concat([(Receipt.default()).with({isOutgoing: false})])
           });
         }}>+
         </button>
@@ -62,13 +62,13 @@ class CashUpDepositsComponent extends React.Component<CashUpDepositsProps, {}> {
                  onChange={ev => this.updateDeposit(deposit.with({amount: ev.target.value}))}/>
         </div>
         <div className="label-and-input receipt_amnt">
-          <label htmlFor={`deposit_outgoing_${identifier}_outgoing`}>Deposit redeemed</label>
-          <input id={`deposit_outgoing_${identifier}_outgoing`} type="radio" name={`deposit_outgoing_${identifier}`}
-                 checked={deposit.inputs.isOutgoing} value={'outgoing'}
-                 onChange={ev => {this.updateDeposit(deposit.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
           <label htmlFor={`deposit_outgoing_${identifier}_incoming`}>Deposit paid</label>
           <input id={`deposit_outgoing_${identifier}_incoming`} type="radio" name={`deposit_outgoing_${identifier}`}
                  checked={!deposit.inputs.isOutgoing} value={'incoming'}
+                 onChange={ev => {this.updateDeposit(deposit.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
+          <label htmlFor={`deposit_outgoing_${identifier}_outgoing`}>Deposit redeemed</label>
+          <input id={`deposit_outgoing_${identifier}_outgoing`} type="radio" name={`deposit_outgoing_${identifier}`}
+                 checked={deposit.inputs.isOutgoing} value={'outgoing'}
                  onChange={ev => {this.updateDeposit(deposit.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
         </div>
       </div>
