@@ -2,15 +2,16 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {CashUpEntityUpdateType} from "../../../Model/CashUp/CashUpEntityTypes";
 import {TillDenominations} from "../../../Model/Denominations/TillDenominations";
-import {TillDenominationsAbstract} from "../../../Model/Denominations/TillDenominationsTypes";
 import {AppState} from "../../../redux";
+import {Formatting} from "../../../Util/Formatting";
 import {currencyPattern} from "../../../Util/Validation";
+import {TillRefInputs, TillRefProperty} from "./CashUpTills";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];
-  tillRefs: Array<TillDenominationsAbstract<React.RefObject<{}>>>;
+  tillRefs: TillRefInputs[];
   keyPressHandler: (ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => void;
-  tillProperty: string;
+  tillProperty: TillRefProperty;
   friendlyName: string;
   formUpdate: (obj: CashUpEntityUpdateType) => void;
   groupIdentifier: string;
@@ -38,6 +39,10 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
     return (
       <div className={`per-till ${this.props.groupIdentifier}`}>
         {tills.map(index => this.tillInput(index))}
+
+        <div className="till-total">
+          <div>{Formatting.formatCashForDisplay(tills.reduce((prev, curr) => prev + this.props.tills[curr][this.props.tillProperty],0))}</div>
+        </div>
       </div>
     )
   }

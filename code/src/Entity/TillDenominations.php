@@ -82,6 +82,11 @@ class TillDenominations {
     private $zRead;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    private $coins = 0;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\CashUp", inversedBy="tills")
      */
     private $cashUp;
@@ -240,6 +245,15 @@ class TillDenominations {
         return $this;
     }
 
+    public function getCoins(): float {
+        return $this->coins;
+    }
+
+    public function setCoins($coins): self {
+        $this->coins = $coins;
+        return $this;
+    }
+
     public function getCashUp(): ?CashUp
     {
         return $this->cashUp;
@@ -268,6 +282,7 @@ class TillDenominations {
             'visa' => $this->visa,
             'amex' => $this->amex,
             'zRead' => $this->zRead,
+            'coins' => $this->coins,
         ];
     }
 

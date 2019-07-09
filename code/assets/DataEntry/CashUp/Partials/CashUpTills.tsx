@@ -2,9 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
 import {CashUpEntityUpdateType} from "../../../Model/CashUp/CashUpEntityTypes";
-import {TillDenominationsAbstract} from "../../../Model/Denominations/TillDenominationsTypes";
 import {AppState} from "../../../redux";
-import {Formatting} from "../../../Util/Formatting";
 import {currencyPattern} from "../../../Util/Validation";
 import {TillInputGroup} from "./TillInputGroup";
 
@@ -29,8 +27,21 @@ const mapDispatchToProps = (dispatch: any, ownProps: CashUpTillsOwnProps): CashU
 
 type CashUpTillsProps = CashUpTillsOwnProps & CashUpTillsStateProps & CashUpTillsDispatchProps;
 
+export type TillRefProperty = 'fiftyPounds' | 'twentyPounds' | 'tenPounds' | 'fivePounds' | 'coins' | 'float_amnt' | 'visa' | 'amex' | 'zRead';
+export interface TillRefInputs {
+  fiftyPounds: React.RefObject<HTMLInputElement>,
+  twentyPounds: React.RefObject<HTMLInputElement>,
+  tenPounds: React.RefObject<HTMLInputElement>,
+  fivePounds: React.RefObject<HTMLInputElement>,
+  coins: React.RefObject<HTMLInputElement>,
+  float_amnt: React.RefObject<HTMLInputElement>,
+  visa: React.RefObject<HTMLInputElement>,
+  amex: React.RefObject<HTMLInputElement>,
+  zRead: React.RefObject<HTMLInputElement>,
+}
+
 class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
-  private tillRefs: Array<TillDenominationsAbstract<React.RefObject<{}>>> = [];
+  private tillRefs: TillRefInputs[] = [];
 
   constructor(props: CashUpTillsProps, context: any) {
     super(props, context);
@@ -40,11 +51,7 @@ class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
         twentyPounds: React.createRef(),
         tenPounds: React.createRef(),
         fivePounds: React.createRef(),
-        pounds: React.createRef(),
-        fiftyPence: React.createRef(),
-        twentyPence: React.createRef(),
-        tenPence: React.createRef(),
-        fivePence: React.createRef(),
+        coins: React.createRef(),
         float_amnt: React.createRef(),
         visa: React.createRef(),
         amex: React.createRef(),
@@ -82,6 +89,7 @@ class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
             <div className="till-label">5</div>
             <div className="till-label">6</div>
             <div className="till-label">7</div>
+            <div className="till-label">Total</div>
           </div>
         </div>
 
@@ -144,41 +152,9 @@ class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
         </div>
 
         <div className="form-row">
-          <h4 className="group-label pounds_label">£1 &amp; £2</h4>
-          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'£1 & £2'} tillRefs={this.tillRefs}
-                          groupIdentifier={'pounds_tills'} tillProperty={'pounds'}
-                          keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
-                          tills={this.props.cashUp.tills}/>
-        </div>
-
-        <div className="form-row">
-          <h4 className="group-label fifty_p_label">50p</h4>
-          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'50p'} tillRefs={this.tillRefs}
-                          groupIdentifier={'fifty_p_tills'} tillProperty={'fiftyPence'}
-                          keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
-                          tills={this.props.cashUp.tills}/>
-        </div>
-
-        <div className="form-row">
-          <h4 className="group-label twenty_p_label">20p</h4>
-          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'20p'} tillRefs={this.tillRefs}
-                          groupIdentifier={'twenty_p_tills'} tillProperty={'twentyPence'}
-                          keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
-                          tills={this.props.cashUp.tills}/>
-        </div>
-
-        <div className="form-row">
-          <h4 className="group-label ten_p_label">10p</h4>
-          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'10p'} tillRefs={this.tillRefs}
-                          groupIdentifier={'ten_p_tills'} tillProperty={'tenPence'}
-                          keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
-                          tills={this.props.cashUp.tills}/>
-        </div>
-
-        <div className="form-row">
-          <h4 className="group-label five_p_label">5p</h4>
-          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'5p'} tillRefs={this.tillRefs}
-                          groupIdentifier={'five_p_tills'} tillProperty={'fivePence'}
+          <h4 className="group-label pounds_label">Coins</h4>
+          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'Coins'} tillRefs={this.tillRefs}
+                          groupIdentifier={'pounds_tills'} tillProperty={'coins'}
                           keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
                           tills={this.props.cashUp.tills}/>
         </div>
@@ -190,18 +166,6 @@ class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
                           groupIdentifier={'z_tills'} tillProperty={'zRead'}
                           keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
                           tills={this.props.cashUp.tills}/>
-        </div>
-
-        <div className={`section-line`}/>
-        <div className="form-row">
-          <h4 className="group-label z_label">Z variance</h4>
-          <div className={`per-till diff`}>
-            {this.props.cashUp.tills.map((till, index) =>
-              <div className="till-label-and-input" key={index}>
-                <div>{Formatting.formatCashForDisplay(till.totalTaken() - till.zRead)}</div>
-              </div>
-            )}
-          </div>
         </div>
       </div>
     )

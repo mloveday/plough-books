@@ -1,6 +1,7 @@
 import {Formatting} from "../../Util/Formatting";
 import {
-  TillDenominationsAbstract, TillDenominationsApiType,
+  TillDenominationsAbstract,
+  TillDenominationsApiType,
   TillDenominationsInputType,
   TillDenominationsUpdateType
 } from "./TillDenominationsTypes";
@@ -20,13 +21,14 @@ export class TillDenominationsInputs extends TillDenominationsAbstract<string> i
       Formatting.formatCashForInput(obj.float_amnt),
       Formatting.formatCashForInput(obj.visa),
       Formatting.formatCashForInput(obj.amex),
-      Formatting.formatCashForInput(obj.zRead)
+      Formatting.formatCashForInput(obj.zRead),
+      Formatting.formatCashForInput(obj.coins)
     );
   }
 
   public with(obj: TillDenominationsUpdateType): TillDenominationsInputs {
     return Object.assign(
-      new TillDenominationsInputs(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.float_amnt, this.visa, this.amex, this.zRead),
+      new TillDenominationsInputs(this.fiftyPounds, this.twentyPounds, this.tenPounds, this.fivePounds, this.pounds, this.fiftyPence, this.twentyPence, this.tenPence, this.fivePence, this.float_amnt, this.visa, this.amex, this.zRead, this.coins),
       obj
     );
   }

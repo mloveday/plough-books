@@ -157,6 +157,7 @@ class CashUpParsingService {
         $tillDenominations->setVisa((float) $requestObject['visa']);
         $tillDenominations->setFloatAmnt((float) $requestObject['float_amnt']);
         $tillDenominations->setZRead((float) $requestObject['zRead']);
+        $tillDenominations->setCoins((float) $requestObject['coins']);
         return $tillDenominations;
     }
 

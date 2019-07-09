@@ -6,13 +6,15 @@ export abstract class TillDenominationsAbstract<T> extends DenominationsAbstract
   public readonly visa: T;
   public readonly amex: T;
   public readonly zRead: T;
+  public readonly coins: T;
 
-  constructor(fiftyPounds: T, twentyPounds: T, tenPounds: T, fivePounds: T, pounds: T, fiftyPence: T, twentyPence: T, tenPence: T, fivePence: T, float: T, visa: T, amex: T, zRead: T) {
+  constructor(fiftyPounds: T, twentyPounds: T, tenPounds: T, fivePounds: T, pounds: T, fiftyPence: T, twentyPence: T, tenPence: T, fivePence: T, float: T, visa: T, amex: T, zRead: T, coins: T) {
     super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence);
     this.float_amnt = float;
     this.visa = visa;
     this.amex = amex;
     this.zRead = zRead;
+    this.coins = coins;
   }
 }
 export type TillDenominationsApiType = ApiType<TillDenominationsAbstract<number>>;

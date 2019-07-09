@@ -51,15 +51,9 @@
     .per-till {
       width: 75%;
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-gap: 2px;
-      overflow: hidden;
-    }
-
-    .till-labels {
-      display: grid;
       grid-template-columns: repeat(8, 1fr);
       grid-gap: 2px;
+      overflow: hidden;
     }
 
     .label-and-input {
@@ -91,6 +85,10 @@
       }
       overflow: hidden;
       padding: 2px;
+    }
+
+    .till-total {
+      font-weight: bold;
     }
 
 

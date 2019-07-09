@@ -9,18 +9,18 @@ import {
 
 export class TillDenominations extends TillDenominationsAbstract<number> implements TillDenominationsType {
   public static fromApi(obj: TillDenominationsApiType): TillDenominations {
-    return new TillDenominations(obj.fiftyPounds, obj.twentyPounds, obj.tenPounds, obj.fivePounds, obj.pounds, obj.fiftyPence, obj.twentyPence, obj.tenPence, obj.fivePence, obj.float_amnt, obj.visa, obj.amex, obj.zRead, TillDenominationsInputs.fromApi(obj), obj.id);
+    return new TillDenominations(obj.fiftyPounds, obj.twentyPounds, obj.tenPounds, obj.fivePounds, obj.pounds, obj.fiftyPence, obj.twentyPence, obj.tenPence, obj.fivePence, obj.float_amnt, obj.visa, obj.amex, obj.zRead, obj.coins, TillDenominationsInputs.fromApi(obj), obj.id);
   }
   
   public static default() {
-    return new TillDenominations(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, new TillDenominationsInputs("", "", "", "", "", "", "", "", "", "", "", "", "",));
+    return new TillDenominations(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, new TillDenominationsInputs("", "", "", "", "", "", "", "", "", "", "", "", "", "",));
   }
 
   public readonly id?: number;
   public readonly inputs: TillDenominationsInputs;
 
-  constructor(fiftyPounds: number, twentyPounds: number, tenPounds: number, fivePounds: number, pounds: number, fiftyPence: number, twentyPence: number, tenPence: number, fivePence: number, float: number, visa: number, amex: number, zRead: number, inputs: TillDenominationsInputs, id?: number) {
-    super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence, float, visa, amex, zRead);
+  constructor(fiftyPounds: number, twentyPounds: number, tenPounds: number, fivePounds: number, pounds: number, fiftyPence: number, twentyPence: number, tenPence: number, fivePence: number, float: number, visa: number, amex: number, zRead: number, coins: number, inputs: TillDenominationsInputs, id?: number) {
+    super(fiftyPounds, twentyPounds, tenPounds, fivePounds, pounds, fiftyPence, twentyPence, tenPence, fivePence, float, visa, amex, zRead, coins);
     this.id = id;
     this.inputs = inputs;
   }
@@ -40,6 +40,7 @@ export class TillDenominations extends TillDenominationsAbstract<number> impleme
       obj.visa !== undefined ? validateCash(obj.visa, this.visa) : this.visa, 
       obj.amex !== undefined ? validateCash(obj.amex, this.amex) : this.amex, 
       obj.zRead !== undefined ? validateCash(obj.zRead, this.zRead) : this.zRead,
+      obj.coins !== undefined ? validateCash(obj.coins, this.coins) : this.coins,
       this.inputs.with(obj),
       this.id
     );
@@ -54,6 +55,6 @@ export class TillDenominations extends TillDenominationsAbstract<number> impleme
   }
 
   private totalCashTaken(): number {
-    return this.fiftyPounds + this.twentyPounds + this.tenPounds + this.fivePounds + this.pounds + this.fiftyPence + this.twentyPence + this.tenPence + this.fivePence
+    return this.fiftyPounds + this.twentyPounds + this.tenPounds + this.fivePounds + this.pounds + this.fiftyPence + this.twentyPence + this.tenPence + this.fivePence + this.coins
   }
 }
