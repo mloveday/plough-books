@@ -22,10 +22,10 @@ import {CashUpCards} from "./Partials/CashUpCards";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
+import {CashUpSafeFloat} from "./Partials/CashUpSafeFloat";
 import {CashUpSpendStaffComo} from "./Partials/CashUpSpendStaffComo";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
-import {SafeFloatDenom} from "./Partials/SafeFloatDenom";
 import {sectionOrder} from "./State/AllSections";
 import {SectionPosition} from "./State/SectionPosition";
 
@@ -128,19 +128,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.BANKING && <CashUpBanking cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.SAFE_FLOAT && <div className="form-group safe-float">
-            <h3 className="group-title safe_float_label">Safe float denom</h3>
-            <SafeFloatDenom cashUpPropName='sfdAm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="AM"
-                            safeFloatObj={this.getCashUp().sfdAm}/>
-            <SafeFloatDenom cashUpPropName='sfdPm' formUpdate={obj => this.formUpdate(obj)} friendlyTimeName="PM"
-                            safeFloatObj={this.getCashUp().sfdPm}/>
-            <div className="label-and-input safe_float_notes">
-              <label htmlFor="sfd_notes">Notes</label>
-              <input id="sfd_notes" type="text"
-                     value={this.getCashUp().sfdNotes}
-                     onChange={ev => this.formUpdate({sfdNotes: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.SAFE_FLOAT && <CashUpSafeFloat cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.SUMMARY && <div className="form-group">
             <h3 className="group-title summary_label">Summary</h3>
