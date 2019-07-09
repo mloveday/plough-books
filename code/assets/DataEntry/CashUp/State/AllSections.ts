@@ -2,9 +2,8 @@ import {CashUpSection} from "../../../Model/Enum/CashUpSection";
 import {SectionPosition} from "./SectionPosition";
 
 export const sectionOrder = new Map([
-  [CashUpSection.TILLS, new SectionPosition(CashUpSection.TILLS, CashUpSection.DISCOUNTS, CashUpSection.SECURITY)],
-  [CashUpSection.DISCOUNTS, new SectionPosition(CashUpSection.DISCOUNTS, CashUpSection.CARDS, CashUpSection.TILLS)],
-  [CashUpSection.CARDS, new SectionPosition(CashUpSection.CARDS, CashUpSection.RECEIPTS, CashUpSection.DISCOUNTS)],
+  [CashUpSection.TILLS, new SectionPosition(CashUpSection.TILLS, CashUpSection.CARDS, CashUpSection.SECURITY)],
+  [CashUpSection.CARDS, new SectionPosition(CashUpSection.CARDS, CashUpSection.RECEIPTS, CashUpSection.TILLS)],
   [CashUpSection.RECEIPTS, new SectionPosition(CashUpSection.RECEIPTS, CashUpSection.SPEND_STAFF_PTS_COMO, CashUpSection.CARDS)],
   [CashUpSection.SPEND_STAFF_PTS_COMO, new SectionPosition(CashUpSection.SPEND_STAFF_PTS_COMO, CashUpSection.NETT_TAKES, CashUpSection.RECEIPTS)],
   [CashUpSection.NETT_TAKES, new SectionPosition(CashUpSection.NETT_TAKES, CashUpSection.BANKING, CashUpSection.SPEND_STAFF_PTS_COMO)],
