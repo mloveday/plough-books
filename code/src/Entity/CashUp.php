@@ -127,6 +127,21 @@ class CashUp {
     /**
      * @ORM\Column(type="float")
      */
+    private $take_vouchers_wet = 0;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $take_vouchers_dry = 0;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $take_vouchers_hot = 0;
+
+    /**
+     * @ORM\Column(type="float")
+     */
     private $take_deposit_paid;
 
     /**
@@ -435,6 +450,33 @@ class CashUp {
         return $this;
     }
 
+    public function getTakeVouchersWet(): float {
+        return $this->take_vouchers_wet;
+    }
+
+    public function setTakeVouchersWet($take_vouchers_wet): self {
+        $this->take_vouchers_wet = $take_vouchers_wet;
+        return $this;
+    }
+
+    public function getTakeVouchersDry(): float {
+        return $this->take_vouchers_dry;
+    }
+
+    public function setTakeVouchersDry($take_vouchers_dry): self {
+        $this->take_vouchers_dry = $take_vouchers_dry;
+        return $this;
+    }
+
+    public function getTakeVouchersHot(): float {
+        return $this->take_vouchers_hot;
+    }
+
+    public function setTakeVouchersHot($take_vouchers_hot): self {
+        $this->take_vouchers_hot = $take_vouchers_hot;
+        return $this;
+    }
+
     public function getTakeDepositPaid(): ?float {
         return $this->take_deposit_paid;
     }
@@ -594,6 +636,9 @@ class CashUp {
             'takeDry' => $this->take_dry,
             'takeCoffee' => $this->take_coffee,
             'takeGiftCard' => $this->take_gift_card,
+            'takeVouchersWet' => $this->take_vouchers_wet,
+            'takeVouchersDry' => $this->take_vouchers_dry,
+            'takeVouchersHot' => $this->take_vouchers_hot,
             'takeDepositPaid' => $this->take_deposit_paid,
             'paidOutAmount' => $this->paid_out_amount,
             'paidOutTo' => $this->paid_out_to,

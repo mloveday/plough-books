@@ -43,11 +43,23 @@ class CashUpNettTakesComponent extends React.Component<CashUpNettTakesProps, {}>
                  value={this.props.cashUp.inputs.takeCoffee}
                  onChange={ev => this.props.formUpdate({takeCoffee: ev.target.value})}/>
         </div>
-        <div className="label-and-input take_gift_card">
-          <label htmlFor="take_gift_card">Gift card</label>
+        <div className="label-and-input take_vouchers_wet">
+          <label htmlFor="take_gift_card">Vouchers Wet</label>
           <input id="take_gift_card" type="text" pattern={currencyPattern}
-                 value={this.props.cashUp.inputs.takeGiftCard}
-                 onChange={ev => this.props.formUpdate({takeGiftCard: ev.target.value})}/>
+                 value={this.props.cashUp.inputs.takeVouchersWet}
+                 onChange={ev => this.props.formUpdate({takeVouchersWet: ev.target.value})}/>
+        </div>
+        <div className="label-and-input take_vouchers_dry">
+          <label htmlFor="take_gift_card">Vouchers Dry</label>
+          <input id="take_gift_card" type="text" pattern={currencyPattern}
+                 value={this.props.cashUp.inputs.takeVouchersDry}
+                 onChange={ev => this.props.formUpdate({takeVouchersDry: ev.target.value})}/>
+        </div>
+        <div className="label-and-input take_vouchers_hot">
+          <label htmlFor="take_gift_card">Vouchers Hot</label>
+          <input id="take_gift_card" type="text" pattern={currencyPattern}
+                 value={this.props.cashUp.inputs.takeVouchersHot}
+                 onChange={ev => this.props.formUpdate({takeVouchersHot: ev.target.value})}/>
         </div>
         <div className="label-and-input take_deposit_paid">
           <label htmlFor="take_deposit_paid">Deposit paid</label>

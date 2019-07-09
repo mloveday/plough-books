@@ -34,7 +34,10 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
 
   public readonly takeDry: T;
   public readonly takeCoffee: T;
-  public readonly takeGiftCard: T;
+  public readonly takeGiftCard: T; // deprecated
+  public readonly takeVouchersWet: T;
+  public readonly takeVouchersDry: T;
+  public readonly takeVouchersHot: T;
   public readonly takeDepositPaid: T;
 
   public readonly paidOutAmount: T;
