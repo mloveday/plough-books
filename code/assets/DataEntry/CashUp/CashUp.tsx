@@ -17,8 +17,10 @@ import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {momentFromDate} from "../../Util/DateUtils";
 import './CashUp.scss';
+import {CashUpAccounts} from "./Partials/CashUpAccounts";
 import {CashUpBanking} from "./Partials/CashUpBanking";
 import {CashUpCards} from "./Partials/CashUpCards";
+import {CashUpDeposits} from "./Partials/CashUpDeposits";
 import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
 import {CashUpSafeFloat} from "./Partials/CashUpSafeFloat";
@@ -119,6 +121,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           {sectionShown === CashUpSection.CARDS && <CashUpCards cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {sectionShown === CashUpSection.RECEIPTS && <CashUpAccounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {sectionShown === CashUpSection.RECEIPTS && <CashUpDeposits cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <CashUpSpendStaffComo cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 

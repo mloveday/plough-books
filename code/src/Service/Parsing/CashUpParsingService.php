@@ -2,7 +2,9 @@
 
 namespace App\Service\Parsing;
 
+use App\Entity\Account;
 use App\Entity\CashUp;
+use App\Entity\Deposit;
 use App\Entity\Receipt;
 use App\Entity\SafeFloatDenominations;
 use App\Entity\TillDenominations;
@@ -44,6 +46,12 @@ class CashUpParsingService {
         }
         foreach ($request->request->get('receipts') as $receiptRequestArray) {
             $cashUpEntity->addReceipt($this->updateReceipt(new Receipt(), $receiptRequestArray));
+        }
+        foreach ($request->request->get('deposits') as $depositRequestArray) {
+            $cashUpEntity->addDeposit($this->updateDeposit(new Deposit(), $depositRequestArray));
+        }
+        foreach ($request->request->get('accounts') as $accountRequestArray) {
+            $cashUpEntity->addAccount($this->updateAccount(new Account(), $accountRequestArray));
         }
         $cashUpEntity->setSfdMorning($this->updateSafeFloatTillDenominations(new SafeFloatDenominations(), $request->request->get('sfdAm')));
         $cashUpEntity->setSfdEvening($this->updateSafeFloatTillDenominations(new SafeFloatDenominations(), $request->request->get('sfdPm')));
@@ -88,6 +96,20 @@ class CashUpParsingService {
                 $this->updateReceipt($this->findReceipt($cashUpEntity->getReceipts()->toArray(), $receiptRequestArray['id']), $receiptRequestArray);
             } else {
                 $cashUpEntity->addReceipt($this->updateReceipt(new Receipt(), $receiptRequestArray));
+            }
+        }
+        foreach ($request->request->get('deposits') as $depositRequestArray) {
+            if (array_key_exists('id', $depositRequestArray)) {
+                $this->updateDeposit($this->findDeposit($cashUpEntity->getDeposits()->toArray(), $depositRequestArray['id']), $depositRequestArray);
+            } else {
+                $cashUpEntity->addDeposit($this->updateDeposit(new Deposit(), $depositRequestArray));
+            }
+        }
+        foreach ($request->request->get('accounts') as $accountRequestArray) {
+            if (array_key_exists('id', $accountRequestArray)) {
+                $this->updateAccount($this->findAccount($cashUpEntity->getAccounts()->toArray(), $accountRequestArray['id']), $accountRequestArray);
+            } else {
+                $cashUpEntity->addAccount($this->updateAccount(new Account(), $accountRequestArray));
             }
         }
         return $cashUpEntity;
@@ -152,10 +174,50 @@ class CashUpParsingService {
         return null;
     }
 
+    /**
+     * @param Deposit[] $deposits
+     * @param int $id
+     * @return Deposit|null
+     */
+    private function findDeposit(array $deposits, int $id): Deposit {
+        foreach ($deposits as $deposit) {
+            if ($deposit->getId() === $id) {
+                return $deposit;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param Account[] $accounts
+     * @param int $id
+     * @return Account|null
+     */
+    private function findAccount(array $accounts, int $id): Account {
+        foreach ($accounts as $account) {
+            if ($account->getId() === $id) {
+                return $account;
+            }
+        }
+        return null;
+    }
+
     private function updateReceipt(Receipt $receipt, array $requestObject) {
         $receipt->setAmount($requestObject['amount']);
         $receipt->setDescription($requestObject['description']);
         return $receipt;
+    }
+
+    private function updateDeposit(Deposit $deposit, array $requestObject) {
+        $deposit->setAmount($requestObject['amount']);
+        $deposit->setDescription($requestObject['description']);
+        return $deposit;
+    }
+
+    private function updateAccount(Account $account, array $requestObject) {
+        $account->setAmount($requestObject['amount']);
+        $account->setDescription($requestObject['description']);
+        return $account;
     }
 
     private function updateCashUpEntity(CashUp $cashUp, ParameterBag $requestObject, DateTimeInterface $date): CashUp
