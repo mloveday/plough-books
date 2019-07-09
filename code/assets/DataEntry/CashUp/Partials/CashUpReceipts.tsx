@@ -32,7 +32,7 @@ class CashUpReceiptsComponent extends React.Component<CashUpReceiptsProps, {}> {
   public render() {
     return (
       <div className="form-group receipts">
-        <h3 className="group-title receipts_label">Cash Receipts</h3>
+        <h3 className="group-title receipts_label">Petty Cash</h3>
         <button className='receipt_add_button' type='button' onClick={ev => {
           this.props.formUpdate({
             receipts: this.props.cashUp.receipts
