@@ -53,9 +53,11 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   public getTotalRevenue(): number {
     return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0)
       - this.receipts.reduce((prev, curr) => prev + curr.amount, 0)
+      - this.accounts.reduce((prev, curr) => prev + curr.amount, 0)
+      - this.deposits.reduce((prev, curr) => prev + curr.amount, 0)
       + this.getDiffBetweenAmexTotsAndSumOfTills()
       + this.getDiffBetweenVisaTotsAndSumOfTills()
-      + this.chargeToAccount + this.depositRedeemed;
+      + this.chargeToAccount + this.depositRedeemed; // deprecated chargeToAccount and depositRedeemed, retained for legacy figures
   }
 
   public getTotalZRead(): number {
