@@ -20,6 +20,7 @@ import {currencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
 import {CashUpCards} from "./Partials/CashUpCards";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
+import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
 import {CashUpSpendStaffComo} from "./Partials/CashUpSpendStaffComo";
 import {CashUpSummary} from "./Partials/CashUpSummary";
@@ -123,33 +124,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <CashUpSpendStaffComo cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.NETT_TAKES && <div className="form-group">
-            <h3 className="group-title nett_takes_label">Nett takes</h3>
-            <div className="label-and-input take_dry">
-              <label htmlFor="take_dry">Dry</label>
-              <input id="take_dry" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.takeDry}
-                     onChange={ev => this.formUpdate({takeDry: ev.target.value})}/>
-            </div>
-            <div className="label-and-input take_coffee">
-              <label htmlFor="take_coffee">Coffee</label>
-              <input id="take_coffee" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.takeCoffee}
-                     onChange={ev => this.formUpdate({takeCoffee: ev.target.value})}/>
-            </div>
-            <div className="label-and-input take_gift_card">
-              <label htmlFor="take_gift_card">Gift card</label>
-              <input id="take_gift_card" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.takeGiftCard}
-                     onChange={ev => this.formUpdate({takeGiftCard: ev.target.value})}/>
-            </div>
-            <div className="label-and-input take_deposit_paid">
-              <label htmlFor="take_deposit_paid">Deposit paid</label>
-              <input id="take_deposit_paid" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.takeDepositPaid}
-                     onChange={ev => this.formUpdate({takeDepositPaid: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.NETT_TAKES && <CashUpNettTakes cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.BANKING && <div className="form-group">
             <h3 className="group-title banking_label">Banking</h3>
