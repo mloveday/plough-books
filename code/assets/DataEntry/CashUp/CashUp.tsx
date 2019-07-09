@@ -10,17 +10,17 @@ import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
 import {CashUpEntityUpdateType} from "../../Model/CashUp/CashUpEntityTypes";
 import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
 import {CashUpSection} from "../../Model/Enum/CashUpSection";
-import {Receipt} from "../../Model/Receipt/Receipt";
 import {AppState} from "../../redux";
 import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "../../Redux/CashUp/CashUpRedux";
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {momentFromDate} from "../../Util/DateUtils";
-import {currencyPattern, positiveCurrencyPattern} from "../../Util/Validation";
+import {currencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
 import {CashUpCards} from "./Partials/CashUpCards";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
+import {CashUpReceipts} from "./Partials/CashUpReceipts";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
 import {SafeFloatDenom} from "./Partials/SafeFloatDenom";
@@ -118,18 +118,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.CARDS && <CashUpCards cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.RECEIPTS && <div className="form-group receipts">
-            <h3 className="group-title receipts_label">Cash Receipts</h3>
-            <button className='receipt_add_button' type='button' onClick={ev => {
-              this.formUpdate({
-                receipts: this.getCashUp().receipts
-                  .map(r => r.clone())
-                  .concat([Receipt.default()])
-              });
-            }}>+
-            </button>
-            {this.getCashUp().receipts.map(receipt => this.receiptInput(receipt))}
-          </div>}
+          {sectionShown === CashUpSection.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <div className="form-group">
             <div className="label-and-input spend_staff_pts">
@@ -295,46 +284,10 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     );
   }
 
-  private receiptInput(receipt: Receipt) {
-    const identifier = receipt.id ? receipt.id : receipt.timestamp;
-    return (
-      <div className={`receipt${receipt.inputs.isOutgoing ? ' outgoing' : ' incoming'}`} key={identifier}>
-        <div className="label-and-input receipt_desc">
-          <label htmlFor={`receipt_desc_${identifier}`}>Description</label>
-          <input id={`receipt_desc_${identifier}`} type="text"
-                 value={receipt.inputs.description}
-                 onChange={ev => this.updateReceipt(receipt.with({description: ev.target.value}))}/>
-        </div>
-        <div className="label-and-input receipt_amnt">
-          <label htmlFor={`receipt_amnt_${identifier}`}>Amount</label>
-          <input id={`receipt_amnt_${identifier}`} type="text" pattern={positiveCurrencyPattern}
-                 value={receipt.inputs.amount}
-                 onChange={ev => this.updateReceipt(receipt.with({amount: ev.target.value}))}/>
-        </div>
-        <div className="label-and-input receipt_amnt">
-          <label htmlFor={`receipt_outgoing_${identifier}_outgoing`}>Outgoing</label>
-          <input id={`receipt_outgoing_${identifier}_outgoing`} type="radio" name={`receipt_outgoing_${identifier}`}
-                 checked={receipt.inputs.isOutgoing} value={'outgoing'}
-                 onChange={ev => {this.updateReceipt(receipt.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
-          <label htmlFor={`receipt_outgoing_${identifier}_incoming`}>Incoming</label>
-          <input id={`receipt_outgoing_${identifier}_incoming`} type="radio" name={`receipt_outgoing_${identifier}`}
-                 checked={!receipt.inputs.isOutgoing} value={'incoming'}
-                 onChange={ev => {this.updateReceipt(receipt.with({isOutgoing: ev.target.value === 'outgoing'}))}}/>
-        </div>
-      </div>
-    )
-  }
-
   private formUpdate(obj: CashUpEntityUpdateType) {
     this.props.updateCashUpLocalState(
       [this.getCashUp().with(obj)]
     );
-  }
-
-  private updateReceipt(receipt: Receipt) {
-    const clonedReceipts = this.getCashUp().receipts
-      .map(existingReceipt => (receipt.id ? (existingReceipt.id === receipt.id) : existingReceipt.timestamp === receipt.timestamp) ? receipt : existingReceipt.clone());
-    this.formUpdate({receipts: clonedReceipts});
   }
 
   private getSectionPosition(): SectionPosition {
