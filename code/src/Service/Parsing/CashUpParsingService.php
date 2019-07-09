@@ -91,11 +91,24 @@ class CashUpParsingService {
                 $cashUpEntity->removeReceipt($existingReceipt);
             }
         }
-        foreach ($request->request->get('receipts') as $receiptRequestArray) {
+        $requestedReceipts = $request->request->get('receipts');
+        foreach($cashUpEntity->getReceipts() as $existingReceipt) {
+            if (0 === count(array_filter($requestedReceipts, function ($requestedReceipt) use ($existingReceipt) {return array_key_exists('id', $requestedReceipt) && $requestedReceipt['id'] === $existingReceipt->getId();}))) {
+                $cashUpEntity->removeReceipt($existingReceipt);
+            }
+        }
+        foreach ($requestedReceipts as $receiptRequestArray) {
             if (array_key_exists('id', $receiptRequestArray)) {
                 $this->updateReceipt($this->findReceipt($cashUpEntity->getReceipts()->toArray(), $receiptRequestArray['id']), $receiptRequestArray);
             } else {
                 $cashUpEntity->addReceipt($this->updateReceipt(new Receipt(), $receiptRequestArray));
+            }
+        }
+
+        $requestedDeposits = $request->request->get('deposits');
+        foreach($cashUpEntity->getDeposits() as $existingDeposit) {
+            if (0 === count(array_filter($requestedDeposits, function ($requestedDeposit) use ($existingDeposit) {return array_key_exists('id', $requestedDeposit) && $requestedDeposit['id'] === $existingDeposit->getId();}))) {
+                $cashUpEntity->removeDeposit($existingDeposit);
             }
         }
         foreach ($request->request->get('deposits') as $depositRequestArray) {
@@ -105,6 +118,13 @@ class CashUpParsingService {
                 $cashUpEntity->addDeposit($this->updateDeposit(new Deposit(), $depositRequestArray));
             }
         }
+
+        $requestedAccounts = $request->request->get('accounts');
+        foreach($cashUpEntity->getAccounts() as $existingAccount) {
+            if (0 === count(array_filter($requestedAccounts, function ($requestedAccount) use ($existingAccount) {return array_key_exists('id', $requestedAccount) && $requestedAccount['id'] === $existingAccount->getId();}))) {
+                $cashUpEntity->removeAccount($existingAccount);
+            }
+        }
         foreach ($request->request->get('accounts') as $accountRequestArray) {
             if (array_key_exists('id', $accountRequestArray)) {
                 $this->updateAccount($this->findAccount($cashUpEntity->getAccounts()->toArray(), $accountRequestArray['id']), $accountRequestArray);
@@ -112,6 +132,7 @@ class CashUpParsingService {
                 $cashUpEntity->addAccount($this->updateAccount(new Account(), $accountRequestArray));
             }
         }
+
         return $cashUpEntity;
     }
 

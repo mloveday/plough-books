@@ -1,3 +1,4 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
@@ -57,6 +58,9 @@ class CashUpDepositsComponent extends React.Component<CashUpDepositsProps, {}> {
     const identifier = deposit.id ? deposit.id : deposit.timestamp;
     return (
       <div className={`receipt${deposit.inputs.isOutgoing ? ' outgoing' : ' incoming'}`} key={identifier}>
+        <button className={`delete-item`} onClick={() => this.deleteDeposit(deposit)}>
+          <FontAwesomeIcon icon="trash"/>
+        </button>
         <div className="label-and-input receipt_desc">
           <label htmlFor={`deposit_desc_${identifier}`}>Description</label>
           <input id={`deposit_desc_${identifier}`} type="text"
@@ -86,6 +90,12 @@ class CashUpDepositsComponent extends React.Component<CashUpDepositsProps, {}> {
   private updateDeposit(deposit: Receipt) {
     const clonedDeposits = this.props.cashUp.deposits
       .map(existingDeposit => (deposit.id ? (existingDeposit.id === deposit.id) : existingDeposit.timestamp === deposit.timestamp) ? deposit : existingDeposit.clone());
+    this.props.formUpdate({deposits: clonedDeposits});
+  }
+
+  private deleteDeposit(deposit: Receipt) {
+    const clonedDeposits = this.props.cashUp.deposits
+      .filter(existingDeposit => (deposit.id ? (existingDeposit.id !== deposit.id) : existingDeposit.timestamp !== deposit.timestamp));
     this.props.formUpdate({deposits: clonedDeposits});
   }
 }

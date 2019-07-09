@@ -1,3 +1,4 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
@@ -49,6 +50,9 @@ class CashUpReceiptsComponent extends React.Component<CashUpReceiptsProps, {}> {
     const identifier = receipt.id ? receipt.id : receipt.timestamp;
     return (
       <div className={`receipt${receipt.inputs.isOutgoing ? ' outgoing' : ' incoming'}`} key={identifier}>
+        <button className={`delete-item`} onClick={() => this.deleteReceipt(receipt)}>
+          <FontAwesomeIcon icon="trash"/>
+        </button>
         <div className="label-and-input receipt_desc">
           <label htmlFor={`receipt_desc_${identifier}`}>Description</label>
           <input id={`receipt_desc_${identifier}`} type="text"
@@ -78,6 +82,12 @@ class CashUpReceiptsComponent extends React.Component<CashUpReceiptsProps, {}> {
   private updateReceipt(receipt: Receipt) {
     const clonedReceipts = this.props.cashUp.receipts
       .map(existingReceipt => (receipt.id ? (existingReceipt.id === receipt.id) : existingReceipt.timestamp === receipt.timestamp) ? receipt : existingReceipt.clone());
+    this.props.formUpdate({receipts: clonedReceipts});
+  }
+
+  private deleteReceipt(receipt: Receipt) {
+    const clonedReceipts = this.props.cashUp.receipts
+      .filter(existingReceipt => (receipt.id ? (existingReceipt.id !== receipt.id) : existingReceipt.timestamp !== receipt.timestamp));
     this.props.formUpdate({receipts: clonedReceipts});
   }
 }

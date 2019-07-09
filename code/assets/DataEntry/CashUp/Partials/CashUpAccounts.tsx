@@ -1,3 +1,4 @@
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import {connect} from "react-redux";
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
@@ -57,6 +58,9 @@ class CashUpAccountsComponent extends React.Component<CashUpAccountsProps, {}> {
     const identifier = account.id ? account.id : account.timestamp;
     return (
       <div className={`receipt${account.inputs.isOutgoing ? ' outgoing' : ' incoming'}`} key={identifier}>
+        <button className={`delete-item`} onClick={() => this.deleteAccount(account)}>
+          <FontAwesomeIcon icon="trash"/>
+        </button>
         <div className="label-and-input receipt_desc">
           <label htmlFor={`account_desc_${identifier}`}>Description</label>
           <input id={`account_desc_${identifier}`} type="text"
@@ -86,6 +90,12 @@ class CashUpAccountsComponent extends React.Component<CashUpAccountsProps, {}> {
   private updateAccount(account: Receipt) {
     const clonedAccounts = this.props.cashUp.accounts
       .map(existingAccount => (account.id ? (existingAccount.id === account.id) : existingAccount.timestamp === account.timestamp) ? account : existingAccount.clone());
+    this.props.formUpdate({accounts: clonedAccounts});
+  }
+
+  private deleteAccount(account: Receipt) {
+    const clonedAccounts = this.props.cashUp.accounts
+      .filter(existingAccount => (account.id ? (existingAccount.id !== account.id) : existingAccount.timestamp !== account.timestamp));
     this.props.formUpdate({accounts: clonedAccounts});
   }
 }
