@@ -16,8 +16,8 @@ import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "../../Redux/CashUp/Cas
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {momentFromDate} from "../../Util/DateUtils";
-import {currencyPattern} from "../../Util/Validation";
 import './CashUp.scss';
+import {CashUpBanking} from "./Partials/CashUpBanking";
 import {CashUpCards} from "./Partials/CashUpCards";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
@@ -126,51 +126,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.NETT_TAKES && <CashUpNettTakes cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.BANKING && <div className="form-group">
-            <h3 className="group-title banking_label">Banking</h3>
-            <div className="label-and-input paid_out_amnt">
-              <label htmlFor="paid_out_amnt">Paid out</label>
-              <input id="paid_out_amnt" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.paidOutAmount}
-                     onChange={ev => this.formUpdate({paidOutAmount: ev.target.value})}/>
-            </div>
-            <div className="label-and-input paid_out_to">
-              <label htmlFor="paid_out_to">Paid out to</label>
-              <input id="paid_out_to" type="text"
-                     value={this.getCashUp().paidOutTo}
-                     onChange={ev => this.formUpdate({paidOutTo: ev.target.value})}/>
-            </div>
-            <div className="label-and-input banked">
-              <label htmlFor="banked">Banked</label>
-              <input id="banked" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.banked}
-                     onChange={ev => this.formUpdate({banked: ev.target.value})}/>
-            </div>
-            <div className="label-and-input cash_advantage_bag">
-              <label htmlFor="cash_advantage_bag">Cash advantage bag</label>
-              <input id="cash_advantage_bag" type="text"
-                     value={this.getCashUp().cashAdvantageBag}
-                     onChange={ev => this.formUpdate({cashAdvantageBag: ev.target.value})}/>
-            </div>
-            <div className="label-and-input cash_advantage_bag_seen_by">
-              <label htmlFor="cash_advantage_bag_seen_by">Seen by</label>
-              <input id="cash_advantage_bag_seen_by" type="text"
-                     value={this.getCashUp().cashAdvantageBagSeenBy}
-                     onChange={ev => this.formUpdate({cashAdvantageBagSeenBy: ev.target.value})}/>
-            </div>
-            <div className="label-and-input paypal">
-              <label htmlFor="paypal">Paypal</label>
-              <input id="paypal" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.paypal}
-                     onChange={ev => this.formUpdate({paypal: ev.target.value})}/>
-            </div>
-            <div className="label-and-input deliveroo">
-              <label htmlFor="deliveroo">Deliveroo</label>
-              <input id="deliveroo" type="text" pattern={currencyPattern}
-                     value={this.getCashUp().inputs.deliveroo}
-                     onChange={ev => this.formUpdate({deliveroo: ev.target.value})}/>
-            </div>
-          </div>}
+          {sectionShown === CashUpSection.BANKING && <CashUpBanking cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {sectionShown === CashUpSection.SAFE_FLOAT && <div className="form-group safe-float">
             <h3 className="group-title safe_float_label">Safe float denom</h3>
