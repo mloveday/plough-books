@@ -28,7 +28,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 4px;
-      .group-title.receipts_label, .receipt_add_button {
+      .group-title.receipts_label, .receipt_add_button, .form-row {
         grid-column: 1/3;
       }
     }
@@ -39,6 +39,10 @@
         width: 25%;
       }
       margin-bottom: 8px;
+
+      &.deprecated * {
+        color: #dddddd;
+      }
     }
 
     .section-line {

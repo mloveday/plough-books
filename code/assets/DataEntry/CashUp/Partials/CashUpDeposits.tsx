@@ -4,7 +4,7 @@ import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
 import {CashUpEntityUpdateType} from "../../../Model/CashUp/CashUpEntityTypes";
 import {Receipt} from "../../../Model/Receipt/Receipt";
 import {AppState} from "../../../redux";
-import {positiveCurrencyPattern} from "../../../Util/Validation";
+import {currencyPattern, positiveCurrencyPattern} from "../../../Util/Validation";
 
 interface CashUpDepositsOwnProps {
   cashUp: CashUpEntity;
@@ -41,6 +41,14 @@ class CashUpDepositsComponent extends React.Component<CashUpDepositsProps, {}> {
         }}>+
         </button>
         {this.props.cashUp.deposits.map(deposit => this.depositInput(deposit))}
+        <div className="form-row deprecated">
+          <div className="label-and-input deposit_redeemed">
+            <label htmlFor="deposit_redeemed">Deposit redeemed (deprecated)</label>
+            <input id="deposit_redeemed" type="text" pattern={currencyPattern}
+                   value={this.props.cashUp.inputs.depositRedeemed}
+                   onChange={ev => this.props.formUpdate({depositRedeemed: ev.target.value})}/>
+          </div>
+        </div>
       </div>
     )
   }

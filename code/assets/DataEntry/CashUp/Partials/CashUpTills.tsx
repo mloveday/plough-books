@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
 import {CashUpEntityUpdateType} from "../../../Model/CashUp/CashUpEntityTypes";
 import {AppState} from "../../../redux";
-import {currencyPattern} from "../../../Util/Validation";
 import {TillInputGroup} from "./TillInputGroup";
 
 interface CashUpTillsOwnProps {
@@ -63,22 +62,6 @@ class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
   public render() {
     return (
       <div className="form-group">
-        <div className="form-row">
-          <h4 className="group-label charge_deposit_label">Charge & deposit</h4>
-          <div className="label-and-input charge_to_ac">
-            <label htmlFor="charge_to_ac">Charge to account</label>
-            <input id="charge_to_ac" type="text" pattern={currencyPattern}
-                   value={this.props.cashUp.inputs.chargeToAccount}
-                   onChange={ev => this.props.formUpdate({chargeToAccount: ev.target.value})}/>
-          </div>
-          <div className="label-and-input deposit_redeemed">
-            <label htmlFor="deposit_redeemed">Deposit redeemed</label>
-            <input id="deposit_redeemed" type="text" pattern={currencyPattern}
-                   value={this.props.cashUp.inputs.depositRedeemed}
-                   onChange={ev => this.props.formUpdate({depositRedeemed: ev.target.value})}/>
-          </div>
-        </div>
-
         <div className="form-row">
           <h4 className="group-label till_label">Tills</h4>
           <div className="per-till">
