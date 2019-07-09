@@ -263,6 +263,9 @@ class CashUpParsingService {
         $cashUp->setTakeDry((float)$requestObject->get('takeDry'));
         $cashUp->setTakeCoffee((float)$requestObject->get('takeCoffee'));
         $cashUp->setTakeGiftCard((float)$requestObject->get('takeGiftCard'));
+        $cashUp->setTakeVouchersDry((float)$requestObject->get('takeVouchersDry'));
+        $cashUp->setTakeVouchersHot((float)$requestObject->get('takeVouchersHot'));
+        $cashUp->setTakeVouchersWet((float)$requestObject->get('takeVouchersWet'));
         $cashUp->setTakeDepositPaid((float)$requestObject->get('takeDepositPaid'));
         $cashUp->setPaidOutAmount((float)$requestObject->get('paidOutAmnt'));
         $cashUp->setPaidOutTo($requestObject->get('paidOutTo'));

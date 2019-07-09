@@ -20,6 +20,7 @@ import './CashUp.scss';
 import {CashUpAccounts} from "./Partials/CashUpAccounts";
 import {CashUpBanking} from "./Partials/CashUpBanking";
 import {CashUpDeposits} from "./Partials/CashUpDeposits";
+import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
 import {CashUpSafeFloat} from "./Partials/CashUpSafeFloat";
@@ -117,6 +118,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
           {sectionShown === CashUpSection.TILLS && <CashUpTills cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
+          {sectionShown === CashUpSection.DISCOUNTS && <CashUpDiscounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+
           {sectionShown === CashUpSection.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
           {sectionShown === CashUpSection.RECEIPTS && <CashUpAccounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
           {sectionShown === CashUpSection.RECEIPTS && <CashUpDeposits cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
@@ -175,7 +178,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
       // @ts-ignore
       return sectionOrder.get(this.props.uiState.cashUpSection);
     }
-    return new SectionPosition(CashUpSection.TILLS, CashUpSection.RECEIPTS, CashUpSection.SECURITY);
+    return new SectionPosition(CashUpSection.TILLS, CashUpSection.DISCOUNTS, CashUpSection.SECURITY);
   }
 }
 
