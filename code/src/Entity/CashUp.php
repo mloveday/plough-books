@@ -180,6 +180,21 @@ class CashUp {
     private $cash_advantage_bag_seen_by;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    private $banked_pm;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $cash_advantage_bag_pm;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $cash_advantage_bag_seen_by_pm;
+
+    /**
      * @ORM\OneToOne(targetEntity="App\Entity\SafeFloatDenominations", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $sfd_morning;
@@ -599,6 +614,33 @@ class CashUp {
         return $this;
     }
 
+    public function getBankedPm(): ?float {
+        return $this->banked_pm;
+    }
+
+    public function setBankedPm(float $banked_pm): self {
+        $this->banked_pm = $banked_pm;
+        return $this;
+    }
+
+    public function getCashAdvantageBagPm(): ?string {
+        return $this->cash_advantage_bag_pm;
+    }
+
+    public function setCashAdvantageBagPm(string $cash_advantage_bag_pm): self {
+        $this->cash_advantage_bag_pm = $cash_advantage_bag_pm;
+        return $this;
+    }
+
+    public function getCashAdvantageBagSeenByPm(): ?string {
+        return $this->cash_advantage_bag_seen_by_pm;
+    }
+
+    public function setCashAdvantageBagSeenByPm(string $cash_advantage_bag_seen_by_pm): self {
+        $this->cash_advantage_bag_seen_by_pm = $cash_advantage_bag_seen_by_pm;
+        return $this;
+    }
+
     public function getSfdMorning(): ?SafeFloatDenominations {
         return $this->sfd_morning;
     }
@@ -715,6 +757,9 @@ class CashUp {
             'banked' => $this->banked,
             'cashAdvantageBag' => $this->cash_advantage_bag,
             'cashAdvantageBagSeenBy' => $this->cash_advantage_bag_seen_by,
+            'bankedPm' => $this->banked_pm,
+            'cashAdvantageBagPm' => $this->cash_advantage_bag_pm,
+            'cashAdvantageBagSeenByPm' => $this->cash_advantage_bag_seen_by_pm,
             'sfdAm' => $this->getSfdMorning()->serialise(),
             'sfdPm' => $this->getSfdEvening()->serialise(),
             'sfdNotes' => $this->sfd_notes,

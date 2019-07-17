@@ -47,6 +47,9 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly banked: T;
   public readonly cashAdvantageBag: string;
   public readonly cashAdvantageBagSeenBy: string;
+  public readonly bankedPm: T;
+  public readonly cashAdvantageBagPm: string;
+  public readonly cashAdvantageBagSeenByPm: string;
   
   public readonly sfdAm: Sfd;
   public readonly sfdPm: Sfd;
@@ -60,7 +63,7 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
   public readonly paypal: T;
   public readonly deliveroo: T;
 
-  constructor(date: string, mod: string, dailyNotes: string, tills: Till[], chargeToAccount: T, depositRedeemed: T, compsWet: T, dStaffDry: T, dCustomersWet: T, dCustomersDry: T, dCustomersCoffee: T, fwtWet: T, comoInDrawer: T, amexTots: T, visaMcTots: T, receipts: Rcpt[], accounts: Rcpt[], deposits: Rcpt[], spendStaffPts: T, comoDiscAsset: T, takeDry: T, takeCoffee: T, takeGiftCard: T, takeDepositPaid: T, paidOutAmnt: T, paidOutTo: string, banked: T, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, sfdAm: Sfd, sfdPm: Sfd, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, paypal: T, deliveroo: T, takeVouchersWet: T, takeVouchersDry: T, takeVouchersHot: T) {
+  constructor(date: string, mod: string, dailyNotes: string, tills: Till[], chargeToAccount: T, depositRedeemed: T, compsWet: T, dStaffDry: T, dCustomersWet: T, dCustomersDry: T, dCustomersCoffee: T, fwtWet: T, comoInDrawer: T, amexTots: T, visaMcTots: T, receipts: Rcpt[], accounts: Rcpt[], deposits: Rcpt[], spendStaffPts: T, comoDiscAsset: T, takeDry: T, takeCoffee: T, takeGiftCard: T, takeDepositPaid: T, paidOutAmnt: T, paidOutTo: string, banked: T, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, bankedPm: T, cashAdvantageBagPm: string, cashAdvantageBagSeenByPm: string, sfdAm: Sfd, sfdPm: Sfd, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, paypal: T, deliveroo: T, takeVouchersWet: T, takeVouchersDry: T, takeVouchersHot: T) {
     this.date = date;
     this.mod = mod;
     this.dailyNotes = dailyNotes;
@@ -88,6 +91,9 @@ export abstract class CashUpEntityAbstract<T, Till, Sfd, Rcpt> {
     this.banked = banked;
     this.cashAdvantageBag = cashAdvantageBag;
     this.cashAdvantageBagSeenBy = cashAdvantageBagSeenBy;
+    this.bankedPm = bankedPm;
+    this.cashAdvantageBagPm = cashAdvantageBagPm;
+    this.cashAdvantageBagSeenByPm = cashAdvantageBagSeenByPm;
     this.sfdAm = sfdAm;
     this.sfdPm = sfdPm;
     this.sfdNotes = sfdNotes;

@@ -36,6 +36,9 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     banked: 0,
     cashAdvantageBag: 'cashAdvantageBag',
     cashAdvantageBagSeenBy: 'cashAdvantageBagSeenBy',
+    bankedPm: 0,
+    cashAdvantageBagPm: 'cashAdvantageBagPm',
+    cashAdvantageBagSeenByPm: 'cashAdvantageBagSeenByPm',
     sfdAm: {
       id: 1,
       fiftyPounds: 0,

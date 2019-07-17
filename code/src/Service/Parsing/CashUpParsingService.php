@@ -272,6 +272,9 @@ class CashUpParsingService {
         $cashUp->setBanked((float)$requestObject->get('banked'));
         $cashUp->setCashAdvantageBag($requestObject->get('cashAdvantageBag'));
         $cashUp->setCashAdvantageBagSeenBy($requestObject->get('cashAdvantageBagSeenBy'));
+        $cashUp->setBankedPm((float)$requestObject->get('bankedPm'));
+        $cashUp->setCashAdvantageBagPm($requestObject->get('cashAdvantageBagPm'));
+        $cashUp->setCashAdvantageBagSeenByPm($requestObject->get('cashAdvantageBagSeenByPm'));
         $cashUp->setSfdNotes($requestObject->get('sfdNotes'));
         $cashUp->setPubSecuredBy($requestObject->get('pubSecuredBy'));
         $cashUp->setBarClosedBy($requestObject->get('barClosedBy'));
