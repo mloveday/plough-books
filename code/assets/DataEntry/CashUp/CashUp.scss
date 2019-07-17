@@ -78,6 +78,9 @@
       flex-direction: row;
       overflow: hidden;
       padding: 2px;
+      &.deprecated * {
+        color: #dddddd;
+      }
     }
 
     .till-label-and-input {

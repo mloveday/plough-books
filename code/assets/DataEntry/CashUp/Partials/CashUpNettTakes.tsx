@@ -32,18 +32,23 @@ class CashUpNettTakesComponent extends React.Component<CashUpNettTakesProps, {}>
       <div className="form-group">
         <h3 className="group-title nett_takes_label">Nett takes</h3>
         <div className="label-and-input take_wet">
-          <label htmlFor={`take_wet`}>Wet</label>
+          <label htmlFor={`take_wet`}>Wet sales</label>
           <input disabled={true} id={`take_wet`} type="text" pattern={currencyPattern}
                  value={this.props.cashUp.getWetTake()}/>
         </div>
+        <div className="label-and-input take_wet">
+          <label htmlFor={`take_wet_z`}>Wet sales z</label>
+          <input disabled={true} id={`take_wet_z`} type="text" pattern={currencyPattern}
+                 value={this.props.cashUp.getWetSalesZ()}/>
+        </div>
         <div className="label-and-input take_dry">
-          <label htmlFor="take_dry">Dry</label>
+          <label htmlFor="take_dry">Dry sales</label>
           <input id="take_dry" type="text" pattern={currencyPattern}
                  value={this.props.cashUp.inputs.takeDry}
                  onChange={ev => this.props.formUpdate({takeDry: ev.target.value})}/>
         </div>
         <div className="label-and-input take_coffee">
-          <label htmlFor="take_coffee">Coffee</label>
+          <label htmlFor="take_coffee">Coffee sales</label>
           <input id="take_coffee" type="text" pattern={currencyPattern}
                  value={this.props.cashUp.inputs.takeCoffee}
                  onChange={ev => this.props.formUpdate({takeCoffee: ev.target.value})}/>
@@ -66,7 +71,13 @@ class CashUpNettTakesComponent extends React.Component<CashUpNettTakesProps, {}>
                  value={this.props.cashUp.inputs.takeVouchersHot}
                  onChange={ev => this.props.formUpdate({takeVouchersHot: ev.target.value})}/>
         </div>
-        <div className="label-and-input take_deposit_paid">
+        <div className="label-and-input take_gift_card">
+          <label htmlFor="take_gift_card">Voucher Bought</label>
+          <input id="take_gift_card" type="text" pattern={currencyPattern}
+                 value={this.props.cashUp.inputs.takeGiftCard}
+                 onChange={ev => this.props.formUpdate({takeGiftCard: ev.target.value})}/>
+        </div>
+        <div className="label-and-input take_deposit_paid deprecated">
           <label htmlFor="take_deposit_paid">Deposit paid</label>
           <input id="take_deposit_paid" type="text" pattern={currencyPattern}
                  value={this.props.cashUp.inputs.takeDepositPaid}
