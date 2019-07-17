@@ -69,7 +69,7 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   }
 
   public getZReadVariance(): number {
-    return this.getTotalComps() + this.getTotalRevenue() + this.comoInDrawer - this.getTotalZRead();
+    return this.getTotalRevenue() + this.comoInDrawer - this.getTotalZRead();
   }
 
   private getDiffBetweenAmexTotsAndSumOfTills(): number {

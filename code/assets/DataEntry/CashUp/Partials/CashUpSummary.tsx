@@ -43,7 +43,7 @@ class CashUpSummaryComponent extends React.Component<CashUpSummaryProps, {}> {
 
         <div className={`summary-stat`}>
           <div>Expected z read</div>
-          <div>{Formatting.formatCashForDisplay(this.props.cashUp.getTotalComps() + this.props.cashUp.getTotalRevenue() + this.props.cashUp.comoInDrawer)}</div>
+          <div>{Formatting.formatCashForDisplay(this.props.cashUp.getTotalRevenue() + this.props.cashUp.comoInDrawer)}</div>
         </div>
         <div className={`summary-stat`}>
           <div>Actual z read</div>
