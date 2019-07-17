@@ -3,6 +3,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
+import {CashUpSection} from "../../Model/Enum/CashUpSection";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {AuthState} from "../../Redux/Auth/AuthState";
@@ -61,7 +62,7 @@ class NavComponent extends React.Component<NavProps, {}> {
           {this.routeItem(Routes.rotaUrl(date, WorkTypes.ANCILLARY), "Ancillary Rota", 'planning', 'calendar-day', Routes.ROTA)}
           </li>
           <li className={routeCssSingle}>
-            {this.routeItem(Routes.cashUpUrl(date), "Cash up", 'recording', 'cash-register', Routes.CASH_UP)}
+            {this.routeItem(Routes.cashUpUrl(date, CashUpSection.TILLS), "Cash up", 'recording', 'cash-register', Routes.CASH_UP)}
           </li>
           <li className={routeCssDouble}>
           {this.routeItem(Routes.signInUrl(date, WorkTypes.BAR), "Sign-in bar", 'recording', 'calendar-check', Routes.SIGN_IN_SHEET)}

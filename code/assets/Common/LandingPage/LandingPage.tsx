@@ -3,6 +3,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import {WeeklyRunningOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyRunningOverview";
+import {CashUpSection} from "../../Model/Enum/CashUpSection";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
 import {AuthState} from "../../Redux/Auth/AuthState";
@@ -56,7 +57,7 @@ class LandingPageComponent extends React.Component<LandingPageProps, {}> {
         <div className={'query'}>
           <div className={'query-title'}>Fill in a cash up</div>
           <div className={'query-answers'}>
-            <div className={'query-answer'}>Go to the <Link className={'link'} to={Routes.cashUpUrl(moment.utc())}>cash up page</Link></div>
+            <div className={'query-answer'}>Go to the <Link className={'link'} to={Routes.cashUpUrl(moment.utc(), CashUpSection.TILLS)}>cash up page</Link></div>
           </div>
         </div>
         <div className={'query'}>

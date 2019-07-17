@@ -2,6 +2,7 @@ import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
 import {match} from "react-router";
+import {Link} from "react-router-dom";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
@@ -33,7 +34,8 @@ import {SectionPosition} from "./State/SectionPosition";
 
 interface CashUpOwnProps {
   match: match<{
-    date: string
+    date: string,
+    page: CashUpSection,
   }>;
 }
 
@@ -80,12 +82,13 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   public render() {
-    const sectionShown = this.props.uiState.cashUpSection;
+    const dateParam = moment.utc(this.props.match.params.date);
+    const sectionShown = this.props.match.params.page;
     const currentSectionPosition = this.getSectionPosition();
     return (
       <div className='cash-up'>
         <DatePicker dateParam={this.props.match.params.date}
-                    urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date)}/>
+                    urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date, CashUpSection.TILLS)}/>
 
         <form className="form-wrapper">
           <div className="form-group">
@@ -111,7 +114,7 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           <ul className='cash-up-link-list'>
             {Array.from(sectionOrder.values()).map((sectionPosition, key) => (
               <li className='cash-up-link-item' key={key}>
-                <button className={`cash-up-link-button${sectionPosition.section === currentSectionPosition.section ? ' selected' : ''}`} type="button" onClick={() => this.props.updateUi(this.props.uiState.withCashUpSection(sectionPosition.section))}>{sectionPosition.section}</button>
+                <Link to={Routes.cashUpUrl(dateParam, sectionPosition.section)} className={`cash-up-link-button${sectionPosition.section === currentSectionPosition.section ? ' selected' : ''}`}>{sectionPosition.section}</Link>
               </li>
             ))}
           </ul>
@@ -174,9 +177,9 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
   }
 
   private getSectionPosition(): SectionPosition {
-    if (sectionOrder.has(this.props.uiState.cashUpSection)) {
+    if (sectionOrder.has(this.props.match.params.page)) {
       // @ts-ignore
-      return sectionOrder.get(this.props.uiState.cashUpSection);
+      return sectionOrder.get(this.props.match.params.page);
     }
     return new SectionPosition(CashUpSection.TILLS, CashUpSection.DISCOUNTS, CashUpSection.SECURITY);
   }

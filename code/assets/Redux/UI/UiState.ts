@@ -1,5 +1,4 @@
 import * as moment from "moment";
-import {CashUpSection} from "../../Model/Enum/CashUpSection";
 import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {DateFormats} from "../../Util/DateFormats";
@@ -7,7 +6,6 @@ import {momentFromDate} from "../../Util/DateUtils";
 import {RotaStaffingTemplateFilters} from "../RotaStaffingTemplates/RotaStaffingTemplateFilters";
 
 export interface IUiStateUpdateObject {
-  cashUpSection?: CashUpSection;
   currentDateString?: string;
   showingNav?: boolean;
   rotaShowRates?: boolean;
@@ -19,7 +17,6 @@ export class UiState {
     return new UiState();
   }
 
-  public readonly cashUpSection: CashUpSection = CashUpSection.TILLS;
   public readonly rotaShowRates: boolean = false;
   public readonly showingNav: boolean = false;
   public readonly rotaStaffingTemplateFilters: RotaStaffingTemplateFilters = new RotaStaffingTemplateFilters(1, WorkTypes.BAR, RotaStaffingTemplateStatus.ACTIVE);
@@ -35,10 +32,6 @@ export class UiState {
 
   public withCurrentDate(date: moment.Moment) {
     return this.with({currentDateString: date.format(DateFormats.API_DATE)});
-  }
-
-  public withCashUpSection(cashUpSection: CashUpSection) {
-    return this.with({cashUpSection});
   }
 
   public withShouldShowNav(shouldShowNav: boolean) {

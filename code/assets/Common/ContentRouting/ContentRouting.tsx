@@ -17,6 +17,7 @@ import {TestCoverageComponent} from "../../DataVisualisation/Tests/TestCoverage"
 import {TestResultsComponent} from "../../DataVisualisation/Tests/TestResults";
 import {WeeklyOverview} from "../../DataVisualisation/WeeklyOverview/WeeklyOverview";
 import {WeeklyRota} from "../../DataVisualisation/WeeklyRota/WeeklyRota";
+import {CashUpSection} from "../../Model/Enum/CashUpSection";
 import {ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkTypes} from "../../Model/Enum/WorkTypes";
 import {AppState} from "../../redux";
@@ -75,7 +76,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <Redirect to={Routes.weeklySignInUrl(moment.utc())} exact={false} path={Routes.WEEKLY_SIGN_IN} />
             <Redirect to={Routes.weeklyRotaUrl(moment.utc())} exact={false} path={Routes.WEEKLY_ROTA} />
             <Redirect to={Routes.weeklyOverviewUrl(moment.utc())} exact={false} path={Routes.WEEKLY_OVERVIEW} />
-            <Redirect to={Routes.cashUpUrl(moment.utc())} exact={false} path={Routes.CASH_UP} />
+            <Redirect to={Routes.cashUpUrl(moment.utc(), CashUpSection.TILLS)} exact={false} path={Routes.CASH_UP} />
             <Redirect to={Routes.rotaUrl(moment.utc(), WorkTypes.BAR)} exact={false} path={Routes.ROTA} />
             <Redirect to={Routes.signInUrl(moment.utc(), WorkTypes.BAR)} exact={false} path={Routes.SIGN_IN_SHEET} />
             <Route exact={true} path={'/'} component={LandingPage}/>
