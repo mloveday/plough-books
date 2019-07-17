@@ -55,13 +55,13 @@ class CashUpBankingComponent extends React.Component<CashUpBankingProps, {}> {
                  value={this.props.cashUp.cashAdvantageBagSeenBy}
                  onChange={ev => this.props.formUpdate({cashAdvantageBagSeenBy: ev.target.value})}/>
         </div>
-        <div className="label-and-input paypal">
+        <div className="label-and-input paypal deprecated">
           <label htmlFor="paypal">Paypal</label>
           <input id="paypal" type="text" pattern={currencyPattern}
                  value={this.props.cashUp.inputs.paypal}
                  onChange={ev => this.props.formUpdate({paypal: ev.target.value})}/>
         </div>
-        <div className="label-and-input deliveroo">
+        <div className="label-and-input deliveroo deprecated">
           <label htmlFor="deliveroo">Deliveroo</label>
           <input id="deliveroo" type="text" pattern={currencyPattern}
                  value={this.props.cashUp.inputs.deliveroo}
