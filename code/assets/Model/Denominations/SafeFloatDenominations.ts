@@ -48,4 +48,16 @@ export class SafeFloatDenominations extends SafeFloatDenominationsAbstract<numbe
   public clone(): SafeFloatDenominations {
     return this.with({});
   }
+
+  public getTotal(): number {
+    return this.fiftyPounds
+      + this.twentyPounds
+      + this.tenPounds
+      + this.fivePounds
+      + this.pounds
+      + this.fiftyPence
+      + this.twentyPounds
+      + this.tenPence
+      + this.fivePence;
+  }
 }
