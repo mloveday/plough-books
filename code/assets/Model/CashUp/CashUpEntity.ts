@@ -72,6 +72,10 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
     return this.getTotalRevenue() + this.comoInDrawer - this.getTotalZRead();
   }
 
+  public getWetTake(): number {
+    return this.getTotalRevenue() - this.takeDry - this.takeCoffee;
+  }
+
   private getDiffBetweenAmexTotsAndSumOfTills(): number {
     return this.amexTots === 0 ? 0 : this.amexTots - this.tills.reduce((prev, curr) => prev + curr.amex, 0);
   }

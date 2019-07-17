@@ -31,6 +31,11 @@ class CashUpNettTakesComponent extends React.Component<CashUpNettTakesProps, {}>
     return (
       <div className="form-group">
         <h3 className="group-title nett_takes_label">Nett takes</h3>
+        <div className="label-and-input take_wet">
+          <label htmlFor={`take_wet`}>Wet</label>
+          <input disabled={true} id={`take_wet`} type="text" pattern={currencyPattern}
+                 value={this.props.cashUp.getWetTake()}/>
+        </div>
         <div className="label-and-input take_dry">
           <label htmlFor="take_dry">Dry</label>
           <input id="take_dry" type="text" pattern={currencyPattern}
