@@ -1,4 +1,4 @@
-export enum CashUpSection {
+export enum CashUpPage {
   TILLS = 'Tills',
   DISCOUNTS = 'Discounts',
   RECEIPTS = 'Petty Cash, Accounts, Deposits',

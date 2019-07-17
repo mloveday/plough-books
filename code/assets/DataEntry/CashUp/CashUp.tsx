@@ -10,7 +10,8 @@ import {Routes} from "../../Common/Routing/Routes";
 import {CashUpEntity} from "../../Model/CashUp/CashUpEntity";
 import {CashUpEntityUpdateType} from "../../Model/CashUp/CashUpEntityTypes";
 import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
-import {CashUpSection} from "../../Model/Enum/CashUpSection";
+import {CashUpPage} from "../../Model/Enum/CashUpPage";
+import {cashUpPageFrom} from "../../Model/Enum/CashUpRoute";
 import {AppState} from "../../redux";
 import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {cashUpCreate, cashUpDataEntry, cashUpFetch} from "../../Redux/CashUp/CashUpRedux";
@@ -29,13 +30,11 @@ import {CashUpSecurity} from "./Partials/CashUpSecurity";
 import {CashUpSpendStaffComo} from "./Partials/CashUpSpendStaffComo";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
-import {sectionOrder} from "./State/AllSections";
-import {SectionPosition} from "./State/SectionPosition";
 
 interface CashUpOwnProps {
   match: match<{
     date: string,
-    page: CashUpSection,
+    page: string,
   }>;
 }
 
@@ -83,12 +82,11 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
 
   public render() {
     const dateParam = moment.utc(this.props.match.params.date);
-    const sectionShown = this.props.match.params.page;
-    const currentSectionPosition = this.getSectionPosition();
+    const pageShown = cashUpPageFrom(this.props.match.params.page);
     return (
       <div className='cash-up'>
         <DatePicker dateParam={this.props.match.params.date}
-                    urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date, CashUpSection.TILLS)}/>
+                    urlFromDate={(date: moment.Moment) => Routes.cashUpUrl(date, CashUpPage.TILLS)}/>
 
         <form className="form-wrapper">
           <div className="form-group">
@@ -112,30 +110,38 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           <CashUpSummary cashUp={this.getCashUp()} />
 
           <ul className='cash-up-link-list'>
-            {Array.from(sectionOrder.values()).map((sectionPosition, key) => (
+            {[CashUpPage.TILLS,
+              CashUpPage.DISCOUNTS,
+              CashUpPage.RECEIPTS,
+              CashUpPage.SPEND_STAFF_PTS_COMO,
+              CashUpPage.NETT_TAKES,
+              CashUpPage.BANKING,
+              CashUpPage.SAFE_FLOAT,
+              CashUpPage.SECURITY,
+            ].map((cashUpPage, key) => (
               <li className='cash-up-link-item' key={key}>
-                <Link to={Routes.cashUpUrl(dateParam, sectionPosition.section)} className={`cash-up-link-button${sectionPosition.section === currentSectionPosition.section ? ' selected' : ''}`}>{sectionPosition.section}</Link>
+                <Link to={Routes.cashUpUrl(dateParam, cashUpPage)} className={`cash-up-link-button${cashUpPage === pageShown ? ' selected' : ''}`}>{cashUpPage}</Link>
               </li>
             ))}
           </ul>
 
-          {sectionShown === CashUpSection.TILLS && <CashUpTills cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.TILLS && <CashUpTills cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.DISCOUNTS && <CashUpDiscounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.DISCOUNTS && <CashUpDiscounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
-          {sectionShown === CashUpSection.RECEIPTS && <CashUpAccounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
-          {sectionShown === CashUpSection.RECEIPTS && <CashUpDeposits cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.RECEIPTS && <CashUpAccounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.RECEIPTS && <CashUpDeposits cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.SPEND_STAFF_PTS_COMO && <CashUpSpendStaffComo cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.SPEND_STAFF_PTS_COMO && <CashUpSpendStaffComo cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.NETT_TAKES && <CashUpNettTakes cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.NETT_TAKES && <CashUpNettTakes cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.BANKING && <CashUpBanking cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.BANKING && <CashUpBanking cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.SAFE_FLOAT && <CashUpSafeFloat cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.SAFE_FLOAT && <CashUpSafeFloat cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
-          {sectionShown === CashUpSection.SECURITY && <CashUpSecurity cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.SECURITY && <CashUpSecurity cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
         </form>
       </div>
@@ -174,14 +180,6 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
     this.props.updateCashUpLocalState(
       [this.getCashUp().with(obj)]
     );
-  }
-
-  private getSectionPosition(): SectionPosition {
-    if (sectionOrder.has(this.props.match.params.page)) {
-      // @ts-ignore
-      return sectionOrder.get(this.props.match.params.page);
-    }
-    return new SectionPosition(CashUpSection.TILLS, CashUpSection.DISCOUNTS, CashUpSection.SECURITY);
   }
 }
 

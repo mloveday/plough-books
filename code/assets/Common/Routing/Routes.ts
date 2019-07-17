@@ -1,5 +1,6 @@
 import * as moment from "moment";
-import {CashUpSection} from "../../Model/Enum/CashUpSection";
+import {CashUpPage} from "../../Model/Enum/CashUpPage";
+import {cashUpPageUrlParamFor} from "../../Model/Enum/CashUpRoute";
 import {DateFormats} from "../../Util/DateFormats";
 import {accountingWeek, accountingYear} from "../../Util/DateUtils";
 
@@ -22,8 +23,8 @@ export class Routes {
   public static readonly TEST_COVERAGE = "/test-coverage";
   public static readonly MONTHLY_FIGURES = "/monthly-figures"; // TODO add dates to route
 
-  public static cashUpUrl(date: moment.Moment, page: CashUpSection) {
-    return `${this.CASH_UP}/${date.format(DateFormats.API_DATE)}/${page}`;
+  public static cashUpUrl(date: moment.Moment, page: CashUpPage) {
+    return `${this.CASH_UP}/${date.format(DateFormats.API_DATE)}/${cashUpPageUrlParamFor(page)}`;
   }
 
   public static cashUpRoute() {
