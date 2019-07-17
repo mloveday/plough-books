@@ -32,16 +32,10 @@ class CashUpBankingComponent extends React.Component<CashUpBankingProps, {}> {
       <div className="form-group">
         <h3 className="group-title banking_label">Banking</h3>
         <div className="label-and-input paid_out_amnt">
-          <label htmlFor="paid_out_amnt">Paid out</label>
+          <label htmlFor="paid_out_amnt">Float transfer</label>
           <input id="paid_out_amnt" type="text" pattern={currencyPattern}
                  value={this.props.cashUp.inputs.paidOutAmount}
                  onChange={ev => this.props.formUpdate({paidOutAmount: ev.target.value})}/>
-        </div>
-        <div className="label-and-input paid_out_to">
-          <label htmlFor="paid_out_to">Paid out to</label>
-          <input id="paid_out_to" type="text"
-                 value={this.props.cashUp.paidOutTo}
-                 onChange={ev => this.props.formUpdate({paidOutTo: ev.target.value})}/>
         </div>
         <div className="label-and-input banked">
           <label htmlFor="banked">Banked</label>
