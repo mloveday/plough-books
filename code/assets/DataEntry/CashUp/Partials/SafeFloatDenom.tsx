@@ -7,6 +7,7 @@ import {currencyPattern} from "../../../Util/Validation";
 interface SafeFloatDenomOwnProps {
   cashUpPropName: string;
   safeFloatObj: SafeFloatDenominations;
+  totalFloatInTills: number;
   formUpdate: (obj: {}) => void;
   friendlyTimeName: string;
 }
@@ -48,9 +49,19 @@ class SafeFloatDenomComponent extends React.Component<SafeFloatDenomProps, {}> {
                  onChange={ev => this.props.formUpdate({[this.props.cashUpPropName]: this.props.safeFloatObj.with({initials: ev.target.value})})} />
         </div>
         <div className="label-and-input">
-          <label htmlFor={`sfd_total_${this.props.cashUpPropName}`}>Total</label>
-          <input disabled={true} id={`sfd_total_${this.props.cashUpPropName}`} type="text" pattern={currencyPattern}
+          <label htmlFor={`sfd_total_safe_${this.props.cashUpPropName}`}>Total in safe</label>
+          <input disabled={true} id={`sfd_total_safe_${this.props.cashUpPropName}`} type="text" pattern={currencyPattern}
                  value={this.props.safeFloatObj.getTotal()} />
+        </div>
+        <div className="label-and-input">
+          <label htmlFor={`sfd_total_tills_${this.props.cashUpPropName}`}>Total in tills</label>
+          <input disabled={true} id={`sfd_total_tills_${this.props.cashUpPropName}`} type="text" pattern={currencyPattern}
+                 value={this.props.totalFloatInTills} />
+        </div>
+        <div className="label-and-input">
+          <label htmlFor={`sfd_total_${this.props.cashUpPropName}`}>Total float</label>
+          <input disabled={true} id={`sfd_total_${this.props.cashUpPropName}`} type="text" pattern={currencyPattern}
+                 value={this.props.safeFloatObj.getTotal() + this.props.totalFloatInTills} />
         </div>
       </div>
     )
