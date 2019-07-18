@@ -25,6 +25,7 @@ class SignInComponent extends RotaAbstract {
       editType: ShiftRecordingTypes.SIGN_IN,
       rota,
       rotasForWeek: this.props.rotaLocalStates,
+      cashUps: this.props.cashUps.cashUpsForWeek,
       shifts: rota.actualShifts,
       showStaffLevels: false,
       showStats: true,
@@ -59,6 +60,10 @@ class SignInComponent extends RotaAbstract {
       .filter(shift => shift.staffMember.id !== shiftToRemove.staffMember.id)
       .map(shift => shift.clone());
     this.formUpdate({actualShifts: clonedShifts});
+  }
+
+  protected requiresCashUp(): boolean {
+    return true;
   }
 }
 

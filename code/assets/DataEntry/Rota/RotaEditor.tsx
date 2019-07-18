@@ -8,6 +8,8 @@ import {SaveButton} from "../../Common/Buttons/SaveButton";
 import {DatePicker} from "../../Common/Nav/DatePicker";
 import {Routes} from "../../Common/Routing/Routes";
 import {ConstantsWithHover} from "../../DataVisualisation/Constants/ConstantsWithHover";
+import {DailyOverviews} from "../../DataVisualisation/WeeklyOverview/State/DailyOverviews";
+import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
 import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkType} from "../../Model/Enum/WorkTypes";
@@ -32,6 +34,7 @@ import {StaffedShift} from "./RotaEditor/Shift";
 
 export interface RotaEditorOwnProps {
   rota: RotaEntity;
+  cashUps?: CashUpsForWeek;
   editType: ShiftRecordingType;
   workType: WorkType;
   date: string;
@@ -78,15 +81,23 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     const today = momentFromDate(this.props.date);
     const timePeriods = getTimePeriods(this.props.date);
     const editingDisabled = !((this.props.editType === ShiftRecordingTypes.ROTA && this.props.rota.canEditRota()) || (this.props.editType === ShiftRecordingTypes.SIGN_IN && this.props.rota.canEditSignIn()));
-    const labourCost = this.props.editType === ShiftRecordingTypes.ROTA
-      ? this.props.rota.getTotalPredictedLabourCost(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType)
-      : this.props.rota.getTotalActualLabourCost(this.props.rota.forecastRevenue, this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
-    const labourRate = this.props.editType === ShiftRecordingTypes.ROTA
-      ? this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType)
-      : this.props.rota.getActualLabourRate(this.props.rota.forecastRevenue, this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
-    const targetLabourRate = this.props.editType === ShiftRecordingTypes.ROTA
-      ? this.props.rota.targetLabourRate
-      : this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
+    let revenueToday: number;
+    let labourCost: number;
+    let labourRate: number;
+    let targetLabourRate: number;
+    if (this.props.cashUps !== undefined) {
+      const dailyOverviews = new DailyOverviews(today.clone().startOf('isoWeek'), this.props.rotasForWeek, this.props.cashUps);
+      revenueToday = dailyOverviews.overviews.reduce((prev, curr) => prev + (curr.date.format(DateFormats.API_DATE) === today.format(DateFormats.API_DATE) ? curr.getRunningRevenue() : 0), 0);
+      labourCost = this.props.rota.getTotalActualLabourCost(revenueToday, dailyOverviews.runningRevenueForecast, this.props.workType);
+      labourRate = this.props.rota.getActualLabourRate(revenueToday, dailyOverviews.runningRevenueForecast, this.props.workType);
+      targetLabourRate = this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
+    } else {
+      revenueToday = this.props.rota.forecastRevenue;
+      const revenueForWeek = this.props.rotasForWeek.getTotalForecastRevenue(today);
+      labourCost = this.props.rota.getTotalPredictedLabourCost(revenueForWeek, this.props.workType);
+      labourRate = this.props.rota.getPredictedLabourRate(revenueForWeek, this.props.workType);
+      targetLabourRate = this.props.rota.targetLabourRate;
+    }
     return (
       <div>
         <Prompt when={this.props.rota.touched} message={location => `Are you sure you want to go to ${location.pathname} without saving?`}/>
@@ -104,9 +115,9 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
             </select>
           </div>
           {this.props.showStats && <div className="rota-stat"><ConstantsWithHover constants={this.props.rota.constants}> Constants: {momentFromDate(this.props.rota.constants.date).format(DateFormats.API_DATE)}</ConstantsWithHover></div>}
-          {this.props.showStats && <div className="rota-stat">Forecast revenue: {Formatting.formatCashForDisplay(this.props.rota.forecastRevenue)}</div>}
+          {this.props.showStats && <div className="rota-stat">{this.props.editType === 'rota' ? 'Forecast revenue:' : 'Revenue:'} {Formatting.formatCashForDisplay(revenueToday)}</div>}
           {this.props.showStats && <div className="rota-stat">Total wage cost: {Formatting.formatCashForDisplay(labourCost)}</div>}
-          {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(labourRate)} (aiming for &lt; {Formatting.formatPercent(targetLabourRate)})</div>}
+          {this.props.showStats && <div className="rota-stat">Labour rate: {Formatting.formatPercent(labourRate)} ({this.props.editType === 'rota' ? 'aiming for <' : 'planned at'} {Formatting.formatPercent(targetLabourRate)})</div>}
           {this.props.editType === ShiftRecordingTypes.SIGN_IN && <div className="rota-stat"><button disabled={editingDisabled} type="button" onClick={() => this.autoPopulateShifts()}><FontAwesomeIcon icon="magic" /> Auto-populate</button></div>}
           <div className="rota-stat">
             <SaveButton mini={false} clickFn={() => this.props.createRota(this.props.rota)}/>

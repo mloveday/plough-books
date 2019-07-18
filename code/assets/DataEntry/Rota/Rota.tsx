@@ -60,6 +60,10 @@ class RotaComponent extends RotaAbstract {
       .map(shift => shift.clone());
     this.formUpdate({plannedShifts: clonedShifts});
   }
+
+  protected requiresCashUp(): boolean {
+    return false;
+  }
 }
 export const Rota = connect<RotaAbstractStateProps, RotaAbstractDispatchProps, RotaAbstractOwnProps>(
   mapStateToProps,

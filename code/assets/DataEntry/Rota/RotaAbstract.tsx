@@ -3,12 +3,14 @@ import * as React from "react";
 import {match} from "react-router";
 import {Constants} from "../../Model/Constants/Constants";
 import {RotaStaffingTemplateStatus} from "../../Model/Enum/RotaStaffingTemplateStatus";
-import {WorkTypes} from "../../Model/Enum/WorkTypes";
+import {WorkType, WorkTypes} from "../../Model/Enum/WorkTypes";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
 import {Shift} from "../../Model/Shift/Shift";
 import {AppState} from "../../redux";
+import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
+import {cashUpFetch} from "../../Redux/CashUp/CashUpRedux";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
 import {constantsFetch} from "../../Redux/Constants/ConstantsRedux";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
@@ -26,7 +28,7 @@ import {momentFromDate} from "../../Util/DateUtils";
 export interface RotaAbstractOwnProps {
   match: match<{
     date: string,
-    type: string,
+    type: WorkType,
   }>;
 }
 
@@ -38,6 +40,7 @@ export interface RotaAbstractStateProps {
   staffMembersExternalState: StaffMembersExternalState;
   staffRolesExternalState: StaffRolesExternalState;
   uiState: UiState;
+  cashUps: CashUpExternalState;
 }
 
 export const mapStateToProps = (state: AppState, ownProps: RotaAbstractOwnProps): RotaAbstractStateProps => {
@@ -49,6 +52,7 @@ export const mapStateToProps = (state: AppState, ownProps: RotaAbstractOwnProps)
     staffMembersExternalState: state.staffMembersExternalState,
     staffRolesExternalState: state.staffRolesExternalState,
     uiState: state.uiState,
+    cashUps: state.cashUpExternalState,
   }
 };
 
@@ -61,6 +65,7 @@ export interface RotaAbstractDispatchProps {
   fetchStaffRoles: () => void;
   updateRotaLocalState: (state: RotaEntity[]) => void;
   updateUi: (state: UiState) => void;
+  fetchCashUp: (date: moment.Moment) => void;
 }
 
 export const mapDispatchToProps = (dispatch: any, ownProps: RotaAbstractOwnProps): RotaAbstractDispatchProps => {
@@ -73,6 +78,7 @@ export const mapDispatchToProps = (dispatch: any, ownProps: RotaAbstractOwnProps
     fetchStaffRoles: () => dispatch(staffRolesFetch()),
     updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
     updateUi: (state: UiState) => dispatch(uiUpdate(state)),
+    fetchCashUp: date => dispatch(cashUpFetch(date)),
   };
 };
 
@@ -105,6 +111,7 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
   protected abstract addShift(shiftToAdd: Shift): void;
   protected abstract updateShift(shiftToUpdate: Shift): void;
   protected abstract removeShift(shiftToRemove: Shift): void;
+  protected abstract requiresCashUp(): boolean;
 
   protected getRota(): RotaEntity {
     const date = momentFromDate(this.props.match.params.date);
@@ -155,6 +162,10 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
     }
     if (this.props.rotaStaffingTemplatesState.isEmpty()) {
       this.props.fetchRotaStaffingTemplates();
+      return;
+    }
+    if (this.requiresCashUp() && this.props.cashUps.shouldLoadForDate(paramDate)) {
+      this.props.fetchCashUp(paramDate);
       return;
     }
     const rota = this.getRota();
