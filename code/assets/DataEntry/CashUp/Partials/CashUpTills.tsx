@@ -79,14 +79,6 @@ class CashUpTillsComponent extends React.Component<CashUpTillsProps, {}> {
         <div className={`section-line`}/>
 
         <div className="form-row">
-          <h4 className="group-label till_float_label">Till float</h4>
-          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'Till float'} tillRefs={this.tillRefs}
-                          groupIdentifier={'till_float_tills'} tillProperty={'float_amnt'}
-                          keyPressHandler={(ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => this.handleKeyPress(ev, tillIndex, tillProperty)}
-                          tills={this.props.cashUp.tills}/>
-        </div>
-
-        <div className="form-row">
           <h4 className="group-label amex_label">AMEX</h4>
           <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'amex'} tillRefs={this.tillRefs}
                           groupIdentifier={'amex_tills'} tillProperty={'amex'}

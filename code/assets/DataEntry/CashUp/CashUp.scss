@@ -43,6 +43,10 @@
       &.deprecated * {
         color: #dddddd;
       }
+
+      &.till-floats {
+        grid-column: 1/3;
+      }
     }
 
     .section-line {

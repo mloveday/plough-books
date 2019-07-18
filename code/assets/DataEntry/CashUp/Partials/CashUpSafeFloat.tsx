@@ -4,6 +4,7 @@ import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
 import {CashUpEntityUpdateType} from "../../../Model/CashUp/CashUpEntityTypes";
 import {AppState} from "../../../redux";
 import {SafeFloatDenom} from "./SafeFloatDenom";
+import {TillInputGroup} from "./TillInputGroup";
 
 interface CashUpSafeFloatOwnProps {
   cashUp: CashUpEntity;
@@ -31,6 +32,13 @@ class CashUpSafeFloatComponent extends React.Component<CashUpSafeFloatProps, {}>
     const floatInTills = this.props.cashUp.tills.reduce((prev, curr) => prev + curr.float_amnt, 0);
     return (
       <div className="form-group safe-float">
+        <div className="form-row till-floats">
+          <h4 className="group-label till_float_label">Till float</h4>
+          <TillInputGroup formUpdate={obj => this.props.formUpdate(obj)} friendlyName={'Till float'}
+                          groupIdentifier={'till_float_tills'} tillProperty={'float_amnt'}
+                          keyPressHandler={() => {return;}}
+                          tills={this.props.cashUp.tills}/>
+        </div>
         <h3 className="group-title safe_float_label">Safe float denom</h3>
         <SafeFloatDenom cashUpPropName='sfdAm' formUpdate={obj => this.props.formUpdate(obj)} friendlyTimeName="AM"
                         safeFloatObj={this.props.cashUp.sfdAm} totalFloatInTills={floatInTills}/>

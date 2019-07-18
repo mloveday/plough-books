@@ -9,7 +9,7 @@ import {TillRefInputs, TillRefProperty} from "./CashUpTills";
 
 interface TillInputGroupOwnProps {
   tills: TillDenominations[];
-  tillRefs: TillRefInputs[];
+  tillRefs?: TillRefInputs[];
   keyPressHandler: (ev: React.KeyboardEvent<HTMLInputElement>, tillIndex: number, tillProperty: string) => void;
   tillProperty: TillRefProperty;
   friendlyName: string;
@@ -52,7 +52,7 @@ class TillInputGroupComponent extends React.Component<TillInputGroupProps, {}> {
     return (
       <div className="till-label-and-input" key={index}>
         <label htmlFor={id}>{this.props.friendlyName} {index+1}</label>
-        <input id={id} type="tel" pattern={currencyPattern} ref={this.props.tillRefs[index][this.props.tillProperty]}
+        <input id={id} type="tel" pattern={currencyPattern} ref={this.props.tillRefs !== undefined ? this.props.tillRefs[index][this.props.tillProperty] : undefined}
                value={this.props.tills[index].inputs[this.props.tillProperty]}
                onKeyDown={ev => this.props.keyPressHandler(ev, index, this.props.tillProperty)}
                onChange={ev => this.updateTill(index, this.props.tills[index].with({[this.props.tillProperty]: ev.target.value}))}/>
