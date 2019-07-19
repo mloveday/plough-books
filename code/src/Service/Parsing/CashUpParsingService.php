@@ -4,6 +4,8 @@ namespace App\Service\Parsing;
 
 use App\Entity\Account;
 use App\Entity\CashUp;
+use App\Entity\CashUpChange;
+use App\Entity\CashUpSkim;
 use App\Entity\Deposit;
 use App\Entity\Receipt;
 use App\Entity\SafeFloatDenominations;
@@ -46,6 +48,12 @@ class CashUpParsingService {
         }
         foreach ($request->request->get('receipts') as $receiptRequestArray) {
             $cashUpEntity->addReceipt($this->updateReceipt(new Receipt(), $receiptRequestArray));
+        }
+        foreach ($request->request->get('skims') as $skimRequestArray) {
+            $cashUpEntity->addSkim($this->updateSkim(new CashUpSkim(), $skimRequestArray));
+        }
+        foreach ($request->request->get('changes') as $changeRequestArray) {
+            $cashUpEntity->addChange($this->updateChange(new CashUpChange(), $changeRequestArray));
         }
         foreach ($request->request->get('deposits') as $depositRequestArray) {
             $cashUpEntity->addDeposit($this->updateDeposit(new Deposit(), $depositRequestArray));
@@ -102,6 +110,46 @@ class CashUpParsingService {
                 $this->updateReceipt($this->findReceipt($cashUpEntity->getReceipts()->toArray(), $receiptRequestArray['id']), $receiptRequestArray);
             } else {
                 $cashUpEntity->addReceipt($this->updateReceipt(new Receipt(), $receiptRequestArray));
+            }
+        }
+
+        foreach ($cashUpEntity->getSkims()->toArray() as $existingSkim) { /** @var CashUpSkim $existingSkim */
+            $matchingSkimsInRequest = array_filter($request->request->get('skims'), function ($skim) use ($existingSkim) { return array_key_exists('id', $skim) && $skim['id'] === $existingSkim->getId(); });
+            if (sizeof($matchingSkimsInRequest) === 0) {
+                $cashUpEntity->removeSkim($existingSkim);
+            }
+        }
+        $requestedSkims = $request->request->get('skims');
+        foreach($cashUpEntity->getSkims() as $existingSkim) {
+            if (0 === count(array_filter($requestedSkims, function ($requestedSkim) use ($existingSkim) {return array_key_exists('id', $requestedSkim) && $requestedSkim['id'] === $existingSkim->getId();}))) {
+                $cashUpEntity->removeSkim($existingSkim);
+            }
+        }
+        foreach ($requestedSkims as $skimRequestArray) {
+            if (array_key_exists('id', $skimRequestArray)) {
+                $this->updateSkim($this->findSkim($cashUpEntity->getSkims()->toArray(), $skimRequestArray['id']), $skimRequestArray);
+            } else {
+                $cashUpEntity->addSkim($this->updateSkim(new Skim(), $skimRequestArray));
+            }
+        }
+
+        foreach ($cashUpEntity->getChanges()->toArray() as $existingChange) { /** @var CashUpChange $existingChange */
+            $matchingChangesInRequest = array_filter($request->request->get('changes'), function ($change) use ($existingChange) { return array_key_exists('id', $change) && $change['id'] === $existingChange->getId(); });
+            if (sizeof($matchingChangesInRequest) === 0) {
+                $cashUpEntity->removeChange($existingChange);
+            }
+        }
+        $requestedChanges = $request->request->get('changes');
+        foreach($cashUpEntity->getChanges() as $existingChange) {
+            if (0 === count(array_filter($requestedChanges, function ($requestedChange) use ($existingChange) {return array_key_exists('id', $requestedChange) && $requestedChange['id'] === $existingChange->getId();}))) {
+                $cashUpEntity->removeChange($existingChange);
+            }
+        }
+        foreach ($requestedChanges as $changeRequestArray) {
+            if (array_key_exists('id', $changeRequestArray)) {
+                $this->updateChange($this->findChange($cashUpEntity->getChanges()->toArray(), $changeRequestArray['id']), $changeRequestArray);
+            } else {
+                $cashUpEntity->addChange($this->updateChange(new Change(), $changeRequestArray));
             }
         }
 
@@ -197,6 +245,34 @@ class CashUpParsingService {
     }
 
     /**
+     * @param CashUpSkim[] $skims
+     * @param int $id
+     * @return CashUpSkim|null
+     */
+    private function findSkim(array $skims, int $id): CashUpSkim {
+        foreach ($skims as $skim) {
+            if ($skim->getId() === $id) {
+                return $skim;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param CashUpChange[] $changes
+     * @param int $id
+     * @return CashUpChange|null
+     */
+    private function findChange(array $changes, int $id): CashUpChange {
+        foreach ($changes as $change) {
+            if ($change->getId() === $id) {
+                return $change;
+            }
+        }
+        return null;
+    }
+
+    /**
      * @param Deposit[] $deposits
      * @param int $id
      * @return Deposit|null
@@ -228,6 +304,20 @@ class CashUpParsingService {
         $receipt->setAmount($requestObject['amount']);
         $receipt->setDescription($requestObject['description']);
         return $receipt;
+    }
+
+    private function updateSkim(CashUpSkim $skim, array $requestObject) {
+        $skim->setAmount($requestObject['amount'])
+            ->setInitials($requestObject['initials'])
+            ->setWitness($requestObject['witness']);
+        return $skim;
+    }
+
+    private function updateChange(CashUpChange $change, array $requestObject) {
+        $change->setAmount($requestObject['amount'])
+            ->setInitials($requestObject['initials'])
+            ->setWitness($requestObject['witness']);
+        return $change;
     }
 
     private function updateDeposit(Deposit $deposit, array $requestObject) {

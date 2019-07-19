@@ -100,6 +100,16 @@ class CashUp {
     private $receipts;
 
     /**
+     * @ORM\OneToMany(targetEntity="CashUpSkim", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $skims;
+
+    /**
+     * @ORM\OneToMany(targetEntity="CashUpChange", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $changes;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Deposit", mappedBy="cashUp", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $deposits;
@@ -242,6 +252,8 @@ class CashUp {
     public function __construct() {
         $this->tills = new ArrayCollection();
         $this->receipts = new ArrayCollection();
+        $this->skims = new ArrayCollection();
+        $this->changes = new ArrayCollection();
         $this->accounts = new ArrayCollection();
         $this->deposits = new ArrayCollection();
     }
@@ -429,6 +441,66 @@ class CashUp {
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|CashUpSkim[]
+     */
+    public function getSkims(): Collection
+    {
+        return $this->skims;
+    }
+
+    public function addSkim(CashUpSkim $skim): self
+    {
+        if (!$this->skims->contains($skim)) {
+            $this->skims[] = $skim;
+            $skim->setCashUp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSkim(CashUpSkim $skim): self
+    {
+        if ($this->skims->contains($skim)) {
+            $this->skims->removeElement($skim);
+            // set the owning side to null (unless already changed)
+            if ($skim->getCashUp() === $this) {
+                $skim->setCashUp(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection|CashUpChange[]
+     */
+    public function getChanges(): Collection
+    {
+        return $this->changes;
+    }
+
+    public function addChange(CashUpChange $change): self
+    {
+        if (!$this->changes->contains($change)) {
+            $this->changes[] = $change;
+            $change->setCashUp($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChange(CashUpChange $change): self
+    {
+        if ($this->changes->contains($change)) {
+            $this->changes->removeElement($change);
+            // set the owning side to null (unless already changed)
+            if ($change->getCashUp() === $this) {
+                $change->setCashUp(null);
+            }
+        }
         return $this;
     }
 
@@ -743,6 +815,8 @@ class CashUp {
             'receipts' => array_values(array_map(function(Receipt $receipt) { return $receipt->serialise(); }, $this->getReceipts()->toArray())),
             'accounts' => array_values(array_map(function(Account $account) { return $account->serialise(); }, $this->getAccounts()->toArray())),
             'deposits' => array_values(array_map(function(Deposit $deposit) { return $deposit->serialise(); }, $this->getDeposits()->toArray())),
+            'skims' => array_map(function(CashUpSkim $skim) { return $skim->serialise();}, $this->getSkims()->toArray()),
+            'changes' => array_map(function(CashUpChange $change) { return $change->serialise();}, $this->getChanges()->toArray()),
             'spendStaffPts' => $this->spend_staff_points,
             'comoDiscAsset' => $this->como_discount_asset,
             'takeDry' => $this->take_dry,
