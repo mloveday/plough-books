@@ -115,13 +115,15 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
             {[CashUpPage.TILLS,
               CashUpPage.DISCOUNTS,
               CashUpPage.RECEIPTS,
+              CashUpPage.ACCOUNTS,
+              CashUpPage.DEPOSITS,
+              CashUpPage.SKIMS,
+              CashUpPage.CHANGES,
               CashUpPage.SPEND_STAFF_PTS_COMO,
               CashUpPage.NETT_TAKES,
               CashUpPage.BANKING,
               CashUpPage.SAFE_FLOAT,
               CashUpPage.SECURITY,
-              CashUpPage.SKIMS,
-              CashUpPage.CHANGES,
             ].map((cashUpPage, key) => (
               <li className='cash-up-link-item' key={key}>
                 <Link to={Routes.cashUpUrl(dateParam, cashUpPage)} className={`cash-up-link-button${cashUpPage === pageShown ? ' selected' : ''}`}>{cashUpPage}</Link>
@@ -134,8 +136,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           {pageShown === CashUpPage.DISCOUNTS && <CashUpDiscounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {pageShown === CashUpPage.RECEIPTS && <CashUpReceipts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
-          {pageShown === CashUpPage.RECEIPTS && <CashUpAccounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
-          {pageShown === CashUpPage.RECEIPTS && <CashUpDeposits cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.ACCOUNTS && <CashUpAccounts cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.DEPOSITS && <CashUpDeposits cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {pageShown === CashUpPage.SPEND_STAFF_PTS_COMO && <CashUpSpendStaffComo cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 

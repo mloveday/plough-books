@@ -1,7 +1,9 @@
 export enum CashUpPage {
   TILLS = 'Tills',
   DISCOUNTS = 'Discounts',
-  RECEIPTS = 'Petty Cash, Accounts, Deposits',
+  RECEIPTS = 'Petty Cash',
+  ACCOUNTS = 'Accounts',
+  DEPOSITS = 'Deposits',
   SPEND_STAFF_PTS_COMO = 'Spend & staff points',
   NETT_TAKES = 'Nett takes',
   BANKING = 'Banking',

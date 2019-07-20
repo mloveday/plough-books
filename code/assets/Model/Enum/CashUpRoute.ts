@@ -1,7 +1,9 @@
 import {CashUpPage} from "./CashUpPage";
 
 const discounts = 'discounts';
-const pettyCashAccountsDeposits = 'petty-cash-accounts-deposits';
+const pettyCash = 'petty-cash';
+const accounts = 'accounts';
+const deposits = 'deposits';
 const spendStaffPts = 'spend-staff-pts';
 const nettTakes = 'nett-takes';
 const banking = 'banking';
@@ -16,7 +18,11 @@ export const cashUpPageUrlParamFor = (section: CashUpPage): string => {
     case CashUpPage.DISCOUNTS:
       return discounts;
     case CashUpPage.RECEIPTS:
-      return pettyCashAccountsDeposits;
+      return pettyCash;
+    case CashUpPage.ACCOUNTS:
+      return accounts;
+    case CashUpPage.DEPOSITS:
+      return deposits;
     case CashUpPage.SPEND_STAFF_PTS_COMO:
       return spendStaffPts;
     case CashUpPage.NETT_TAKES:
@@ -41,8 +47,12 @@ export const cashUpPageFrom = (param: string): CashUpPage => {
   switch (param) {
     case discounts:
       return CashUpPage.DISCOUNTS;
-    case pettyCashAccountsDeposits:
+    case pettyCash:
       return CashUpPage.RECEIPTS;
+    case accounts:
+      return CashUpPage.ACCOUNTS;
+    case deposits:
+      return CashUpPage.DEPOSITS;
     case spendStaffPts:
       return CashUpPage.SPEND_STAFF_PTS_COMO;
     case nettTakes:
