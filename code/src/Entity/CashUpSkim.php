@@ -31,7 +31,7 @@ class CashUpSkim {
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Rota", inversedBy="skim")
+     * @ORM\ManyToOne(targetEntity="App\Entity\CashUp", inversedBy="skim")
      */
     private $cashUp;
 
@@ -66,11 +66,11 @@ class CashUpSkim {
         return $this;
     }
 
-    public function getCashUp(): ?Rota {
+    public function getCashUp(): ?CashUp {
         return $this->cashUp;
     }
 
-    public function setCashUp(?Rota $cashUp): self {
+    public function setCashUp(?CashUp $cashUp): self {
         $this->cashUp = $cashUp;
         return $this;
     }

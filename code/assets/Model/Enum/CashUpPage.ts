@@ -7,4 +7,6 @@ export enum CashUpPage {
   BANKING = 'Banking',
   SAFE_FLOAT = 'Floats',
   SECURITY = 'Security',
+  SKIMS = 'Skim',
+  CHANGES = 'Change',
 }

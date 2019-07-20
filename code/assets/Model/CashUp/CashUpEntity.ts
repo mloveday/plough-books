@@ -2,13 +2,15 @@ import * as moment from 'moment';
 import {DateFormats} from "../../Util/DateFormats";
 import {momentFromDate} from "../../Util/DateUtils";
 import {validateCash} from "../../Util/Validation";
+import {Change} from "../Change/Change";
 import {SafeFloatDenominations} from "../Denominations/SafeFloatDenominations";
 import {TillDenominations} from "../Denominations/TillDenominations";
 import {Receipt} from "../Receipt/Receipt";
+import {Skim} from "../Skim/Skim";
 import {CashUpEntityInputs} from "./CashUpEntityInputs";
 import {CashUpEntityAbstract, CashUpEntityApiType, CashUpEntityUpdateType} from "./CashUpEntityTypes";
 
-export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations, SafeFloatDenominations, Receipt> {
+export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations, SafeFloatDenominations, Receipt, Skim, Change> {
   public static default(date: moment.Moment): CashUpEntity {
     return new CashUpEntity(moment.utc(date).format(DateFormats.API_DATE), '', '', [
                               TillDenominations.default(),
@@ -20,27 +22,62 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
                               TillDenominations.default(),
                             ], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, [], [], [], 0, 0, 0, 0, 0, 0, 0, '', 0, '', '', 0, '', '',
                             SafeFloatDenominations.default(), SafeFloatDenominations.default(), '', '', '', '', '',
-                            true, undefined, CashUpEntityInputs.default(date), 0, 0, 0, 0, 0);
+                            true, undefined, CashUpEntityInputs.default(
+        date), 0, 0, 0, 0, 0, [], []);
   }
 
   public static fromApi(obj: CashUpEntityApiType): CashUpEntity {
     const date = momentFromDate(obj.date);
-    return new CashUpEntity(date.format(DateFormats.API_DATE), obj.mod, obj.dailyNotes,
+    return new CashUpEntity(date.format(DateFormats.API_DATE),
+                            obj.mod,
+                            obj.dailyNotes,
                             obj.tills.map(till => TillDenominations.fromApi(till))
                               .filter((value: TillDenominations, index: number) => index < 7),
-                            obj.chargeToAccount, obj.depositRedeemed, obj.compsWet, obj.dStaffDry,
-                            obj.dCustomersWet, obj.dCustomersDry, obj.dCustomersCoffee, obj.fwtWet, obj.comoInDrawer,
-                            obj.amexTots, obj.visaMcTots,
+                            obj.chargeToAccount,
+                            obj.depositRedeemed,
+                            obj.compsWet,
+                            obj.dStaffDry,
+                            obj.dCustomersWet,
+                            obj.dCustomersDry,
+                            obj.dCustomersCoffee,
+                            obj.fwtWet,
+                            obj.comoInDrawer,
+                            obj.amexTots,
+                            obj.visaMcTots,
                             obj.receipts.map(receipt => Receipt.fromApi(receipt)),
                             obj.accounts.map(a => Receipt.fromApi(a)),
                             obj.deposits.map(d => Receipt.fromApi(d)),
-                            obj.spendStaffPts, obj.comoDiscAsset, obj.takeDry, obj.takeCoffee, obj.takeGiftCard,
-                            obj.takeDepositPaid, obj.paidOutAmount, obj.paidOutTo, obj.banked, obj.cashAdvantageBag,
-                            obj.cashAdvantageBagSeenBy, obj.bankedPm, obj.cashAdvantageBagPm,
-                            obj.cashAdvantageBagSeenByPm, SafeFloatDenominations.fromApi(obj.sfdAm),
-                            SafeFloatDenominations.fromApi(obj.sfdPm), obj.sfdNotes, obj.pubSecuredBy, obj.barClosedBy,
-                            obj.floorClosedBy, obj.nextDoorBy, false, obj.id, CashUpEntityInputs.fromApi(obj),
-                            obj.paypal, obj.deliveroo, obj.takeVouchersWet, obj.takeVouchersDry, obj.takeVouchersHot);
+                            obj.spendStaffPts,
+                            obj.comoDiscAsset,
+                            obj.takeDry,
+                            obj.takeCoffee,
+                            obj.takeGiftCard,
+                            obj.takeDepositPaid,
+                            obj.paidOutAmount,
+                            obj.paidOutTo,
+                            obj.banked,
+                            obj.cashAdvantageBag,
+                            obj.cashAdvantageBagSeenBy,
+                            obj.bankedPm,
+                            obj.cashAdvantageBagPm,
+                            obj.cashAdvantageBagSeenByPm,
+                            SafeFloatDenominations.fromApi(obj.sfdAm),
+                            SafeFloatDenominations.fromApi(obj.sfdPm),
+                            obj.sfdNotes,
+                            obj.pubSecuredBy,
+                            obj.barClosedBy,
+                            obj.floorClosedBy,
+                            obj.nextDoorBy,
+                            false,
+                            obj.id,
+                            CashUpEntityInputs.fromApi(obj),
+                            obj.paypal,
+                            obj.deliveroo,
+                            obj.takeVouchersWet,
+                            obj.takeVouchersDry,
+                            obj.takeVouchersHot,
+                            obj.skims.map(s => Skim.fromApi(s)),
+                            obj.changes.map(c => Change.fromApi(c)));
   }
 
   public readonly id?: number;
@@ -93,20 +130,23 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
               deliveroo: number,
               takeVouchersWet: number,
               takeVouchersDry: number,
-              takeVouchersHot: number) {
+              takeVouchersHot: number,
+              skims: Skim[],
+              changes: Change[]) {
     super(date, mod, dailyNotes, tills, chargeToAccount, depositRedeemed, compsWet, dStaffDry, dCustomersWet,
           dCustomersDry, dCustomersCoffee, fwtWet, comoInDrawer, amexTots, visaMcTots, receipts, accounts, deposits,
           spendStaffPts, comoDiscAsset, takeDry, takeCoffee, takeGiftCard, takeDepositPaid, paidOutAmnt, paidOutTo,
           banked, cashAdvantageBag, cashAdvantageBagSeenBy, bankedPm, cashAdvantageBagPm, cashAdvantageBagSeenByPm,
           sfdAm, sfdPm, sfdNotes, pubSecuredBy, barClosedBy, floorClosedBy, nextDoorBy, paypal, deliveroo,
-          takeVouchersWet, takeVouchersDry, takeVouchersHot);
+          takeVouchersWet, takeVouchersDry, takeVouchersHot, skims, changes);
     this.isDefault = isDefault;
     this.id = id;
     this.inputs = inputs;
   }
 
   public with(obj: CashUpEntityUpdateType): CashUpEntity {
-    return new CashUpEntity(obj.date !== undefined ? obj.date : this.date, obj.mod !== undefined ? obj.mod : this.mod,
+    return new CashUpEntity(obj.date !== undefined ? obj.date : this.date,
+                            obj.mod !== undefined ? obj.mod : this.mod,
                             obj.dailyNotes !== undefined ? obj.dailyNotes : this.dailyNotes,
                             obj.tills !== undefined ? obj.tills : this.tills.map(till => till.clone()),
                             obj.chargeToAccount !== undefined ? validateCash(obj.chargeToAccount, this.chargeToAccount) : this.chargeToAccount,
@@ -143,12 +183,15 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
                             obj.pubSecuredBy !== undefined ? obj.pubSecuredBy : this.pubSecuredBy,
                             obj.barClosedBy !== undefined ? obj.barClosedBy : this.barClosedBy,
                             obj.floorClosedBy !== undefined ? obj.floorClosedBy : this.floorClosedBy,
-                            obj.nextDoorBy !== undefined ? obj.nextDoorBy : this.nextDoorBy, this.isDefault, this.id, this.inputs.with(obj),
+                            obj.nextDoorBy !== undefined ? obj.nextDoorBy : this.nextDoorBy,
+                            this.isDefault, this.id, this.inputs.with(obj),
                             obj.paypal !== undefined ? validateCash(obj.paypal, this.paypal) : this.paypal,
                             obj.deliveroo !== undefined ? validateCash(obj.deliveroo, this.deliveroo) : this.deliveroo,
                             obj.takeVouchersWet !== undefined ? validateCash(obj.takeVouchersWet, this.takeVouchersWet) : this.takeVouchersWet,
                             obj.takeVouchersDry !== undefined ? validateCash(obj.takeVouchersDry, this.takeVouchersDry) : this.takeVouchersDry,
-                            obj.takeVouchersHot !== undefined ? validateCash(obj.takeVouchersHot, this.takeVouchersHot) : this.takeVouchersHot);
+                            obj.takeVouchersHot !== undefined ? validateCash(obj.takeVouchersHot, this.takeVouchersHot) : this.takeVouchersHot,
+                            obj.skims !== undefined ? obj.skims : this.skims,
+                            obj.changes !== undefined ? obj.changes : this.changes);
   }
 
   public clone() {
@@ -160,17 +203,22 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
   }
 
   public getTotalRevenue(): number {
-    return this.tills.reduce((prev, curr) => prev + curr.totalTaken(), 0)
-      - this.receipts.reduce((prev, curr) => prev + curr.amount, 0)
-      - this.accounts.reduce((prev, curr) => prev + curr.amount, 0)
-      - this.deposits.reduce((prev, curr) => prev + curr.amount, 0)
+    return this.tills.reduce((prev,
+                              curr) => prev + curr.totalTaken(), 0)
+      - this.receipts.reduce((prev,
+                              curr) => prev + curr.amount, 0)
+      - this.accounts.reduce((prev,
+                              curr) => prev + curr.amount, 0)
+      - this.deposits.reduce((prev,
+                              curr) => prev + curr.amount, 0)
       + this.getDiffBetweenAmexTotsAndSumOfTills()
       + this.getDiffBetweenVisaTotsAndSumOfTills()
       + this.chargeToAccount + this.depositRedeemed; // deprecated chargeToAccount and depositRedeemed, retained for legacy figures
   }
 
   public getTotalZRead(): number {
-    return this.tills.reduce((prev, curr) => prev + curr.zRead, 0);
+    return this.tills.reduce((prev,
+                              curr) => prev + curr.zRead, 0);
   }
 
   public getTotalComps(): number {
@@ -187,16 +235,20 @@ export class CashUpEntity extends CashUpEntityAbstract<number, TillDenominations
 
   public getWetSalesZ(): number {
     return this.getWetTake() - this.compsWet - this.spendStaffPts - this.comoDiscAsset - this.takeVouchersWet
-      - this.deposits.reduce((prev, curr) => prev + Math.max(curr.amount, 0), 0)
-      - this.accounts.reduce((prev, curr) => prev + Math.max(curr.amount, 0), 0)
+      - this.deposits.reduce((prev,
+                              curr) => prev + Math.max(curr.amount, 0), 0)
+      - this.accounts.reduce((prev,
+                              curr) => prev + Math.max(curr.amount, 0), 0)
       ;
   }
 
   private getDiffBetweenAmexTotsAndSumOfTills(): number {
-    return this.amexTots === 0 ? 0 : this.amexTots - this.tills.reduce((prev, curr) => prev + curr.amex, 0);
+    return this.amexTots === 0 ? 0 : this.amexTots - this.tills.reduce((prev,
+                                                                        curr) => prev + curr.amex, 0);
   }
 
   private getDiffBetweenVisaTotsAndSumOfTills(): number {
-    return this.visaMcTots === 0 ? 0 : this.visaMcTots - this.tills.reduce((prev, curr) => prev + curr.visa, 0);
+    return this.visaMcTots === 0 ? 0 : this.visaMcTots - this.tills.reduce((prev,
+                                                                            curr) => prev + curr.visa, 0);
   }
 }

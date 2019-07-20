@@ -25,6 +25,8 @@ export const cashUpObject = (date: moment.Moment): CashUpEntityApiType => {
     receipts: [],
     accounts: [],
     deposits: [],
+    skims: [],
+    changes: [],
     spendStaffPts: 0,
     comoDiscAsset: 0,
     takeDry: 0,

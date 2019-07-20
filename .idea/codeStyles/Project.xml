@@ -29,7 +29,7 @@
     </codeStyleSettings>
     <codeStyleSettings language="TypeScript">
       <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
-      <option name="CALL_PARAMETERS_WRAP" value="1" />
+      <option name="CALL_PARAMETERS_WRAP" value="5" />
       <option name="METHOD_PARAMETERS_WRAP" value="2" />
       <indentOptions>
         <option name="INDENT_SIZE" value="2" />

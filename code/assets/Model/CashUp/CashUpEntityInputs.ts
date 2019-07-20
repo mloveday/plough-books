@@ -7,7 +7,7 @@ import {
   CashUpEntityUpdateType
 } from "./CashUpEntityTypes";
 
-export class CashUpEntityInputs extends CashUpEntityAbstract<string, undefined, undefined, undefined> implements CashUpEntityInputType {
+export class CashUpEntityInputs extends CashUpEntityAbstract<string, undefined, undefined, undefined, undefined, undefined> implements CashUpEntityInputType {
   public static default(date: moment.Moment): CashUpEntityInputs {
     return new CashUpEntityInputs(moment.utc(date).format(DateFormats.API_DATE), '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '','','','', '', '', '','', '', '', '');
   }
@@ -17,7 +17,12 @@ export class CashUpEntityInputs extends CashUpEntityAbstract<string, undefined, 
   }
 
   constructor(date: string, mod: string, dailyNotes: string, chargeToAccount: string, depositRedeemed: string, compsWet: string, dStaffDry: string, dCustomersWet: string, dCustomersDry: string, dCustomersCoffee: string, fwtWet: string, comoInDrawer: string, amexTots: string, visaMcTots: string, spendStaffPts: string, comoDiscAsset: string, takeDry: string, takeCoffee: string, takeGiftCard: string, takeDepositPaid: string, paidOutAmnt: string, paidOutTo: string, banked: string, cashAdvantageBag: string, cashAdvantageBagSeenBy: string, bankedPm: string, cashAdvantageBagPm: string, cashAdvantageBagSeenByPm: string, sfdNotes: string, pubSecuredBy: string, barClosedBy: string, floorClosedBy: string, nextDoorBy: string, paypal: string, deliveroo: string, takeVouchersWet: string, takeVouchersDry: string, takeVouchersHot: string) {
-    super(date, mod, dailyNotes, [], chargeToAccount, depositRedeemed, compsWet, dStaffDry, dCustomersWet, dCustomersDry, dCustomersCoffee, fwtWet, comoInDrawer, amexTots, visaMcTots, [], [], [], spendStaffPts, comoDiscAsset, takeDry, takeCoffee, takeGiftCard, takeDepositPaid, paidOutAmnt, paidOutTo, banked, cashAdvantageBag, cashAdvantageBagSeenBy, bankedPm, cashAdvantageBagPm, cashAdvantageBagSeenByPm, undefined, undefined, sfdNotes, pubSecuredBy, barClosedBy, floorClosedBy, nextDoorBy, paypal, deliveroo, takeVouchersWet, takeVouchersDry, takeVouchersHot);
+    super(date, mod, dailyNotes, [], chargeToAccount, depositRedeemed, compsWet, dStaffDry, dCustomersWet,
+          dCustomersDry, dCustomersCoffee, fwtWet, comoInDrawer, amexTots, visaMcTots, [], [], [], spendStaffPts,
+          comoDiscAsset, takeDry, takeCoffee, takeGiftCard, takeDepositPaid, paidOutAmnt, paidOutTo, banked,
+          cashAdvantageBag, cashAdvantageBagSeenBy, bankedPm, cashAdvantageBagPm, cashAdvantageBagSeenByPm, undefined,
+          undefined, sfdNotes, pubSecuredBy, barClosedBy, floorClosedBy, nextDoorBy, paypal, deliveroo, takeVouchersWet,
+          takeVouchersDry, takeVouchersHot, [], []);
   }
 
   public with(obj: CashUpEntityUpdateType): CashUpEntityInputs {

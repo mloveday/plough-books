@@ -31,7 +31,7 @@ class CashUpChange {
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Rota", inversedBy="change")
+     * @ORM\ManyToOne(targetEntity="App\Entity\CashUp", inversedBy="change")
      */
     private $cashUp;
 
@@ -66,11 +66,11 @@ class CashUpChange {
         return $this;
     }
 
-    public function getCashUp(): ?Rota {
+    public function getCashUp(): ?CashUp {
         return $this->cashUp;
     }
 
-    public function setCashUp(?Rota $cashUp): self {
+    public function setCashUp(?CashUp $cashUp): self {
         $this->cashUp = $cashUp;
         return $this;
     }

@@ -21,12 +21,14 @@ import {momentFromDate} from "../../Util/DateUtils";
 import './CashUp.scss';
 import {CashUpAccounts} from "./Partials/CashUpAccounts";
 import {CashUpBanking} from "./Partials/CashUpBanking";
+import {CashUpChanges} from "./Partials/CashUpChanges";
 import {CashUpDeposits} from "./Partials/CashUpDeposits";
 import {CashUpDiscounts} from "./Partials/CashUpDiscounts";
 import {CashUpNettTakes} from "./Partials/CashUpNettTakes";
 import {CashUpReceipts} from "./Partials/CashUpReceipts";
 import {CashUpSafeFloat} from "./Partials/CashUpSafeFloat";
 import {CashUpSecurity} from "./Partials/CashUpSecurity";
+import {CashUpSkims} from "./Partials/CashUpSkims";
 import {CashUpSpendStaffComo} from "./Partials/CashUpSpendStaffComo";
 import {CashUpSummary} from "./Partials/CashUpSummary";
 import {CashUpTills} from "./Partials/CashUpTills";
@@ -118,6 +120,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
               CashUpPage.BANKING,
               CashUpPage.SAFE_FLOAT,
               CashUpPage.SECURITY,
+              CashUpPage.SKIMS,
+              CashUpPage.CHANGES,
             ].map((cashUpPage, key) => (
               <li className='cash-up-link-item' key={key}>
                 <Link to={Routes.cashUpUrl(dateParam, cashUpPage)} className={`cash-up-link-button${cashUpPage === pageShown ? ' selected' : ''}`}>{cashUpPage}</Link>
@@ -142,6 +146,8 @@ class CashUpComponent extends React.Component<CashUpProps, {}> {
           {pageShown === CashUpPage.SAFE_FLOAT && <CashUpSafeFloat cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
           {pageShown === CashUpPage.SECURITY && <CashUpSecurity cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.SKIMS && <CashUpSkims cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
+          {pageShown === CashUpPage.CHANGES && <CashUpChanges cashUp={this.getCashUp()} formUpdate={obj => this.formUpdate(obj)} />}
 
         </form>
       </div>

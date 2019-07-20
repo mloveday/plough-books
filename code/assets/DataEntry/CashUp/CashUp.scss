@@ -24,11 +24,11 @@
         grid-column: 1/3;
       }
     }
-    &.receipts {
+    &.receipts, &.skims, &.changes {
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-gap: 4px;
-      .group-title.receipts_label, .receipt_add_button, .form-row {
+      .group-title.receipts_label, .receipt_add_button, .group-title.skims_label, .skim_add_button, .group-title.changes_label, .change_add_button, .form-row {
         grid-column: 1/3;
       }
     }
@@ -112,7 +112,7 @@
       grid-column: 1;
     }
 
-    .receipt {
+    .receipt, .skim, .change {
       position: relative; // for delete button
       padding: 4px;
       border-radius: 4px;

@@ -8,6 +8,8 @@ const banking = 'banking';
 const safeFloat = 'safe-float';
 const security = 'security';
 const tills = 'tills';
+const skims = 'skims';
+const changes = 'changes';
 
 export const cashUpPageUrlParamFor = (section: CashUpPage): string => {
   switch (section) {
@@ -25,6 +27,10 @@ export const cashUpPageUrlParamFor = (section: CashUpPage): string => {
       return safeFloat;
     case CashUpPage.SECURITY:
       return security;
+    case CashUpPage.SKIMS:
+      return skims;
+    case CashUpPage.CHANGES:
+      return changes;
     case CashUpPage.TILLS:
     default:
       return tills;
@@ -47,6 +53,10 @@ export const cashUpPageFrom = (param: string): CashUpPage => {
       return CashUpPage.SAFE_FLOAT;
     case security:
       return CashUpPage.SECURITY;
+    case skims:
+      return CashUpPage.SKIMS;
+    case changes:
+      return CashUpPage.CHANGES;
     case tills:
     default:
       return CashUpPage.TILLS;

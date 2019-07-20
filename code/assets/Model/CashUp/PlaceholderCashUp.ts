@@ -63,6 +63,8 @@ export class PlaceholderCashUp extends CashUpEntity {
       0,
       0,
       0,
+      [],
+      [],
     );
   }
 
