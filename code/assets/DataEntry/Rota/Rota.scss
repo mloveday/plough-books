@@ -20,24 +20,6 @@ $numberOfPreTimeColumns: 4;
       grid-template-columns: 150px 25px 25px repeat($numberOfPreTimeColumns, 75px) repeat(50, 1fr);
       grid-gap: 1px;
     }
-
-    .rota-staff-levels .rota-time {
-      &.staff-level {
-        height: 50px;
-      }
-      &.staff-good {
-        background: greenyellow;
-      }
-      &.staff-ok {
-        background: yellow;
-      }
-      &.staff-mediocre {
-        background: orange;
-      }
-      &.staff-poor {
-        background: orangered;
-      }
-    }
   }
 
   &.exclude-times {
@@ -123,6 +105,49 @@ $numberOfPreTimeColumns: 4;
     width: 100%;
     height: 100%;
   }
+}
+
+.rota-staff-levels .staff-level {
+  height: 75px;
+  display: grid;
+  grid-template-rows: 25px 25px 25px;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+
+  &.staff-short {
+    background: cornflowerblue;
+  }
+  &.staff-under {
+    background: paleturquoise;
+  }
+  &.staff-good {
+    background: greenyellow;
+  }
+  &.staff-ok {
+    background: yellow;
+  }
+  &.staff-mediocre {
+    background: orange;
+  }
+  &.staff-poor {
+    background: orangered;
+  }
+}
+
+.staff-level-required, .staff-level-diff, .staff-level.labels * {
+  font-size: 1.2rem;
+}
+
+.staff-level-mod-input {
+  width: 100%;
+  height: 2rem;
+  font-size: 1.1rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  text-align: center;
 }
 
 .rota-shift {

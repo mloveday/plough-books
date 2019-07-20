@@ -38,13 +38,21 @@ class RotaStaffLevelsComponent extends React.Component<RotaStaffLevelsProps, {}>
         <div className="rota-header rota-start-time"/>
         <div className="rota-header rota-end-time"/>
         <div className="rota-header rota-breaks"/>
-        <div className="rota-header rota-rate"/>
+        <div className="staff-level labels">
+          <div className={`staff-level-required`}>Req</div>
+          <div className={`staff-level-mod`}>Mod</div>
+          <div className={`staff-level-diff`}>Diff</div>
+        </div>
         {timePeriods.map((timePeriod, timeKey) => {
           const numberWorking = this.props.rota.getPlannedNumberWorkingAtTime(timePeriod.format(DateFormats.TIME_LEADING_ZERO), this.props.workType);
           const numberRequired = (this.props.workType === WorkTypes.BAR ? this.props.rota.barRotaTemplate : this.props.rota.kitchenRotaTemplate).staffLevels[timeKey];
-          const numberLeft = numberRequired - numberWorking;
-          const stylingClass = numberLeft <= 0 ? 'staff-good' : (numberLeft === 1 ? 'staff-ok' : (numberLeft === 2 ? 'staff-mediocre' : 'staff-poor'));
-          return <div className={`rota-time staff-level ${stylingClass}`} key={timeKey}>{numberLeft}</div>
+          const numberDiff = numberWorking - numberRequired;
+          const stylingClass = numberDiff === 0 ? 'staff-good' : (numberDiff < -2 ? 'staff-short' : (numberDiff < 0 ? 'staff-under' : (numberDiff === 1 ? 'staff-ok' : (numberDiff === 2 ? 'staff-mediocre' : 'staff-poor'))));
+          return <div className={`staff-level ${stylingClass}`} key={timeKey}>
+            <div className={`staff-level-required`}>{numberRequired}</div>
+            <div className={`staff-level-mod`}><input disabled={true} className="staff-level-mod-input" type={`tel`} value={0}/></div>
+            <div className={`staff-level-diff`}>{numberDiff}</div>
+          </div>
         })}
         <div className={`rota-header rota-rate`}/>
       </div>
