@@ -17,8 +17,17 @@ export abstract class RotaAbstract<T extends string|number, C,S> {
   public readonly plannedShifts: S[];
   public readonly actualShifts: S[];
   public readonly touched: boolean = false;
+  public readonly staffLevelModifiers: T[];
 
-  constructor(date: string, forecastRevenue: T, targetLabourRate: T, constants: C, status: RotaStatus, plannedShifts: S[], actualShifts: S[], touched: boolean) {
+  constructor(date: string,
+              forecastRevenue: T,
+              targetLabourRate: T,
+              constants: C,
+              status: RotaStatus,
+              plannedShifts: S[],
+              actualShifts: S[],
+              touched: boolean,
+              staffLevelModifiers: T[]) {
     this.date = momentFromDate(date).format(DateFormats.API_DATE);
     this.forecastRevenue = forecastRevenue;
     this.targetLabourRate = targetLabourRate;
@@ -27,6 +36,7 @@ export abstract class RotaAbstract<T extends string|number, C,S> {
     this.plannedShifts = plannedShifts;
     this.actualShifts = actualShifts;
     this.touched = touched;
+    this.staffLevelModifiers = staffLevelModifiers;
   }
 }
 

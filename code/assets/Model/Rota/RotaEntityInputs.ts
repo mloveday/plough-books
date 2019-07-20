@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
+import {getTimePeriods} from "../../Util/DateUtils";
 import {Formatting} from "../../Util/Formatting";
 import {RotaStatus} from "../Enum/RotaStatus";
 import {RotaEntity} from "./RotaEntity";
@@ -9,6 +10,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
 
   public static default(date: moment.Moment) {
     date = date.clone().startOf('day');
+    const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
     return new RotaEntityInputs(
       date.format(DateFormats.API_DATE),
       '',
@@ -17,7 +19,8 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
       RotaStatus.NEW,
       [],
       [],
-      false
+      false,
+      timePeriods.map(p => ''),
     );
   }
 
@@ -31,6 +34,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
       [],
       [],
       false,
+      obj.staffLevelModifiers.map(slm => slm.toString()),
     );
   }
 
@@ -44,6 +48,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
       [],
       [],
       this.touched,
+      this.staffLevelModifiers,
     )
   }
 
@@ -57,6 +62,7 @@ export class RotaEntityInputs extends RotaAbstract<string, undefined, undefined>
       [],
       [],
       obj.touched !== undefined ? obj.touched : this.touched,
+      obj.staffLevelModifiers ? obj.staffLevelModifiers : this.staffLevelModifiers,
     );
   }
 }

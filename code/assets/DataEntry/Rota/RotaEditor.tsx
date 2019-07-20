@@ -126,7 +126,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
         </div>
         <div className="rota-grid include-times">
           <RotaHeader date={this.props.date}/>
-          {this.props.showStaffLevels && <RotaStaffLevels rota={this.props.rota} workType={this.props.workType}/>}
+          {this.props.showStaffLevels && <RotaStaffLevels formUpdate={obj => this.formUpdate(obj)} rota={this.props.rota} workType={this.props.workType}/>}
           {this.getRolesToDisplay().map(role =>
             <div className="rota-role-group" key={role.id}>
               <div className="rota-role-header">{role.role}</div>

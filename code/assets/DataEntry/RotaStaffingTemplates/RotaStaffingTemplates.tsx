@@ -18,7 +18,7 @@ import {
 import {uiUpdate} from "../../Redux/UI/UiRedux";
 import {UiState} from "../../Redux/UI/UiState";
 import {dayFromWeekDayNumber, timeFromHalfHoursPastStart} from "../../Util/DateUtils";
-import {currencyPattern, integerPattern} from "../../Util/Validation";
+import {currencyPattern, positiveIntegerPattern} from "../../Util/Validation";
 import "./RotaStaffingTemplates.scss";
 
 interface RotaStaffingTemplatesDataEntryOwnProps {
@@ -204,7 +204,7 @@ class RotaStaffingTemplatesDataEntryComponent extends React.Component<RotaStaffi
   private staffLevelEdit(index: number, staffLevel: string, entity: RotaStaffingTemplate, isEditingEntity: boolean, updateFn: (rotaStaffingTemplates: RotaStaffingTemplate) => void) {
     return <td key={index} className="rota-staffing-templates-input-wrapper staff-level">
       <div className={`staff-level-time`}>{timeFromHalfHoursPastStart(index)}</div>
-      <input disabled={!isEditingEntity} type="number" pattern={integerPattern} value={staffLevel}
+      <input disabled={!isEditingEntity} type="number" pattern={positiveIntegerPattern} value={staffLevel}
              onChange={ev => updateFn(entity.with({staffLevels: entity.inputs.staffLevels.map((sl, i) => i === index ? ev.target.value : sl)}))}/>
     </td>
   }

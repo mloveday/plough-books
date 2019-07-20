@@ -18,42 +18,39 @@ class Rota
      * @ORM\Column(type="integer")
      */
     private $id;
-
     /**
      * @ORM\Column(type="datetime")
      */
     private $date;
-
     /**
      * @ORM\Column(type="float")
      */
     private $forecast_revenue;
-
     /**
      * @ORM\Column(type="float")
      */
     private $target_labour_rate;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Constants", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $constants;
-
     /**
      * @ORM\Column(type="string", length=255, columnDefinition="enum('imported', 'new', 'draft', 'rota_complete', 'sign_in_complete')")
      */
     private $status;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PlannedShift", mappedBy="rota", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $plannedShifts;
-
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\ActualShift", mappedBy="rota", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $actualShifts;
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $staff_level_modifiers;
 
     public function __construct()
     {
@@ -123,6 +120,15 @@ class Rota
     {
         $this->status = $status;
 
+        return $this;
+    }
+
+    public function getStaffLevelModifiers() {
+        return $this->staff_level_modifiers;
+    }
+
+    public function setStaffLevelModifiers($staff_level_modifiers): self {
+        $this->staff_level_modifiers = $staff_level_modifiers;
         return $this;
     }
 
@@ -198,6 +204,7 @@ class Rota
             RotaParsingService::PARAM__STATUS => $this->getStatus(),
             RotaParsingService::PARAM__PLANNED_SHIFTS => array_map(function(PlannedShift $plannedShift) { return $plannedShift->serialise();}, $this->getPlannedShifts()->toArray()),
             RotaParsingService::PARAM__ACTUAL_SHIFTS => array_map(function(ActualShift $actualShift) { return $actualShift->serialise();}, $this->getActualShifts()->toArray()),
+            RotaParsingService::PARAM__STAFF_LEVEL_MODIFIERS => $this->getStaffLevelModifiers(),
         ];
     }
 }

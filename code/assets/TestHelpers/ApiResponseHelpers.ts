@@ -110,5 +110,6 @@ export const rotaObject = (date: moment.Moment): RotaApiType => {
     plannedShifts: [],
     actualShifts: [],
     touched: false,
+    staffLevelModifiers: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,]
   }
 };

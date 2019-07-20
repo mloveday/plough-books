@@ -1,8 +1,8 @@
 import * as moment from "moment";
 import {CashManipulation} from "../../Util/CashManipulation";
 import {DateFormats} from "../../Util/DateFormats";
-import {momentFromDate, momentFromDateAndTime} from "../../Util/DateUtils";
-import {validateCash, validatePercentageToDecimal} from "../../Util/Validation";
+import {getTimePeriods, momentFromDate, momentFromDateAndTime} from "../../Util/DateUtils";
+import {validateCash, validateInt, validatePercentageToDecimal} from "../../Util/Validation";
 import {Constants} from "../Constants/Constants";
 import {RotaStatus} from "../Enum/RotaStatus";
 import {WorkType, WorkTypes} from "../Enum/WorkTypes";
@@ -17,7 +17,20 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   
   public static default(date: moment.Moment) {
     date = date.clone().startOf('day');
-    return new RotaEntity(date, 0, RotaEntity.DEFAULT_LABOUR_RATES[date.isoWeekday() - 1], Constants.default(), RotaStatus.NEW, [], [], false, RotaStaffingTemplate.default(), RotaStaffingTemplate.default(), RotaEntityInputs.default(date));
+    const timePeriods = getTimePeriods(moment.utc().format(DateFormats.API_DATE));
+    return new RotaEntity(date,
+                          0,
+                          RotaEntity.DEFAULT_LABOUR_RATES[date.isoWeekday() - 1],
+                          Constants.default(),
+                          RotaStatus.NEW,
+                          [],
+                          [],
+                          false,
+                          RotaStaffingTemplate.default(),
+                          RotaStaffingTemplate.default(),
+                          timePeriods.map(p => 0),
+                          RotaEntityInputs.default(
+                            date));
   }
 
   public static fromApi(obj: RotaApiType): RotaEntity {
@@ -26,7 +39,20 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = obj.actualShifts.map(actualShift => Shift.fromApi(actualShift, date.format(DateFormats.API_DATE)))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    return new RotaEntity(date, obj.forecastRevenue, obj.targetLabourRate, Constants.fromApi(obj.constants), obj.status as RotaStatus, plannedShifts, actualShifts, false, RotaStaffingTemplate.default(), RotaStaffingTemplate.default(), RotaEntityInputs.fromApi(obj), obj.id);
+    return new RotaEntity(date,
+                          obj.forecastRevenue,
+                          obj.targetLabourRate,
+                          Constants.fromApi(obj.constants),
+                          obj.status as RotaStatus,
+                          plannedShifts,
+                          actualShifts,
+                          false,
+                          RotaStaffingTemplate.default(),
+                          RotaStaffingTemplate.default(),
+                          obj.staffLevelModifiers,
+                          RotaEntityInputs.fromApi(
+                            obj),
+                          obj.id);
   }
 
   public readonly id?: number;
@@ -35,8 +61,28 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   public readonly kitchenRotaTemplate: RotaStaffingTemplate;
   private readonly startOfDay: moment.Moment;
 
-  constructor(date: moment.Moment, forecastRevenue: number, targetLabourRate: number, constants: Constants, status: RotaStatus, plannedShifts: Shift[], actualShifts: Shift[], touched: boolean, barRotaTemplate: RotaStaffingTemplate, kitchenRotaTemplate: RotaStaffingTemplate, inputs: RotaEntityInputs, id?: number) {
-    super(date.format(DateFormats.API_DATE), forecastRevenue, targetLabourRate, constants, status, plannedShifts, actualShifts, touched);
+  constructor(date: moment.Moment,
+              forecastRevenue: number,
+              targetLabourRate: number,
+              constants: Constants,
+              status: RotaStatus,
+              plannedShifts: Shift[],
+              actualShifts: Shift[],
+              touched: boolean,
+              barRotaTemplate: RotaStaffingTemplate,
+              kitchenRotaTemplate: RotaStaffingTemplate,
+              staffLevelModifiers: number[],
+              inputs: RotaEntityInputs,
+              id?: number) {
+    super(date.format(DateFormats.API_DATE),
+          forecastRevenue,
+          targetLabourRate,
+          constants,
+          status,
+          plannedShifts,
+          actualShifts,
+          touched,
+          staffLevelModifiers);
     this.id = id;
     this.inputs = inputs;
     this.barRotaTemplate = barRotaTemplate;
@@ -49,7 +95,21 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
   }
 
   public clone() {
-    return new RotaEntity(this.getDate(), this.forecastRevenue, this.targetLabourRate, this.constants.with({}), this.status, this.plannedShifts.map(shift => shift.clone()), this.actualShifts.map(shift => shift.clone()), this.touched, this.barRotaTemplate, this.kitchenRotaTemplate, this.inputs.clone(), this.id)
+    return new RotaEntity(this.getDate(),
+                          this.forecastRevenue,
+                          this.targetLabourRate,
+                          this.constants.with({}),
+                          this.status,
+                          this.plannedShifts.map(
+                            shift => shift.clone()),
+                          this.actualShifts.map(
+                            shift => shift.clone()),
+                          this.touched,
+                          this.barRotaTemplate,
+                          this.kitchenRotaTemplate,
+                          this.staffLevelModifiers,
+                          this.inputs.clone(),
+                          this.id)
   }
 
   public update(obj: RotaUpdateType): RotaEntity {
@@ -58,7 +118,23 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
     const actualShifts = (obj.actualShifts ? obj.actualShifts : this.actualShifts.map((shift: Shift) => shift.clone()))
       .sort((a: Shift, b: Shift) => a.staffMember.name > b.staffMember.name ? 1 : -1);
-    return new RotaEntity(obj.date !== undefined ? momentFromDate(obj.date) : this.getDate(), obj.forecastRevenue !== undefined ? validateCash(obj.forecastRevenue, this.forecastRevenue) : this.forecastRevenue, obj.targetLabourRate !== undefined ? validatePercentageToDecimal(obj.targetLabourRate, this.targetLabourRate) : this.targetLabourRate, constants, obj.status !== undefined ? obj.status : this.status, plannedShifts, actualShifts, obj.touched !== undefined ? obj.touched : this.touched, obj.barRotaTemplate !== undefined ? obj.barRotaTemplate : this.barRotaTemplate, obj.kitchenRotaTemplate !== undefined ? obj.kitchenRotaTemplate : this.kitchenRotaTemplate, this.inputs.update(obj), this.id);
+    return new RotaEntity(obj.date !== undefined ? momentFromDate(obj.date) : this.getDate(),
+                          obj.forecastRevenue !== undefined ? validateCash(
+                            obj.forecastRevenue,
+                            this.forecastRevenue) : this.forecastRevenue,
+                          obj.targetLabourRate !== undefined ? validatePercentageToDecimal(obj.targetLabourRate,
+                                                                                           this.targetLabourRate) : this.targetLabourRate,
+                          constants,
+                          obj.status !== undefined ? obj.status : this.status,
+                          plannedShifts,
+                          actualShifts,
+                          obj.touched !== undefined ? obj.touched : this.touched,
+                          obj.barRotaTemplate !== undefined ? obj.barRotaTemplate : this.barRotaTemplate,
+                          obj.kitchenRotaTemplate !== undefined ? obj.kitchenRotaTemplate : this.kitchenRotaTemplate,
+                          obj.staffLevelModifiers !== undefined ? obj.staffLevelModifiers.map((sl, i) => validateInt(sl, this.staffLevelModifiers[i])) : this.staffLevelModifiers,
+                          this.inputs.update(
+                            obj),
+                          this.id);
   }
 
   public forApi() {

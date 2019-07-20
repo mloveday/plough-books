@@ -18,9 +18,10 @@ class RotaParsingService {
     private const UPDATE__CONSTANTS = 'update_constants';
     private const UPDATE__PLANNED_SHIFTS = 'update_planned_shifts';
     private const UPDATE__ACTUAL_SHIFTS = 'update_actual_shifts';
+    private const UPDATE__STAFF_LEVEL_MODIFIERS = 'update_staff_level_modifiers';
 
-    const UPDATE_ALL = [self::UPDATE__ACTUAL_SHIFTS, self::UPDATE__BASE, self::UPDATE__CONSTANTS, self::UPDATE__PLANNED_SHIFTS, self::UPDATE__STATUS];
-    const UPDATE_SHIFTS_AND_STATUS = [self::UPDATE__STATUS, self::UPDATE__PLANNED_SHIFTS, self::UPDATE__ACTUAL_SHIFTS];
+    const UPDATE_ALL = [self::UPDATE__ACTUAL_SHIFTS, self::UPDATE__BASE, self::UPDATE__CONSTANTS, self::UPDATE__PLANNED_SHIFTS, self::UPDATE__STATUS, self::UPDATE__STAFF_LEVEL_MODIFIERS];
+    const UPDATE_SHIFTS_AND_STATUS = [self::UPDATE__STATUS, self::UPDATE__PLANNED_SHIFTS, self::UPDATE__ACTUAL_SHIFTS, self::UPDATE__STAFF_LEVEL_MODIFIERS];
     const UPDATE_CONSTANTS_AND_NON_NESTED = [self::UPDATE__BASE, self::UPDATE__CONSTANTS];
 
     const PARAM__DATE = 'date';
@@ -30,6 +31,7 @@ class RotaParsingService {
     const PARAM__STATUS = 'status';
     const PARAM__PLANNED_SHIFTS = 'plannedShifts';
     const PARAM__ACTUAL_SHIFTS = 'actualShifts';
+    const PARAM__STAFF_LEVEL_MODIFIERS = 'staffLevelModifiers';
     const PARAM__ID = 'id';
 
     const NEW_ROTA_ID = -1;
@@ -74,6 +76,9 @@ class RotaParsingService {
         }
         if ($this->shouldUpdateField(self::UPDATE__BASE, $updateFields) !== false || array_search(self::UPDATE__STATUS, $updateFields) !== false) {
             $rota->setStatus($request[self::PARAM__STATUS]);
+        }
+        if ($this->shouldUpdateField(self::UPDATE__STAFF_LEVEL_MODIFIERS, $updateFields)) {
+            $rota->setStaffLevelModifiers($request[self::PARAM__STAFF_LEVEL_MODIFIERS]);
         }
 
         if ($this->shouldUpdateField(self::UPDATE__CONSTANTS, $updateFields)) {
