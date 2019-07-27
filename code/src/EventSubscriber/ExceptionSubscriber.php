@@ -23,11 +23,11 @@ class ExceptionSubscriber implements EventSubscriberInterface
             $response->setStatusCode($exception->getStatusCode());
             $response->setContent(json_encode((object)["message" => $exception->getMessage()]));
         } else {
-            if ($_ENV['APP_ENV'] === 'dev') {
+//            if ($_ENV['APP_ENV'] === 'dev') {
                 $response->setContent(json_encode((object)["message" => $exception->getMessage(), "trace" => $exception->getTrace()]));
-            } else {
-                $response->setContent(json_encode((object) ['message' => 'Internal server error']));
-            }
+//            } else {
+//                $response->setContent(json_encode((object) ['message' => 'Internal server error']));
+//            }
             $response->setStatusCode(500);
         }
         $response->send();

@@ -50,7 +50,7 @@ class Rota
     /**
      * @ORM\Column(type="json")
      */
-    private $staff_level_modifiers;
+    private $staff_level_modifiers = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
     public function __construct()
     {
@@ -204,7 +204,7 @@ class Rota
             RotaParsingService::PARAM__STATUS => $this->getStatus(),
             RotaParsingService::PARAM__PLANNED_SHIFTS => array_map(function(PlannedShift $plannedShift) { return $plannedShift->serialise();}, $this->getPlannedShifts()->toArray()),
             RotaParsingService::PARAM__ACTUAL_SHIFTS => array_map(function(ActualShift $actualShift) { return $actualShift->serialise();}, $this->getActualShifts()->toArray()),
-            RotaParsingService::PARAM__STAFF_LEVEL_MODIFIERS => $this->getStaffLevelModifiers(),
+            RotaParsingService::PARAM__STAFF_LEVEL_MODIFIERS => is_array($this->getStaffLevelModifiers()) ? $this->getStaffLevelModifiers() : json_decode($this->getStaffLevelModifiers()),
         ];
     }
 }
