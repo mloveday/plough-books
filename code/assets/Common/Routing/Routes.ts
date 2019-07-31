@@ -13,6 +13,7 @@ export class Routes {
   public static readonly STAFF_MEMBERS = "/staff/members";
   public static readonly STAFF_ROLES = "/staff/roles";
   public static readonly CONSTANTS = "/constants";
+  public static readonly HOLIDAYS = "/holidays";
   public static readonly ROTA_STAFFING_TEMPLATES = "/rota-staffing-templates";
   public static readonly USERS = "/admin/users";
   public static readonly ROLES = "/admin/roles";

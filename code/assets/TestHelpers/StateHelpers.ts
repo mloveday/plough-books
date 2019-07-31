@@ -12,6 +12,8 @@ import {CashUpExternalState} from "../Redux/CashUp/CashUpExternalState";
 import {ConstantsExternalState} from '../Redux/Constants/ConstantsExternalState';
 import {ConstantsLocalState} from "../Redux/Constants/ConstantsLocalState";
 import {ErrorState} from "../Redux/Error/ErrorRedux";
+import {HolidayExternalState} from "../Redux/Holiday/HolidayExternalState";
+import {HolidayLocalState} from "../Redux/Holiday/HolidayLocalState";
 import {RotaExternalState} from "../Redux/Rota/RotaExternalState";
 import {RotaStaffingTemplatesExternalState} from "../Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
 import {RotaStaffingTemplatesLocalState} from "../Redux/RotaStaffingTemplates/RotaStaffingTemplatesLocalState";
@@ -86,7 +88,9 @@ export class StateHelpers {
       usersLocalState: new UsersLocalState(),
       rolesExternalState: new UserRolesExternalState(),
       rolesLocalState: new UserRolesLocalState(),
-      uiState: new UiState()
+      uiState: new UiState(),
+      holidayExternalState: new HolidayExternalState(),
+      holidayLocalState: new HolidayLocalState(),
     };
   }
 

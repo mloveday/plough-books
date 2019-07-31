@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import {Redirect, Route, Switch} from "react-router";
 import {CashUp} from "../../DataEntry/CashUp/CashUp";
 import {ConstantsDataEntry} from "../../DataEntry/Constants/Constants";
+import {HolidayDataEntry} from "../../DataEntry/Holidays/Holidays";
 import {Roles} from "../../DataEntry/Role/Roles";
 import {Rota} from "../../DataEntry/Rota/Rota";
 import {SignIn} from "../../DataEntry/Rota/SignIn";
@@ -66,6 +67,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
+            <RouteWithAuth exact={true} path={Routes.HOLIDAYS} component={HolidayDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.ROTA_STAFFING_TEMPLATES} component={RotaStaffingTemplatesDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>

@@ -53,8 +53,14 @@ class StaffMember {
      */
     private $order_in_rota;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Holiday", mappedBy="staffMember", orphanRemoval=true)
+     */
+    private $holidays;
+
     public function __construct() {
         $this->plannedShifts = new ArrayCollection();
+        $this->holidays = new ArrayCollection();
     }
 
     public function getId(): ?int {
@@ -151,5 +157,36 @@ class StaffMember {
             'defaultOffFloor' => $this->getDefaultOffFloor(),
             'orderInRota' => $this->getOrderInRota(),
         ];
+    }
+
+    /**
+     * @return Collection|Holiday[]
+     */
+    public function getHolidays(): Collection
+    {
+        return $this->holidays;
+    }
+
+    public function addHoliday(Holiday $holiday): self
+    {
+        if (!$this->holidays->contains($holiday)) {
+            $this->holidays[] = $holiday;
+            $holiday->setStaffMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeHoliday(Holiday $holiday): self
+    {
+        if ($this->holidays->contains($holiday)) {
+            $this->holidays->removeElement($holiday);
+            // set the owning side to null (unless already changed)
+            if ($holiday->getStaffMember() === $this) {
+                $holiday->setStaffMember(null);
+            }
+        }
+
+        return $this;
     }
 }

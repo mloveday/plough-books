@@ -80,6 +80,7 @@ class NavComponent extends React.Component<NavProps, {}> {
           <li className={routeCssDouble}>
           {this.routeItem(Routes.STAFF_MEMBERS, "Staff", 'admin', 'users')}
           {this.routeItem(Routes.STAFF_ROLES, "Staff roles", 'admin', 'users-cog')}
+          {this.routeItem(Routes.HOLIDAYS, "Holidays", 'admin', 'calendar-week')}
           </li>
           <li className={routeCssDouble}>
           {this.routeItem(Routes.CONSTANTS, "Constants", 'admin', 'cogs')}

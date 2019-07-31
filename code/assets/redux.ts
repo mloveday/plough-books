@@ -9,6 +9,9 @@ import {ConstantsExternalState} from "./Redux/Constants/ConstantsExternalState";
 import {ConstantsLocalState} from "./Redux/Constants/ConstantsLocalState";
 import {constantsExternalReducers, constantsInternalReducers} from "./Redux/Constants/ConstantsRedux";
 import {errorReducers, ErrorState} from "./Redux/Error/ErrorRedux";
+import {HolidayExternalState} from "./Redux/Holiday/HolidayExternalState";
+import {HolidayLocalState} from "./Redux/Holiday/HolidayLocalState";
+import {holidayExternalReducers, holidayInternalReducers} from "./Redux/Holiday/HolidayRedux";
 import {RotaExternalState} from "./Redux/Rota/RotaExternalState";
 import {rotaExternalReducers, rotaInternalReducers} from "./Redux/Rota/RotaRedux";
 import {RotaStaffingTemplatesExternalState} from "./Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
@@ -57,6 +60,8 @@ export interface AppState {
   rolesExternalState: UserRolesExternalState;
   rolesLocalState: UserRolesLocalState;
   uiState: UiState;
+  holidayExternalState: HolidayExternalState;
+  holidayLocalState: HolidayLocalState;
 }
 
 export const reducers = {
@@ -80,4 +85,6 @@ export const reducers = {
   rolesExternalState: userRolesExternalReducers,
   rolesLocalState: userRolesInternalReducers,
   uiState: uiReducers,
+  holidayExternalState: holidayExternalReducers,
+  holidayLocalState: holidayInternalReducers,
 };
