@@ -5,21 +5,28 @@ namespace App\EventSubscriber;
 use App\Entity\ErrorLog;
 use App\Service\PersistenceService;
 use DateTime;
-use Symfony\Component\Config\Definition\Exception\Exception;
+use Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Twig\Environment;
 
 class ExceptionSubscriber implements EventSubscriberInterface
 {
     /** @var PersistenceService */
     private $persistenceService;
+    /** @var Environment */
+    private $twig;
+    /** @var \Swift_Mailer */
+    private $mailer;
 
-    public function __construct(PersistenceService $persistenceService) {
+    public function __construct(PersistenceService $persistenceService, Environment $twig, \Swift_Mailer $mailer) {
         $this->persistenceService = $persistenceService;
+        $this->twig = $twig;
+        $this->mailer = $mailer;
     }
 
     public function onKernelException(GetResponseForExceptionEvent $event){
@@ -35,6 +42,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
             $response->setContent(json_encode((object)["message" => $exception->getMessage()]));
         } else {
             $code = uniqid('', true);
+
             try {
                 $log = new ErrorLog();
                 $log->setCode($code)
@@ -45,6 +53,22 @@ class ExceptionSubscriber implements EventSubscriberInterface
             } catch (Exception $e) {
                 // continue - more important to show user the appropriate message
             }
+
+            try {
+                // send email
+                $body = $this->twig->render(
+                    'errorhandling/errorbody.txt.twig',
+                    ['time' => (new DateTime())->format(DateTime::ISO8601), 'code' => $code, 'message' => $exception->getMessage(), 'trace' => $exception->getTraceAsString()]
+                );
+                $message = (new \Swift_Message('Plough 500: '.$exception->getMessage()))
+                    ->setBody($body)
+                    ->setTo('miles@theploughharborne.co.uk')
+                    ->setFrom('miles@theploughharborne.co.uk');
+                $this->mailer->send($message);
+            } catch (Exception $e) {
+                // continue
+            }
+
 //            if ($_ENV['APP_ENV'] === 'dev') {
                 $response->setContent(json_encode((object)["message" => $exception->getMessage(), "trace" => $exception->getTrace(), "code" => $code]));
 //            } else {
