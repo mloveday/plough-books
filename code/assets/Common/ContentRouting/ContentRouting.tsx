@@ -67,7 +67,7 @@ class ContentRoutingComponent extends React.Component<ContentRoutingProps, {}> {
             <RouteWithAuth exact={true} path={Routes.STAFF_MEMBERS} component={StaffMembers}/>
             <RouteWithAuth exact={true} path={Routes.STAFF_ROLES} component={StaffRoles}/>
             <RouteWithAuth exact={true} path={Routes.CONSTANTS} component={ConstantsDataEntry}/>
-            <RouteWithAuth exact={true} path={Routes.HOLIDAYS} component={HolidayDataEntry}/>
+            <RouteWithAuth exact={true} path={Routes.holidayRoute()} component={HolidayDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.ROTA_STAFFING_TEMPLATES} component={RotaStaffingTemplatesDataEntry}/>
             <RouteWithAuth exact={true} path={Routes.USERS} component={Users}/>
             <RouteWithAuth exact={true} path={Routes.ROLES} component={Roles}/>

@@ -1,10 +1,20 @@
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
+import {match} from "react-router";
+import {Link} from "react-router-dom";
 import {EditButton} from "../../Common/Buttons/EditButton";
 import {NewButton} from "../../Common/Buttons/NewButton";
 import {ResetButton} from "../../Common/Buttons/ResetButton";
 import {SaveButton} from "../../Common/Buttons/SaveButton";
+import {Routes} from "../../Common/Routing/Routes";
+import {
+  HOL_DR_ALL,
+  HOL_DR_CURRENT,
+  HOL_DR_FUTURE,
+  HOL_DR_PAST,
+  HolidayDateRanges
+} from "../../Model/Enum/HolidayFilters";
 import {Holiday} from "../../Model/Holiday/Holiday";
 import {AppState} from "../../redux";
 import {HolidayExternalState} from "../../Redux/Holiday/HolidayExternalState";
@@ -12,9 +22,13 @@ import {HolidayLocalState} from "../../Redux/Holiday/HolidayLocalState";
 import {holidayCreate, holidayDataEntry, holidaysFetch} from "../../Redux/Holiday/HolidayRedux";
 import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
 import {staffMembersFetch} from "../../Redux/StaffMember/StaffMembersRedux";
+import {DateFormats} from "../../Util/DateFormats";
 import "./Holidays.scss";
 
 interface HolidayDataEntryOwnProps {
+  match: match<{
+    dateRange?: HolidayDateRanges;
+  }>
 }
 
 interface HolidayDataEntryStateProps {
@@ -59,18 +73,39 @@ class HolidayDataEntryComponent extends React.Component<HolidayDataEntryProps, {
   }
   
   public render() {
+    const today = moment.utc().startOf('day');
     const isCreatingNewEntity = this.props.holidayLocalState.isCreatingEntity;
     const newEntity = this.props.holidayLocalState.newEntity;
     const staffMembers = this.props.staffMembersState.externalState.entities
       .filter(sm => sm.isActive());
     return (
       <div className="holiday-data-entry">
+        <div className={`holiday-filters`}>
+          <ul className={`filter-by-date-range`}>
+            <li className={`date-range-item${this.props.match.params.dateRange === HOL_DR_ALL ? ' selected' : ''}`}><Link className={`date-range-link`} to={Routes.holidayUrl(HOL_DR_ALL)}>All</Link></li>
+            <li className={`date-range-item${this.props.match.params.dateRange === HOL_DR_PAST ? ' selected' : ''}`}><Link className={`date-range-link`} to={Routes.holidayUrl(HOL_DR_PAST)}>Past</Link></li>
+            <li className={`date-range-item${this.props.match.params.dateRange === HOL_DR_CURRENT ? ' selected' : ''}`}><Link className={`date-range-link`} to={Routes.holidayUrl(HOL_DR_CURRENT)}>Current</Link></li>
+            <li className={`date-range-item${this.props.match.params.dateRange === HOL_DR_FUTURE ? ' selected' : ''}`}><Link className={`date-range-link`} to={Routes.holidayUrl(HOL_DR_FUTURE)}>Future</Link></li>
+          </ul>
+        </div>
         <div className="holiday-entity title">
           <div>Staff member</div>
           <div>Start Date</div>
           <div>End Date</div>
         </div>
         {this.props.holidayLocalState.entities
+          .filter(hol => {
+            switch (this.props.match.params.dateRange) {
+              case HOL_DR_FUTURE:
+                return today.format(DateFormats.API_DATE) !== hol.endDate && today.isBefore(hol.endDate, 'day');
+              case HOL_DR_PAST:
+                return today.format(DateFormats.API_DATE) !== hol.endDate && today.isAfter(hol.endDate, 'day');
+              case HOL_DR_CURRENT:
+                return today.format(DateFormats.API_DATE) === hol.startDate || today.format(DateFormats.API_DATE) === hol.endDate || today.isBetween(hol.startDate, hol.endDate, 'day', '[]');
+              default:
+                return true;
+            }
+          })
           .map((entity, key) => {
           const isEditingEntity = !isCreatingNewEntity && entity.id === this.props.holidayLocalState.editingEntityId;
           const staffMember = this.props.staffMembersState.externalState.entities.find(s => s.id === entity.staffId);

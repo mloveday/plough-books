@@ -37,4 +37,43 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 4px;
   }
+  .filter-by-date-range {
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    list-style-type: none;
+  }
+  .date-range-item {
+     flex: 1;
+     padding: 0 1px;
+     margin: 0;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+
+     .date-range-link {
+       color: #222222;
+       text-decoration: none;
+       width: 100%;
+       height: 100%;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       &:hover {
+         background-color: #eee;
+       }
+     }
+
+     &.selected {
+       background: #222222;
+       .date-range-link {
+         color: #ffffff;
+         &:hover {
+           background-color: #222222;
+         }
+       }
+     }
+   }
 }

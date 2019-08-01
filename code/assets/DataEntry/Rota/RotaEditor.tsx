@@ -158,7 +158,7 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean) {
     const today = momentFromDate(this.props.date);
     const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
-    const holiday = this.props.holidays.find(hol => hol.staffId === staffMember.id && today.isSameOrAfter(hol.startDate) && today.isSameOrBefore(hol.endDate));
+    const holiday = this.props.holidays.find(hol => hol.staffId === staffMember.id && today.isSameOrAfter(hol.startDate, 'day') && today.isSameOrBefore(hol.endDate, 'day'));
     const onHoliday = holiday !== undefined;
     if (onHoliday) { log.error(`${staffMember.name} on hols`); }
     return shift === undefined

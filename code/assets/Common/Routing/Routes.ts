@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {CashUpPage} from "../../Model/Enum/CashUpPage";
 import {cashUpPageUrlParamFor} from "../../Model/Enum/CashUpRoute";
+import {HOL_DR_ALL, HolidayDateRanges} from "../../Model/Enum/HolidayFilters";
 import {DateFormats} from "../../Util/DateFormats";
 import {accountingWeek, accountingYear} from "../../Util/DateUtils";
 
@@ -30,6 +31,14 @@ export class Routes {
 
   public static cashUpRoute() {
     return `${this.CASH_UP}/:date/:page`;
+  }
+
+  public static holidayUrl(dateRange: HolidayDateRanges = HOL_DR_ALL) {
+    return `${this.HOLIDAYS}/${dateRange}`;
+  }
+
+  public static holidayRoute() {
+    return `${this.HOLIDAYS}/:dateRange`;
   }
 
   public static rotaUrl(date: moment.Moment, type: string) {
