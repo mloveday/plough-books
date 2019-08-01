@@ -61,6 +61,8 @@ class HolidayDataEntryComponent extends React.Component<HolidayDataEntryProps, {
   public render() {
     const isCreatingNewEntity = this.props.holidayLocalState.isCreatingEntity;
     const newEntity = this.props.holidayLocalState.newEntity;
+    const staffMembers = this.props.staffMembersState.externalState.entities
+      .filter(sm => sm.isActive());
     return (
       <div className="holiday-data-entry">
         <div className="holiday-entity title">
@@ -88,7 +90,7 @@ class HolidayDataEntryComponent extends React.Component<HolidayDataEntryProps, {
         <div className="holiday-entity">
           {isCreatingNewEntity && [
             <select key={0} onChange={ev => this.updateNewHoliday(newEntity.with({staffId: parseInt(ev.target.value, 10)}))} value={newEntity.staffId}>
-              {this.props.staffMembersState.externalState.entities.map(staffMember =>
+              {staffMembers.map(staffMember =>
                 <option key={staffMember.id} value={staffMember.id}>{staffMember.name}</option>
               )}
             </select>,
