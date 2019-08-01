@@ -1,5 +1,6 @@
 import * as moment from "moment";
 import {DateFormats} from "../../Util/DateFormats";
+import {validateDateString} from "../../Util/DateUtils";
 import {EditableEntity} from "../EditableEntity";
 import {StaffMember} from "../StaffMember/StaffMember";
 import {HolidayInput} from "./HolidayInput";
@@ -33,8 +34,8 @@ export class Holiday extends HolidayAbstract implements HolidayType, EditableEnt
 
   public with(obj: HolidayUpdateType): Holiday {
     return new Holiday(obj.staffId !== undefined ? obj.staffId : this.staffId,
-                       obj.startDate !== undefined ? obj.startDate : this.startDate,
-                       obj.endDate !== undefined ? obj.endDate : this.endDate,
+                       obj.startDate !== undefined ? validateDateString(obj.startDate, this.startDate) : this.startDate,
+                       obj.endDate !== undefined ? validateDateString(obj.endDate, this.endDate) : this.endDate,
                        this.inputs.with(obj),
                        this.id);
   }
