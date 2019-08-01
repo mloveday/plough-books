@@ -4,6 +4,7 @@ import * as React from "react";
 import {Constants} from "../../../Model/Constants/Constants";
 import {ShiftRecordingType, ShiftRecordingTypes} from "../../../Model/Enum/ShiftRecordingType";
 import {WorkType, WorkTypes} from "../../../Model/Enum/WorkTypes";
+import {Holiday} from "../../../Model/Holiday/Holiday";
 import {Shift} from "../../../Model/Shift/Shift";
 import {DateFormats} from "../../../Util/DateFormats";
 import {
@@ -16,6 +17,8 @@ import {DnDRotaTime} from "../DraggedRotaTime";
 
 export interface ShiftOwnProps {
   shift: Shift;
+  onHoliday: boolean;
+  holiday?: Holiday;
   editingDisabled: boolean;
   constants: Constants;
   editType: ShiftRecordingType;
@@ -31,7 +34,7 @@ export class ShiftComponent extends React.Component<ShiftOwnProps, {}> {
     const shiftStartIndex: number = getHalfHoursPastStartFromTime(this.props.shift.getStartTime());
     const shiftEndIndex: number = getHalfHoursPastStartFromTime(this.props.shift.getEndTime());
     return (
-      <div className={`rota-shift ${this.props.shift.offFloor ? 'off-floor' : 'on-floor'}`} key={this.props.shift.staffMember.entityId}>
+      <div className={`rota-shift ${this.props.shift.offFloor ? 'off-floor' : 'on-floor'}${this.props.onHoliday ? ' on-holiday':''}`} key={this.props.shift.staffMember.entityId}>
         <div className="rota-staff-name">{this.props.shift.staffMember.name}</div>
         <div className="rota-remove-shift">
           {!this.props.editingDisabled &&

@@ -10,6 +10,7 @@ import {Routes} from "../../Common/Routing/Routes";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
 import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkType} from "../../Model/Enum/WorkTypes";
+import {Holiday} from "../../Model/Holiday/Holiday";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
@@ -32,6 +33,7 @@ export interface AncillaryRotaEditorOwnProps {
   workType: WorkType;
   date: string;
   staffMembers: StaffMember[];
+  holidays: Holiday[];
   shifts: Shift[];
   title: string;
   showStats: boolean;

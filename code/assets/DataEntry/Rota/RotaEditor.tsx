@@ -1,4 +1,5 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import * as log from "loglevel";
 import * as moment from "moment";
 import * as React from "react";
 import {connect} from "react-redux";
@@ -13,6 +14,7 @@ import {CashUpsForWeek} from "../../Model/CashUp/CashUpsForWeek";
 import {RotaStatus} from "../../Model/Enum/RotaStatus";
 import {ShiftRecordingType, ShiftRecordingTypes} from "../../Model/Enum/ShiftRecordingType";
 import {WorkType} from "../../Model/Enum/WorkTypes";
+import {Holiday} from "../../Model/Holiday/Holiday";
 import {RotaEntity} from "../../Model/Rota/RotaEntity";
 import {RotasForWeek} from "../../Model/Rota/RotasForWeek";
 import {RotaUpdateType} from "../../Model/Rota/RotaTypes";
@@ -39,6 +41,7 @@ export interface RotaEditorOwnProps {
   workType: WorkType;
   date: string;
   staffMembers: StaffMember[];
+  holidays: Holiday[];
   shifts: Shift[];
   title: string;
   showStats: boolean;
@@ -153,10 +156,14 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
   }
 
   private getShiftForStaffMember(staffMember: StaffMember, timePeriods: moment.Moment[], editingDisabled: boolean) {
+    const today = momentFromDate(this.props.date);
     const shift = this.props.shifts.find(s => s.staffMember.id === staffMember.id);
+    const holiday = this.props.holidays.find(hol => hol.staffId === staffMember.id && today.isSameOrAfter(hol.startDate) && today.isSameOrBefore(hol.endDate));
+    const onHoliday = holiday !== undefined;
+    if (onHoliday) { log.error(`${staffMember.name} on hols`); }
     return shift === undefined
-      ? <EmptyShift key={staffMember.id} workType={this.props.workType} date={this.props.date} editingDisabled={editingDisabled} addShift={s => this.props.addShift(s)} staffMember={staffMember} timePeriods={timePeriods}/>
-      : <StaffedShift key={shift.staffMember.id} shift={shift} editingDisabled={editingDisabled} constants={this.props.rota.constants} editType={this.props.editType} workType={this.props.workType} rotaShowRates={this.props.uiState.rotaShowRates} timePeriods={timePeriods} updateShift={s => this.props.updateShift(s)} removeShift={s => this.props.removeShift(s)} />;
+      ? <EmptyShift key={staffMember.id} workType={this.props.workType} date={this.props.date} onHoliday={onHoliday} holiday={holiday} editingDisabled={editingDisabled} addShift={s => this.props.addShift(s)} staffMember={staffMember} timePeriods={timePeriods}/>
+      : <StaffedShift key={shift.staffMember.id} shift={shift} onHoliday={onHoliday} holiday={holiday} editingDisabled={editingDisabled} constants={this.props.rota.constants} editType={this.props.editType} workType={this.props.workType} rotaShowRates={this.props.uiState.rotaShowRates} timePeriods={timePeriods} updateShift={s => this.props.updateShift(s)} removeShift={s => this.props.removeShift(s)} />;
   }
 
   private formUpdate(obj: RotaUpdateType, touched: boolean = true) {

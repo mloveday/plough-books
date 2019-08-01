@@ -59,7 +59,7 @@ class DnDRotaTimeComponent extends React.Component<DnDRotaTimeProps, {}> {
 
   public render() {
     return this.props.connectDropTarget(
-      <div ref={this.props.connectDragSource} className={this.props.isWorking ? "rota-time working" : "rota-time"} key={this.props.timePeriodIndex}/>
+      <div ref={this.props.connectDragSource} className={`rota-time${this.props.isWorking ? " working" : ""}`} key={this.props.timePeriodIndex}/>
     );
   }
 }

@@ -29,6 +29,7 @@ class RotaComponent extends RotaAbstract {
       showStaffLevels: true,
       showStats: true,
       staffMembers: this.props.staffMembersExternalState.externalState.entities,
+      holidays: this.props.holidayExternalState.externalState.entities,
       addShift: (shift: Shift) => this.addShift(shift),
       removeShift: (shift: Shift) => this.removeShift(shift),
       updateShift: (shift: Shift) => this.updateShift(shift),

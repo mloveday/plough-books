@@ -1,4 +1,5 @@
 $numberOfPreTimeColumns: 4;
+$numberOfTimeColumns: 50;
 
 .rota-title {
   text-transform: capitalize;
@@ -17,7 +18,7 @@ $numberOfPreTimeColumns: 4;
   &.include-times {
     .rota-times, .rota-shift, .rota-staff-levels {
       display: grid;
-      grid-template-columns: 150px 25px 25px repeat($numberOfPreTimeColumns, 75px) repeat(50, 1fr);
+      grid-template-columns: 150px 25px 25px repeat($numberOfPreTimeColumns, 75px) repeat($numberOfTimeColumns, 1fr);
       grid-gap: 1px;
     }
   }
@@ -35,9 +36,12 @@ $numberOfPreTimeColumns: 4;
   }
 
   .rota-shift {
-
     &.no-shift {
       color: #888;
+    }
+    &.on-holiday {
+      background-color: #d9000047;
+      color: white;
     }
   }
 }
@@ -69,6 +73,9 @@ $numberOfPreTimeColumns: 4;
   justify-content: start;
   padding: 2px;
   overflow: hidden;
+  &.on-holiday {
+    grid-column: 1 / #{(3 + $numberOfTimeColumns + $numberOfPreTimeColumns + 1)};
+  }
 }
 
 .rota-remove-shift-button, .rota-off-floor-button {
@@ -77,14 +84,30 @@ $numberOfPreTimeColumns: 4;
 
 .rota-new-shift {
   grid-column-end: span $numberOfPreTimeColumns;
+  padding: 2px;
 }
 
 .rota-new-shift-spacer {
   display: none;
 }
 
-.rota-time {
+.new-shift-button {
+  height: 100%;
+}
+
+@mixin rota-time-colour {
   background: #ddd;
+  &:nth-of-type(4n + #{$numberOfPreTimeColumns+2}), &:nth-of-type(4n + #{$numberOfPreTimeColumns+3}) {
+    background: #eee;
+  }
+}
+
+.rota-time-empty {
+  @include rota-time-colour();
+}
+
+.rota-time {
+  @include rota-time-colour();
   display: grid;
   align-items: center;
   justify-content: center;
@@ -92,10 +115,6 @@ $numberOfPreTimeColumns: 4;
   writing-mode: vertical-lr; // Chrome does not like sideways
   writing-mode: sideways-lr;
   text-orientation: sideways;
-
-  &:nth-of-type(4n + #{$numberOfPreTimeColumns+2}), &:nth-of-type(4n + #{$numberOfPreTimeColumns+3}) {
-    background: #eee;
-  }
 
   &.working {
     background: greenyellow;

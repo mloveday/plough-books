@@ -13,6 +13,8 @@ import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {cashUpFetch} from "../../Redux/CashUp/CashUpRedux";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
 import {constantsFetch} from "../../Redux/Constants/ConstantsRedux";
+import {HolidayExternalState} from "../../Redux/Holiday/HolidayExternalState";
+import {holidaysFetch} from "../../Redux/Holiday/HolidayRedux";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
 import {rotaCreate, rotaDataEntry, rotaFetch} from "../../Redux/Rota/RotaRedux";
 import {RotaStaffingTemplatesExternalState} from "../../Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
@@ -41,6 +43,7 @@ export interface RotaAbstractStateProps {
   staffRolesExternalState: StaffRolesExternalState;
   uiState: UiState;
   cashUps: CashUpExternalState;
+  holidayExternalState: HolidayExternalState;
 }
 
 export const mapStateToProps = (state: AppState, ownProps: RotaAbstractOwnProps): RotaAbstractStateProps => {
@@ -53,6 +56,7 @@ export const mapStateToProps = (state: AppState, ownProps: RotaAbstractOwnProps)
     staffRolesExternalState: state.staffRolesExternalState,
     uiState: state.uiState,
     cashUps: state.cashUpExternalState,
+    holidayExternalState: state.holidayExternalState,
   }
 };
 
@@ -66,6 +70,7 @@ export interface RotaAbstractDispatchProps {
   updateRotaLocalState: (state: RotaEntity[]) => void;
   updateUi: (state: UiState) => void;
   fetchCashUp: (date: moment.Moment) => void;
+  fetchHolidays: () => void;
 }
 
 export const mapDispatchToProps = (dispatch: any, ownProps: RotaAbstractOwnProps): RotaAbstractDispatchProps => {
@@ -79,6 +84,7 @@ export const mapDispatchToProps = (dispatch: any, ownProps: RotaAbstractOwnProps
     updateRotaLocalState: (state: RotaEntity[]) => dispatch(rotaDataEntry(state)),
     updateUi: (state: UiState) => dispatch(uiUpdate(state)),
     fetchCashUp: date => dispatch(cashUpFetch(date)),
+    fetchHolidays: () => dispatch(holidaysFetch()),
   };
 };
 
@@ -97,7 +103,8 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
   public render() {
     if (!this.props.staffRolesExternalState.isLoaded()
       || !this.getRota()
-      || !this.props.staffMembersExternalState.isLoaded()) {
+      || !this.props.staffMembersExternalState.isLoaded()
+      || !this.props.holidayExternalState.isLoaded()) {
       return null;
     }
     if (this.props.constantsExternalState.isLoaded() && this.props.constantsExternalState.externalState.entities.length === 0) {
@@ -166,6 +173,10 @@ export abstract class RotaAbstract extends React.Component<RotaAbstractProps, {}
     }
     if (this.requiresCashUp() && this.props.cashUps.shouldLoadForDate(paramDate)) {
       this.props.fetchCashUp(paramDate);
+      return;
+    }
+    if (this.props.holidayExternalState.isEmpty()) {
+      this.props.fetchHolidays();
       return;
     }
     const rota = this.getRota();
