@@ -67,22 +67,22 @@ export const userRolesInternalReducers = handleActions<UserRolesLocalState, any>
 
 export const userRolesExternalReducers = handleActions<UserRolesExternalState, any>({
   [USER_ROLES_FETCH_START]: (state, action) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new UserRolesExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [USER_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<UserRole[]>) => {
-    return state.with(UserRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new UserRolesExternalState(UserRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [USER_ROLES_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new UserRolesExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [USER_ROLES_CREATE_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new UserRolesExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [USER_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<UserRole[]>) => {
-    return state.with(UserRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new UserRolesExternalState(UserRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [USER_ROLES_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new UserRolesExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
 }, new UserRolesExternalState());

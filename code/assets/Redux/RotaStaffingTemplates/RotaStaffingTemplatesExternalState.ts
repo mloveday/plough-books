@@ -1,18 +1,17 @@
-import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {ExternalState} from "../ExternalState";
+import {FetchProgressStatus} from "../FetchProgressStatus";
 import {RotaStaffingTemplatesLocalState} from "./RotaStaffingTemplatesLocalState";
 
 export class RotaStaffingTemplatesExternalState extends ExternalState {
   public readonly externalState: RotaStaffingTemplatesLocalState = RotaStaffingTemplatesLocalState.default();
 
-  public with(entities: RotaStaffingTemplatesLocalState, states: Map<string, FetchStatus>) {
-    return Object.assign(
-      new RotaStaffingTemplatesExternalState(),
-      this,
-      {
-        externalState: entities,
-        states
-      }
-    );
+  constructor(externalState: RotaStaffingTemplatesLocalState = RotaStaffingTemplatesLocalState.default(),
+              fetchStates: FetchProgressStatus[] = []) {
+    super(fetchStates);
+    this.externalState = externalState;
+  }
+
+  public with(entities: RotaStaffingTemplatesLocalState, states: FetchProgressStatus[]) {
+    return new RotaStaffingTemplatesExternalState(entities, states);
   }
 }

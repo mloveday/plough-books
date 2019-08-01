@@ -67,22 +67,22 @@ export const staffRolesInternalReducers = handleActions<StaffRolesLocalState, an
 
 export const staffRolesExternalReducers = handleActions<StaffRolesExternalState, any>({
   [STAFF_ROLES_FETCH_START]: (state, action: DefinedAction<any>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new StaffRolesExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_ROLES_FETCH_SUCCESS]: (state, action: DefinedAction<any>) => {
-    return state.with(StaffRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new StaffRolesExternalState(StaffRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_ROLES_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new StaffRolesExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [STAFF_ROLES_CREATE_START]: (state, action: DefinedAction<any>) => {
-    return state.with(state.externalState.withEntities([action.payload]), state.updatedState(FetchStatus.STARTED));
+    return new StaffRolesExternalState(state.externalState.withEntities([action.payload]), state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_ROLES_CREATE_SUCCESS]: (state, action: DefinedAction<any>) => {
-    return state.with(StaffRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new StaffRolesExternalState(StaffRolesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_ROLES_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new StaffRolesExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
   }, new StaffRolesExternalState());

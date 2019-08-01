@@ -93,22 +93,22 @@ export const cashUpInternalReducers = handleActions<CashUpsForWeek, any>({
 
 export const cashUpExternalReducers = handleActions<CashUpExternalState, any>({
   [CASH_UP_FETCH_START]: (state, action: DefinedAction<moment.Moment>) => {
-    return state.with(state.cashUpsForWeek.update(CashUpsForWeek.defaultForWeek(action.payload).cashUps), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
+    return new CashUpExternalState(state.cashUpsForWeek.update(CashUpsForWeek.defaultForWeek(action.payload).cashUps), state.updatedState(FetchStatus.STARTED, weeksDataKey(action.payload)));
   },
   [CASH_UP_FETCH_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
-    return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
+    return new CashUpExternalState(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_FETCH_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
-    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
+    return new CashUpExternalState(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_START]: (state, action: DefinedAction<CashUpEntity>) => {
-    return state.with(state.cashUpsForWeek.update([action.payload]), state.updatedState(FetchStatus.STARTED, weeksDataKey(momentFromDate(action.payload.date))));
+    return new CashUpExternalState(state.cashUpsForWeek.update([action.payload]), state.updatedState(FetchStatus.STARTED, weeksDataKey(momentFromDate(action.payload.date))));
   },
   [CASH_UP_CREATE_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
-    return state.with(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
+    return new CashUpExternalState(state.cashUpsForWeek.fromApi(action.payload.response), state.updatedState(FetchStatus.OK, weeksDataKey(action.payload.date)));
   },
   [CASH_UP_CREATE_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
-    return state.with(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
+    return new CashUpExternalState(state.cashUpsForWeek, state.updatedState(FetchStatus.ERROR, weeksDataKey(action.payload.date)));
   },
 
   }, new CashUpExternalState());

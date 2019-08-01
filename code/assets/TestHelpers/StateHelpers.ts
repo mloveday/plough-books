@@ -1,7 +1,6 @@
 import {StaffMemberFilters} from "../DataEntry/StaffMembers/State/StaffMemberFilters";
 import {CashUpsForWeek} from "../Model/CashUp/CashUpsForWeek";
 import {Constants} from '../Model/Constants/Constants';
-import {FetchStatus} from "../Model/Enum/FetchStatus";
 import {RotasForWeek} from "../Model/Rota/RotasForWeek";
 import {StaffRole} from "../Model/StaffRole/StaffRole";
 import {User} from "../Model/User/User";
@@ -72,7 +71,7 @@ export class StateHelpers {
       authState: AuthState.cleared(),
       cashUpExternalState: new CashUpExternalState(),
       cashUpLocalStates: new CashUpsForWeek([]),
-      constantsExternalState: (new ConstantsExternalState()).with(new ConstantsLocalState(), new Map<string, FetchStatus>()),
+      constantsExternalState: new ConstantsExternalState(new ConstantsLocalState(), []),
       constantsLocalState: new ConstantsLocalState(),
       errors: ErrorState.default(),
       rotaExternalState: new RotaExternalState(),
@@ -82,7 +81,7 @@ export class StateHelpers {
       staffMembersExternalState: new StaffMembersExternalState(),
       staffMembersLocalState: new StaffMembersLocalState(),
       staffMemberFilters: new StaffMemberFilters(),
-      staffRolesExternalState: (new StaffRolesExternalState()).with(new StaffRolesLocalState(), new Map<string, FetchStatus>()),
+      staffRolesExternalState: new StaffRolesExternalState(new StaffRolesLocalState(), []),
       staffRolesLocalState: new StaffRolesLocalState(),
       usersExternalState: new UsersExternalState(),
       usersLocalState: new UsersLocalState(),

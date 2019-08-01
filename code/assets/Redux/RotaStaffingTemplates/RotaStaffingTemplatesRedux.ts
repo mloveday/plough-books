@@ -67,22 +67,22 @@ export const rotaStaffingTemplatesInternalReducers = handleActions<RotaStaffingT
 
 export const rotaStaffingTemplatesExternalReducers = handleActions<RotaStaffingTemplatesExternalState, any>({
   [ROTA_STAFFING_TEMPLATE_FETCH_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new RotaStaffingTemplatesExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [ROTA_STAFFING_TEMPLATE_FETCH_SUCCESS]: (state, action: DefinedAction<RotaStaffingTemplate[]>) => {
-    return state.with(RotaStaffingTemplatesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new RotaStaffingTemplatesExternalState(RotaStaffingTemplatesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [ROTA_STAFFING_TEMPLATE_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new RotaStaffingTemplatesExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [ROTA_STAFFING_TEMPLATE_CREATE_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new RotaStaffingTemplatesExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [ROTA_STAFFING_TEMPLATE_CREATE_SUCCESS]: (state, action: DefinedAction<RotaStaffingTemplate[]>) => {
-    return state.with(RotaStaffingTemplatesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new RotaStaffingTemplatesExternalState(RotaStaffingTemplatesLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [ROTA_STAFFING_TEMPLATE_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new RotaStaffingTemplatesExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
   }, new RotaStaffingTemplatesExternalState());

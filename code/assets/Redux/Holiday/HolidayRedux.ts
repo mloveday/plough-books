@@ -67,22 +67,22 @@ export const holidayInternalReducers = handleActions<HolidayLocalState, any>({
 
 export const holidayExternalReducers = handleActions<HolidayExternalState, any>({
   [HOLIDAY_FETCH_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new HolidayExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [HOLIDAY_FETCH_SUCCESS]: (state, action: DefinedAction<Holiday[]>) => {
-    return state.with(HolidayLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new HolidayExternalState(HolidayLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [HOLIDAY_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new HolidayExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [HOLIDAY_CREATE_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new HolidayExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [HOLIDAY_CREATE_SUCCESS]: (state, action: DefinedAction<Holiday[]>) => {
-    return state.with(HolidayLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new HolidayExternalState(HolidayLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [HOLIDAY_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new HolidayExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
   }, new HolidayExternalState());

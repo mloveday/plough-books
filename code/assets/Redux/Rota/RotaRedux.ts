@@ -115,7 +115,7 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload))));
   },
   [ROTA_FETCH_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
-    return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
+    return new RotaExternalState(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
   [ROTA_FETCH_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
     return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));
@@ -124,16 +124,16 @@ export const rotaExternalReducers = handleActions<RotaExternalState, any>({
     return state.withStateChange(state.updatedState(FetchStatus.STARTED, weeksDataKey(momentFromDate(action.payload.date))));
   },
   [ROTA_CREATE_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
-    return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
+    return new RotaExternalState(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
   [ROTA_CREATE_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
     return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));
   },
   [WEEKLY_ROTAS_CREATE_START]: (state, action: DefinedAction<WeeklyCreatePayload>) => {
-    return state.with(state.rotasForWeek.update(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload.date))));
+    return new RotaExternalState(state.rotasForWeek.update(action.payload.response), state.updatedState(FetchStatus.STARTED, weeksDataKey(moment.utc(action.payload.date))));
   },
   [WEEKLY_ROTAS_CREATE_SUCCESS]: (state, action: DefinedAction<FetchResponsePayload>) => {
-    return state.with(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
+    return new RotaExternalState(handleRotaPayload(state.rotasForWeek, action.payload), state.updatedState(FetchStatus.OK, weeksDataKey(moment.utc(action.payload.date))));
   },
   [WEEKLY_ROTAS_CREATE_ERROR]: (state, action: DefinedAction<FetchErrorPayload>) => {
     return state.withStateChange(state.updatedState(FetchStatus.ERROR, weeksDataKey(moment.utc(action.payload.date))));

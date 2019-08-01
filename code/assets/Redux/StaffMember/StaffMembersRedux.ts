@@ -72,22 +72,22 @@ export const staffMembersInternalReducers = handleActions<StaffMembersLocalState
 
 export const staffMembersExternalReducers = handleActions<StaffMembersExternalState, any>({
   [STAFF_MEMBERS_FETCH_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new StaffMembersExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_MEMBERS_FETCH_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
-    return state.with(StaffMembersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new StaffMembersExternalState(StaffMembersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new StaffMembersExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [STAFF_MEMBERS_CREATE_START]: (state, action: DefinedAction<void>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new StaffMembersExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [STAFF_MEMBERS_CREATE_SUCCESS]: (state, action: DefinedAction<StaffMember[]>) => {
-    return state.with(StaffMembersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new StaffMembersExternalState(StaffMembersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
   },
   [STAFF_MEMBERS_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return state.with(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new StaffMembersExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
 
   }, new StaffMembersExternalState());

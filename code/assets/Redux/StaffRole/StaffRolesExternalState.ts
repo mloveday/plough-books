@@ -1,18 +1,13 @@
-import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {ExternalState} from "../ExternalState";
+import {FetchProgressStatus} from "../FetchProgressStatus";
 import {StaffRolesLocalState} from "./StaffRolesLocalState";
 
 export class StaffRolesExternalState extends ExternalState {
   public readonly externalState: StaffRolesLocalState = StaffRolesLocalState.default();
 
-  public with(entities: StaffRolesLocalState, states: Map<string, FetchStatus>) {
-    return Object.assign(
-      new StaffRolesExternalState(),
-      this,
-      {
-        externalState: entities,
-        states
-      }
-    );
+  constructor(externalState: StaffRolesLocalState = StaffRolesLocalState.default(),
+              fetchStates: FetchProgressStatus[] = []) {
+    super(fetchStates);
+    this.externalState = externalState;
   }
 }
