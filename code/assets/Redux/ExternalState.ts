@@ -1,9 +1,10 @@
 import {FetchStatus} from "../Model/Enum/FetchStatus";
 
 export abstract class ExternalState {
+  public static DEFAULT_KEY = 'default';
   public readonly states: Map<string, FetchStatus> = new Map();
 
-  public updatedState(state: FetchStatus, key: string = 'default') {
+  public updatedState(state: FetchStatus, key: string = ExternalState.DEFAULT_KEY) {
     return new Map(this.states.set(key, state));
   }
 

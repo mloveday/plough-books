@@ -5,7 +5,10 @@ import {FetchStatus} from "../../Model/Enum/FetchStatus";
 import {AppState} from "../../redux";
 import {CashUpExternalState} from "../../Redux/CashUp/CashUpExternalState";
 import {ConstantsExternalState} from "../../Redux/Constants/ConstantsExternalState";
+import {ExternalState} from "../../Redux/ExternalState";
+import {HolidayExternalState} from "../../Redux/Holiday/HolidayExternalState";
 import {RotaExternalState} from "../../Redux/Rota/RotaExternalState";
+import {RotaStaffingTemplatesExternalState} from "../../Redux/RotaStaffingTemplates/RotaStaffingTemplatesExternalState";
 import {StaffMembersExternalState} from "../../Redux/StaffMember/StaffMembersExternalState";
 import {StaffRolesExternalState} from "../../Redux/StaffRole/StaffRolesExternalState";
 import {UsersExternalState} from "../../Redux/User/UsersExternalState";
@@ -19,7 +22,9 @@ interface StatusOwnProps {
 interface StatusStateProps {
   cashUp: CashUpExternalState,
   constants: ConstantsExternalState,
+  holidays: HolidayExternalState,
   rota: RotaExternalState,
+  rotaStaffingTemplates: RotaStaffingTemplatesExternalState,
   staffMembers: StaffMembersExternalState,
   staffRoles: StaffRolesExternalState,
   users: UsersExternalState,
@@ -30,7 +35,9 @@ const mapStateToProps = (state: AppState, ownProps: StatusOwnProps): StatusState
   return {
     cashUp: state.cashUpExternalState,
     constants: state.constantsExternalState,
+    holidays: state.holidayExternalState,
     rota: state.rotaExternalState,
+    rotaStaffingTemplates: state.rotaStaffingTemplatesExternalState,
     staffMembers: state.staffMembersExternalState,
     staffRoles: state.staffRolesExternalState,
     users: state.usersExternalState,
@@ -75,6 +82,9 @@ class StatusComponent extends React.Component<StatusProps, {}> {
   }
 
   private renderStatus(statusItem: StatusItem, key: any) {
+    if (statusItem.key === ExternalState.DEFAULT_KEY) {
+      return <div className={`status ${statusItem.status}`} key={key}>Fetching {statusItem.state}: {statusItem.status}</div>;
+    }
     return <div className={`status ${statusItem.status}`} key={key}>Fetching {statusItem.state} ({statusItem.key}): {statusItem.status}</div>;
   }
 
@@ -86,8 +96,14 @@ class StatusComponent extends React.Component<StatusProps, {}> {
     this.props.constants.states.forEach((fetchStatus, key) => {
       statuses.push(new StatusItem('Constants', key, fetchStatus));
     });
+    this.props.holidays.states.forEach((fetchStatus, key) => {
+      statuses.push(new StatusItem('Holidays', key, fetchStatus));
+    });
     this.props.rota.states.forEach((fetchStatus, key) => {
       statuses.push(new StatusItem('Rota', key, fetchStatus));
+    });
+    this.props.rotaStaffingTemplates.states.forEach((fetchStatus, key) => {
+      statuses.push(new StatusItem('Rota Staffing Templates', key, fetchStatus));
     });
     this.props.staffMembers.states.forEach((fetchStatus, key) => {
       statuses.push(new StatusItem('Staff Members', key, fetchStatus));
