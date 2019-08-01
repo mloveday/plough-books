@@ -70,7 +70,8 @@ export const constantsExternalReducers = handleActions<ConstantsExternalState, a
     return new ConstantsExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [CONSTANTS_FETCH_SUCCESS]: (state, action: DefinedAction<Constants[]>) => {
-    return new ConstantsExternalState(ConstantsLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new ConstantsExternalState(ConstantsLocalState.default().withEntities(action.payload), state.updatedState(
+      FetchStatus.OK));
   },
   [CONSTANTS_FETCH_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
     return new ConstantsExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
@@ -79,10 +80,11 @@ export const constantsExternalReducers = handleActions<ConstantsExternalState, a
     return new ConstantsExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
   },
   [CONSTANTS_CREATE_SUCCESS]: (state, action: DefinedAction<Constants[]>) => {
-    return new ConstantsExternalState(ConstantsLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new ConstantsExternalState(ConstantsLocalState.default().withEntities(action.payload), state.updatedState(
+      FetchStatus.OK, 'post'));
   },
   [CONSTANTS_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return new ConstantsExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new ConstantsExternalState(state.externalState, state.updatedState(FetchStatus.ERROR, 'post'));
   },
 
   }, new ConstantsExternalState());

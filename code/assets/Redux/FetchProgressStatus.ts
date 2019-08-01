@@ -1,17 +1,17 @@
 import {FetchStatus} from "../Model/Enum/FetchStatus";
 
-type FetchType = 'post'|'get';
+export type FetchMethod = 'post'|'get';
 
 export class FetchProgressStatus {
   public readonly key: string;
-  public readonly fetchType: FetchType;
+  public readonly method: FetchMethod;
   public readonly fetchStatus: FetchStatus;
 
   constructor(key: string,
-              fetchType: FetchType = 'get',
+              method: FetchMethod = 'get',
               fetchStatus: FetchStatus) {
     this.key = key;
-    this.fetchType = fetchType;
+    this.method = method;
     this.fetchStatus = fetchStatus;
   }
 }

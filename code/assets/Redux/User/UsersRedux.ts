@@ -76,13 +76,13 @@ export const usersExternalReducers = handleActions<UsersExternalState, any>({
     return new UsersExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
   },
   [USERS_CREATE_START]: (state, action: DefinedAction<void>) => {
-    return new UsersExternalState(state.externalState, state.updatedState(FetchStatus.STARTED));
+    return new UsersExternalState(state.externalState, state.updatedState(FetchStatus.STARTED, 'post'));
   },
   [USERS_CREATE_SUCCESS]: (state, action: DefinedAction<User[]>) => {
-    return new UsersExternalState(UsersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK));
+    return new UsersExternalState(UsersLocalState.default().withEntities(action.payload), state.updatedState(FetchStatus.OK, 'post'));
   },
   [USERS_CREATE_ERROR]: (state, action: DefinedAction<ErrorPayload>) => {
-    return new UsersExternalState(state.externalState, state.updatedState(FetchStatus.ERROR));
+    return new UsersExternalState(state.externalState, state.updatedState(FetchStatus.ERROR, 'post'));
   },
 
   }, new UsersExternalState());

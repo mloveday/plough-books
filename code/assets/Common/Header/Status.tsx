@@ -83,39 +83,39 @@ class StatusComponent extends React.Component<StatusProps, {}> {
 
   private renderStatus(statusItem: StatusItem, key: any) {
     if (statusItem.key === ExternalState.DEFAULT_KEY) {
-      return <div className={`status ${statusItem.status}`} key={key}>Fetching {statusItem.state}: {statusItem.status}</div>;
+      return <div className={`status ${statusItem.status}`} key={key}>{statusItem.method === 'get' ? 'Fetching' : 'Saving'} {statusItem.state}: {statusItem.status}</div>;
     }
-    return <div className={`status ${statusItem.status}`} key={key}>Fetching {statusItem.state} ({statusItem.key}): {statusItem.status}</div>;
+    return <div className={`status ${statusItem.status}`} key={key}>{statusItem.method === 'get' ? 'Fetching' : 'Saving'} {statusItem.state} ({statusItem.key}): {statusItem.status}</div>;
   }
 
   private getAllStatuses(): StatusItem[] {
     const statuses: StatusItem[] = [];
     this.props.cashUp.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Cash up', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Cash up', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.constants.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Constants', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Constants', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.holidays.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Holidays', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Holidays', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.rota.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Rota', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Rota', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.rotaStaffingTemplates.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Rota Staffing Templates', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Rota Staffing Templates', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.staffMembers.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Staff Members', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Staff Members', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.staffRoles.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Staff Roles', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Staff Roles', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.users.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('Users', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('Users', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     this.props.userRoles.fetchStates.forEach((fetchStatus, key) => {
-      statuses.push(new StatusItem('User Roles', fetchStatus.key, fetchStatus.fetchStatus));
+      statuses.push(new StatusItem('User Roles', fetchStatus.key, fetchStatus.fetchStatus, fetchStatus.method));
     });
     return statuses;
   }
