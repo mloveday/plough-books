@@ -170,21 +170,21 @@ export class DailyOverviews {
   private getTotalRunningBarLabour(): number {
     return this.overviews.reduce((prev, curr) => {
       const actualRevenue = curr.cashUp.getTotalRevenue();
-      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.BAR, curr.getActualWeeklyGrossPayForUser) + prev
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.BAR, curr.getRunningWeeklyGrossPayForUser) + prev
     }, 0);
   }
 
   private getTotalRunningKitchenLabour(): number {
     return this.overviews.reduce((prev, curr) => {
       const actualRevenue = curr.cashUp.getTotalRevenue();
-      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.KITCHEN, curr.getActualWeeklyGrossPayForUser) + prev
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.KITCHEN, curr.getRunningWeeklyGrossPayForUser) + prev
     }, 0);
   }
 
   private getTotalRunningAncillaryLabour(): number {
     return this.overviews.reduce((prev, curr) => {
       const actualRevenue = curr.cashUp.getTotalRevenue();
-      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.ANCILLARY, curr.getActualWeeklyGrossPayForUser) + prev
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.ANCILLARY, curr.getRunningWeeklyGrossPayForUser) + prev
     }, 0);
   }
 

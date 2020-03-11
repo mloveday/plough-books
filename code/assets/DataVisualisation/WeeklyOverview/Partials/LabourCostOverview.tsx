@@ -41,7 +41,7 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostsCompare label="Bar labour cost" showLabel={false}
-                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR, overview.getActualWeeklyGrossPayForUser)}
+                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR, overview.getPlannedWeeklyGrossPayForUser)}
                             actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR, overview.getActualWeeklyGrossPayForUser)}/>
             </td>
           ))}
@@ -55,7 +55,7 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostsCompare label="Kitchen labour cost" showLabel={false}
-                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN, overview.getActualWeeklyGrossPayForUser)}
+                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN, overview.getPlannedWeeklyGrossPayForUser)}
                             actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN, overview.getActualWeeklyGrossPayForUser)}/>
             </td>
           ))}
@@ -69,7 +69,7 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostsCompare label="Ancillary labour cost" showLabel={false}
-                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.ANCILLARY, overview.getActualWeeklyGrossPayForUser)}
+                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.ANCILLARY, overview.getPlannedWeeklyGrossPayForUser)}
                             actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.ANCILLARY, overview.getActualWeeklyGrossPayForUser)}/>
             </td>
           ))}

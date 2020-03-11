@@ -8,6 +8,7 @@ export class DailyOverview {
   public readonly rota: RotaEntity;
   public readonly date: moment.Moment;
 
+  public getRunningWeeklyGrossPayForUser: (smId: number) => number;
   public getActualWeeklyGrossPayForUser: (smId: number) => number;
   public getPlannedWeeklyGrossPayForUser: (smId: number) => number;
 
@@ -18,6 +19,7 @@ export class DailyOverview {
     this.rota = rota;
     this.date = date;
     this.rotasForWeek = rotasForWeek;
+    this.getRunningWeeklyGrossPayForUser = CashManipulation.getRunningWeeklyGrossPayForUser(this.rotasForWeek);
     this.getActualWeeklyGrossPayForUser = CashManipulation.getActualWeeklyGrossPayForUser(this.rotasForWeek);
     this.getPlannedWeeklyGrossPayForUser = CashManipulation.getPlannedWeeklyGrossPayForUser(this.rotasForWeek);
   }
@@ -36,7 +38,7 @@ export class DailyOverview {
   }
 
   public getRunningLabourCost(runningRevenueForecast: number) {
-    return this.rota.getCombinedRunningLabourCost(this.cashUp.getTotalRevenue(), runningRevenueForecast, this.getActualWeeklyGrossPayForUser); // TODO figure out how to handle running gross
+    return this.rota.getCombinedRunningLabourCost(this.cashUp.getTotalRevenue(), runningRevenueForecast, this.getRunningWeeklyGrossPayForUser);
   }
 
   public getRunningRevenue() {

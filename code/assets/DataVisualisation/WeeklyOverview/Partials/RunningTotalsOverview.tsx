@@ -73,7 +73,7 @@ class RunningTotalsOverviewComponent extends React.Component<RunningTotalsOvervi
             <td className="overview-stat" key={key}>
               <CostRateCompare label="Running labour rate" showLabel={false}
                                forecast={overview.rota.getCombinedPredictedLabourRate(dailyOverviews.runningRevenueForecast, overview.getPlannedWeeklyGrossPayForUser)}
-                               actual={overview.rota.getCombinedRunningLabourRate(overview.getRunningRevenue(), dailyOverviews.runningRevenueForecast, overview.getPlannedWeeklyGrossPayForUser)} />
+                               actual={overview.rota.getCombinedRunningLabourRate(overview.getRunningRevenue(), dailyOverviews.runningRevenueForecast, overview.getRunningWeeklyGrossPayForUser)} />
             </td>
           ))}
         </tr>,

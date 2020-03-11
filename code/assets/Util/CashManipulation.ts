@@ -44,7 +44,18 @@ export class CashManipulation {
     }
   };
 
-
+  public static getRunningWeeklyGrossPayForUser = (rotas: RotaEntity[]) => (smId: number): number => {
+    let runningTotal = 0;
+    rotas.forEach(rota => {
+      const actualShift = rota.actualShifts.find(s => s.staffMember.id === smId);
+        if (actualShift === undefined) {
+          runningTotal += rota.plannedShifts.filter(s => s.staffMember.id === smId).reduce((prev, curr) => prev + curr.getRawCost(), 0);
+        } else {
+          runningTotal += actualShift.getRawCost();
+        }
+      });
+    return runningTotal;
+  };
   public static getActualWeeklyGrossPayForUser = (rotas: RotaEntity[]) => (smId: number): number => rotas.reduce((prev, curr) => prev + curr.getActualGrossLabour(smId), 0);
   public static getPlannedWeeklyGrossPayForUser = (rotas: RotaEntity[]) => (smId: number): number => rotas.reduce((prev, curr) => prev + curr.getPlannedGrossLabour(smId), 0);
 }
