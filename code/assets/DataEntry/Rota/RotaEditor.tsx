@@ -91,14 +91,14 @@ export class RotaEditorComponent extends React.Component<RotaEditorProps, {}> {
     if (this.props.cashUps !== undefined) {
       const dailyOverviews = new DailyOverviews(today.clone().startOf('isoWeek'), this.props.rotasForWeek, this.props.cashUps);
       revenueToday = dailyOverviews.overviews.reduce((prev, curr) => prev + (curr.date.format(DateFormats.API_DATE) === today.format(DateFormats.API_DATE) ? curr.getRunningRevenue() : 0), 0);
-      labourCost = this.props.rota.getTotalActualLabourCost(revenueToday, dailyOverviews.runningRevenueForecast, this.props.workType);
-      labourRate = this.props.rota.getActualLabourRate(revenueToday, dailyOverviews.runningRevenueForecast, this.props.workType);
-      targetLabourRate = this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType);
+      labourCost = this.props.rota.getTotalActualLabourCost(revenueToday, dailyOverviews.runningRevenueForecast, this.props.workType, this.props.rotasForWeek.getActualGrossForWeek(today));
+      labourRate = this.props.rota.getActualLabourRate(revenueToday, dailyOverviews.runningRevenueForecast, this.props.workType, this.props.rotasForWeek.getActualGrossForWeek(today));
+      targetLabourRate = this.props.rota.getPredictedLabourRate(this.props.rotasForWeek.getTotalForecastRevenue(today), this.props.workType, this.props.rotasForWeek.getPlannedGrossForWeek(today));
     } else {
       revenueToday = this.props.rota.forecastRevenue;
       const revenueForWeek = this.props.rotasForWeek.getTotalForecastRevenue(today);
-      labourCost = this.props.rota.getTotalPredictedLabourCost(revenueForWeek, this.props.workType);
-      labourRate = this.props.rota.getPredictedLabourRate(revenueForWeek, this.props.workType);
+      labourCost = this.props.rota.getTotalPredictedLabourCost(revenueForWeek, this.props.workType, this.props.rotasForWeek.getPlannedGrossForWeek(today));
+      labourRate = this.props.rota.getPredictedLabourRate(revenueForWeek, this.props.workType, this.props.rotasForWeek.getPlannedGrossForWeek(today));
       targetLabourRate = this.props.rota.targetLabourRate;
     }
     return (

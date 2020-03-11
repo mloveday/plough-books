@@ -53,23 +53,29 @@ export class RotasForWeek {
   }
 
   public getTotalPredictedBarLabour(date: moment.Moment, totalForecastBarRevenue: number): number {
-    return this.getRotasForWeek(date)
-      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastBarRevenue, WorkTypes.BAR) + prev, 0);
+    const rotasForWeek = this.getRotasForWeek(date);
+    const getGrossPayFromRotas = CashManipulation.getActualWeeklyGrossPayForUser(rotasForWeek);
+    return rotasForWeek
+      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastBarRevenue, WorkTypes.BAR, getGrossPayFromRotas) + prev, 0);
   }
 
   public getTotalPredictedKitchenLabour(date: moment.Moment, totalForecastKitchenRevenue: number): number {
-    return this.getRotasForWeek(date)
-      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN) + prev, 0);
+    const rotasForWeek = this.getRotasForWeek(date);
+    const getGrossPayFromRotas = CashManipulation.getActualWeeklyGrossPayForUser(rotasForWeek);
+    return rotasForWeek
+      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastKitchenRevenue, WorkTypes.KITCHEN, getGrossPayFromRotas) + prev, 0);
   }
 
   public getTotalPredictedAncillaryLabour(date: moment.Moment, totalForecastAncillaryRevenue: number): number {
-    return this.getRotasForWeek(date)
-      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastAncillaryRevenue, WorkTypes.ANCILLARY) + prev, 0);
+    const rotasForWeek = this.getRotasForWeek(date);
+    const getGrossPayFromRotas = CashManipulation.getActualWeeklyGrossPayForUser(rotasForWeek);
+    return rotasForWeek
+      .reduce((prev, curr) => curr.getTotalPredictedLabourCost(totalForecastAncillaryRevenue, WorkTypes.ANCILLARY, getGrossPayFromRotas) + prev, 0);
   }
 
   public getTargetLabourRateForWeek(date: moment.Moment) {
     return this.getRotasForWeek(date)
-      .reduce((prev, curr) => prev + curr.targetLabourRate*curr.forecastRevenue, 0) / this.getTotalForecastRevenue(date);
+      .reduce((prev, curr) => prev + curr.targetLabourRate * curr.forecastRevenue, 0) / this.getTotalForecastRevenue(date);
   }
 
   public getRotasForWeek(currentDate: moment.Moment): RotaEntity[] {
@@ -102,6 +108,9 @@ export class RotasForWeek {
   public update(newRotas: RotaEntity[]): RotasForWeek {
     return this.updateRotas(newRotas);
   }
+
+  public getActualGrossForWeek = (date: moment.Moment) => CashManipulation.getActualWeeklyGrossPayForUser(this.getRotasForWeek(date));
+  public getPlannedGrossForWeek = (date: moment.Moment) => CashManipulation.getPlannedWeeklyGrossPayForUser(this.getRotasForWeek(date));
 
   private fromApi(obj: RotaApiType[]): RotasForWeek {
     const newRotas = obj.map(apiRota => RotaEntity.fromApi(apiRota));

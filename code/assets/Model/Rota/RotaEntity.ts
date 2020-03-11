@@ -151,80 +151,92 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     return CashManipulation.calculateVatAdjustedRevenue(this.forecastRevenue, this.constants.vatMultiplier);
   }
 
-  public getCombinedPredictedLabourRate(weeklyForecastRevenue: number): number {
+  public getCombinedPredictedLabourRate(weeklyForecastRevenue: number, getGrossWeeklyForUser: (id: number) => number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.BAR)
-      + this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.KITCHEN)
-      + this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.ANCILLARY),
+      this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.BAR, getGrossWeeklyForUser)
+      + this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.KITCHEN, getGrossWeeklyForUser)
+      + this.getTotalPredictedLabourCost(weeklyForecastRevenue, WorkTypes.ANCILLARY, getGrossWeeklyForUser),
       this.forecastRevenue,
       this.constants.vatMultiplier
     );
   }
 
-  public getPredictedLabourRate(weeklyForecastRevenue: number, type: string): number {
+  public getPredictedLabourRate(weeklyForecastRevenue: number, type: string, getGrossWeeklyForUser: (id: number) => number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalPredictedLabourCost(weeklyForecastRevenue, type),
+      this.getTotalPredictedLabourCost(weeklyForecastRevenue, type, getGrossWeeklyForUser),
       this.getProportionOfForecastRevenue(type),
       this.constants.vatMultiplier
     );
   }
 
-  public getTotalPredictedLabourCost(weeklyForecastRevenue: number, type: string): number {
+  public getTotalPredictedLabourCost(weeklyForecastRevenue: number, type: string, getGrossWeeklyForUser: (id: number) => number): number {
     const shiftsOfType = this.plannedShifts.filter(s => s.type === type);
     const staffMembers = shiftsOfType
       .map(shift => shift.staffMember)
       .filter((v, i, a) => a.indexOf(v) === i);
-    const staffMemberCosts = staffMembers.map(staffMember =>
-      shiftsOfType.filter(shift => shift.staffMember.id === staffMember.id).reduce((prev, curr) => prev + curr.getRawCost(),0)
-    );
+    const staffMemberCosts = staffMembers.map(staffMember =>({
+      staffMemberId: staffMember.id === undefined ? 0 : staffMember.id,
+      grossCost: shiftsOfType.filter(shift => shift.staffMember.id === staffMember.id).reduce((prev, curr) => prev + curr.getRawCost(), 0)
+    }));
     return CashManipulation.calculateFixedCosts(this.forecastRevenue, weeklyForecastRevenue, type, this.constants)
-      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, this.forecastRevenue, weeklyForecastRevenue, type, this.constants),0);
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr.grossCost,
+                                                                                                               this.forecastRevenue,
+                                                                                                               weeklyForecastRevenue,
+                                                                                                               type,
+                                                                                                               this.constants,
+                                                                                                               getGrossWeeklyForUser(curr.staffMemberId)), 0);
   }
 
-  public getActualLabourRate(revenueToday: number, weeklyRevenue: number, type: string): number {
+  public getActualLabourRate(revenueToday: number, weeklyRevenue: number, type: string, getGrossWeeklyForUser: (id: number) => number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, type),
+      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, type, getGrossWeeklyForUser),
       revenueToday*CashManipulation.getProportionOfRevenue(type, this.constants),
       this.constants.vatMultiplier
     );
   }
 
-  public getCombinedActualLabourRate(revenueToday: number, weeklyRevenue: number): number {
+  public getCombinedActualLabourRate(revenueToday: number, weeklyRevenue: number, getGrossWeeklyForUser: (id: number) => number): number {
     return CashManipulation.calculateLabourRate(
-      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR)
-      + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN)
-      + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY),
+      this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR, getGrossWeeklyForUser)
+      + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN, getGrossWeeklyForUser)
+      + this.getTotalActualLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY, getGrossWeeklyForUser),
       revenueToday,
       this.constants.vatMultiplier
     );
   }
 
-  public getTotalActualLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
+  public getTotalActualLabourCost(revenueToday: number, weeklyRevenue: number, type: string, getGrossWeeklyForUser: (id: number) => number): number {
     const shiftsOfType = this.actualShifts.filter(s => s.type === type);
     const staffMembers = shiftsOfType
       .map(shift => shift.staffMember)
       .filter((v, i, a) => a.indexOf(v) === i);
-    const staffMemberCosts = staffMembers.map(staffMember =>
-      shiftsOfType
+    const staffMemberCosts = staffMembers.map(staffMember =>({
+      staffMemberId: staffMember.id === undefined ? 0 : staffMember.id,
+      grossCost: shiftsOfType
         .filter(shift => shift.staffMember.id === staffMember.id)
-        .reduce((prev, curr) => prev + curr.getRawCost(),0)
-    );
+        .reduce((prev, curr) => prev + curr.getRawCost(), 0)
+    }));
     return CashManipulation.calculateFixedCosts(revenueToday, weeklyRevenue, type, this.constants)
-      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, revenueToday, weeklyRevenue, type, this.constants),0);
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr.grossCost,
+                                                                                                               revenueToday,
+                                                                                                               weeklyRevenue,
+                                                                                                               type,
+                                                                                                               this.constants,
+                                                                                                               getGrossWeeklyForUser(curr.staffMemberId)), 0);
   }
 
-  public getCombinedRunningLabourRate(runningRevenueToday: number, weeklyRevenue: number): number {
+  public getCombinedRunningLabourRate(runningRevenueToday: number, weeklyRevenue: number, getGrossWeeklyForUser: (id: number) => number): number {
     return CashManipulation.calculateLabourRate(
-      this.getCombinedRunningLabourCost(runningRevenueToday, weeklyRevenue),
+      this.getCombinedRunningLabourCost(runningRevenueToday, weeklyRevenue, getGrossWeeklyForUser),
       runningRevenueToday,
       this.constants.vatMultiplier
     );
   }
 
-  public getCombinedRunningLabourCost(revenueToday: number, weeklyRevenue: number): number {
-    return this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR)
-      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN)
-      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY)
+  public getCombinedRunningLabourCost(revenueToday: number, weeklyRevenue: number, getGrossWeeklyForUser: (id: number) => number): number {
+    return this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.BAR, getGrossWeeklyForUser)
+      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.KITCHEN, getGrossWeeklyForUser)
+      + this.getTotalRunningLabourCost(revenueToday, weeklyRevenue, WorkTypes.ANCILLARY, getGrossWeeklyForUser)
     ;
   }
 
@@ -236,20 +248,29 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
     );
   }
 
-  public getTotalRunningLabourCost(revenueToday: number, weeklyRevenue: number, type: string): number {
+  public getTotalRunningLabourCost(revenueToday: number, weeklyRevenue: number, type: string, getGrossWeeklyForUser: (id: number) => number): number {
     const shiftsOfType = (this.actualShifts.length > 0 ? this.actualShifts : this.plannedShifts)
       .filter(s => s.type === type);
     const staffMembers = shiftsOfType
       .map(shift => shift.staffMember)
       .filter((v, i, a) => a.indexOf(v) === i);
-    const staffMemberCosts = staffMembers.map(staffMember =>
-      shiftsOfType
+    const staffMemberCosts = staffMembers.map(staffMember => ({
+      staffMemberId: staffMember.id === undefined ? 0 : staffMember.id,
+      grossCost: shiftsOfType
         .filter(shift => shift.staffMember.id === staffMember.id)
         .reduce((prev, curr) => prev + curr.getRawCost(),0)
-    );
+    }));
     return CashManipulation.calculateFixedCosts(revenueToday, weeklyRevenue, type, this.constants)
-      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, revenueToday, weeklyRevenue, type, this.constants),0);
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr.grossCost,
+                                                                                                               revenueToday,
+                                                                                                               weeklyRevenue,
+                                                                                                               type,
+                                                                                                               this.constants,
+                                                                                                               getGrossWeeklyForUser(curr.staffMemberId)), 0);
   }
+
+  public getActualGrossLabour = (smId: number): number => this.actualShifts.filter(s => s.staffMember.id === smId).reduce((prev, curr) => prev + curr.getRawCost(), 0);
+  public getPlannedGrossLabour = (smId: number): number => this.plannedShifts.filter(s => s.staffMember.id === smId).reduce((prev, curr) => prev + curr.getRawCost(), 0);
 
   public canEditRota() {
     return this.status === RotaStatus.DRAFT || this.status === RotaStatus.NEW;

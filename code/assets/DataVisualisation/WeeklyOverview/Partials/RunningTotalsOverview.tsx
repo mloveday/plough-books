@@ -72,8 +72,8 @@ class RunningTotalsOverviewComponent extends React.Component<RunningTotalsOvervi
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostRateCompare label="Running labour rate" showLabel={false}
-                               forecast={overview.rota.getCombinedPredictedLabourRate(dailyOverviews.runningRevenueForecast)}
-                               actual={overview.rota.getCombinedRunningLabourRate(overview.getRunningRevenue(), dailyOverviews.runningRevenueForecast)} />
+                               forecast={overview.rota.getCombinedPredictedLabourRate(dailyOverviews.runningRevenueForecast, overview.getPlannedWeeklyGrossPayForUser)}
+                               actual={overview.rota.getCombinedRunningLabourRate(overview.getRunningRevenue(), dailyOverviews.runningRevenueForecast, overview.getPlannedWeeklyGrossPayForUser)} />
             </td>
           ))}
         </tr>,

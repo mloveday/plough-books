@@ -1,16 +1,25 @@
 import * as moment from 'moment';
 import {CashUpEntity} from "../../../Model/CashUp/CashUpEntity";
 import {RotaEntity} from "../../../Model/Rota/RotaEntity";
+import {CashManipulation} from "../../../Util/CashManipulation";
 
 export class DailyOverview {
   public readonly cashUp: CashUpEntity;
   public readonly rota: RotaEntity;
   public readonly date: moment.Moment;
 
-  constructor(cashUp: CashUpEntity, rota: RotaEntity, date: moment.Moment) {
+  public getActualWeeklyGrossPayForUser: (smId: number) => number;
+  public getPlannedWeeklyGrossPayForUser: (smId: number) => number;
+
+  private readonly rotasForWeek: RotaEntity[];
+
+  constructor(cashUp: CashUpEntity, rota: RotaEntity, date: moment.Moment, rotasForWeek: RotaEntity[]) {
     this.cashUp = cashUp;
     this.rota = rota;
     this.date = date;
+    this.rotasForWeek = rotasForWeek;
+    this.getActualWeeklyGrossPayForUser = CashManipulation.getActualWeeklyGrossPayForUser(this.rotasForWeek);
+    this.getPlannedWeeklyGrossPayForUser = CashManipulation.getPlannedWeeklyGrossPayForUser(this.rotasForWeek);
   }
 
   public getVatAdjustedRevenue() {
@@ -27,7 +36,7 @@ export class DailyOverview {
   }
 
   public getRunningLabourCost(runningRevenueForecast: number) {
-    return this.rota.getCombinedRunningLabourCost(this.cashUp.getTotalRevenue(), runningRevenueForecast);
+    return this.rota.getCombinedRunningLabourCost(this.cashUp.getTotalRevenue(), runningRevenueForecast, this.getActualWeeklyGrossPayForUser); // TODO figure out how to handle running gross
   }
 
   public getRunningRevenue() {

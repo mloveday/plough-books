@@ -41,8 +41,8 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostsCompare label="Bar labour cost" showLabel={false}
-                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR)}
-                            actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR)}/>
+                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.BAR, overview.getActualWeeklyGrossPayForUser)}
+                            actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.BAR, overview.getActualWeeklyGrossPayForUser)}/>
             </td>
           ))}
         </tr>,
@@ -55,8 +55,8 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostsCompare label="Kitchen labour cost" showLabel={false}
-                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN)}
-                            actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN)}/>
+                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.KITCHEN, overview.getActualWeeklyGrossPayForUser)}
+                            actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.KITCHEN, overview.getActualWeeklyGrossPayForUser)}/>
             </td>
           ))}
         </tr>,
@@ -69,8 +69,8 @@ class LabourCostOverviewComponent extends React.Component<LabourCostOverviewProp
           {dailyOverviews.overviews.map((overview, key) => (
             <td className="overview-stat" key={key}>
               <CostsCompare label="Ancillary labour cost" showLabel={false}
-                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.ANCILLARY)}
-                            actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.ANCILLARY)}/>
+                            forecast={overview.rota.getTotalPredictedLabourCost(dailyOverviews.forecastRevenue, WorkTypes.ANCILLARY, overview.getActualWeeklyGrossPayForUser)}
+                            actual={overview.rota.getTotalActualLabourCost(overview.cashUp.getTotalRevenue(), dailyOverviews.actualRevenue, WorkTypes.ANCILLARY, overview.getActualWeeklyGrossPayForUser)}/>
             </td>
           ))}
         </tr>,

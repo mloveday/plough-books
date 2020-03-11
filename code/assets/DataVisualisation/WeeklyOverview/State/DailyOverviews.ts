@@ -117,6 +117,7 @@ export class DailyOverviews {
       date.clone().add(5, 'days'),
       date.clone().add(6, 'days'),
     ];
+    const rotasForWeek = rotas.getRotasForWeek(date);
     const overviews: DailyOverview[] = [];
     days.forEach(day => {
       const cashUp = cashUps.getCashUpForDay(day);
@@ -125,25 +126,29 @@ export class DailyOverviews {
         overviews.push(new DailyOverview(
           cashUp,
           rota,
-          day
+          day,
+          rotasForWeek
         ));
       } else if (cashUp.isDefault && rota) {
         overviews.push(new DailyOverview(
           PlaceholderCashUp.default(day),
           rota,
-          day
+          day,
+          rotasForWeek
         ));
       } else if (!cashUp.isDefault){
         overviews.push(new DailyOverview(
           cashUp,
           RotaEntity.default(day),
-          day
+          day,
+          rotasForWeek
         ));
       } else {
         overviews.push(new DailyOverview(
           PlaceholderCashUp.default(day),
           RotaEntity.default(day),
-          day
+          day,
+          rotasForWeek
         ));
       }
     });
@@ -151,35 +156,35 @@ export class DailyOverviews {
   }
 
   private getTotalActualBarLabour(): number {
-    return this.overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), this.actualRevenue, WorkTypes.BAR) + prev, 0);
+    return this.overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), this.actualRevenue, WorkTypes.BAR, curr.getActualWeeklyGrossPayForUser) + prev, 0);
   }
 
   private getTotalActualKitchenLabour(): number {
-    return this.overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), this.actualRevenue, WorkTypes.KITCHEN) + prev, 0);
+    return this.overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), this.actualRevenue, WorkTypes.KITCHEN, curr.getActualWeeklyGrossPayForUser) + prev, 0);
   }
 
   private getTotalActualAncillaryLabour(): number {
-    return this.overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), this.actualRevenue, WorkTypes.ANCILLARY) + prev, 0);
+    return this.overviews.reduce((prev, curr) => curr.rota.getTotalActualLabourCost(curr.cashUp.getTotalRevenue(), this.actualRevenue, WorkTypes.ANCILLARY, curr.getActualWeeklyGrossPayForUser) + prev, 0);
   }
 
   private getTotalRunningBarLabour(): number {
     return this.overviews.reduce((prev, curr) => {
       const actualRevenue = curr.cashUp.getTotalRevenue();
-      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.BAR) + prev
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.BAR, curr.getActualWeeklyGrossPayForUser) + prev
     }, 0);
   }
 
   private getTotalRunningKitchenLabour(): number {
     return this.overviews.reduce((prev, curr) => {
       const actualRevenue = curr.cashUp.getTotalRevenue();
-      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.KITCHEN) + prev
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.KITCHEN, curr.getActualWeeklyGrossPayForUser) + prev
     }, 0);
   }
 
   private getTotalRunningAncillaryLabour(): number {
     return this.overviews.reduce((prev, curr) => {
       const actualRevenue = curr.cashUp.getTotalRevenue();
-      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.ANCILLARY) + prev
+      return curr.rota.getTotalRunningLabourCost(actualRevenue === 0 ? curr.rota.forecastRevenue : actualRevenue, this.runningRevenueForecast, WorkTypes.ANCILLARY, curr.getActualWeeklyGrossPayForUser) + prev
     }, 0);
   }
 

@@ -14,7 +14,7 @@ export abstract class ConstantsAbstract<T> {
   public readonly kitchenShortBreakDuration: T;
   public readonly kitchenHoursPerLongBreak: T;
   public readonly kitchenLongBreakDuration: T;
-  public readonly ersThreshold: T;
+  public readonly ersThreshold: T; // weekly threshold
   public readonly ersPercentAboveThreshold: T;
   public readonly holidayLinearPercent: T;
   public readonly pensionLinearPercent: T;
