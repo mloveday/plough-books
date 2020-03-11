@@ -65,12 +65,85 @@
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/twig-bridge" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/symfony/twig-bundle" />
       <path value="$PROJECT_DIR$/plough-books-back/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/inflector" />
+      <path value="$PROJECT_DIR$/code/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/code/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/code/vendor/composer" />
+      <path value="$PROJECT_DIR$/code/vendor/ocramius/package-versions" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/event-dispatcher" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/http-kernel" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/flex" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/dependency-injection" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/security" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/debug" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/http-foundation" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/console" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/event-manager" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/orm" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/inflector" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/persistence" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/reflection" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/lexer" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/routing" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/finder" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/config" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/filesystem" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/framework-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/code/vendor/psr/simple-cache" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/cache" />
+      <path value="$PROJECT_DIR$/code/vendor/zendframework/zend-eventmanager" />
+      <path value="$PROJECT_DIR$/code/vendor/zendframework/zend-code" />
+      <path value="$PROJECT_DIR$/code/vendor/ocramius/proxy-manager" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/migrations" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/doctrine-cache-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/doctrine-bridge" />
+      <path value="$PROJECT_DIR$/code/vendor/jdorn/sql-formatter" />
+      <path value="$PROJECT_DIR$/code/vendor/egulias/email-validator" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/doctrine-migrations-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/doctrine/doctrine-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/orm-pack" />
+      <path value="$PROJECT_DIR$/code/vendor/damienharper/doctrine-audit-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/code/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/code/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/code/vendor/psr/http-message" />
+      <path value="$PROJECT_DIR$/code/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/code/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/code/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/code/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/code/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/code/vendor/swiftmailer/swiftmailer" />
+      <path value="$PROJECT_DIR$/code/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/process" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/code/vendor/google/apiclient" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/webpack-encore-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/swiftmailer-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/polyfill-intl-idn" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/asset" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/web-server-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/dotenv" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/yaml" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/symfony/twig-bundle" />
+      <path value="$PROJECT_DIR$/code/vendor/twig/twig" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
   <component name="PhpUnit">
     <phpunit_settings>
-      <PhpUnitSettings load_method="CUSTOM_LOADER" custom_loader_path="$PROJECT_DIR$/plough-books-back/vendor/autoload.php" />
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/plough-books-back/vendor/autoload.php" />
     </phpunit_settings>
   </component>
 </project>

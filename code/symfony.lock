@@ -119,6 +119,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.2"
     },
+    "php": {
+        "version": "7.2"
+    },
     "phpseclib/phpseclib": {
         "version": "2.0.11"
     },
@@ -241,6 +244,9 @@
             "version": "4.0",
             "ref": "5f514d9d3b8a8aac3d62ae6a86b18b90ed0c7826"
         }
+    },
+    "symfony/security": {
+        "version": "v4.1.11"
     },
     "symfony/security-bundle": {
         "version": "3.3",

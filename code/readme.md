@@ -5,7 +5,7 @@
 * Install Vagrant and VMWare VirtualBox
 * In a terminal, navigate to `vagrant`, run `vagrant up`
 * run `vagrant ssh`, then in the vagrant box...
-    * navigate to `/vagrant/code`
+    * navigate to `/vagrant/code/code`
     * install dependencies with `composer install`
     * compile front end (and watch for changes) using `yarn encore dev --watch`
     * (first time / on db change only) run db migrations with `php bin/console doctrine:migrations:migrate`
