@@ -14,16 +14,16 @@ export class CashManipulation {
     return labourRate * CashManipulation.calculateVatAdjustedRevenue(forecastRevenue, vatMultiplier);
   };
 
-  public static calculateTotalLabourCostForStaffMember = (rawCost: number, forecastRevenue: number, weekForecastRevenue: number, type: string, constants: Constants): number => {
-    return rawCost + CashManipulation.getErsWithHoliday(rawCost, constants) + rawCost * constants.holidayLinearPercent + rawCost * constants.pensionLinearPercent;
+  public static calculateTotalLabourCostForStaffMember = (gross: number, constants: Constants): number => {
+    return gross + CashManipulation.getErs(gross, constants) + gross * constants.holidayLinearPercent + gross * constants.pensionLinearPercent;
   };
 
   public static calculateFixedCosts(forecastRevenue: number, weekForecastRevenue: number, type: string, constants: Constants) {
     return constants.fixedCosts * (forecastRevenue / weekForecastRevenue) * CashManipulation.getProportionOfRevenue(type, constants)
   }
 
-  public static getErsWithHoliday = (cost: number, constants: Constants) => {
-    return Math.max(0, cost - constants.ersThreshold) * constants.ersPercentAboveThreshold * (1 + constants.holidayLinearPercent);
+  public static getErs = (cost: number, constants: Constants) => {
+    return Math.max(0, cost - constants.ersThreshold) * constants.ersPercentAboveThreshold;
   };
 
   public static getProportionOfRevenue = (type: string, constants: Constants) => {

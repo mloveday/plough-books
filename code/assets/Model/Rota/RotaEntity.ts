@@ -178,7 +178,8 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
       shiftsOfType.filter(shift => shift.staffMember.id === staffMember.id).reduce((prev, curr) => prev + curr.getRawCost(),0)
     );
     return CashManipulation.calculateFixedCosts(this.forecastRevenue, weeklyForecastRevenue, type, this.constants)
-      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, this.forecastRevenue, weeklyForecastRevenue, type, this.constants),0);
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr,
+                                                                                                               this.constants), 0);
   }
 
   public getActualLabourRate(revenueToday: number, weeklyRevenue: number, type: string): number {
@@ -210,7 +211,8 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
         .reduce((prev, curr) => prev + curr.getRawCost(),0)
     );
     return CashManipulation.calculateFixedCosts(revenueToday, weeklyRevenue, type, this.constants)
-      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, revenueToday, weeklyRevenue, type, this.constants),0);
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr,
+                                                                                                               this.constants), 0);
   }
 
   public getCombinedRunningLabourRate(runningRevenueToday: number, weeklyRevenue: number): number {
@@ -248,7 +250,8 @@ export class RotaEntity extends RotaAbstract<number, Constants, Shift> implement
         .reduce((prev, curr) => prev + curr.getRawCost(),0)
     );
     return CashManipulation.calculateFixedCosts(revenueToday, weeklyRevenue, type, this.constants)
-      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr, revenueToday, weeklyRevenue, type, this.constants),0);
+      + staffMemberCosts.reduce((prev, curr) => prev + CashManipulation.calculateTotalLabourCostForStaffMember(curr,
+                                                                                                               this.constants), 0);
   }
 
   public canEditRota() {
